@@ -1,0 +1,67 @@
+project:
+	name: SarandONGa
+    owner: 'Grupo 12'
+    teamId: '12'
+    identities: {}
+    notifications: {}
+    members:
+        member1:
+            name: Alejandro
+            surname: 'Sanchez Mayorga'
+            githubUsername: alexsm01
+        member2:
+            name: Ana
+            surname: 'Conde Marron'
+            githubUsername: anac29
+        member3:
+            name: Antonio
+            surname: 'Campos Gil' 
+            githubUsername: AntoCampos12
+        member4:
+            name: Enrique
+            surname: 'Muñoz Perez' 
+            githubUsername: enrmp
+        member5:
+            name: Ezequiel
+            surname: 'Gonzalez Macho' 
+            githubUsername: ezegonmac 
+        member6:
+            name: Gonzalo
+            surname: 'Martinez Fernandez' 
+            githubUsername: gonmarfer2
+        member7:
+            name: Ismael
+            surname: 'Perez Ortiz' 
+            githubUsername: IsmaelP19
+        member8:
+            name: Ivan
+            surname: 'Moreno Granado' 
+            githubUsername: ivamorgra
+        member9:
+            name: Jaime
+            surname: 'Borrego Conde' 
+            githubUsername: JaimeBorregoConde
+        member10:
+            name: Jaime
+            surname: 'Moscoso Bernal' 
+            githubUsername: jaimemosber
+        member11:
+            name: Juan
+            surname: 'Salado Jurado' 
+            githubUsername: juradosalado
+        member12:
+            name: Miguel
+            surname: 'Romero Arjona' 
+            githubUsername: migromarj
+        member13:
+            name: Rafael
+            surname: 'Sanabria Esparrago' 
+            githubUsername: Rafasana14
+        member14:
+            name: Tomas
+            surname: 'Camero Borrego' 
+            githubUsername: TomasCB24
+        member15:
+            name: Marta
+            surname: 'Reyes Lopez'
+            githubUsername: martirl11
