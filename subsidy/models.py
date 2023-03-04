@@ -3,7 +3,6 @@ from django.db import models
 # Create your models here.
 
 
-''' Creación de la clase Subvención '''
 class Subsidy(models.Model):
 
     id = models.AutoField(primary_key=True)
