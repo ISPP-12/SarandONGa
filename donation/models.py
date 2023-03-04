@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class Donacion(models.Model):
+class Donation(models.Model):
     id= models.AutoField(primary_key=True)
     #Titulo y descripción de la donación
     title = models.CharField(max_length=200)
