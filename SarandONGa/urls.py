@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from main import views
+from donation import views as donation_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
-    path('donation/', views.donation, name="donation"),
+    path('donation/', donation_views.donation, name="donation"),
 ]

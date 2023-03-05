@@ -5,5 +5,3 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'index.html')
 
-def donation(request):
-    return render(request, 'donation_form.html')
