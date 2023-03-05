@@ -1,82 +1,98 @@
 {% extends "master.html" %}
+{% load static %}
 
+    <!-- TITULO -->
+    {% block titulo %}<span class="border-bottom border-warning border-5">Gesti&oacute;n de stock</span>{% endblock %}
 
-{% block contenido %} 
-<!--PANEL-->
-<div class="col-lg-4 bg-warning fixed-bottom d-lg-flex d-none flex-column justify-content-center border-end border-dark" style="top: 2.5vh;">
-    <h1 class="px-5">Gesti&oacute;n de stock</h1>
-    <h5 class="px-5">Registro y seguimiento de los bienes y suministros.</h5>
-</div>
+    {% block contenido %} 
 
-<!-- REST OF THE PAGE -->
-<div class="container-fluid h-100">
-    <!-- PANEL FOR SMALL SCREENS -->
-    <div class="row d-lg-none d-flex bg-warning border-dark border-top border-bottom mb-3">
-        <div class="col-12 d-flex justify-content-center">
-            <h1 class="px-5">Gesti&oacute;n de stock</h1>
-        </div>
-    </div>
-    <!-- FILTERS -->
-    <div class="row h-100 mb-5">
-        <div class="col-lg-8 col-12 offset-lg-4">
-            <div id="id-menuDiv" class="row">
-                <div class="col-lg-2 col-4 mb-lg-0 mb-3 d-flex">
-                    <div class="btn-group m-auto w-100 " role="group" aria-label="showStock">
-                        <button class="btn btn-outline-dark" onclick="toGrid()"><i class="bi bi-grid"></i></button>
-                        <button class="btn btn-outline-dark" onclick="toList()"><i class="bi bi-list-ul"></i></button>
-                    </div>
-                </div>
-                <div class="col-lg-7 col-8 mb-lg-0 mb-3">
-                    <div class="input-group rounded border-dark w-100">
-                        <div class="form-floating">
-                            <input type="search" id="id-searchStock" class="form-control" placeholder="Escribe un producto...">
-                            <label for="id-searchStock"><i class="bi bi-search"></i>&nbsp;Escribe un producto...</label>
+    <!-- REST OF THE PAGE -->
+
+        <!-- FILTERS -->
+        <div class="row h-100 mb-4">
+            <div class="col-12">
+                <div id="id-menuDiv" class="row justify-content-between">
+                    <div class="col-md-1 col-4 mb-md-0 mb-3 d-flex">
+                        <div class="btn-group m-auto w-100 " role="group" aria-label="showStock">
+                            <button class="btn btn-outline-dark" onclick="toGrid()"><i class="bi bi-grid"></i></button>
+                            <button class="btn btn-outline-dark" onclick="toList()"><i class="bi bi-list-ul"></i></button>
                         </div>
-                        <button class="btn btn-dark">Filtrar</button>
                     </div>
-                </div>
-                <div class="col-lg-3 col-12 mb-lg-0 mb-3 d-flex">
-                    <a href="register" class="m-auto w-100 btn btn-warning border-dark"><i class="bi bi-plus-lg"></i>A&ntilde;adir stock</a>
+                    <div class="col-md-6 col-8 mb-md-0 mb-3">
+                        <div class="input-group rounded border-dark w-100">
+                            <div class="form-floating">
+                                <input type="search" id="id-searchStock" class="form-control" placeholder="Escribe un producto...">
+                                <label for="id-searchStock"><i class="bi bi-search"></i>&nbsp;Escribe un producto...</label>
+                            </div>
+                            <button class="btn btn-dark">Filtrar</button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12 mb-md-0 mb-3 d-flex">
+                        <a href="register" class="m-auto w-100 btn btn-warning border-dark"><i class="bi bi-plus-lg"></i>A&ntilde;adir stock</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- CARDS -->
-    <div class="row h-100">
-        <div class="col-lg-8 col-12 offset-lg-4">
-            <div class="row">
+        <!-- CARDS -->
+        <div class="row h-100 mb-4">
+            <div class="col-12">
+                <div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
 
-                {% for product in stock %}
-                <div id="id-productDiv-{{forloop.counter}}" class="col-lg-4 col-6 px-2 mb-4 productDiv">
-                    <div class="card" style="max-height: 500px;">
-                        
-                        <img src="{{product.picture}}" class="card-img-top" alt="{{product.name}}">
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="/stock/{{product.slug}}">{{product.name}}</a></h5>
-                            <p class="card-text">{{product.amount}} unidad{% if product.amount != 1 %}es{% endif %}</p>
+                    {% for product in stock %}
+                    <div id="id-productDiv-{{forloop.counter}}" class="productDiv">
+                        <div class="card card-stock">
+                            <div class="row g-0">
+                                <div class="card-img-col col-12">
+                                    <img src="{% static product.picture %}" class="card-img-top" alt="{{product.name}}">
+                                </div>
+                                <div class="card-body-col col-12">
+                                    <div class="card-body">
+                                        <h5 class="card-title"><span title="{{product.name}}">{{product.name}}</span></h5>
+                                        <p class="card-text">{{product.amount}} unidad{% if product.amount != 1 %}es{% endif %}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
+
                 </div>
-                {% endfor %}
             </div>
         </div>
-    </div>
-</div>
+        
+        <script>
+            function toList(){
+                let rowdiv = document.getElementById('id-cardsDiv');
+                rowdiv.classList.remove('row-cols-md-3');
 
-<script>
-    function toList(){
-        let elements = document.getElementsByClassName("productDiv")
-        for(let i=0; i<elements.length; i++){
-            elements.item(i).classList.add('col-lg-12', 'col-12')
-            elements.item(i).classList.remove('col-lg-4','col-6')
-        }
-    }
-    function toGrid(){
-        let elements = document.getElementsByClassName("productDiv")
-        for(let i=0; i<elements.length; i++){
-            elements.item(i).classList.add('col-lg-4','col-6')
-            elements.item(i).classList.remove('col-lg-12', 'col-12')
-        }
-    }
-</script>
-{% endblock %}
+                let elements = document.getElementsByClassName('card-stock');
+                Array.from(elements).forEach(element => {
+                    element.classList.add('card-stock-list');
+                    element.classList.remove('card-stock');
+                    let elImgCol = element.querySelector('.card-img-col')
+                    elImgCol.classList.add('col-4', 'col-md-3');
+                    elImgCol.classList.remove('col-12');
+                    let elBodyCol = element.querySelector('.card-body-col')
+                    elBodyCol.classList.add('col-8','col-md-9');
+                    elBodyCol.classList.remove('col-12');
+                });
+            }
+
+            function toGrid(){
+                let rowdiv = document.getElementById('id-cardsDiv');
+                rowdiv.classList.add('row-cols-md-3');
+
+                let elements = document.getElementsByClassName('card-stock-list');
+                Array.from(elements).forEach(element => {
+                    element.classList.add('card-stock');
+                    element.classList.remove('card-stock-list');
+                    let elImgCol = element.querySelector('.card-img-col')
+                    elImgCol.classList.add('col-12');
+                    elImgCol.classList.remove('col-4', 'col-md-3');
+                    let elBodyCol = element.querySelector('.card-body-col')
+                    elBodyCol.classList.add('col-12');
+                    elBodyCol.classList.remove('col-8','col-md-9');
+                });
+            }
+    </script>
+    {% endblock %}
