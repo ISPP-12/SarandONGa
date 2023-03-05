@@ -3,9 +3,11 @@ from .models import Beneficiary
 
 
 class BeneficiaryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title','amount','donor_name')
-    list_filter = ('id', 'title','amount','donor_name')
+    list_display = ('id', 'name','surname','email', 'sex', 'resident_place', 'address', 'telephone', 'postal_code')
+    list_filter = ('id', 'name','surname','email', 'sex')
 
-    search_fields = ('title', 'amount','donor_name')
+    search_fields = ('id', 'name','surname','email', 'sex', 'resident_place', 'telephone', 'postal_code')
+
+
 
 admin.site.register(Beneficiary, BeneficiaryAdmin)

@@ -4,23 +4,26 @@ from django.db import models
 from django.utils import timezone
 
 
-class Beneficiary(models.Model):
-    id= models.AutoField(primary_key=True)
-    #Titulo y descripción de la donación
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    #Fecha de creación de la donación (automática)
-    created_date = models.DateTimeField(default=timezone.now)
-    #Importe de la donación
-    amount= models.DecimalField(max_digits=10, decimal_places=2)
-    #Información del donante
-    donor_name= models.CharField(max_length=100)
-    donor_surname=models.CharField(max_length=250)
-    donor_email= models.EmailField()
+SEX_TYPES = (
+    ('F','Femenino'),
+    ('M', 'Masculino'),
+    ('O', 'Otro'),
+)
 
-    #Dejo esto comentado pero es para almacenar un documento correspondiente a la donación, si fuese necesario
-    #document= models.FileField(blank=True, null=True)
+class Beneficiary(models.Model):   
+    id= models.AutoField(primary_key=True)
+    name = models.CharField(max_length=200)
+    surname = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+    birth_date = models.DateTimeField(default=timezone.now)
+    sex = models.CharField(max_length=50, choices=SEX_TYPES)
+    resident_place = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
+    telephone = models.IntegerField
+    postal_code = models.IntegerField
+
+
 
 
     def __str__(self):
-        return self.title
+        return '{} {}, {}'.format(self.name, self.surname, self.email)
