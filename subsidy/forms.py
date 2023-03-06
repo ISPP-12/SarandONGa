@@ -9,6 +9,6 @@ class CreateNewSubsidy(forms.ModelForm):
         model = Subsidy
         fields = ['date', 'amount', 'name']
         widgets = {
-            'date': forms.DateInput(attrs={'class': 'form-control', 'placeholder': datetime.date.today}, format='%Y-%m-%d'),
+            'date': forms.DateInput(attrs={'class': 'form-control', 'value': datetime.date.today}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
         }
