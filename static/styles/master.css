@@ -4,8 +4,11 @@ body {
 
 .workers-colour{
     background-color: #C4D5E7;
-    
 }
+
+
+
+
 
 .card-img-left {
     border-radius: 7px;
@@ -17,7 +20,12 @@ body {
    
   }
 
-  a{
-    color: #000000;
-  }
+a{
+color: #000000;
+}
+
+.title-workers{
+    border-bottom: 0.5rem solid  #C4D5E7;
+    
+}
 
