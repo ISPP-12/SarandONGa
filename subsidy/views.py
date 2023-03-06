@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
-from subsidy.models import Subsidy
-from .forms import *
+from .forms import CreateNewSubsidy
 
 # Create your views here.
 
