@@ -1,3 +1,7 @@
+* {
+  font-family: 'Maven Pro', sans-serif;
+}
+
 .title {
   font-size: 2.5em;
   font-weight: bold;
@@ -47,7 +51,20 @@
 
 @media (max-width: 768px) {
   #previewContainer {
-    display: none;
+    display: none !important;
+  }
+
+  #rightSectionContainer {
+    border: 0 !important;
+  }
+
+  #rightSection {
+    padding-left: 0 !important;
+  }
+
+  #filterContainer {
+    width: 100% !important;
+    margin-bottom: 1em ;
   }
 
 }
