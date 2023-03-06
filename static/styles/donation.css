@@ -1,0 +1,53 @@
+.title {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-decoration: underline #f5e2d8 solid 0.2em;
+  color: #000;
+}
+
+.bg-donation {
+  background-color: #f5e2d8;
+}
+
+.bg-donation:hover {
+  background-color: #e4b399;
+}
+
+.complete {
+  height: 85vh;
+}
+
+.donation-title {
+  font-size: larger;
+  font-weight: bold;
+  color: #000;
+}
+
+.donation {
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.donation:hover {
+  cursor: pointer;
+  background-color: #f9ebe3;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.selected {
+  background-color: #f9ebe3;
+}
+
+.donation-amount {
+  font-weight: thin;
+  font-size: medium;
+}
+
+
+@media (max-width: 768px) {
+  #previewContainer {
+    display: none;
+  }
+
+}

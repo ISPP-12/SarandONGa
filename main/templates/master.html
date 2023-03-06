@@ -1,12 +1,11 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang='es'>
 
 <head>
     <meta charset='utf-8'>
-
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titulo %} {% endblock %}</title>
+    
     <!-- Bootstrap -->
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -26,6 +25,7 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/donation.css' %}">
 
 </head>
 
@@ -33,7 +33,7 @@
 
     <hr>
 
-    <h1>{% block titulo %} {% endblock %}</h1>
+    
 
     {% block contenido %} {% endblock %}
 
