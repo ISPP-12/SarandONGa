@@ -1,0 +1,15 @@
+.workers-colour{
+    background-color: #C4D5E7;
+}
+
+.card-img-left {
+    border-radius: 7px;
+    background-position: left top;
+    object-fit: cover;
+    width: 67px;
+    height: 67px;
+}
+
+a {
+    color: #000000;
+}
