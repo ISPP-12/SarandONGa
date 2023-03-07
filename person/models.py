@@ -52,9 +52,9 @@ class Person(models.Model):
 class GodFather(Person):
     dni = models.CharField(max_length=9, unique=True,verbose_name='DNI')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD,verbose_name='Método de pago',)
-    bank_account_number = models.CharField(max_length=24,verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+    bank_account_number = models.CharField(max_length=24,verbose_name='Número de cuenta bancaria',)
     bank_account_holder = models.CharField(max_length=100,verbose_name='Titular de cuenta bancaria')
-    bank_account_reference = models.CharField(max_length=100,verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+    bank_account_reference = models.CharField(max_length=100,verbose_name='Referencia de cuenta bancaria')
     amount = models.DecimalField(max_digits=10, decimal_places=2,verbose_name='Cantidad',validators=[MinValueValidator(1)])
     frequency = models.CharField(max_length=20, choices=FREQUENCY,verbose_name='Frecuencia de pago')
     seniority = models.DateField(verbose_name='Antigüedad')
