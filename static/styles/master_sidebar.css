@@ -1,6 +1,7 @@
 :root {
   --main-color: #f5e2d8;
   --main-color-hover: #e4b399;
+  --main-color-light: #f9ebe3;
 
 }
 
@@ -40,12 +41,12 @@
 
 .object:hover {
   cursor: pointer;
-  background-color: #f9ebe3;
+  background-color: var(--main-color-light));
   transition: background-color 0.5s ease-in-out;
 }
 
 .selected {
-  background-color: #f9ebe3;
+  background-color: var(--main-color-light);
 }
 
 .object-amount {
