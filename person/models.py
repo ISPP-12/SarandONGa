@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
@@ -62,6 +61,7 @@ class GodFather(Person):
     status = models.CharField(max_length=20, choices=STATUS,verbose_name='Estado')
     #T0D0
     #Añadir relacion uno a muchos con entidad pago
+
 
 CONDITION = (
     ('EM', 'Escleorosis múltiple'),
