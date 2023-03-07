@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
-from django.forms.fields import MultipleChoiceField
 
 SEX_TYPES = (
     ('F','Femenino'),
