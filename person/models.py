@@ -12,19 +12,23 @@ SEX_TYPES = (
 
 PAYMENT_METHOD = (
     ('T', 'Transferencia'),
-    ('TB','Tarjeta Bancaria')
+    ('TB','Tarjeta Bancaria'),
+    ('E', 'Efectivo'),
 )
 
 STATUS = (
     ('C', 'Casado/a'),
     ('F', 'Fallecido/a'),
     ('V', 'Viudo/a'),
-    ('S', 'Soltero/a')  
+    ('S', 'Soltero/a'),
+    ('D', 'Divorciado/a') ,
 )
 
 FREQUENCY = (
     ('A', 'Anual'),
-    ('M', 'Mensual')
+    ('M', 'Mensual'),
+    ('T','Trimestral'),
+    ('S','Semestral'),
 )
 
 class Person(models.Model):
@@ -48,12 +52,12 @@ class Person(models.Model):
 class GodFather(Person):
     dni = models.CharField(max_length=9, unique=True,verbose_name='DNI')
     payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD,verbose_name='Método de pago',)
-    bank_account_number = models.CharField(max_length=20,verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+    bank_account_number = models.CharField(max_length=24,verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
     bank_account_holder = models.CharField(max_length=100,verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(max_length=100,verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
     amount = models.DecimalField(max_digits=10, decimal_places=2,verbose_name='Cantidad',validators=[MinValueValidator(1)])
     frequency = models.CharField(max_length=20, choices=FREQUENCY,verbose_name='Frecuencia de pago')
-    seniority = models.CharField(max_length=50,verbose_name='Antiguedad')
+    seniority = models.DateField(verbose_name='Antigüedad')
     notes = models.TextField(blank=True,verbose_name='Observaciones')
     status = models.CharField(max_length=20, choices=STATUS,verbose_name='Estado')
     #T0D0
