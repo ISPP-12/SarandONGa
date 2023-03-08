@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from main import views
 from subsidy import views as subsidy_views
+from donation import views as donation_views
 
 
 urlpatterns = [
@@ -24,4 +25,5 @@ urlpatterns = [
     path('', views.index),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
+    path('donation/list', donation_views.donationList, name="donationList")
 ]
