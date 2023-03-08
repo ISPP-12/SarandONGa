@@ -27,4 +27,6 @@ urlpatterns = [
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
     path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
     path('donation/list', donation_views.donationList, name="donationList"),
+    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
+    path('donation/list', donation_views.donationList, name="donationList"),
 ]
