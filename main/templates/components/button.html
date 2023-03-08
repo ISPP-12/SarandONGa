@@ -1,0 +1,17 @@
+
+<a href="" class="btn m-auto bg-object border-dark">
+    
+    {% comment %} TYPES (PLUS, PDF, EXCEL) {% endcomment %}
+    {% if type == "PLUS" %}
+        <i class="bi me-2 bi-plus-lg"></i>
+    {% elif type == "PDF" %}
+        <i class="bi me-2 bi-filetype-pdf"></i>
+    {% elif type == "EXCEL" %}
+        <i class="bi me-2 bi-file-earmark-spreadsheet"></i>
+    {% else %}
+    {% endif %}
+    
+    <span>
+        {% block btnText %} Botón {% endblock btnText %}
+    </span> 
+</a>

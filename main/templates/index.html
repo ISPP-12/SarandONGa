@@ -7,4 +7,10 @@
 		<h5>Esta es la página de inicio</h5>   
 		<hr>
 
+		{% comment %} Example button {% endcomment %}
+		{% include 'components/button.html' %}
+		{% include 'components/button.html' with type="PLUS" %}
+		{% include 'components/button.html' with type="PDF" %}
+		{% include 'components/button.html' with type="EXCEL" %}
+
 {% endblock %}
