@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'donation',
     'subsidy',
     'stock',
+    'volunteer'
 ]
 
 MIDDLEWARE = [
