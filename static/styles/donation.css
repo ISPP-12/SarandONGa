@@ -1,70 +1,34 @@
-* {
-  font-family: 'Maven Pro', sans-serif;
+:root {
+  --donations-main-color: #f5e2d8;
+  --donations-main-color-hover: #e4b399;
+  --donations-main-color-light: #f9ebe3;
 }
 
 .title {
-  font-size: 2.5em;
-  font-weight: bold;
-  text-decoration: underline #f5e2d8 solid 0.2em;
-  color: #000;
+  text-decoration-color: var(--donations-main-color);
 }
 
-.bg-donation {
-  background-color: #f5e2d8;
+.bg-object {
+  background-color: var(--donations-main-color) ;
 }
 
-.bg-donation:hover {
-  background-color: #e4b399;
+.bg-object:hover {
+  background-color: var(--donations-main-color-hover) ;
 }
 
-.complete {
-  height: 85vh;
-}
 
-.donation-title {
-  font-size: larger;
-  font-weight: bold;
-  color: #000;
-}
-
-.donation {
-  display: flex;
-  flex-direction: column;
-  transition: background-color 0.5s ease-in-out;
-}
-
-.donation:hover {
-  cursor: pointer;
-  background-color: #f9ebe3;
-  transition: background-color 0.5s ease-in-out;
+.object:hover {
+  background-color: var(--donations-main-color-light) ;
 }
 
 .selected {
-  background-color: #f9ebe3;
-}
-
-.donation-amount {
-  font-weight: thin;
-  font-size: medium;
+  background-color: var(--donations-main-color-light) ;
 }
 
 
-@media (max-width: 768px) {
-  #previewContainer {
-    display: none !important;
-  }
-
-  #rightSectionContainer {
-    border: 0 !important;
-  }
-
-  #rightSection {
-    padding-left: 0 !important;
-  }
-
-  #filterContainer {
-    width: 100% !important;
-    margin-bottom: 1em ;
+@media (min-width: 768px) {
+  #chevron{
+    display: none !important
   }
 
 }

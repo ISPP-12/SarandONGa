@@ -1,84 +1,62 @@
-{% extends "master.html" %}
+{% extends "layouts/master_sidebar.html" %}
 {% load static %}
 
-<!-- TITULO -->
-{% block titulo %}Gestión de donaciones{% endblock %}
+{% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/donation.css' %}"> {% endblock %}
 
-{% block contenido %}
-<div class="p-4">
-  <div class="row complete">
 
-    <div class="col-md-4 d-flex justify-content-center align-items-center" id="previewContainer">
-      <div class="fs-4 text-center" id="preview">
-        <span id="prev-info">Pulsa sobre una donación para la vista previa</span>
-      </div>
+{% block objectFor %}
+{% for object in objects %}
+<div class="object border border-dark w-100 rounded p-2 mb-2">
+  <div class="d-flex flex-row justify-content-between align-items-center">
+    <div class="d-flex flex-column">
+      <span class="object-id d-none">{{ object.id }}</span>
+      <span class="object-title">{{ object.title }}</span>
+      <span class="object-amount">{{ object.amount }} €</span>
+      <span class="object-date">{{ object.date }}</span>
     </div>
+    <i class="bi bi-chevron-right" id="chevron"></i>
+  </div>
 
-    <div class="col-12 col-md-8 border-start border-dark border-2 " id="rightSectionContainer">
-      <!-- TITULO -->
-      <div class="row ps-5" id="rightSection">
-        <div class="col-12 mb-4">
-          <h1 class="title">Gestión de donaciones</h1>
-        </div>
-        <div class="col-12 mb-4">
-          <div class="row justify-content-between align-items-center">
-            <div class="col-12 col-md-8">
-              <div class="input-group rounded border-dark w-100" id="filterContainer">
-                <div class="form-floating" id="filter">
-                  <input type="search" id="id-searchDonation" class="form-control" placeholder="Filtra por donación">
-                  <label for="id-searchDonation"><i class="bi bi-search"></i> Filtra por donación ...</label>
-                </div>
-                <button class="btn btn-dark" id="filterBtn">Filtrar</button>
-              </div>
-            </div>
-            <div class="col-md-3 col-12 mb-md-0 mb-3 d-flex">
-              <a href="register" class="m-auto w-100 btn bg-donation border-dark"><i class="bi bi-plus-lg"></i>Añadir
-                donación</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 d-flex flex-column align-items-center justify-content-center 3">
-          {% for donation in donations %}
-          <div class="donation border border-dark w-100 rounded p-2 mb-2">
-            <span class="donation-id d-none">{{ donation.id }}</span>
-            <span class="donation-title">{{ donation.title }}</span>
-            <span class="donation-amount">{{ donation.amount }} €</span>
-            <span class="donation-date">{{ donation.date }}</span>
-            <div class="d-none d-flex flex-column" id="moreInfo">
-              <span class="donation-description">{{ donation.description }}</span>
-              <span class="donation-donor_name">Realizada por: {{ donation.donor_name }}
-                {{donation.donor_surname}}</span>
-              <span class="donation-donor_email"><i>{{ donation.donor_email }}</i></span>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-
-    </div>
+  <div class="d-none d-flex flex-column" id="moreInfo">
+    <span class="object-description">{{ object.description }}</span>
+    <span class="object-donor_name">Realizada por: {{ object.donor_name }}
+      {{object.donor_surname}}</span>
+    <span class="object-donor_email"><i>{{ object.donor_email }}</i></span>
   </div>
 </div>
+{% endfor %}
+{% endblock %}
 
-<script id="donaciones-data">
-  const donationList = document.querySelectorAll('.donation')
-  const donaciones = JSON.parse('{{ donations_json|escapejs }}')
+{% block scripts %}
+<script id="object-data">
+  const objectList = document.querySelectorAll('.object')
+  const objetos = JSON.parse('{{ objects_json|escapejs }}')
   const preview = document.querySelector('#preview')
   const prevInfo = document.querySelector('#prev-info')
+  const chevron = document.querySelector('#chevron')
 
-  donationList.forEach(donation => {
-    const moreInfo = donation.querySelector('#moreInfo')
-    donation.addEventListener('click', () => {
+  objectList.forEach(object => {
+    const moreInfo = object.querySelector('#moreInfo')
+    object.addEventListener('click', () => {
       const isMobile = window.matchMedia("(max-width: 768px)").matches
-      
-      const isExpanded = !moreInfo.classList.contains('d-none') // if its is expanded, it will be true
-      const donationId = donation.querySelector('.donation-id').innerText
-      const donationData = donaciones.find(donation => donation.id == donationId)
+
+      const isExpanded = !moreInfo.classList.contains('d-none')
+      const objectId = object.querySelector('.object-id').innerText
+      const objectData = objetos.find(object => object.id == objectId)
 
 
       if (isMobile) {
-        console.log(isExpanded)
-        isExpanded ? moreInfo.classList.add('d-none') : moreInfo.classList.remove('d-none')
-      } else {
+        if (isExpanded) {
+          moreInfo.classList.add('d-none')
+          chevron.classList.remove('bi-chevron-down')
+          chevron.classList.add('bi-chevron-right')
+        } else {
+          moreInfo.classList.remove('d-none')
+          chevron.classList.remove('bi-chevron-right')
+          chevron.classList.add('bi-chevron-down')
+        }
+
+  } else {
 
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
@@ -86,12 +64,12 @@
         preview.innerHTML = `
         <div class="row">
           <div class="col-12">
-            <h3>${donationData.title}</h3>
-            <h5>${donationData.description || "N/A"}</h5>
-            <p>Cantidad: ${donationData.amount}€</p>
-            <p>Fecha: ${donationData.date}</p>
-            <p>Realizada por: ${donationData.donor_name + " " + donationData.donor_surname}</p>
-            <p>Correo: ${donationData.donor_email}</p>
+            <h3>${objectData.title}</h3>
+            <h5>${objectData.description || "N/A"}</h5>
+            <p>Cantidad: ${objectData.amount}€</p>
+            <p>Fecha: ${objectData.date}</p>
+            <p>Realizada por: ${objectData.donor_name + " " + objectData.donor_surname}</p>
+            <p>Correo: ${objectData.donor_email}</p>
           </div>
         </div>
       `
@@ -105,8 +83,8 @@
       prevInfo.classList.remove('d-none')
       preview.classList.add('text-center')
       preview.classList.remove('p-5')
-      preview.innerHTML = `<span id="prev-info">Pulsa sobre una donación para la vista previa</span>`
-     
+      preview.innerHTML = `<span id="prev-info">Pulsa sobre una {{ object_name }} para la vista previa</span>`
+
     })
 
   })
@@ -114,6 +92,5 @@
 
 
 </script>
-
-{{ donations|json_script:"donaciones-data" }}
+{{ objects|json_script:"object-data" }}
 {% endblock %}
