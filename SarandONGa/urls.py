@@ -18,6 +18,7 @@ from django.urls import path
 from main import views
 from subsidy import views as subsidy_views
 from person import views as person_views
+from donation import views as donation_views
 
 
 urlpatterns = [
@@ -25,4 +26,5 @@ urlpatterns = [
     path('', views.index),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
     path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list")
+    path('donation/list', donation_views.donationList, name="donationList")
 ]
