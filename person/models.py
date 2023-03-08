@@ -2,6 +2,9 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
+from django.contrib import admin
+from django.contrib.auth.models import AbstractUser, AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager
 
 SEX_TYPES = (
     ('F','Femenino'),
@@ -30,23 +33,67 @@ FREQUENCY = (
     ('S','Semestral'),
 )
 
-class Person(models.Model):
 
-    id= models.AutoField(primary_key=True)
-    name = models.CharField(max_length=200, verbose_name="Nombre")
-    surnames = models.CharField(max_length=200, verbose_name="Apellidos")
-    email = models.CharField(max_length=200, verbose_name="Correo electrónico")
-    birth_date = models.DateTimeField(default=timezone.now, verbose_name="Fecha de nacimiento")
-    sex = models.CharField(max_length=50, choices=SEX_TYPES, verbose_name="Género")
-    city = models.CharField(max_length=200, verbose_name="Ciudad")
-    address = models.CharField(max_length=200, verbose_name="Dirección")
-    telephone = models.IntegerField(verbose_name="Teléfono")
-    postal_code = models.IntegerField(verbose_name="Código postal")
+class PersonManager(BaseUserManager):
+    def create_user(self, username, password, **extra_fields):
+        """
+        Crea y guarda un usuario con el correo electrónico y la contraseña dada.
+        """
+        if not username:
+            raise ValueError('El nombre de usuario es obligatorio')
+        user = self.model(username=username, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
 
-    is_worker = models.BooleanField(default=False, verbose_name="¿Es trabajador?") #Extiende a clase WorkerProfile si es un trabajador
+    def create_superuser(self, username, password, **extra_fields):
+        """
+        Crea y guarda un superusuario con el correo electrónico y la contraseña dada.
+        """
+        user = self.create_user(username=username, password=password, **extra_fields)
+        user.is_admin = True
+        user.save()
+        return user
 
-    class Meta:
-        abstract = True
+class Person(AbstractBaseUser):
+    username = models.CharField(max_length=30, unique=True)
+    email = models.EmailField(unique=True,blank=True)
+    nombre = models.CharField(max_length=50, blank=True)
+    apellido = models.CharField(max_length=50, blank=True)
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+
+    # Agrega aquí los campos adicionales que desees tener en tu modelo de Persona
+
+    birth_date = models.DateTimeField(default=timezone.now, verbose_name="Fecha de nacimiento",null=True, blank=True)
+    sex = models.CharField(max_length=50, choices=SEX_TYPES, verbose_name="Género",null=True, blank=True)
+    city = models.CharField(max_length=200, verbose_name="Ciudad",null=True, blank=True)
+    address = models.CharField(max_length=200, verbose_name="Dirección",null=True, blank=True)
+    telephone = models.IntegerField(verbose_name="Teléfono", null=True, blank=True)
+    postal_code = models.IntegerField(verbose_name="Código postal",null=True, blank=True)
+
+
+    USERNAME_FIELD = 'username'
+
+    objects = PersonManager()
+
+    def __str__(self):
+        return self.username
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):
+        return True
+
+    @property
+    def is_staff(self):
+        return self.is_admin
+ 
+
+class Worker(Person):
+    pass
+
 
 class GodFather(Person):
     dni = models.CharField(max_length=9, unique=True,verbose_name='DNI')
@@ -92,7 +139,3 @@ class ASEMUser(Person):
     own_vehicle = models.BooleanField(default=False, verbose_name='¿Tiene vehículo propio?')
     bank_account_number = models.CharField(max_length=24,verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[A-Z]{2}\d{22}$')])
 
-#class WorkerProfile(models.Model):
-    #Person = models.OneToOneField(Person, on_delete=models.CASCADE)
-    #ONG = models.OneToOneField(ONG, on_delete=models.CASCADE) #ONG en la que trabaja
-    #active = models.BooleanField(default=True) #¿Sigue trabajando en la ONG?
