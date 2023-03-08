@@ -1,7 +1,11 @@
+import json
 from django.shortcuts import render
 from .models import ASEMUser
 
 def asem_user_list(request):
-    asem_user_list=ASEMUser.objects.all().values()
+    objects = ASEMUser.objects.all().values()
+    #objects_json = json.dumps(objects)
+    object_name = 'usuario'
+    title = "Gestion de Usuarios ASEM"
     
-    return render(request, 'asem_user_list.html', {"asem_user_list":asem_user_list })
+    return render(request, 'asem_user_list.html', {"objects":objects,"objects_name": object_name,"title":title })
