@@ -17,10 +17,12 @@ from django.contrib import admin
 from django.urls import path
 from main import views
 from subsidy import views as subsidy_views
+from donation import views as donation_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
+    path('donation/list', donation_views.donationList, name="donationList")
 ]
