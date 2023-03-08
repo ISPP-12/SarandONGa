@@ -19,10 +19,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from main import views
 from subsidy import views as subsidy_views
+from donation import views as donation_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
+    path('donation/list', donation_views.donationList, name="donationList")
+]
