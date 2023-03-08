@@ -1,3 +1,21 @@
 body {
     font-family: 'Maven Pro', sans-serif;
 }
+
+
+label{
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+input{
+    border: 3px solid red;
+}
+
+.border-class
+{
+    border: 1.4px solid #3E3E3E;
+    border-radius: 7px;
+ 
+}

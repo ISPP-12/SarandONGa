@@ -39,3 +39,7 @@ def donations_list(request):
     donations_json = json.dumps(donations)
 
     return render(request, 'donation/list.html', {'donations': donations, 'donations_json': donations_json})
+
+
+def component(request):
+    return render(request, 'components/inputs.html')
