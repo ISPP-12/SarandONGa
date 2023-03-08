@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 
 from person.models import GodFather
@@ -7,4 +8,4 @@ from person.models import GodFather
 def show_workers(request):
     #Get all persons
     workers = GodFather.objects.all()
-    return render(request, 'workers.html', {"workers": workers})
+    return render(request, 'workers.html', {"objects": workers, "objects_json": json.dumps(workers), "object_name": "Trabajadores", "title": "Listado de trabajadores"})
