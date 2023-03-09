@@ -2,8 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
-from django.contrib import admin
-from django.contrib.auth.models import AbstractUser, AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 
 SEX_TYPES = (
@@ -76,10 +75,10 @@ class Worker(AbstractBaseUser):
             return self.email
 
         def has_perm(self, perm, obj=None):
-            return True
+            return self.has_perm
 
         def has_module_perms(self, app_label):
-            return True
+            return self.has_module_perms
 
         @property
         def is_staff(self):
