@@ -43,7 +43,7 @@ class SubsidyTestCase(TestCase):
     def test_subsidy_create_name_max_length_incorrect(self):
         with self.assertRaises(Exception):
             Subsidy.objects.create(date="2021-01-01", amount=1000, name="Juan"*100)
-    
+
     def test_subsidy_create_name_null(self):
         with self.assertRaises(Exception):
             Subsidy.objects.create(date="2021-01-01", amount=1000, name=None)
