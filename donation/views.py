@@ -1,36 +1,34 @@
 from django.shortcuts import render
 from datetime import datetime
 import json
+from donation.models import Donation
+from decimal import Decimal
+
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        elif isinstance(obj, Decimal):
+            return float(obj)
+        return super().default(obj)
+
 
 # Create your views here.
 def donations_list(request):
-    # array of donations
-    donations = [
-        {   
-            'id': 1,
-            'title': 'New donation',
-            'description': 'This is a new donation', # optional
-            'date': '2020-01-10',
-            'amount': 100,
-            'donor_name': 'John',
-            'donor_surname': 'Doe',
-            'donor_email': 'johndoe@mail.com'
-        },
-        {   
-            'id': 2,
-            'title': 'Another donation',
-            # 'description': 'This is a new donation', # optional
-            'date': '2023-03-05',
-            'amount': 80,
-            'donor_name': 'Jane',
-            'donor_surname': 'Doe',
-            'donor_email': 'janedoe@mail.com'
-        }
-    ]
+    # get donations from database
+    donations = Donation.objects.all()
+    
 
     for donation in donations:
-        donation['date'] = datetime.strptime(donation['date'], '%Y-%m-%d').strftime('%d/%m/%Y')
+        created_date = donation.created_date
+        modified_date = created_date.strftime('%d/%m/%Y')
+        donation.created_date = modified_date
 
-    donations_json = json.dumps(donations)
+    donations_dict = [obj.__dict__ for obj in donations]
+    for d in donations_dict:
+        d.pop('_state', None)
+
+    donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
+
 
     return render(request, 'donation/list.html', {'objects': donations, 'objects_json': donations_json, 'object_name': 'donación', 'title': 'Gestión de donaciones'})
