@@ -14,11 +14,12 @@ class Subsidy(models.Model):
     # Nombre de la persona o entidad que dona
     name = models.CharField(max_length=100, verbose_name="Nombre")
 
-    def save(self, **kwargs):
+    def save(self, force_insert=False, force_update=False, using=None,
+          update_fields=None):
         self.clean()
         if self.amount < 0:
             raise ValidationError("El importe no puede ser negativo")
-        super().save(**kwargs)
+        super().save(force_insert, force_update, using, update_fields)
 
     def __str__(self):
         return self.name

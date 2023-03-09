@@ -15,7 +15,7 @@ class SubsidyTestCase(TestCase):
         self.assertEqual(subsidy.name, "Juan")
         self.assertEqual(subsidy.amount, 1000)
         self.assertEqual(str(subsidy.date), "2021-01-01")
-    
+
     def test_subsidy_delete(self):
         subsidy = Subsidy.objects.get(name="Juan")
         subsidy.delete()
@@ -47,12 +47,11 @@ class SubsidyTestCase(TestCase):
     def test_subsidy_create_name_null(self):
         with self.assertRaises(Exception):
             Subsidy.objects.create(date="2021-01-01", amount=1000, name=None)
-    
+
     def test_subsidy_create_amount_null(self):
         with self.assertRaises(Exception):
             Subsidy.objects.create(date="2021-01-01", amount=None, name="Juan")
-    
+
     def test_subsidy_create_date_null(self):
         with self.assertRaises(Exception):
             Subsidy.objects.create(date=None, amount=1000, name="Juan")
-
