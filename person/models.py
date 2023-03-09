@@ -6,14 +6,14 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 
 SEX_TYPES = (
-    ('F','Femenino'),
+    ('F', 'Femenino'),
     ('M', 'Masculino'),
     ('O', 'Otro'),
 )
 
 PAYMENT_METHOD = (
     ('T', 'Transferencia'),
-    ('TB','Tarjeta Bancaria'),
+    ('TB', 'Tarjeta Bancaria'),
     ('E', 'Efectivo'),
 )
 
@@ -22,14 +22,14 @@ STATUS = (
     ('F', 'Fallecido/a'),
     ('V', 'Viudo/a'),
     ('S', 'Soltero/a'),
-    ('D', 'Divorciado/a') ,
+    ('D', 'Divorciado/a'),
 )
 
 FREQUENCY = (
     ('A', 'Anual'),
     ('M', 'Mensual'),
-    ('T','Trimestral'),
-    ('S','Semestral'),
+    ('T', 'Trimestral'),
+    ('S', 'Semestral'),
 )
 
 CONDITION = (
@@ -48,9 +48,9 @@ MEMBER = (
 )
 
 USER_TYPE = (
-    ('SCC','Socios ASEM con cuota de socio'),
-    ('UCC','Usuarios con cuota de socio'),
-    ('UCS','Usuarios sinn cuota de socio')
+    ('SCC', 'Socios ASEM con cuota de socio'),
+    ('UCC', 'Usuarios con cuota de socio'),
+    ('UCS', 'Usuarios sin cuota de socio')
 )
 
 CORRESPONDENCE = (
@@ -65,6 +65,7 @@ HOUSING_TYPE = (
     ('VC', 'Vivienda compartida'),
     ('VP', 'Vivienda propia')
 )
+
 
 class Person(models.Model):
 
@@ -118,28 +119,47 @@ class Worker(AbstractBaseUser):
         def is_staff(self):
             return self.is_admin
 
+
 class GodFather(Person):
-    dni = models.CharField(max_length=9, unique=True,verbose_name='DNI')
-    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD,verbose_name='Método de pago',)
-    bank_account_number = models.CharField(max_length=24,verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
-    bank_account_holder = models.CharField(max_length=100,verbose_name='Titular de cuenta bancaria')
-    bank_account_reference = models.CharField(max_length=100,verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
-    amount = models.DecimalField(max_digits=10, decimal_places=2,verbose_name='Cantidad',validators=[MinValueValidator(1)])
-    frequency = models.CharField(max_length=20, choices=FREQUENCY,verbose_name='Frecuencia de pago')
+    dni = models.CharField(max_length=9, unique=True, verbose_name='DNI')
+    payment_method = models.CharField(
+        max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
+    bank_account_number = models.CharField(
+        max_length=24, verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+    bank_account_holder = models.CharField(
+        max_length=100, verbose_name='Titular de cuenta bancaria')
+    bank_account_reference = models.CharField(
+        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+    amount = models.DecimalField(max_digits=10, decimal_places=2,
+                                 verbose_name='Cantidad', validators=[MinValueValidator(1)])
+    frequency = models.CharField(
+        max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
     seniority = models.DateField(verbose_name='Antigüedad')
-    notes = models.TextField(blank=True,verbose_name='Observaciones')
-    status = models.CharField(max_length=20, choices=STATUS,verbose_name='Estado')
-    #T0D0
-    #Añadir relacion uno a muchos con entidad pago
+    notes = models.TextField(blank=True, verbose_name='Observaciones')
+    status = models.CharField(
+        max_length=20, choices=STATUS, verbose_name='Estado')
+    # T0D0
+    # Añadir relacion uno a muchos con entidad pago
+
 
 class ASEMUser(Person):
-    condition = models.CharField(max_length=20, choices=CONDITION,verbose_name='Condición médica')
-    member = models.CharField(max_length=20, choices=MEMBER,verbose_name='Socio')
-    user_type = models.CharField(max_length=20, choices=USER_TYPE,verbose_name='Tipo de usuario')
-    correspondence = models.CharField(max_length=20, choices=CORRESPONDENCE,verbose_name='Tipo de correspondencia')
-    status = models.CharField(max_length=20, choices=STATUS,verbose_name='Estado')
-    family_unit_size = models.IntegerField(verbose_name='Tamaño de la unidad familiar', validators=[MaxValueValidator(30)])
-    own_home = models.CharField(max_length=20, choices=HOUSING_TYPE,verbose_name='Tipo de vivienda')
-    own_vehicle = models.BooleanField(default=False, verbose_name='¿Tiene vehículo propio?')
-    bank_account_number = models.CharField(max_length=24,verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[A-Z]{2}\d{22}$')])
+
+    condition = models.CharField(
+        max_length=20, choices=CONDITION, verbose_name='Condición médica')
+    member = models.CharField(
+        max_length=20, choices=MEMBER, verbose_name='Socio')
+    user_type = models.CharField(
+        max_length=20, choices=USER_TYPE, verbose_name='Tipo de usuario')
+    correspondence = models.CharField(
+        max_length=20, choices=CORRESPONDENCE, verbose_name='Tipo de correspondencia')
+    status = models.CharField(
+        max_length=20, choices=STATUS, verbose_name='Estado')
+    family_unit_size = models.IntegerField(
+        verbose_name='Tamaño de la unidad familiar', validators=[MaxValueValidator(30)])
+    own_home = models.CharField(
+        max_length=20, choices=HOUSING_TYPE, verbose_name='Tipo de vivienda')
+    own_vehicle = models.BooleanField(
+        default=False, verbose_name='¿Tiene vehículo propio?')
+    bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria', validators=[
+                                           RegexValidator(r'^[A-Z]{2}\d{22}$')])
 
