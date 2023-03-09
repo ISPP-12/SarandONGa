@@ -10,12 +10,16 @@ label{
 }
 
 input{
-    border: 3px solid red;
+    border: 1.4px solid #3E3E3E;
+    border-radius: 7px;
 }
 
-.border-class
-{
+.border-class{
     border: 1.4px solid #3E3E3E;
     border-radius: 7px;
  
+}
+
+.inptlab{
+    min-width: 100em;
 }
