@@ -78,6 +78,20 @@ MEMBER = (
     ('UNA', 'Usuario no asociado')
 )
 
+USER_TYPE = (
+    ('SCC','Socios ASEM con cuota de socio'),
+    ('UCC','Usuarios con cuota de socio'),
+    ('UCS','Usuarios sinn cuota de socio')
+)
+
+CORRESPONDENCE = (
+    ('E', 'Email'),
+    ('CC', 'Carta con logo'),
+    ('CS', 'Carta sin logo'),
+    ('SR', 'Solo revista'),
+    ('N', 'Ninguna')
+)
+
 HOUSING_TYPE = (
     ('VC', 'Vivienda compartida'),
     ('VP', 'Vivienda propia')
@@ -86,6 +100,8 @@ HOUSING_TYPE = (
 class ASEMUser(Person):
     condition = models.CharField(max_length=20, choices=CONDITION,verbose_name='Condición médica')
     member = models.CharField(max_length=20, choices=MEMBER,verbose_name='Socio')
+    user_type = models.CharField(max_length=20, choices=USER_TYPE,verbose_name='Tipo de usuario')
+    correspondence = models.CharField(max_length=20, choices=CORRESPONDENCE,verbose_name='Tipo de correspondencia')
     status = models.CharField(max_length=20, choices=STATUS,verbose_name='Estado')
     family_unit_size = models.IntegerField(verbose_name='Tamaño de la unidad familiar', validators=[MaxValueValidator(30)])
     own_home = models.CharField(max_length=20, choices=HOUSING_TYPE,verbose_name='Tipo de vivienda')
