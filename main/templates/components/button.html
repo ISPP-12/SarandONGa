@@ -1,17 +1,42 @@
+{% comment %} 
+ATTRIBUTES:
+- variation (PLUS, PDF, EXCEL, SUBMIT, DOWNLOAD) 
+- text (text on button)
+- id (for javascript)
+- href (link to page)
+- onclick (for javascript)
+- (type) (button, submit...) 
 
-<a href="" class="btn m-auto bg-object border-dark">
+{% endcomment %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/components/button.css' %}">
+
+<button 
+    id="{{id}}"
+    type="{{type|yesno:'button'}}"
+    class="btn m-auto border-dark" 
+    onclick="{{onclick}}"
+    >
     
-    {% comment %} TYPES (PLUS, PDF, EXCEL) {% endcomment %}
-    {% if type == "PLUS" %}
+    {% if variation == "PLUS" %}
         <i class="bi me-2 bi-plus-lg"></i>
-    {% elif type == "PDF" %}
+    {% elif variation == "PDF" %}
         <i class="bi me-2 bi-filetype-pdf"></i>
-    {% elif type == "EXCEL" %}
+    {% elif variation == "EXCEL" %}
         <i class="bi me-2 bi-file-earmark-spreadsheet"></i>
     {% else %}
     {% endif %}
     
     <span>
         {{ text }}
-    </span> 
-</a>
+    </span>
+
+    {% if variation == "DOWNLOAD" %}
+        <i class="bi ms-2 bi-download"></i>
+    {% elif variation == "SUBMIT" %}
+        <i class="bi ms-2 bi-arrow-right"></i>
+    {% else %}
+    {% endif %}
+
+</button>
