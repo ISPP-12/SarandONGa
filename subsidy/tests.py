@@ -9,7 +9,7 @@ class SubsidyTestCase(TestCase):
         Subsidy.objects.create(date="2021-01-01", amount=1000, name="Juan")
         Subsidy.objects.create(date="2021-01-02", amount=2000, name="Pedro")
         Subsidy.objects.create(date="2021-01-03", amount=3000, name="Maria")
-    
+
     def test_subsidy_create(self):
         subsidy = Subsidy.objects.get(name="Juan")
         self.assertEqual(subsidy.name, "Juan")
