@@ -71,6 +71,7 @@ class Person(AbstractBaseUser):
     address = models.CharField(max_length=200, verbose_name="Dirección",null=True, blank=True)
     telephone = models.IntegerField(verbose_name="Teléfono", null=True, blank=True)
     postal_code = models.IntegerField(verbose_name="Código postal",null=True, blank=True)
+    photo = models.ImageField(verbose_name="Foto",null=True,blank=True)
 
 
     USERNAME_FIELD = 'username'
