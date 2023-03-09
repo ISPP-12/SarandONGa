@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from main import views
 from subsidy import views as subsidy_views
+from person import views as person_views
 from donation import views as donation_views
 from person import views as person_views
 
@@ -25,6 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
-    path('asem-user/', person_views.asem_user, name="asem_user"),
-    path('donation/list', donation_views.donationList, name="donationList")
+    path('asem_user/', person_views.asem_user, name="asem_user"),
+    path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
+    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
+    path('donation/list', donation_views.donationList, name="donationList"),
 ]
