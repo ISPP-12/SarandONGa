@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from donation.models import Donation
-from .forms import *
+from .forms import CreateNewDonation
 
 # Create your views here.
 def donation(request):
