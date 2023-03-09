@@ -19,7 +19,6 @@ from main import views
 from subsidy import views as subsidy_views
 from person import views as person_views
 from donation import views as donation_views
-from person import views as person_views
 
 
 urlpatterns = [

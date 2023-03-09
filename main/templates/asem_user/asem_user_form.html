@@ -1,6 +1,6 @@
 {% block content %}
 Registrar usuario
-<form method="post" action="/asem-user/">
+<form method="post" action="/asem_user/">
     {% csrf_token %}
     {{form}}
     <button type="submit", name="save">Registrar</button>

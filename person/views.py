@@ -14,10 +14,11 @@ def asem_user(request):
 
     form = CreateNewASEMUser()
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
-    
+
+
 def asem_user_list(request):
     objects = ASEMUser.objects.all().values()
-    #objects_json = json.dumps(objects)
+    # objects_json = json.dumps(objects)
     object_name = 'usuario'
     title = "Gestion de Usuarios ASEM"
-    return render(request, 'asem_user_list.html', {"objects":objects,"objects_name": object_name,"title":title })
+    return render(request, 'asem_user_list.html', {"objects": objects, "objects_name": object_name, "title": title})
