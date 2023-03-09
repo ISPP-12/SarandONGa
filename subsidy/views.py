@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Subsidy
 
 from .forms import CreateNewSubsidy
 
@@ -13,3 +14,10 @@ def subsidy(request):
 
     form = CreateNewSubsidy()
     return render(request, 'subsidy_form.html', {"form": form})
+
+
+def subsidy_list(request):
+    subsidy_list=Subsidy.objects.all().values()
+
+
+    return render(request, 'subsidy_list.html', {"subsidy_list":subsidy_list })
