@@ -6,7 +6,11 @@ import json
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+
+     context = {
+    'options1': {'1':'1','2':'2','3':'3','4':'4'},
+    'options2': {'4':'5','9':'8'},}
+    return render(request, 'index.html' ,context)
 
 def donations_list(request):
     # array of donations
@@ -43,3 +47,4 @@ def donations_list(request):
 
 
     
+
