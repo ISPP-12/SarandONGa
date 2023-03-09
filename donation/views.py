@@ -12,6 +12,7 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+from donation.models import Donation
 
 # Create your views here.
 def donations_list(request):
