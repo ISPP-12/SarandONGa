@@ -17,13 +17,13 @@ SERVICES_TYPE = (
 )
 
 class ServiceAmount(models.Model):
-        id = models.AutoField(primary_key=True)
-        service_type = models.CharField(max_length=50, choices=SERVICES_TYPE,verbose_name="Tipo de servicio")
-        user_type = models.CharField(max_length=50, choices=person_models.ASEMUSER_TYPE,verbose_name="Tipo de usuario ASEM")
-        amount = models.FloatField(verbose_name="Precio")
-        date = models.DateTimeField(default=timezone.now)
-        def __str__(self):
-            return self.service_type
+    id = models.AutoField(primary_key=True)
+    service_type = models.CharField(max_length=50, choices=SERVICES_TYPE,verbose_name="Tipo de servicio")
+    user_type = models.CharField(max_length=50, choices=person_models.ASEMUSER_TYPE,verbose_name="Tipo de usuario ASEM")
+    amount = models.FloatField(verbose_name="Precio")
+    date = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return self.service_type
 
 class Service(models.Model):
     id = models.AutoField(primary_key=True)
