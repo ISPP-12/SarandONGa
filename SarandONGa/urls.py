@@ -25,6 +25,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
+    path('godfather/list', person_views.godfather_list, name="godfather_list"),
     path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
     path('donation/list', donation_views.donationList, name="donationList"),
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
