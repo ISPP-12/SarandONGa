@@ -1,0 +1,119 @@
+{% extends "master.html" %}
+{% load static %}
+
+<!-- TITULO -->
+{% block titulo %}Gestión de donaciones{% endblock %}
+
+{% block contenido %}
+<div class="p-4">
+  <div class="row complete">
+
+    <div class="col-md-4 d-flex justify-content-center align-items-center" id="previewContainer">
+      <div class="fs-4 text-center" id="preview">
+        <span id="prev-info">Pulsa sobre una donación para la vista previa</span>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-8 border-start border-dark border-2 " id="rightSectionContainer">
+      <!-- TITULO -->
+      <div class="row ps-5" id="rightSection">
+        <div class="col-12 mb-4">
+          <h1 class="title">Gestión de donaciones</h1>
+        </div>
+        <div class="col-12 mb-4">
+          <div class="row justify-content-between align-items-center">
+            <div class="col-12 col-md-8">
+              <div class="input-group rounded border-dark w-100" id="filterContainer">
+                <div class="form-floating" id="filter">
+                  <input type="search" id="id-searchDonation" class="form-control" placeholder="Filtra por donación">
+                  <label for="id-searchDonation"><i class="bi bi-search"></i> Filtra por donación ...</label>
+                </div>
+                <button class="btn btn-dark" id="filterBtn">Filtrar</button>
+              </div>
+            </div>
+            <div class="col-md-3 col-12 mb-md-0 mb-3 d-flex">
+              <a href="register" class="m-auto w-100 btn bg-donation border-dark"><i class="bi bi-plus-lg"></i>Añadir
+                donación</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 d-flex flex-column align-items-center justify-content-center 3">
+          {% for donation in donations %}
+          <div class="donation border border-dark w-100 rounded p-2 mb-2">
+            <span class="donation-id d-none">{{ donation.id }}</span>
+            <span class="donation-title">{{ donation.title }}</span>
+            <span class="donation-amount">{{ donation.amount }} €</span>
+            <span class="donation-date">{{ donation.date }}</span>
+            <div class="d-none d-flex flex-column" id="moreInfo">
+              <span class="donation-description">{{ donation.description }}</span>
+              <span class="donation-donor_name">Realizada por: {{ donation.donor_name }}
+                {{donation.donor_surname}}</span>
+              <span class="donation-donor_email"><i>{{ donation.donor_email }}</i></span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script id="donaciones-data">
+  const donationList = document.querySelectorAll('.donation')
+  const donaciones = JSON.parse('{{ donations_json|escapejs }}')
+  const preview = document.querySelector('#preview')
+  const prevInfo = document.querySelector('#prev-info')
+
+  donationList.forEach(donation => {
+    const moreInfo = donation.querySelector('#moreInfo')
+    donation.addEventListener('click', () => {
+      const isMobile = window.matchMedia("(max-width: 768px)").matches
+      
+      const isExpanded = !moreInfo.classList.contains('d-none') // if its is expanded, it will be true
+      const donationId = donation.querySelector('.donation-id').innerText
+      const donationData = donaciones.find(donation => donation.id == donationId)
+
+
+      if (isMobile) {
+        console.log(isExpanded)
+        isExpanded ? moreInfo.classList.add('d-none') : moreInfo.classList.remove('d-none')
+      } else {
+
+        prevInfo.classList.add('d-none')
+        preview.classList.remove('text-center')
+        preview.classList.add('p-5')
+        preview.innerHTML = `
+        <div class="row">
+          <div class="col-12">
+            <h3>${donationData.title}</h3>
+            <h5>${donationData.description || "N/A"}</h5>
+            <p>Cantidad: ${donationData.amount}€</p>
+            <p>Fecha: ${donationData.date}</p>
+            <p>Realizada por: ${donationData.donor_name + " " + donationData.donor_surname}</p>
+            <p>Correo: ${donationData.donor_email}</p>
+          </div>
+        </div>
+      `
+      }
+
+    })
+
+    // when resizing the window, the preview will be reset
+    window.addEventListener('resize', () => {
+      moreInfo.classList.add('d-none')
+      prevInfo.classList.remove('d-none')
+      preview.classList.add('text-center')
+      preview.classList.remove('p-5')
+      preview.innerHTML = `<span id="prev-info">Pulsa sobre una donación para la vista previa</span>`
+     
+    })
+
+  })
+
+
+
+</script>
+
+{{ donations|json_script:"donaciones-data" }}
+{% endblock %}

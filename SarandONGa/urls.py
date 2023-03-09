@@ -14,7 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from main import views
 from subsidy import views as subsidy_views
 from person import views as person_views
@@ -23,7 +25,7 @@ from donation import views as donation_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
+    path('', include('main.urls')),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
     path('asem_user/', person_views.asem_user, name="asem_user"),
     path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
