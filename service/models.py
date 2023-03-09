@@ -27,20 +27,13 @@ class ServiceAmount(models.Model):
             return self.service_type
 
 class Service(models.Model):
-
     id = models.AutoField(primary_key=True)
-
     service_type = models.CharField(max_length=50, choices=SERVICES_TYPE,verbose_name="Tipo de servicio")
-
     date = models.DateTimeField(default=timezone.now)
-
     attendance = models.BooleanField(verbose_name="Asistencia")
-
     #TODO: añadir una foreign key con pago cuando pago esté implementado
     #payment = models.ForeignKey(Payment, verbose_name="Pago")
-
     asem_user = models.ForeignKey(person_models.ASEMUser, verbose_name="Usuario ASEM", on_delete=models.CASCADE)
-
 
     @property
     def amount(self):
