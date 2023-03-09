@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'stock',
 ]
 
-AUTH_USER_MODEL = 'person.Person'
+AUTH_USER_MODEL = 'person.Worker'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

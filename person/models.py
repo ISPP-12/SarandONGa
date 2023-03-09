@@ -33,38 +33,11 @@ FREQUENCY = (
     ('S','Semestral'),
 )
 
+class Person(models.Model):
 
-class PersonManager(BaseUserManager):
-    def create_user(self, username, password, **extra_fields):
-        """
-        Crea y guarda un usuario con el correo electrónico y la contraseña dada.
-        """
-        if not username:
-            raise ValueError('El nombre de usuario es obligatorio')
-        user = self.model(username=username, **extra_fields)
-        user.set_password(password)
-        user.save()
-        return user
-
-    def create_superuser(self, username, password, **extra_fields):
-        """
-        Crea y guarda un superusuario con el correo electrónico y la contraseña dada.
-        """
-        user = self.create_user(username=username, password=password, **extra_fields)
-        user.is_admin = True
-        user.save()
-        return user
-
-class Person(AbstractBaseUser):
-    username = models.CharField(max_length=30, unique=True)
-    email = models.EmailField(unique=True,blank=True)
-    nombre = models.CharField(max_length=50, blank=True)
-    apellido = models.CharField(max_length=50, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
-
-    # Agrega aquí los campos adicionales que desees tener en tu modelo de Persona
-
+    email = models.EmailField(unique=True,blank=True,verbose_name="E-Mail")
+    name = models.CharField(max_length=50, blank=True,verbose_name="Nombre")
+    surname = models.CharField(max_length=50, blank=True,verbose_name="Apellido")
     birth_date = models.DateTimeField(default=timezone.now, verbose_name="Fecha de nacimiento",null=True, blank=True)
     sex = models.CharField(max_length=50, choices=SEX_TYPES, verbose_name="Género",null=True, blank=True)
     city = models.CharField(max_length=200, verbose_name="Ciudad",null=True, blank=True)
@@ -73,28 +46,44 @@ class Person(AbstractBaseUser):
     postal_code = models.IntegerField(verbose_name="Código postal",null=True, blank=True)
     photo = models.ImageField(verbose_name="Foto",null=True,blank=True)
 
+class WorkerManager(BaseUserManager):
+    def create_superuser(self, email, password, **extra_fields):
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.is_admin = True
+        user.save()
+        return user
 
-    USERNAME_FIELD = 'username'
+class Worker(AbstractBaseUser):
+        email = models.EmailField(unique=True,verbose_name="E-Mail")
+        name = models.CharField(max_length=50, blank=True,verbose_name="Nombre")
+        surname = models.CharField(max_length=50, blank=True,verbose_name="Apellido")
+        birth_date = models.DateTimeField(default=timezone.now, verbose_name="Fecha de nacimiento",null=True, blank=True)
+        sex = models.CharField(max_length=50, choices=SEX_TYPES, verbose_name="Género",null=True, blank=True)
+        city = models.CharField(max_length=200, verbose_name="Ciudad",null=True, blank=True)
+        address = models.CharField(max_length=200, verbose_name="Dirección",null=True, blank=True)
+        telephone = models.IntegerField(verbose_name="Teléfono", null=True, blank=True)
+        postal_code = models.IntegerField(verbose_name="Código postal",null=True, blank=True)
+        photo = models.ImageField(verbose_name="Foto",null=True,blank=True)
+        is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
+        is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
 
-    objects = PersonManager()
+        USERNAME_FIELD = 'email'
 
-    def __str__(self):
-        return self.username
+        objects = WorkerManager()
 
-    def has_perm(self, perm, obj=None):
-        return True
+        def __str__(self):
+            return self.email
 
-    def has_module_perms(self, app_label):
-        return True
+        def has_perm(self, perm, obj=None):
+            return True
 
-    @property
-    def is_staff(self):
-        return self.is_admin
- 
+        def has_module_perms(self, app_label):
+            return True
 
-class Worker(Person):
-    pass
-
+        @property
+        def is_staff(self):
+            return self.is_admin
 
 class GodFather(Person):
     dni = models.CharField(max_length=9, unique=True,verbose_name='DNI')
