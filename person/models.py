@@ -89,37 +89,37 @@ class WorkerManager(BaseUserManager):
         return user
 
 class Worker(AbstractBaseUser):
-        email = models.EmailField(unique=True,verbose_name="E-Mail")
-        name = models.CharField(max_length=50, blank=True,verbose_name="Nombre")
-        surname = models.CharField(max_length=50, blank=True,verbose_name="Apellido")
-        birth_date = models.DateTimeField(default=timezone.now, verbose_name="Fecha de nacimiento",null=True, blank=True)
-        sex = models.CharField(max_length=50, choices=SEX_TYPES, verbose_name="Género",null=True, blank=True)
-        city = models.CharField(max_length=200, verbose_name="Ciudad",null=True, blank=True)
-        address = models.CharField(max_length=200, verbose_name="Dirección",null=True, blank=True)
-        telephone = models.IntegerField(verbose_name="Teléfono", null=True, blank=True)
-        postal_code = models.IntegerField(verbose_name="Código postal",null=True, blank=True)
-        photo = models.ImageField(verbose_name="Foto",null=True,blank=True)
-        is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
-        is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
+    email = models.EmailField(unique=True,verbose_name="E-Mail")
+    name = models.CharField(max_length=50, blank=True,verbose_name="Nombre")
+    surname = models.CharField(max_length=50, blank=True,verbose_name="Apellido")
+    birth_date = models.DateTimeField(default=timezone.now, verbose_name="Fecha de nacimiento",null=True, blank=True)
+    sex = models.CharField(max_length=50, choices=SEX_TYPES, verbose_name="Género",null=True, blank=True)
+    city = models.CharField(max_length=200, verbose_name="Ciudad",null=True, blank=True)
+    address = models.CharField(max_length=200, verbose_name="Dirección",null=True, blank=True)
+    telephone = models.IntegerField(verbose_name="Teléfono", null=True, blank=True)
+    postal_code = models.IntegerField(verbose_name="Código postal",null=True, blank=True)
+    photo = models.ImageField(verbose_name="Foto",null=True,blank=True)
+    is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
+    is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
 
-        USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'email'
 
-        objects = WorkerManager()
+    objects = WorkerManager()
 
-        def __str__(self):
-            return self.email
+    def __str__(self):
+       return self.email
 
-        @classmethod
-        def has_perm(self, perm, obj=None):
-            return True
+    @classmethod
+    def has_perm(self, perm, obj=None):
+        return True
 
-        @classmethod
-        def has_module_perms(self, app_label):
-            return True
+    @classmethod
+    def has_module_perms(self, app_label):
+        return True
 
-        @property
-        def is_staff(self):
-            return self.is_admin
+    @property
+    def is_staff(self):
+        return self.is_admin
 
 
 class GodFather(Person):
