@@ -17,7 +17,11 @@ def subsidy(request):
 
 
 def subsidy_list(request):
-    subsidy_list=Subsidy.objects.all().values()
+    context={
+        'objects':Subsidy.objects.all().values(),
+        'objects_name' : 'Subvención',
+        'title' : 'Listado de Subvenciones'
+    }
 
 
-    return render(request, 'subsidy_list.html', {"subsidy_list":subsidy_list })
+    return render(request, 'subsidy_list.html', {"context":context })
