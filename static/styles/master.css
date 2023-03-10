@@ -18,7 +18,13 @@ input {
   border-radius: 7px;
 }
 
-
 .inptlab {
   min-width: 100em;
+}
+
+.title {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-decoration: underline black solid 0.2em;
+  color: #000;
 }
