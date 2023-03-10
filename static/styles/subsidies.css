@@ -19,13 +19,13 @@
 }
 
 .card-img-left {
-    border-radius: 7px;
-    background-position: left top;
-    object-fit: cover;
-    width: 67px;
-    height: 67px;
+  border-radius: 7px;
+  background-position: left top;
+  object-fit: cover;
+  width: 67px;
+  height: 67px;
 }
 
-a {
-    color: red;
+.object-amount {
+  opacity: 60%;
 }

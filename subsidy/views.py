@@ -48,4 +48,4 @@ def subsidies_list(request):
         'title': title
         }
 
-    return render(request, 'donation/list.html', context)
+    return render(request, 'subsidy/list.html', context)

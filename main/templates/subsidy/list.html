@@ -1,7 +1,7 @@
 {% extends "layouts/master_sidebar.html" %}
 {% load static %}
 
-{% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/grants.css' %}"> {% endblock %}
+{% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/subsidies.css' %}"> {% endblock %}
 
 
 {% block objectFor %}
@@ -10,18 +10,17 @@
   <div class="d-flex flex-row justify-content-between align-items-center">
     <div class="d-flex flex-column">
       <span class="object-id d-none">{{ object.id }}</span>
-      <span class="object-title">{{ object.title }}</span>
+      <span class="object-name">{{ object.name }}</span>
       <span class="object-amount">{{ object.amount }} €</span>
-      <span class="object-date">{{ object.created_date }}</span>
+      <span class="object-date">{{ object.date }}</span>
     </div>
     <i class="bi bi-chevron-right" id="chevron"></i>
   </div>
 
   <div class="d-none d-flex flex-column" id="moreInfo">
-    <span class="object-description">{{ object.description }}</span>
-    <span class="object-donor_name">Realizada por: {{ object.donor_name }}
-      {{object.donor_surname}}</span>
-    <span class="object-donor_email"><i>{{ object.donor_email }}</i></span>
+    <span class="object-name">{{ object.name }}</span>
+    <span class="object-amount">{{ object.amount }} €</span>
+    <span class="object-date">{{ object.date }}</span>
   </div>
 </div>
 {% endfor %}
@@ -34,6 +33,8 @@
   const preview = document.querySelector('#preview')
   const prevInfo = document.querySelector('#prev-info')
   const chevron = document.querySelector('#chevron')
+
+  console.log(objetos)
 
   objectList.forEach(object => {
     const moreInfo = object.querySelector('#moreInfo')
@@ -64,12 +65,9 @@
         preview.innerHTML = `
         <div class="row">
           <div class="col-12">
-            <h3>${objectData.title}</h3>
-            <h5>${objectData.description || "N/A"}</h5>
+            <h3>${objectData.name}</h3>
             <p>Cantidad: ${objectData.amount}€</p>
-            <p>Fecha: ${objectData.created_date}</p>
-            <p>Realizada por: ${objectData.donor_name + " " + objectData.donor_surname}</p>
-            <p>Correo: ${objectData.donor_email}</p>
+            <p>${objectData.date}</p>
           </div>
         </div>
       `
