@@ -1,0 +1,31 @@
+:root {
+  --donations-main-color: #f5e2d8;
+  --donations-main-color-hover: #e4b399;
+  --donations-main-color-light: #f9ebe3;
+}
+
+.title {
+  text-decoration-color: var(--donations-main-color);
+}
+
+.bg-object {
+  background-color: var(--donations-main-color);
+}
+
+.bg-object:hover {
+  background-color: var(--donations-main-color-hover);
+}
+
+.object:hover {
+  background-color: var(--donations-main-color-light);
+}
+
+.selected {
+  background-color: var(--donations-main-color-light);
+}
+
+@media (min-width: 768px) {
+  #chevron {
+    display: none !important;
+  }
+}

@@ -1,7 +1,8 @@
 {% load static %}
 
 {% block content %}
+
 {% for s in context.objects %}
-<p>{{s.name}}</p>
+    <p>{{s.name}}</p>
 {% endfor %}
 {% endblock %}
