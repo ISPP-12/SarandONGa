@@ -4,12 +4,18 @@
   --grants-main-color-light: #f9ebe3;
 }
 
-.section-btn {
+/* Button */
+.grants-section .section-btn {
     background-color: var(--grants-main-color);
 }
 
-.section-btn:hover {
+.grants-section .section-btn:hover {
     background-color: var(--grants-main-color-hover);
+}
+
+/* override bootstrap */
+.grants-section .section-btn:active {
+  background-color: var(--main-color-hover) !important;
 }
 
 .card-img-left {
@@ -21,5 +27,5 @@
 }
 
 a {
-    color: #000000;
+    color: red;
 }
