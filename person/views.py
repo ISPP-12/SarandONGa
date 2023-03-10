@@ -1,10 +1,6 @@
 from django.shortcuts import render
 from .models import ASEMUser
-
 from .forms import CreateNewASEMUser
-
-# Create your views here.
-
 
 def asem_user(request):
     if request.method == "POST":
