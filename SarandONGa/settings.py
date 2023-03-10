@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'subsidy',
     'stock',
     'beneficiary',
-    'volunteer',
 ]
 
 AUTH_USER_MODEL = 'person.Worker'

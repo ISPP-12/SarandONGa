@@ -109,11 +109,13 @@ class Worker(AbstractBaseUser):
         def __str__(self):
             return self.email
 
+        @classmethod
         def has_perm(self, perm, obj=None):
-            return self.has_perm
+            return True
 
+        @classmethod
         def has_module_perms(self, app_label):
-            return self.has_module_perms
+            return True
 
         @property
         def is_staff(self):
@@ -163,3 +165,13 @@ class ASEMUser(Person):
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria', validators=[
                                            RegexValidator(r'^[A-Z]{2}\d{22}$')])
 
+class Volunteer(Person):
+
+    # Trabajo que realiza el voluntario
+    job = models.CharField(max_length=50, verbose_name="Trabajo")
+
+    # Tiempo de dedicación en horas
+    dedication_time = models.FloatField(verbose_name="Tiempo de dedicación")
+
+    # Fecha de inicio del contrato
+    contract_date = models.DateField(verbose_name="Fecha de inicio del contrato")
