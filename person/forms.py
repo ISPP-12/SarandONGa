@@ -1,6 +1,5 @@
 from django import forms
 from .models import ASEMUser, Worker
-from django.contrib.auth.decorators import login_required
 
 
 class CreateNewASEMUser(forms.ModelForm):
