@@ -9,26 +9,25 @@
 }
 
 .bg-object {
-  background-color: var(--donations-main-color) ;
+  background-color: var(--donations-main-color);
 }
 
 .bg-object:hover {
-  background-color: var(--donations-main-color-hover) ;
+  background-color: var(--donations-main-color-hover);
 }
 
 
 .object:hover {
-  background-color: var(--donations-main-color-light) ;
+  background-color: var(--donations-main-color-light);
 }
 
 .selected {
-  background-color: var(--donations-main-color-light) ;
+  background-color: var(--donations-main-color-light);
 }
 
 
 @media (min-width: 768px) {
   #chevron{
-    display: none !important
+    display: none !important;
   }
-
 }
