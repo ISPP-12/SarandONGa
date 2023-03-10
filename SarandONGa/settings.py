@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'subsidy',
     'stock',
     'beneficiary',
-    'volunteer'
+    'volunteer',
 ]
 
 MIDDLEWARE = [
