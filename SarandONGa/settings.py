@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'stock',
     'beneficiary',
     'payment',
+    'volunteer',
 ]
 
 MIDDLEWARE = [

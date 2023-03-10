@@ -1,7 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
 
 SEX_TYPES = (
@@ -62,6 +61,36 @@ class GodFather(Person):
     status = models.CharField(max_length=20, choices=STATUS,verbose_name='Estado')
     #T0D0
     #Añadir relacion uno a muchos con entidad pago
+
+
+CONDITION = (
+    ('EM', 'Escleorosis múltiple'),
+    ('ICTUS', 'Ictus'),
+    ('ELA', 'Esclerosis lateral amiotrófica'),
+    ('OTROS', 'Otros')
+)
+
+MEMBER = (
+    ('EM', 'Escleorosis múltiple'),
+    ('ICTUS', 'Ictus'),
+    ('ELA', 'Esclerosis lateral amiotrófica'),
+    ('OTROS', 'Otros'),
+    ('UNA', 'Usuario no asociado')
+)
+
+HOUSING_TYPE = (
+    ('VC', 'Vivienda compartida'),
+    ('VP', 'Vivienda propia')
+)
+
+class ASEMUser(Person):
+    condition = models.CharField(max_length=20, choices=CONDITION,verbose_name='Condición médica')
+    member = models.CharField(max_length=20, choices=MEMBER,verbose_name='Socio')
+    status = models.CharField(max_length=20, choices=STATUS,verbose_name='Estado')
+    family_unit_size = models.IntegerField(verbose_name='Tamaño de la unidad familiar', validators=[MaxValueValidator(30)])
+    own_home = models.CharField(max_length=20, choices=HOUSING_TYPE,verbose_name='Tipo de vivienda')
+    own_vehicle = models.BooleanField(default=False, verbose_name='¿Tiene vehículo propio?')
+    bank_account_number = models.CharField(max_length=24,verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[A-Z]{2}\d{22}$')])
 
 #class WorkerProfile(models.Model):
     #Person = models.OneToOneField(Person, on_delete=models.CASCADE)
