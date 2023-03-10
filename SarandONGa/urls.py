@@ -18,6 +18,7 @@ from django.urls import path, include
 from subsidy import views as subsidy_views
 from person import views as person_views
 from donation import urls as donation_urls
+from donation import views as donation_views
 
 
 urlpatterns = [
