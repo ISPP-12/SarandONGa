@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .forms import create_payment_form
-#from .models import Payment
+from .models import Payment
 from django.contrib import messages
+#import json
 
 def create_payment(request):
     if request.method == 'POST':
@@ -13,3 +14,15 @@ def create_payment(request):
     else:
         form = create_payment_form()
     return render(request, 'payment/create_donation.html', {'form': form})
+
+
+
+def payment_list(request):
+    context = {
+        'objects': Payment.objects.all(),
+        #'objects_json': json.dumps(list(Payment.objects.all().values())),
+        'objects_name': 'Payment',
+        'title': 'Lista de Pagos'
+    }
+    return render(request, 'payment/payment_list.html', {"context":context })
+
