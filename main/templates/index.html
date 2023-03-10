@@ -6,5 +6,18 @@
 		<hr>
 		<h5>Esta es la página de inicio</h5>   
 		<hr>
+		<h5>Esto es un ejemplo de input y label</h5>
+
+		
+		{% include "components/inputs.html" with id=1 label_text="Nombre" placeholder="Escribe algo..."  type=text  %}
+		{% include "components/inputs.html" with id=1 label_text="Apellidos" placeholder="Escribe tu apellido..."  type=text  %}
+
+
+		
+		{% include "components/select.html" with id=1 label_text="Nombre" label_text="Nombre" options=options1 placeholder="Seleciona una opción"    %}
+		{% include "components/select.html" with id=3 label_text="Apellidos"  options=options2 placeholder="Seleciona 1..."    %}
+
+	
+
 
 {% endblock %}
