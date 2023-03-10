@@ -19,6 +19,7 @@ from main import views
 from subsidy import views as subsidy_views
 from person import views as person_views
 from donation import views as donation_views
+from payment import views as payment_views
 
 
 urlpatterns = [
@@ -29,4 +30,5 @@ urlpatterns = [
     path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
     path('donation/list', donation_views.donationList, name="donationList"),
+    path('payment/list', payment_views.payment_list, name="payment_list"),
 ]
