@@ -1,0 +1,35 @@
+{% load static %}
+<div class="container-fluid card-list w-100 rounded p-3" tabindex="1">
+  <div class="row d-flex justify-content-between align-items-center">
+
+    <div class="row col-8">
+      <div class="w-auto">
+        {%if object_name == "person"%} {% if profilePic %}
+        
+        <img class="profile-img rounded" src=" {{profilePic}} " />
+        {% else %}
+
+        <img class="profile-img rounded" src={% static 'img/person-icon.svg' %} />
+
+        {% endif %} {% else %}
+
+        <img class="profile-img rounded" src={% static 'img/others-icon.svg' %} />
+
+        {%endif%}
+      </div>
+
+      <div class="col-8">
+        <h4>{{name}} {{surnames}}</h4>
+        
+        
+        <span>{%if object_name == "person"%}{{object_name}}{% else %}{{amount}} €{%endif%}</span>
+        
+        
+      </div>
+    </div>
+
+    <div class="col-2 text-end">
+      <a class="pe-2" href="">Editar</a>
+    </div>
+  </div>
+</div>

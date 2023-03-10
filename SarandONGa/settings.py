@@ -37,7 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'person',
+    'donation',
+    'subsidy',
+    'stock',
+    'beneficiary',
+    'payment',
 ]
+
+AUTH_USER_MODEL = 'person.Worker'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,7 +87,7 @@ DATABASES = {
         "NAME": "sarandongadb",
         "USER": "sarandonga-user",
         "PASSWORD": "sarandonga-password",
-        "HOST": "localhost",
+        "HOST": "127.0.0.1",
         "PORT": "3307",
     }
 }
