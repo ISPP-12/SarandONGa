@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from .models import ASEMUser
+from django.contrib import messages
 
-from .forms import CreateNewASEMUser
+from .forms import CreateNewASEMUser,CreateNewWorker
 
 # Create your views here.
 
@@ -22,3 +23,14 @@ def asem_user_list(request):
     object_name = 'usuario'
     title = "Gestion de Usuarios ASEM"
     return render(request, 'asem_user_list.html', {"objects": objects, "objects_name": object_name, "title": title})
+
+def create_worker(request):
+    if request.method == "POST":
+        form = CreateNewWorker(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewWorker()
+    return render(request, 'worker/worker_form.html', {"form": form})
