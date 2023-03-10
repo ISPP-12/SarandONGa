@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 
-class Donation(models.Model):
+class Payment(models.Model):
     id= models.AutoField(primary_key=True)
     #Fecha y cantidad de la operación
     payday = models.DateTimeField(default=timezone.now)
