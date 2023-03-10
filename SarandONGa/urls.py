@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from subsidy import views as subsidy_views
+from stock import views as stock_views
 from person import views as person_views
 from donation import urls as donation_urls
 
@@ -24,6 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
+    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
+    path('stock/list', stock_views.stock_list, name="stock_list"),
     path('asem_user/', person_views.asem_user, name="asem_user"),
     path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
     path('donations/', include(donation_urls), name='donations'),
