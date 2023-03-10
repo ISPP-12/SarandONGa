@@ -1,5 +1,10 @@
 body {
-  font-family: "Maven Pro", sans-serif;
+  font-family: "Inter", sans-serif;
+}
+
+:root {
+  --black-color: #000;
+  --white-color: #fff;
 }
 
 label {

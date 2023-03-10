@@ -23,3 +23,22 @@
 .example-section .section-btn:active {
   background-color: var(--main-color-hover) !important;
 }
+
+
+.form-section .section-btn {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  transition: all .2s ease-out;
+}
+
+.form-section .section-btn:hover {
+  background-color: var(--white-color);
+  color: var(--black-color);
+  transition: all .2s ease-out;
+}
+
+/* override bootstrap */
+.form-section .section-btn:active {
+  background-color: var(--white-color) !important;
+  color: var(--black-color);
+}
