@@ -2,7 +2,6 @@
   --main-color: #f5e2d8;
   --main-color-hover: #e4b399;
   --main-color-light: #f9ebe3;
-
 }
 
 
@@ -41,7 +40,7 @@
 
 .object:hover {
   cursor: pointer;
-  background-color: var(--main-color-light));
+  background-color: var(--main-color-light);
   transition: background-color 0.5s ease-in-out;
 }
 
@@ -70,7 +69,6 @@
 
   #filterContainer {
     width: 100% !important;
-    margin-bottom: 1em ;
+    margin-bottom: 1em;
   }
-
 }
