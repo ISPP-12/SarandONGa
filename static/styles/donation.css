@@ -16,7 +16,6 @@
   background-color: var(--donations-main-color-hover);
 }
 
-
 .object:hover {
   background-color: var(--donations-main-color-light);
 }
@@ -27,7 +26,7 @@
 
 
 @media (min-width: 768px) {
-  #chevron{
+  #chevron {
     display: none !important;
   }
 }
