@@ -3,7 +3,6 @@ from .models import Payment
 #import json
 
 def payment_list(request):
-    
     context = {
         'objects': Payment.objects.all(),
         #'objects_json': json.dumps(list(Payment.objects.all().values())),
