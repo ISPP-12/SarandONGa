@@ -1,5 +1,15 @@
-.workers-colour{
-    background-color: #C4D5E7;
+:root {
+  --grants-main-color: #f5e2d8;
+  --grants-main-color-hover: #e4b399;
+  --grants-main-color-light: #f9ebe3;
+}
+
+.section-btn {
+    background-color: var(--grants-main-color);
+}
+
+.section-btn:hover {
+    background-color: var(--grants-main-color-hover);
 }
 
 .card-img-left {
