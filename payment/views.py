@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .forms import create_payment_form
-from .models import Payment
+#from .models import Payment
 from django.contrib import messages
 
 def create_payment(request):
