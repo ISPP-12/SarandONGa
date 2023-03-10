@@ -19,6 +19,8 @@ from main import views
 from subsidy import views as subsidy_views
 from donation import views as donation_views
 from stock import views as stock_views
+from volunteer import views as volunteer_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +29,6 @@ urlpatterns = [
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
     path('donation/list', donation_views.donationList, name="donationList"),
     path('stock/list', stock_views.stock_list, name="stock_list"),
+    path('donation/list', donation_views.donationList, name="donationList"),
+    path('volunteer/list', volunteer_views.VolunteersList, name="VolunteersList")
 ]
