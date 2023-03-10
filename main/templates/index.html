@@ -20,4 +20,26 @@
 	
 
 
+		{% comment %} Example button {% endcomment %}
+		<p>Ejemplo de botón dentro de una sección</p>
+		<div class="example-section">
+			{% include 'components/button.html' with text="Hola" onclick="alert('hola')"%}
+		</div>
+		<p>Ejemplos de las variantes de los botones</p>
+		{% include 'components/button.html' with text="Añadir" variation="PLUS" %}
+		{% include 'components/button.html' with text="PDF" variation="PDF" %}
+		{% include 'components/button.html' with text="EXCEL" variation="EXCEL" %}
+		{% include 'components/button.html' with text="Enviar" variation="SUBMIT" %}
+		{% include 'components/button.html' with text="Descargar" variation="DOWNLOAD" %}
+
+		{% include 'master_sidebar.html' %}
+
+		{% comment %} Example cardlist {% endcomment %}
+
+		{% include 'components/card-list.html' with object_name="person" profilePic="https://this-person-does-not-exist.com/gen/avatar-117af80ee0a09a08091c16faa044c981.jpg" name="Adela" surnames="Perez"%}
+
+		{% include 'components/card-list.html' with object_name="person" name="Adela" surnames="Perez"%}
+
+		{% include 'components/card-list.html' with object_name="otro" amount="300" name="Adela" surnames="Perez"%}
+
 {% endblock %}
