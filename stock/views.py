@@ -13,6 +13,5 @@ def stock_list(request):
     }
     return render(request, 'stock/stock_list.html', {"context":context })
     
-
 def stock_register(request):
     return render(request, 'stock/register.html')
