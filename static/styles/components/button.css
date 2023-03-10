@@ -5,21 +5,21 @@
   scale: 1;
 }
 
-.btn:active {
+.section-btn:active {
   scale: 0.95;
 }
 
 /* Example section */
 
-.example-section .btn {
+.example-section .section-btn {
   background-color: var(--main-color);
 }
 
-.example-section .btn:hover {
+.example-section .section-btn:hover {
   background-color: var(--main-color-hover);
 }
 
 /* override bootstrap */
-.example-section .btn:active {
+.example-section .section-btn:active {
   background-color: var(--main-color-hover) !important;
 }
