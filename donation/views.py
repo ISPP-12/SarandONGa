@@ -26,9 +26,11 @@ def donation(request):
             amount = form.cleaned_data["amount"]
             donor_name = form.cleaned_data["donor_name"]
             donor_surname = form.cleaned_data["donor_surname"]
+            donor_dni = form.cleaned_data["donor_dni"]
+            donor_address = form.cleaned_data["donor_address"]
             donor_email = form.cleaned_data["donor_email"]
             d = Donation(title= title, description=description, created_date=created_date,
-                        amount=amount, donor_name=donor_name, donor_surname=donor_surname, donor_email=donor_email)
+                        amount=amount, donor_name=donor_name, donor_surname=donor_surname, donor_dni=donor_dni, donor_address=donor_address, donor_email=donor_email)
             d.save()
 
     form = CreateNewDonation()

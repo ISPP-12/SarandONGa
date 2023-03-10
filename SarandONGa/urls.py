@@ -18,12 +18,10 @@ from django.urls import path, include
 from subsidy import views as subsidy_views
 from person import views as person_views
 from donation import urls as donation_urls
-from donation import views as donation_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('donation/', donation_views.donation, name="donation"),
     path('', include('main.urls')),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
     path('asem_user/', person_views.asem_user, name="asem_user"),
