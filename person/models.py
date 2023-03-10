@@ -105,8 +105,7 @@ class GodFather(Person):
     #Añadir relacion uno a muchos con entidad pago
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surnames)
-        super(GodFather, self).save(*args, **kwargs)
-        
+        super(GodFather, self).save(*args, **kwargs) 
     class Meta:
         ordering = ['name']
         verbose_name = 'Padrino'
