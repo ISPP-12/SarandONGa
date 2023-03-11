@@ -15,8 +15,6 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
-
-
 def asem_user(request):
     if request.method == "POST":
         form = CreateNewASEMUser(request.POST)
@@ -26,7 +24,6 @@ def asem_user(request):
     form = CreateNewASEMUser()
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
 
-
 def asem_user_list(request):
     objects = ASEMUser.objects.all().values()
     # objects_json = json.dumps(objects)
@@ -34,11 +31,9 @@ def asem_user_list(request):
     title = "Gestion de Usuarios ASEM"
     return render(request, 'asem_user_list.html', {"objects": objects, "objects_name": object_name, "title": title})
 
-
-
 def user_list(request):
     objects = ASEMUser.objects.all().values()
-    title = "Gestion de Trabajadores" 
+    title = "Gestion de Trabajadores"
     #depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
