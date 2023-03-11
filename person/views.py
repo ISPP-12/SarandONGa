@@ -56,7 +56,7 @@ def create_worker(request):
 
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
-  
+
 
 def workers_list(request):
     workers = Worker.objects.all()
