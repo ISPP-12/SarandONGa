@@ -164,7 +164,8 @@ class GodFather(Person):
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
-    
+    # T0D0        
+    # Añadir relacion uno a muchos con entidad pago
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surname)
@@ -175,8 +176,8 @@ class GodFather(Person):
         verbose_name = 'Padrino'
         verbose_name_plural = 'Padrinos'
         
-# T0D0        
-# Añadir relacion uno a muchos con entidad pago
+        
+
 
 
 class ASEMUser(Person):
