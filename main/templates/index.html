@@ -17,7 +17,7 @@
 		{% include "components/select.html" with id=1 label_text="Nombre" label_text="Nombre" options=options1 placeholder="Seleciona una opción"    %}
 		{% include "components/select.html" with id=3 label_text="Apellidos"  options=options2 placeholder="Seleciona 1..."    %}
 
-	
+		{% include "components/card-display.html" %}
 
 
 		{% comment %} Example button {% endcomment %}
@@ -32,7 +32,6 @@
 		{% include 'components/button.html' with text="Enviar" variation="SUBMIT" %}
 		{% include 'components/button.html' with text="Descargar" variation="DOWNLOAD" %}
 
-		{% include 'master_sidebar.html' %}
 
 		{% comment %} Example cardlist {% endcomment %}
 

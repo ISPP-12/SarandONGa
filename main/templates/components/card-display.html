@@ -1,0 +1,57 @@
+{% comment %}
+ATTRIBUTES
+- id: for the div that contains the cards/elements
+- class_card: class of the cards inside the div
+- class_card_list: class of the cards in their list form
+{% endcomment %}
+
+<div class="col-md-1 col-4 mb-md-0 mb-3 d-flex">
+    <div class="btn-group m-auto w-100 " role="group" aria-label="showStock">
+        <button class="btn btn-outline-dark" onclick="toGrid()"><i class="bi bi-grid"></i></button>
+        <button class="btn btn-outline-dark" onclick="toList()"><i class="bi bi-list-ul"></i></button>
+    </div>
+</div>
+
+<script>
+    function toList(){
+        let rowdiv = document.getElementById('{{id}}');
+        if(rowdiv !== null) {
+            rowdiv.classList.remove('row-cols-md-3');
+    
+            let elements = document.getElementsByClassName('{{class_card}}');
+            if(elements !== null) {
+                Array.from(elements).forEach(element => {
+                    element.classList.add('{{class_card_list}}');
+                    element.classList.remove('{{class_card}}');
+                    let elImgCol = element.querySelector('.card-img-col')
+                    elImgCol.classList.add('col-4', 'col-md-3');
+                    elImgCol.classList.remove('col-12');
+                    let elBodyCol = element.querySelector('.card-body-col')
+                    elBodyCol.classList.add('col-8','col-md-9');
+                    elBodyCol.classList.remove('col-12');
+                });
+            }
+        }
+    }
+
+    function toGrid(){
+        let rowdiv = document.getElementById('{{id}}');
+        if(rowdiv !== null) {
+            rowdiv.classList.add('row-cols-md-3');
+
+            let elements = document.getElementsByClassName('{{class_card_list}}');
+            if(elements !== null) {
+                Array.from(elements).forEach(element => {
+                    element.classList.add('{{class_card}}');
+                    element.classList.remove('{{class_card_list}}');
+                    let elImgCol = element.querySelector('.card-img-col')
+                    elImgCol.classList.add('col-12');
+                    elImgCol.classList.remove('col-4', 'col-md-3');
+                    let elBodyCol = element.querySelector('.card-body-col')
+                    elBodyCol.classList.add('col-12');
+                    elBodyCol.classList.remove('col-8','col-md-9');
+                });
+            }
+        }
+    }
+</script>
