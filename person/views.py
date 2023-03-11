@@ -15,6 +15,7 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+
 def asem_user(request):
     if request.method == "POST":
         form = CreateNewASEMUser(request.POST)
@@ -24,12 +25,14 @@ def asem_user(request):
     form = CreateNewASEMUser()
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
 
+
 def asem_user_list(request):
     objects = ASEMUser.objects.all().values()
     # objects_json = json.dumps(objects)
     object_name = 'usuario'
     title = "Gestion de Usuarios ASEM"
     return render(request, 'asem_user_list.html', {"objects": objects, "objects_name": object_name, "title": title})
+
 
 def user_list(request):
     objects = ASEMUser.objects.all().values()
@@ -42,6 +45,7 @@ def user_list(request):
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
     return render(request, 'users/list.html', {'objects': objects, 'object_name': 'usuario', 'title': title, 'objects_json': persons_json})
 
+
 def create_worker(request):
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
@@ -53,6 +57,7 @@ def create_worker(request):
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
   
+
 def workers_list(request):
     workers = Worker.objects.all()
     # object_json = json.dumps(workers)
