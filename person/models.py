@@ -183,7 +183,6 @@ class GodFather(Person):
     # ONG = models.OneToOneField(ONG, on_delete=models.CASCADE) #ONG en la que trabaja
     # active = models.BooleanField(default=True) #¿Sigue trabajando en la ONG?
 
-
 class ASEMUser(Person):
 
     condition = models.CharField(
