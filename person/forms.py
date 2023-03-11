@@ -32,7 +32,7 @@ class CreateNewWorker(forms.ModelForm):
         if commit:
             user.save()
         return user
-    
+
 class CreateNewChild(forms.ModelForm):
     sex = forms.ChoiceField(choices=SEX_TYPES, label="Género")
     correspondence = forms.ChoiceField(choices=CORRESPONDENCE, label="Correspondencia")
