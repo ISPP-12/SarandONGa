@@ -6,7 +6,7 @@ __pycache__
 /db.sqlite3
 media
 /**/migrations/*.py
-
+sara/**
 # Backup files #
 *.bak
 
@@ -90,6 +90,7 @@ coverage.xml
 
 # pyenv
 .python-version
+Pipfile
 
 # celery
 celerybeat-schedule.*
@@ -128,6 +129,7 @@ Control.ca-list
 Control.ca-bundle
 Control.system-ca-bundle
 GitHub.sublime-settings
+Pipfile
 
 # Visual Studio Code #
 .vscode/*
