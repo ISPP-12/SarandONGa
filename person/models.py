@@ -66,6 +66,11 @@ HOUSING_TYPE = (
     ('VP', 'Vivienda propia')
 )
 
+ASEMUSER_TYPE = (
+    ('SACC', 'Socio ASEM con cuota de socio'),
+    ('UCC', 'Usuario con cuota de socio'),
+    ('USC', 'Usuario sin cuota de socio')
+)
 
 class Person(models.Model):
 
@@ -121,7 +126,6 @@ class Worker(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
-
 class GodFather(Person):
     dni = models.CharField(max_length=9, unique=True, verbose_name='DNI')
     payment_method = models.CharField(
@@ -143,7 +147,6 @@ class GodFather(Person):
     # T0D0
     # Añadir relacion uno a muchos con entidad pago
 
-
 class ASEMUser(Person):
 
     condition = models.CharField(
@@ -164,6 +167,7 @@ class ASEMUser(Person):
         default=False, verbose_name='¿Tiene vehículo propio?')
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria', validators=[
                                            RegexValidator(r'^[A-Z]{2}\d{22}$')])
+    user_type = models.CharField(max_length=20, choices=ASEMUSER_TYPE, verbose_name='Tipo de usuario ASEM')
 
 class Volunteer(Person):
 
