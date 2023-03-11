@@ -1,3 +1,8 @@
+:root {
+  --black-color: #000;
+  --white-color: #fff;
+}
+
 .btn {
   /* Background color should be added based on the section */
   transition: background-color 0.2s ease-in-out;
@@ -19,7 +24,6 @@
   background-color: var(--main-color-hover);
 }
 
-override bootstrap 
 .example-section .section-btn:active {
   background-color: var(--main-color-hover) !important;
 }
