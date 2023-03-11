@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'donation',
     'subsidy',
     'stock',
-    'beneficiary',
+    'service',
+    'payment',
 ]
 
 AUTH_USER_MODEL = 'person.Worker'

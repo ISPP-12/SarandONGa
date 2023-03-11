@@ -1,0 +1,13 @@
+.profile-img {
+  width: 60px;
+  height: 60px;
+}
+
+.card-list {
+  border: 1px solid #fff;
+}
+
+.card-list:active,
+.card-list:focus {
+  border: 1px solid #000;
+}
