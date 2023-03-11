@@ -4,6 +4,8 @@ import json
 from datetime import datetime
 from decimal import Decimal
 from django.contrib import messages
+from .models import Worker
+from .forms import CreateNewASEMUser,CreateNewWorker
 
 
 from .forms import CreateNewASEMUser,CreateNewWorker
@@ -62,4 +64,14 @@ def create_worker(request):
 
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
+
+
+    form = CreateNewWorker()
+    return render(request, 'worker/worker_form.html', {"form": form})
+
+def workers_list(request):
+    workers = Worker.objects.all()
+    # object_json = json.dumps(workers)
+    return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
+
 
