@@ -48,10 +48,10 @@ MEMBER = (
     ('UNA', 'Usuario no asociado')
 )
 
-USER_TYPE = (
-    ('SCC', 'Socios ASEM con cuota de socio'),
-    ('UCC', 'Usuarios con cuota de socio'),
-    ('UCS', 'Usuarios sin cuota de socio')
+ASEMUSER_TYPE = (
+    ('SACC', 'Socio ASEM con cuota de socio'),
+    ('UCC', 'Usuario con cuota de socio'),
+    ('USC', 'Usuario sin cuota de socio')
 )
 
 CORRESPONDENCE = (
@@ -65,12 +65,6 @@ CORRESPONDENCE = (
 HOUSING_TYPE = (
     ('VC', 'Vivienda compartida'),
     ('VP', 'Vivienda propia')
-)
-
-ASEMUSER_TYPE = (
-    ('SACC', 'Socio ASEM con cuota de socio'),
-    ('UCC', 'Usuario con cuota de socio'),
-    ('USC', 'Usuario sin cuota de socio')
 )
 
 
@@ -186,23 +180,28 @@ class ASEMUser(Person):
     member = models.CharField(
         max_length=20, choices=MEMBER, verbose_name='Socio')
     user_type = models.CharField(
-        max_length=20, choices=USER_TYPE, verbose_name='Tipo de usuario')
+        max_length=20, choices=ASEMUSER_TYPE, verbose_name='Tipo de usuario ASEM')
     correspondence = models.CharField(
         max_length=20, choices=CORRESPONDENCE, verbose_name='Tipo de correspondencia')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     family_unit_size = models.IntegerField(
-        verbose_name='Tamaño de la unidad familiar', validators=[MaxValueValidator(30)])
+        verbose_name='Tamaño de la unidad familiar', validators=[MinValueValidator(0), MaxValueValidator(30)])
     own_home = models.CharField(
         max_length=20, choices=HOUSING_TYPE, verbose_name='Tipo de vivienda')
     own_vehicle = models.BooleanField(
         default=False, verbose_name='¿Tiene vehículo propio?')
-    bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria', validators=[
-                                           RegexValidator(r'^[A-Z]{2}\d{22}$')])
-    user_type = models.CharField(max_length=20, choices=ASEMUSER_TYPE, verbose_name='Tipo de usuario ASEM')
-    user_type = models.CharField(
-        max_length=20, choices=ASEMUSER_TYPE, verbose_name='Tipo de usuario ASEM')
+    bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
+                                           validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
+                                                                      message='El número de cuenta no es válido.')])
 
+    class Meta:
+        ordering = ['surname','name']
+        verbose_name = 'Usuario de ASEM'
+        verbose_name_plural = 'Usuarios de ASEM'
+
+    def __str__(self):
+        return self.surname + ', ' + self.name
 
 class Volunteer(Person):
 
