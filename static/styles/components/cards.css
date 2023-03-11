@@ -3,7 +3,8 @@
   border-color: #535353;
 }
 
-.card-title, .card-text {
+.card-title,
+.card-text {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -15,17 +16,17 @@
   overflow: hidden;
 }
 
+.card-img-top {
+    object-fit: cover;
+  }
+
 .card-stock .card-img-top {
   height: 250px;
   transition: all 0.75s ease-in-out;
 }
 
 .card-stock .card-img-top:hover {
-  transform: scale(1.05);  
-}
-
-.card-img-top {
-  object-fit: cover;
+  transform: scale(1.05);
 }
 
 .card-stock .card-body {
@@ -36,7 +37,8 @@
   font-weight: bold;
 }
 
-.card-stock a, .card-stock p {
+.card-stock a,
+.card-stock p {
   color: black !important;
 }
 
