@@ -48,10 +48,6 @@ def user_list(request):
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-
-    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'usuario', 'title': title, 'objects_json': persons_json})
-
-    
     return render(request, 'users/list.html', {'objects': objects, 'object_name': 'usuario', 'title': title, 'objects_json': persons_json})
 
 def create_worker(request):
@@ -64,8 +60,6 @@ def create_worker(request):
 
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
-
-
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
 
