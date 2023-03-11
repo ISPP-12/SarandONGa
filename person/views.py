@@ -1,8 +1,7 @@
 from django.shortcuts import render
-from .models import ASEMUser,Worker
-from .forms import CreateNewASEMUser,CreateNewWorker
+from .models import ASEMUser, Worker, Child
+from .forms import CreateNewASEMUser, CreateNewWorker
 from django.contrib import messages
-
 
 
 def asem_user(request):
@@ -38,5 +37,10 @@ def create_worker(request):
 def workers_list(request):
     workers = Worker.objects.all()
     # object_json = json.dumps(workers)
-    return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
+    return render(request, 'workers.html', {"objects": workers, "object_name": "Trabajadores", "title": "Listado de trabajadores"})
 
+
+def children_list(request):
+    children = Child.objects.all()
+    # object_json = json.dumps(children)
+    return render(request, 'children_list.html', {"objects": children, "object_name": "Niños", "title": "Listado de niños"})
