@@ -1,14 +1,16 @@
 {% extends "layouts/master_sidebar.html" %}
 
-{% comment %} 
-ATTENTION FOR THE SCRIPT: you must include the divs with the id "data" and "object-name" in order to make the script work. The first one must contain the data in json format and the second one must contain the name of the object to be displayed in the preview text (e.g. "donación")
+{% comment %}
+ATTENTION FOR THE SCRIPT: you must include the divs with the id "data" and "object-name" in order to make the script
+work. The first one must contain the data in json format and the second one must contain the name of the object to be
+displayed in the preview text (e.g. "donación")
 {% endcomment %}
 
 {% load static %}
 
-{% block extrahead %} 
+{% block extrahead %}
 <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="{% static 'styles/donation.css' %}"> 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/donation.css' %}">
 {% endblock %}
 
 
@@ -19,17 +21,21 @@ ATTENTION FOR THE SCRIPT: you must include the divs with the id "data" and "obje
     <div class="d-flex flex-column">
       <span class="object-id d-none">{{ object.id }}</span>
       <span class="object-title">{{ object.title }}</span>
-      <span class="object-amount">{{ object.amount }} €</span>
-      <span class="object-date">{{ object.created_date }}</span>
+      <span class="object-amount">Importe: {{ object.amount }} €</span>
+      <span class="object-date">Fecha: {{ object.created_date }}</span>
     </div>
     <i class="bi bi-chevron-right" id="chevron"></i>
   </div>
 
   <div class="d-none d-flex flex-column" id="moreInfo">
-    <span class="object-description">{{ object.description }}</span>
+    <span class="object-description">Descripción: {{ object.description }}</span>
     <span class="object-donor_name">Realizada por: {{ object.donor_name }}
       {{object.donor_surname}}</span>
-    <span class="object-donor_email"><i>{{ object.donor_email }}</i></span>
+    <span class="object-donor_dni">DNI: {{ object.donor_dni }}</span>
+    <span class="object-donor_address">Dirección: {{ object.donor_address }}</span>
+    <span class="object-donor_email">Correo electrónico:<i>{{ object.donor_email }}</i></span>
+
+    
   </div>
 </div>
 {% endfor %}
