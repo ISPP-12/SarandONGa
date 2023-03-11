@@ -9,7 +9,7 @@
   scale: 0.95;
 }
 
-/* Example section */
+/* Example section
 
 .example-section .section-btn {
   background-color: var(--main-color);
@@ -19,22 +19,22 @@
   background-color: var(--main-color-hover);
 }
 
-/* override bootstrap */
+override bootstrap 
 .example-section .section-btn:active {
   background-color: var(--main-color-hover) !important;
 }
-
+*/
 
 .form-section .section-btn {
   background-color: var(--black-color);
   color: var(--white-color);
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 .form-section .section-btn:hover {
   background-color: var(--white-color);
   color: var(--black-color);
-  transition: all .2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 /* override bootstrap */
