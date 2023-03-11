@@ -1,8 +1,19 @@
 from django.shortcuts import render
-from .models import GodFather, ASEMUser, Worker
-from .forms import CreateNewASEMUser,CreateNewWorker
+
+from .forms import CreateNewGodFather, CreateNewASEMUser,CreateNewWorker
 from django.contrib import messages
-#import json
+from .models import GodFather, ASEMUser, Worker
+
+def godfather_create(request):
+    if request.method == "POST":
+        form = CreateNewGodFather(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewGodFather()
+    return render(request, 'godfather_form.html', {"form": form})
 
 def godfather_list(request):
 

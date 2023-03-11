@@ -24,6 +24,7 @@ from service import urls as service_urls
 from person import urls as person_urls
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
