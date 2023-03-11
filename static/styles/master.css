@@ -24,10 +24,6 @@ input {
   border-radius: 7px;
 }
 
-.inptlab {
-  min-width: 100em;
-}
-
 /* STOCK LIST VIEW */
 .border-stock-title {
   font-family: 'ABCWhite', sans-serif;

@@ -1,0 +1,8 @@
+{% block content %}
+Ingresar servicio
+<form method="post" action="/service/">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit", name="save">Añadir</button>
+</form>
+{% endblock %}
