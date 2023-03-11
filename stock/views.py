@@ -11,5 +11,5 @@ def stock_list(request):
         'objects_name' : 'Stock',
         'title': 'Lista de Stocks'
     }
-    return render(request, 'stock/stock_list.html', {"context":context })
+    return render(request, 'stock/list.html', {"context":context })
     

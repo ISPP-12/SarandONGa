@@ -26,7 +26,6 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/cards.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/card-list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
     {% block extrahead %} {% endblock %}
@@ -35,10 +34,10 @@
 </head>
 
 <body>
-    <div class="container h-100">
-        <h1 class="mb-5">{% block titulo %}{% endblock %}</h1>
 
-    <div class="container">
+    {% include "components/navbar.html" %}
+
+    <div class="container mt-5">
         {% block contenido %}{% endblock %}
     </div>
 
