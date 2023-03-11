@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import ASEMUser
 from django.contrib import messages
-
+from .models import Worker
 from .forms import CreateNewASEMUser,CreateNewWorker
 
 # Create your views here.
@@ -34,3 +34,8 @@ def create_worker(request):
 
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
+
+def workers_list(request):
+    workers = Worker.objects.all()
+    # object_json = json.dumps(workers)
+    return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
