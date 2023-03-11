@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import GodFather, ASEMUser, Worker
-from .forms import CreateNewASEMUser,CreateNewWorker
+from .models import GodFather, ASEMUser, Worker, Child
+from .forms import CreateNewASEMUser,CreateNewWorker, CreateNewChild
 from django.contrib import messages
 #import json
 
@@ -50,3 +50,13 @@ def workers_list(request):
     # object_json = json.dumps(workers)
     return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
 
+def create_child(request):
+    if request.method == "POST":
+        form = CreateNewChild(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, 'Formulario con errores')
+    else:
+        form = CreateNewChild()
+    return render(request, 'person/child/create_child.html', {"form": form})

@@ -1,5 +1,5 @@
 from django import forms
-from .models import ASEMUser, Worker
+from .models import ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENCE
 
 
 class CreateNewASEMUser(forms.ModelForm):
@@ -32,5 +32,11 @@ class CreateNewWorker(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+class CreateNewChild(forms.ModelForm):
+    sex = forms.ChoiceField(choices=SEX_TYPES, label="Género")
+    correspondence = forms.ChoiceField(choices=CORRESPONDENCE, label="Correspondencia")
 
-
+    class Meta:
+        model = Child
+        exclude = ['id']
