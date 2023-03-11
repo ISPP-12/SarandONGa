@@ -1,0 +1,7 @@
+{% load static %}
+
+{% block content %}
+{% for payment in context.objects %}
+<p>{{payment.amount}}</p>
+{% endfor %}
+{% endblock %}
