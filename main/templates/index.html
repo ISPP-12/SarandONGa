@@ -17,6 +17,7 @@
 		{% include "components/select.html" with id=1 label_text="Nombre" label_text="Nombre" options=options1 placeholder="Seleciona una opción"    %}
 		{% include "components/select.html" with id=3 label_text="Apellidos"  options=options2 placeholder="Seleciona 1..."    %}
 
+		{% include "components/card-display.html" with id='id-cardsDiv' class_card='card-stock' class_card_list='card-stock-list' %}
 		<div class="container">
 			<div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
 				{% include "components/card.html" with class_card='card-stock' item=stockTest %}
@@ -24,7 +25,6 @@
 				{% include "components/card.html" with class_card='card-stock' item=stockTest %}
 			</div>
 		</div>
-		{% include "components/card-display.html" %}
 
 
 		{% comment %} Example button {% endcomment %}
