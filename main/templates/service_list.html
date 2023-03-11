@@ -1,0 +1,12 @@
+{% load static %}
+
+{% block content %}
+PRUEBA
+{% for s in context.objects %}
+<p>TIPO DE SERVICIO: {{s.service_type}}</p>
+<p>FECHA: {{s.date}}</p>
+<p>ASISTENCIA: {{s.attendance}}</p>
+<p>ID USUARIO ASEM: {{s.asem_user_id}}</p>
+
+{% endfor %}
+{% endblock %}
