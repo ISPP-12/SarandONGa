@@ -30,12 +30,8 @@ urlpatterns = [
     path('payment/create', payment_views.create_payment, name="donationNew"),
     path('stock/list', stock_views.stock_list, name="stock_list"),
     path('person/', include(person_urls), name='persons'),
-    path('asem_user/', person_views.asem_user, name="asem_user"),
-    path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
     path('payment/list', payment_views.payment_list, name="payment_list"),
     path('donations/', include(donation_urls), name='donations'),
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
     path('service/list', service_views.service_list, name="service_list"),
-    path('worker/create', person_views.create_worker, name="worker"),
-
 ]
