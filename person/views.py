@@ -38,7 +38,7 @@ def asem_user_list(request):
 
 def user_list(request):
     objects = ASEMUser.objects.all().values()
-    title = "Gestion de Trabajadores"  
+    title = "Gestion de Trabajadores" 
     #depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -58,7 +58,6 @@ def create_worker(request):
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
   
-
 def workers_list(request):
     workers = Worker.objects.all()
     # object_json = json.dumps(workers)
