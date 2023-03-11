@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
+from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 
@@ -127,25 +128,36 @@ class Worker(AbstractBaseUser):
         return self.is_admin
 
 class GodFather(Person):
-    dni = models.CharField(max_length=9, unique=True, verbose_name='DNI')
-    payment_method = models.CharField(
-        max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
-    bank_account_number = models.CharField(
-        max_length=24, verbose_name='Número de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
-    bank_account_holder = models.CharField(
-        max_length=100, verbose_name='Titular de cuenta bancaria')
-    bank_account_reference = models.CharField(
-        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
-    amount = models.DecimalField(max_digits=10, decimal_places=2,
-                                 verbose_name='Cantidad', validators=[MinValueValidator(1)])
-    frequency = models.CharField(
-        max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
+    dni = models.CharField(max_length=9, unique=True,verbose_name='DNI')
+    payment_method = models.CharField(max_length=50, choices=PAYMENT_METHOD,verbose_name='Método de pago',)
+    bank_account_number = models.CharField(max_length=24,verbose_name='Número de cuenta bancaria', \
+        validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',message='El número de cuenta no es válido.')])
+    bank_account_holder = models.CharField(max_length=100,verbose_name='Titular de cuenta bancaria')
+    bank_account_reference = models.CharField(max_length=100,verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+    amount = models.DecimalField(max_digits=10, decimal_places=2,verbose_name='Cantidad',validators=[MinValueValidator(1)])
+    frequency = models.CharField(max_length=20, choices=FREQUENCY,verbose_name='Frecuencia de pago')
     seniority = models.DateField(verbose_name='Antigüedad')
-    notes = models.TextField(blank=True, verbose_name='Observaciones')
-    status = models.CharField(
-        max_length=20, choices=STATUS, verbose_name='Estado')
-    # T0D0
-    # Añadir relacion uno a muchos con entidad pago
+    notes = models.TextField(blank=True,verbose_name='Observaciones')
+    status = models.CharField(max_length=20, choices=STATUS,verbose_name='Estado')
+    slug = models.SlugField(max_length=200,unique=True, editable=False)
+    #T0D0
+    #Añadir relacion uno a muchos con entidad pago
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name + ' ' + self.surname)
+        super(GodFather, self).save(*args, **kwargs)
+        
+         
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Padrino'
+        verbose_name_plural = 'Padrinos'
+# Añadir relacion uno a muchos con entidad pago
+ 
+#class WorkerProfile(models.Model):
+    #Person = models.OneToOneField(Person, on_delete=models.CASCADE)
+    #ONG = models.OneToOneField(ONG, on_delete=models.CASCADE) #ONG en la que trabaja
+    #active = models.BooleanField(default=True) #¿Sigue trabajando en la ONG?
+
 
 class ASEMUser(Person):
 
@@ -179,3 +191,4 @@ class Volunteer(Person):
 
     # Fecha de inicio del contrato
     contract_date = models.DateField(verbose_name="Fecha de inicio del contrato")
+
