@@ -248,3 +248,8 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
+
+    class Meta:
+        ordering = ['name']
+        verbose_name = 'Niño'
+        verbose_name_plural = 'Niños'
