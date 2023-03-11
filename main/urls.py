@@ -1,7 +1,8 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+import donation.urls as donation_urls
 
 urlpatterns = [
     path('', views.index, name='home'),
-    path('workers/',views.workers_list, name='workers_list')
+    path('donations/', include(donation_urls), name='donations'),
 ]

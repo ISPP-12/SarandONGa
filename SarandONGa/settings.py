@@ -40,7 +40,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
+    'person',
+    'donation',
+    'subsidy',
+    'stock',
+    'beneficiary',
+    'payment',
+    
 ]
+
+AUTH_USER_MODEL = 'person.Worker'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,7 +91,7 @@ DATABASES = {
         "NAME": "sarandongadb",
         "USER": "sarandonga-user",
         "PASSWORD": "sarandonga-password",
-        "HOST": "localhost",
+        "HOST": "127.0.0.1",
         "PORT": "3307",
     }
 }
@@ -122,7 +131,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),

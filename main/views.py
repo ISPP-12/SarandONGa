@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
+
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
-
-
-def workers_list(request):
-    return render(request,'workers/list.html',{"workers":[{"name":"Ramiro","surnames":"Pérez Reverte","image":"img\someone.png"},{"name":"Ramiro","surnames":"Pérez Reverte","image":"img\someone.png"},{"name":"Ramiro","surnames":"Pérez Reverte","image":"img\someone.png"}]})
+    context = {
+    'options1': {'1':'1','2':'2','3':'3','4':'4'},
+    'options2': {'4':'5','9':'8'},}
+    return render(request, 'index.html' ,context)

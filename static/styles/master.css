@@ -1,31 +1,26 @@
 body {
-    font-family: 'Maven Pro', sans-serif;
+  font-family: "Maven Pro", sans-serif;
 }
 
-.workers-colour{
-    background-color: #C4D5E7;
+label {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+input {
+  border: 1.4px solid #3e3e3e;
+  border-radius: 7px;
+}
+
+.border-class {
+  border: 1.4px solid #3e3e3e;
+  border-radius: 7px;
 }
 
 
-
-
-
-.card-img-left {
-    border-radius: 7px;
-    background-position: left top;
-    object-fit: cover;
-    width: 67px;
-    height: 67px;
-    
-   
-  }
-
-a{
-color: #000000;
+.inptlab {
+  min-width: 100em;
 }
 
-.title-workers{
-    border-bottom: 0.5rem solid  #C4D5E7;
-    
-}
 

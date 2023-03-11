@@ -1,0 +1,64 @@
+name: SarandONGa main workflow
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - feature/**
+      - fix/**
+      - hotfix/**
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: "sarandongadb"
+          MYSQL_USER: "sarandonga-user"
+          MYSQL_PASSWORD: "sarandonga-password"
+          MYSQL_ROOT_PASSWORD: password
+        ports:
+          - 3307:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Verify and configure MySQL connection
+        run: |
+          mysql --version
+          mysql --host 127.0.0.1 --port 3307 -uroot -ppassword -e "SHOW DATABASES"
+          mysql --host 127.0.0.1 --port 3307 -uroot -ppassword -e "GRANT ALL ON *.* TO 'sarandonga-user'@'%' identified by 'sarandonga-password'; FLUSH PRIVILEGES;"
+      - name: Set up Python 3.10.5
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.5
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install codacy-coverage
+          sudo apt-get install chromium-browser chromium-chromedriver
+      - name: Make Migrations and Migrate
+        run: |
+          python ./manage.py makemigrations
+          python ./manage.py migrate
+      - name: Run Tests
+        run: |
+          coverage run --branch --source=. ./manage.py test  --keepdb
+          coverage xml
+      - name: Codacy Coverage Reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_TOKEN }}
+          coverage-reports: ./coverage.xml
