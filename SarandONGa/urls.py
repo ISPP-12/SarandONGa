@@ -21,7 +21,6 @@ from stock import views as stock_views
 from person import views as person_views
 from donation import urls as donation_urls
 from person import urls as person_urls
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
