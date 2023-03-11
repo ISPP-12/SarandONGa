@@ -7,4 +7,5 @@ urlpatterns = [
     path('asem_user/', views.asem_user, name="asem_user"),
     path('asem/asem_user_list', views.asem_user_list, name="asem_user_list"),
     path('godfather/list', views.godfather_list, name="godfather_list"),
+    path('godfather/create', views.godfather_create, name="subsidy"),
 ]

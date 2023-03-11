@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils import timezone
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
+
 
 SEX_TYPES = (
     ('F', 'Femenino'),
@@ -144,7 +146,6 @@ class Worker(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
-
 class GodFather(Person):
     dni = models.CharField(max_length=9, unique=True, verbose_name='DNI')
     payment_method = models.CharField(
@@ -165,8 +166,7 @@ class GodFather(Person):
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
-    # T0D0
-    # Añadir relacion uno a muchos con entidad pago
+    
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surname)
@@ -176,12 +176,10 @@ class GodFather(Person):
         ordering = ['name']
         verbose_name = 'Padrino'
         verbose_name_plural = 'Padrinos'
-# Añadir relacion uno a muchos con entidad pago
+        
+        
 
-# class WorkerProfile(models.Model):
-    # Person = models.OneToOneField(Person, on_delete=models.CASCADE)
-    # ONG = models.OneToOneField(ONG, on_delete=models.CASCADE) #ONG en la que trabaja
-    # active = models.BooleanField(default=True) #¿Sigue trabajando en la ONG?
+
 
 class ASEMUser(Person):
 
@@ -203,6 +201,7 @@ class ASEMUser(Person):
         default=False, verbose_name='¿Tiene vehículo propio?')
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria', validators=[
                                            RegexValidator(r'^[A-Z]{2}\d{22}$')])
+    user_type = models.CharField(max_length=20, choices=ASEMUSER_TYPE, verbose_name='Tipo de usuario ASEM')
     user_type = models.CharField(
         max_length=20, choices=ASEMUSER_TYPE, verbose_name='Tipo de usuario ASEM')
 
@@ -247,6 +246,7 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
+        
 
     class Meta:
         ordering = ['name']

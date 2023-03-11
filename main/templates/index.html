@@ -9,8 +9,8 @@
 		<h5>Esto es un ejemplo de input y label</h5>
 
 		
-		{% include "components/inputs.html" with id=1 label_text="Nombre" placeholder="Escribe algo..."  type=text  %}
-		{% include "components/inputs.html" with id=1 label_text="Apellidos" placeholder="Escribe tu apellido..."  type=text  %}
+		{% include "components/inputs.html" with id=1 label_text='Nombre' placeholder='Escribe algo...'  type='text'  %}
+	  {% include "components/inputs.html" with id=1 label_text='Apellidos' placeholder='Escribe tu apellido...'  type='text'  %}
 
 
 		
@@ -26,25 +26,24 @@
 			</div>
 		</div>
 
+	{% comment %} Example button {% endcomment %}
+	<p>Ejemplo de botón dentro de una sección</p>
+	<div class="example-section">
+		{% include 'components/button.html' with text="Hola" onclick="alert('hola')"%}
+	</div>
+	<p>Ejemplos de las variantes de los botones</p>
+	{% include 'components/button.html' with text="Añadir" variation="PLUS" %}
+	{% include 'components/button.html' with text="PDF" variation="PDF" %}
+	{% include 'components/button.html' with text="EXCEL" variation="EXCEL" %}
+	{% include 'components/button.html' with text="Enviar" variation="SUBMIT" %}
+	{% include 'components/button.html' with text="Descargar" variation="DOWNLOAD" %}
 
-		{% comment %} Example button {% endcomment %}
-		<p>Ejemplo de botón dentro de una sección</p>
-		<div class="example-section">
-			{% include 'components/button.html' with text="Hola" onclick="alert('hola')"%}
-		</div>
-		<p>Ejemplos de las variantes de los botones</p>
-		{% include 'components/button.html' with text="Añadir" variation="PLUS" %}
-		{% include 'components/button.html' with text="PDF" variation="PDF" %}
-		{% include 'components/button.html' with text="EXCEL" variation="EXCEL" %}
-		{% include 'components/button.html' with text="Enviar" variation="SUBMIT" %}
-		{% include 'components/button.html' with text="Descargar" variation="DOWNLOAD" %}
+	{% comment %} Example cardlist {% endcomment %}
 
-		{% comment %} Example cardlist {% endcomment %}
+	{% include 'components/card-list.html' with object_name="person" profilePic="https://this-person-does-not-exist.com/gen/avatar-117af80ee0a09a08091c16faa044c981.jpg" name="Adela" surnames="Perez"%}
 
-		{% include 'components/card-list.html' with object_name="person" profilePic="https://this-person-does-not-exist.com/gen/avatar-117af80ee0a09a08091c16faa044c981.jpg" name="Adela" surnames="Perez"%}
+	{% include 'components/card-list.html' with object_name="person" name="Adela" surnames="Perez"%}
 
-		{% include 'components/card-list.html' with object_name="person" name="Adela" surnames="Perez"%}
-
-		{% include 'components/card-list.html' with object_name="otro" amount="300" name="Adela" surnames="Perez"%}
+	{% include 'components/card-list.html' with object_name="otro" amount="300" name="Adela" surnames="Perez"%}
 
 {% endblock %}
