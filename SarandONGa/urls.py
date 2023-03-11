@@ -32,6 +32,7 @@ urlpatterns = [
     path('subsidy/create',subsidy_views.subsidy, name="subsidyNew"),
     path('payment/create', payment_views.create_payment, name="donationNew"),
     path('stock/list', stock_views.stock_list, name="stock_list"),
+    path('stock/register', stock_views.stock_register, name="stock_register"),
     path('person/', include(person_urls), name='persons'),
     path('payment/list', payment_views.payment_list, name="payment_list"),
     path('donations/', include(donation_urls), name='donations'),
