@@ -3,8 +3,10 @@ from .models import ASEMUser
 import json
 from datetime import datetime
 from decimal import Decimal
+from django.contrib import messages
 
-from .forms import CreateNewASEMUser
+
+from .forms import CreateNewASEMUser,CreateNewWorker
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -34,6 +36,7 @@ def asem_user_list(request):
     return render(request, 'asem_user_list.html', {"objects": objects, "objects_name": object_name, "title": title})
 
 
+
 def user_list(request):
     objects = ASEMUser.objects.all().values()
     title = "Gestion de Trabajadores"  
@@ -43,4 +46,20 @@ def user_list(request):
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
+
     return render(request, 'users/list.html', {'objects': objects, 'object_name': 'usuario', 'title': title, 'objects_json': persons_json})
+
+    
+    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'usuario', 'title': title, 'objects_json': persons_json})
+
+def create_worker(request):
+    if request.method == "POST":
+        form = CreateNewWorker(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewWorker()
+    return render(request, 'worker/worker_form.html', {"form": form})
+
