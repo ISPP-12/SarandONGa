@@ -20,6 +20,7 @@ from payment import views as payment_views
 from stock import views as stock_views
 from service import views as service_views
 from donation import urls as donation_urls
+from service import urls as service_urls
 from person import urls as person_urls
 
 
@@ -33,5 +34,8 @@ urlpatterns = [
     path('payment/list', payment_views.payment_list, name="payment_list"),
     path('donations/', include(donation_urls), name='donations'),
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
+    path('service/', include(service_urls),name="service"),
+    path('worker/create', include(person_urls), name="worker"),
     path('service/list', service_views.service_list, name="service_list"),
+
 ]
