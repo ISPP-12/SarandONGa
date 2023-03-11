@@ -12,7 +12,7 @@
 <div class="row h-100 mb-4">
     <div class="col-12">
         <div id="id-menuDiv" class="row justify-content-between">
-            {% include "components/card-display.html" with id="id-menuDiv" class_card="card-stock" class_card_list="card-stock-list" %}
+            {% include "components/card-display.html" with id="id-cardsDiv" class_card="card-stock" class_card_list="card-stock-list" %}
 
             <div class="col-md-6 col-8 mb-md-0 mb-3">
                 <div class="input-group rounded border-dark w-100">
@@ -37,7 +37,9 @@
         <div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
 
             {% for product in context.objects %}
-                {% include "components/card.html" with id="id-productDiv-{{forloop.counter}}" class_card="card-stock" item=product  %}
+                {% with id_counter=forloop.counter|stringformat:"s" %}
+                    {% include "components/card.html" with id="id-productDiv-"|add:id_counter class_card="card-stock" item=product  %}
+                {% endwith %}
             {% endfor %}
 
         </div>
