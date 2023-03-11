@@ -30,14 +30,14 @@ input {
 
 /* STOCK LIST VIEW */
 .border-stock-title {
-  font-family: 'ABCWhite';
-  border-bottom: solid 7px #F1D746;
+  font-family: 'ABCWhite', sans-serif;
+  border-bottom: solid 7px #f1d746;
 }
 
 .btn-more-stock button,
 .btn-more-stock button:hover,
 .btn-more-stock button:active {
-  background-color: #F1D746 !important;
+  background-color: #f1d746 !important;
 }
 
 @media (max-width: 767px) {
