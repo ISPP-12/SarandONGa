@@ -7,7 +7,6 @@ from person.models import Person
 class Child(Person):
 
     # Clave primaria
-    id = models.AutoField(primary_key=True)
     sponsorship_date = models.DateTimeField(
         default=timezone.now, verbose_name="Fecha de apadrinamiento")
     terminatio_date = models.DateTimeField(
