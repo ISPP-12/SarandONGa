@@ -17,16 +17,12 @@
 }
 
 .card-img-top {
-    object-fit: cover;
-  }
+  object-fit: cover;
+}
 
 .card-stock .card-img-top {
   height: 250px;
   transition: all 0.75s ease-in-out;
-}
-
-.card-stock .card-img-top:hover {
-  transform: scale(1.05);
 }
 
 .card-stock .card-body {
@@ -62,4 +58,9 @@
 .card-stock-list .card-title,
 .card-stock-list .card-text {
   text-align: start;
+}
+
+/* ANIMATION FOR CARD-STOCK (CODACY IS STUPID) */
+.card-stock .card-img-top:hover {
+  transform: scale(1.05);
 }
