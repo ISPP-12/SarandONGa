@@ -1,21 +1,21 @@
 nav a {
-    color: black !important;
+  color: black !important;
 }
 
 .navbar-brand {
-    font-family: 'ABCWhite', sans-serif;
+  font-family: 'ABCWhite', sans-serif;
 }
 
 .active {
-    font-weight: bold;
-    text-decoration: underline;
+  font-weight: bold;
+  text-decoration: underline;
 }
 
 .dropdown-toggle::after {
-    content: "\25BC";
-    display: inline-block;
-    margin-left: .255em;
-    vertical-align: 0;
-    border: 0;
-    font-weight: bold;
+  content: "\25BC";
+  display: inline-block;
+  margin-left: 0.255em;
+  vertical-align: 0;
+  border: 0;
+  font-weight: bold;
 }
