@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render
 from .forms import CreateNewService
 from .models import Service
 
