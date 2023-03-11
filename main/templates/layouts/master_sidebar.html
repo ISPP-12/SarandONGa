@@ -1,4 +1,15 @@
 {% extends 'layouts/master.html' %}
+{% comment %} 
+ATTRIBUTES:
+- object_name: name of the object to be displayed in the preview text (e.g. "donación")
+- title: title of the page (e.g. "Gestión de donaciones")
+- text: text of the button (e.g. "Añadir donación")
+
+PS: the text inside the button is displayed exactly as it is written. You can either write the text directly or use the "add" filter to concatenate strings (e.g. "Añadir "|add:object_name|safe)
+
+{% endcomment %}
+
+
 
 {% block contenido %}
 <div class="p-4">
@@ -28,7 +39,7 @@
               </div>
             </div>
             <div class="col-md-3 col-12 mb-md-0 mb-3 d-flex">
-              {% include 'components/button.html' with variation='PLUS' text='Añadir' %}
+              {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}
             </div>
           </div>
         </div>
