@@ -134,3 +134,32 @@ class ASEMUser(Person):
     # Person = models.OneToOneField(Person, on_delete=models.CASCADE)
     # ONG = models.OneToOneField(ONG, on_delete=models.CASCADE) #ONG en la que trabaja
     # active = models.BooleanField(default=True) #¿Sigue trabajando en la ONG?
+
+
+class Child(Person):
+    sponsorship_date = models.DateTimeField(
+        default=timezone.now, verbose_name="Fecha de apadrinamiento")
+    terminatio_date = models.DateTimeField(
+        default=timezone.now, verbose_name="Fecha de baja")
+    study = models.CharField(
+        max_length=200, verbose_name="Estudio", default='Apadrinamiento en curso')
+    expected_mission_time = models.CharField(
+        max_length=200, verbose_name="Tiempo previsto de mision", default='1 mes')
+    mission_house = models.CharField(
+        max_length=200, verbose_name="Casa de la mision", default='Casa')
+    site = models.CharField(
+        max_length=200, verbose_name="Sede", default='Sevilla, España')
+    subsite = models.CharField(
+        max_length=200, verbose_name="Subsede", default='Sevilla, España')
+    father_name = models.CharField(
+        max_length=200, verbose_name="Nombre del padre", default='Padre')
+    father_profession = models.CharField(
+        max_length=200, verbose_name="Profesion del padre", default='Trabajo')
+    mother_name = models.CharField(
+        max_length=200, verbose_name="Nombre de la madre", default='Madre')
+    mother_profession = models.CharField(
+        max_length=200, verbose_name="Profesion de la madre", default='Trabajo')
+    number_brothers_siblings = models.IntegerField(
+        verbose_name="Número de hermanos", default=0)
+    correspondence = models.CharField(
+        max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
