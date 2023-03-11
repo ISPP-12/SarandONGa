@@ -7,7 +7,7 @@
 {% block objectFor %}
 {% for object in objects %}
 <div class="object border border-dark w-100 rounded p-2 mb-2">
-  <div class="d-flex flex-row justify-content-between align-items-center">
+  {% comment %} <div class="d-flex flex-row justify-content-between align-items-center">
     <div class="d-flex flex-column">
       <span class="object-id d-none">{{ object.id }}</span>
       <span class="object-name">{{ object.name }}</span>
@@ -15,7 +15,9 @@
       <span class="object-date">{{ object.date }}</span>
     </div>
     <i class="bi bi-chevron-right" id="chevron"></i>
-  </div>
+  </div> {% endcomment %}
+
+  {% include 'components/card-list.html' with object_name="{{object.name}}" amount="{{object.amount}}"%}
 
   <div class="d-none d-flex flex-column" id="moreInfo">
     <span class="object-name">{{ object.name }}</span>

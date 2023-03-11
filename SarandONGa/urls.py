@@ -28,7 +28,6 @@ urlpatterns = [
     path('', include('main.urls')),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
     path('payment/create', payment_views.create_payment, name="donationNew"),
-    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
     path('stock/list', stock_views.stock_list, name="stock_list"),
     path('person/', include(person_urls), name='persons'),
     path('asem_user/', person_views.asem_user, name="asem_user"),
