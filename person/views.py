@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from .models import ASEMUser
-from .forms import CreateNewASEMUser
+from .models import ASEMUser,Worker
+from .forms import CreateNewASEMUser,CreateNewWorker
 from django.contrib import messages
 from .forms import CreateNewASEMUser,CreateNewWorker
+
 
 def asem_user(request):
     if request.method == "POST":
@@ -32,4 +33,10 @@ def create_worker(request):
 
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
+
+
+def workers_list(request):
+    workers = Worker.objects.all()
+    # object_json = json.dumps(workers)
+    return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
 
