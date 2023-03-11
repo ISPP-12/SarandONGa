@@ -10,3 +10,5 @@ def service(request):
 
     form = CreateNewService()
     return render(request, 'service/service_form.html', {"form": form})
+
+
