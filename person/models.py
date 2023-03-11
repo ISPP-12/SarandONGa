@@ -164,6 +164,8 @@ class GodFather(Person):
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
+    
+    
     # T0D0        
     # Añadir relacion uno a muchos con entidad pago
 
