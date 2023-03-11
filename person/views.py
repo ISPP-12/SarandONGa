@@ -57,5 +57,3 @@ def workers_list(request):
     workers = Worker.objects.all()
     # object_json = json.dumps(workers)
     return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
-
-
