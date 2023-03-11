@@ -57,7 +57,7 @@ objectList.forEach(object => {
       // this is the html that will be shown in the preview
       let html = ''
       for (let key in config) {
-        if (objectData.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(objectData, key)) {
           if (key == 'title')
             html += `<h3>${config[key]}: ${objectData[key]}</h3>`
           else if (key == 'description')
