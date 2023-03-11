@@ -7,9 +7,6 @@ from django.contrib import messages
 from .models import Worker
 from .forms import CreateNewASEMUser,CreateNewWorker
 
-
-from .forms import CreateNewASEMUser,CreateNewWorker
-
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
@@ -60,8 +57,7 @@ def create_worker(request):
 
     form = CreateNewWorker()
     return render(request, 'worker/worker_form.html', {"form": form})
-    form = CreateNewWorker()
-    return render(request, 'worker/worker_form.html', {"form": form})
+  
 
 def workers_list(request):
     workers = Worker.objects.all()
