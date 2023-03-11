@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     'donation',
     'subsidy',
     'stock',
-    'child',
-    'volunteer',
+    'service',
+    'payment',
 ]
+
+AUTH_USER_MODEL = 'person.Worker'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
