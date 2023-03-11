@@ -12,6 +12,6 @@ def stock_list(request):
         'title': 'Lista de Stocks'
     }
     return render(request, 'stock/list.html', {"context":context })
-    
+
 def stock_register(request):
     return render(request, 'stock/register.html')
