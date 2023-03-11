@@ -143,7 +143,7 @@ class GodFather(Person):
     #T0D0
     #Añadir relacion uno a muchos con entidad pago
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name + ' ' + self.surnames)
+        self.slug = slugify(self.name + ' ' + self.surname)
         super(GodFather, self).save(*args, **kwargs)
         
          
