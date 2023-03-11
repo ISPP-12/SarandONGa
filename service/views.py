@@ -9,3 +9,4 @@ def service_list(request):
         'title': 'Gestión de servicios'
     }
     return render(request, 'service_list.html', {"context":context})
+
