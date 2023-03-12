@@ -59,7 +59,18 @@
         <div class="row ">
           <div class="col-12 ">
             <div class=" row justify-content-center pb-5">
-              <img class="profile-img-big rounded " src= ${objectData.photo}  />
+              {%if object_name == "Usuario" or object_name == "Niño" or object_name == "Padrino" or object_name == "Trabajador" or object_name == "Voluntario"%} {% if object.photo %}
+
+                <img class="profile-img-big rounded" src=" {{object.photo}} " />
+                {% else %}
+
+                <img class="profile-img-big rounded" src={% static 'img/person-icon.svg' %} />
+
+                {% endif %} {% else %}
+
+                <img class="profile-img-big  rounded" src={% static 'img/others-icon.svg' %} />
+
+                {%endif%}
             </div>
             <h2>${objectData.name  + " " + objectData.surname}</h2>
             <h5>{{object_names}}</h5>

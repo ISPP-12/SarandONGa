@@ -6,7 +6,7 @@
 
     <div class="row col-8">
       <div class="w-auto">
-        {%if object_name == "usuario"%} {% if object.photo %}
+        {%if object_name == "Usuario" or object_name == "Niño" or object_name == "Padrino" or object_name == "Trabajador" or object_name == "Voluntario"%} {% if object.photo %}
 
         <img class="profile-img rounded" src=" {{object.photo}} " />
         {% else %}
@@ -24,7 +24,7 @@
         <h4>{{name}} {{surnames}}</h4>
         
         
-        <span>{%if object_name == "usuario"%}{{object_name}}{% else %}{{amount}} €{%endif%}</span>
+        <span>{%if object_name == "Donación" or object_name == "Subvención" %}{{amount}}€{% else %} {{object_name}}{%endif%}</span>
         
         
       </div>

@@ -9,18 +9,20 @@
 
     <h1 class="mx-5 my-5">Añadir suministro</h1>
 
-    <form >
+    <form method="post">
+    {% csrf_token %}
+
 
             
         <div class="row justify-content-between mx-4 ">
             <div class="col-12 col-sm-4  mx-2 ">
                 <div class="row pt-1">
                     
-                    {% include "components/inputs.html" with id=1 label_text="Nombre" placeholder="Nombre del suministro"  type="text"  %}
+                    {% include "components/inputs.html" with nameIn="name" id=1 label_text="Nombre" placeholder="Nombre del suministro"  type="text"  %}
                 </div>
                 <div class="row pt-4 mb-4">
                     
-                    {% include "components/inputs.html" with id=1 label_text="Unidades" placeholder="Número de unidades"  type="number"  %}
+                    {% include "components/inputs.html" with nameIn="quantity" id=1 label_text="Unidades" placeholder="Número de unidades"  type="number"  %}
 
                 </div>
             </div>
@@ -38,7 +40,7 @@
 
                      
 
-                            {% include "components/inputs.html" with id="file-up"   type="file"  %}
+                            {% include "components/inputs.html" with id="file-up" nameIn="file"  type="file"  %}
                         </div>
 
                         
@@ -48,7 +50,7 @@
             </div>
         </div>
         <div class="form-section mt-5 mx-5 text-center ">  
-
+            
             {% include 'components/button.html' with text="Registrar artículo" variation="SUBMIT" %}
             
         </div> 

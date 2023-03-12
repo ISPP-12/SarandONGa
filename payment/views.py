@@ -4,7 +4,7 @@ from .models import Payment
 from django.contrib import messages
 #import json
 
-def create_payment(request):
+def payment_create(request):
     if request.method == 'POST':
         form = create_payment_form(request.POST)
         if form.is_valid():

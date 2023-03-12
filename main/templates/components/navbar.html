@@ -3,7 +3,7 @@
 
 <nav class="navbar navbar-expand-md border-bottom border-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">SARANDONGA</a>
+        <a class="navbar-brand" href="/">SARANDONGA</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -20,18 +20,21 @@
                   Usuarios
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Voluntarios</a></li>
-                  <li><a class="dropdown-item" href="#">Usuarios ASEM</a></li>
-                  <li><a class="dropdown-item" href="#">Niños</a></li>
-                  <li><a class="dropdown-item" href="#">Padrinos</a></li>
+                  <li><a class="dropdown-item" href="/user/volunteer/list">Voluntarios</a></li>
+                  <li><a class="dropdown-item" href="/user/asem/list">Usuarios ASEM</a></li>
+                  <li><a class="dropdown-item" href="/user/child/list">Niños</a></li>
+                  <li><a class="dropdown-item" href="/user/godfather/list">Padrinos</a></li>
+                  <li><a class="dropdown-item" href="/user/worker/list">Trabajadores</a></li>
+
                 </ul>
               </li>
             <li class="nav-item">
-                <a class="nav-link {% if 'donations' in request.path %}active{% endif %}">Donaciones</a>
+                <a class="nav-link {% if 'donations' in request.path %}active{% endif %}"  href="/donation/list">Donaciones</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if 'subsidy' in request.path %}active{% endif %}">Subvenciones</a>
+                <a class="nav-link {% if 'subsidy' in request.path %}active{% endif %}"  href="/subsidy/list">Subvenciones</a>
             </li>
+            
         </ul>
         </div>
     </div>
