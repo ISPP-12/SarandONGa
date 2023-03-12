@@ -1,3 +1,9 @@
 body {
   font-family: "Inter", sans-serif;
 }
+
+@font-face {
+  font-family: "ABCWhite";
+  src: url("/static/typographies/ABCWhyte-Black-Trial.otf");
+  font-weight: bold;
+}
