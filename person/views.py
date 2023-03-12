@@ -43,4 +43,4 @@ def workers_list(request):
 def volunteers_list(request):
     volunteers = Volunteer.objects.all().values()
     # object_json = json.dumps(volunteers)
-    return render(request, 'workers.html', {"objects": volunteers,"object_name": "Voluntarios", "title": "Listado de Voluntarios"})
+    return render(request, 'volunteers.html', {"objects": volunteers,"object_name": "Voluntarios", "title": "Listado de Voluntarios"})
