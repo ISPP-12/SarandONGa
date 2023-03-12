@@ -9,8 +9,8 @@
 
     <h1 class="mx-5 my-5">Añadir suministro</h1>
 
-    <form >
-
+    <form action="/stock/register" method="post">
+        {% csrf_token %}
             
         <div class="row justify-content-between mx-4 ">
             <div class="col-12 col-sm-4  mx-2 ">
