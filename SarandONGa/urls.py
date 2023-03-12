@@ -41,4 +41,5 @@ urlpatterns = [
     path('worker/create', include(person_urls), name="worker"),
     path('service/list', service_views.service_list, name="service_list"),
 
+
 ]
