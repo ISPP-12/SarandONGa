@@ -1,6 +1,6 @@
 import datetime
 from django import forms
-from .models import GodFather, ASEMUser, Worker
+from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENCE
 
 class CreateNewGodFather(forms.ModelForm):
     class Meta:
@@ -14,7 +14,6 @@ class CreateNewGodFather(forms.ModelForm):
             'seniority': forms.DateInput(attrs={'class': 'form-control', 'value': datetime.date.today}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01"}),
         }
-
 
 class CreateNewASEMUser(forms.ModelForm):
     class Meta:
@@ -48,5 +47,10 @@ class CreateNewWorker(forms.ModelForm):
             user.save()
         return user
 
+class CreateNewChild(forms.ModelForm):
+    sex = forms.ChoiceField(choices=SEX_TYPES, label="Género")
+    correspondence = forms.ChoiceField(choices=CORRESPONDENCE, label="Correspondencia")
 
-
+    class Meta:
+        model = Child
+        exclude = ['id']

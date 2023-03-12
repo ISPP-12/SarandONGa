@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
-from .forms import CreateNewGodFather, CreateNewASEMUser,CreateNewWorker
 from django.contrib import messages
 from .models import GodFather, ASEMUser, Worker
+from .forms import CreateNewGodFather, CreateNewASEMUser,CreateNewWorker, CreateNewChild
 
 def godfather_create(request):
     if request.method == "POST":
@@ -61,3 +61,13 @@ def workers_list(request):
     # object_json = json.dumps(workers)
     return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
 
+def create_child(request):
+    if request.method == "POST":
+        form = CreateNewChild(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, 'Formulario con errores')
+    else:
+        form = CreateNewChild()
+    return render(request, 'person/child/create_child.html', {"form": form})
