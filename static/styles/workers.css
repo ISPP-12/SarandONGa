@@ -1,0 +1,25 @@
+:root {
+  --workers-main-color: #c4e8ce;
+  --workers-main-color-hover: #cfeed8;
+  --workers-main-color-light: #d5e8da;
+}
+
+.title {
+  text-decoration-color: var(--workers-main-color);
+}
+
+.bg-card-list {
+  background-color: var(--workers-main-color);
+}
+
+.bg-card-list:hover {
+  background-color: var(--workers-main-color-hover);
+}
+
+.card-list:hover {
+  background-color: var(--workers-main-color-light);
+}
+
+.selected {
+  background-color: var(--workers-main-color-light);
+}

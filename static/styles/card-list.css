@@ -3,6 +3,11 @@
   height: 60px;
 }
 
+.profile-img-big {
+  width: 200px;
+  height: 200px;
+}
+
 .card-list {
   border: 1px solid #fff;
 }
