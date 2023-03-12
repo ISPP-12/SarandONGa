@@ -13,7 +13,7 @@ def create_payment(request):
             messages.error(request, 'El formulario presenta errores')
     else:
         form = create_payment_form()
-    return render(request, 'payment/create_donation.html', {'form': form})
+    return render(request, 'payment/payment_form.html', {'form': form})
 
 
 

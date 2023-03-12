@@ -1,0 +1,20 @@
+{% extends 'layouts/master.html' %} {% block titulo %} Añadir pago {% endblock %} 
+{% block contenido %}
+<h1 class="mx-5 my-5">Añadir pago</h1>
+<form method="post" class="" action="/payment/create">
+  {% csrf_token %}
+    <div class="row my-4 mx-5">
+      <div class="col">
+      {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" placeholder="Escribe cantidad" type="number" %} 
+      {{ form.amount.errors }}
+      </div>
+      <div class="col">
+      {% include "components/inputs.html" with id=form.payday.id_for_label label_text="Fecha" placeholder="Escribe la fecha del pago" type="date" %}
+      {{ form.payday.errors }}
+      </div>
+    </div>
+    <div class="form-section mt-5 mx-5 text-center">
+      {% include 'components/button.html' with text="Añadir pago" variation="SUBMIT" %}
+    </div>
+</form>
+{% endblock %}
