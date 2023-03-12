@@ -24,9 +24,30 @@ input {
   border-radius: 7px;
 }
 
+/* STOCK LIST VIEW */
+.border-stock-title {
+  font-family: 'ABCWhite', sans-serif;
+  border-bottom: solid 7px #f1d746;
+}
+
+.btn-more-stock button,
+.btn-more-stock button:hover,
+.btn-more-stock button:active {
+  background-color: #f1d746 !important;
+}
+
+@media (max-width: 767px) {
+  .btn-more-stock button,
+  .btn-more-stock button:hover,
+  .btn-more-stock button:active {
+    width: 100%;
+  }
+}
+
 .title {
   font-size: 2.5em;
   font-weight: bold;
   text-decoration: underline black solid 0.2em;
   color: #000;
+
 }
