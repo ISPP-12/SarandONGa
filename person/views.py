@@ -3,10 +3,8 @@ import json
 from datetime import datetime
 from decimal import Decimal
 from django.contrib import messages
-from .models import GodFather, ASEMUser, Worker
+from .models import GodFather, ASEMUser, Worker, Volunteer
 from .forms import CreateNewGodFather, CreateNewASEMUser,CreateNewWorker, CreateNewChild
-
-
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -95,4 +93,8 @@ def create_child(request):
     else:
         form = CreateNewChild()
     return render(request, 'person/child/create_child.html', {"form": form})
-
+    
+def volunteers_list(request):
+    volunteers = Volunteer.objects.all().values()
+    # object_json = json.dumps(volunteers)
+    return render(request, 'volunteers.html', {"objects": volunteers,"object_name": "Voluntarios", "title": "Listado de Voluntarios"})
