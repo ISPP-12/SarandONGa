@@ -42,6 +42,7 @@ input {
   .btn-more-stock button:active {
     width: 100%;
   }
+}
 
 .title {
   font-size: 2.5em;
