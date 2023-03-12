@@ -1,4 +1,3 @@
-from django.utils import timezone
 from django import forms
 
 class CreateNewStock(forms.Form):

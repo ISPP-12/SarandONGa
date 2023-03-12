@@ -21,7 +21,6 @@ from stock import views as stock_views
 from service import views as service_views
 from donation import urls as donation_urls
 from payment import views as payment_views
-from stock import views as stock_views
 from service import urls as service_urls
 from person import urls as person_urls
 from person import views as person_views
