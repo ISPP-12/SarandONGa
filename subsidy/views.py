@@ -6,7 +6,7 @@ from .forms import CreateNewSubsidy
 # Create your views here.
 
 
-def subsidy(request):
+def subsidy_create(request):
     if request.method == "POST":
         form = CreateNewSubsidy(request.POST)
         if form.is_valid():

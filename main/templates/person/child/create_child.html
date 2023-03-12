@@ -7,7 +7,7 @@
 {% endfor %}
 {% endif %}
 Registrar niño
-<form method="post">
+<form method="post"  >
     {% csrf_token %}
     {{form}}
     <button type="submit", name="save">Registrar</button>

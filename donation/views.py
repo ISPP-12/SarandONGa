@@ -16,7 +16,7 @@ from donation.models import Donation
 from .forms import CreateNewDonation
 
 # Create your views here.
-def donation(request):
+def donation_create(request):
     if request.method == "POST":
         form = CreateNewDonation(request.POST)
         if form.is_valid():
@@ -36,7 +36,7 @@ def donation(request):
     form = CreateNewDonation()
     return render(request, 'donation_form.html', {"form": form})
 
-def donations_list(request):
+def donation_list(request):
     # get donations from database
     donations = Donation.objects.all()
 

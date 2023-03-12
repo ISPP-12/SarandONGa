@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import CreateNewService
 from .models import Service
 
-def service(request):
+def service_create(request):
     if request.method == "POST":
         form = CreateNewService(request.POST)
         if form.is_valid():
