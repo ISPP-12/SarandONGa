@@ -4,8 +4,10 @@ import json
 from datetime import datetime
 from decimal import Decimal
 from django.contrib import messages
-from .models import Worker
-from .forms import CreateNewASEMUser,CreateNewWorker
+from .models import GodFather, ASEMUser, Worker
+from .forms import CreateNewGodFather, CreateNewASEMUser,CreateNewWorker, CreateNewChild
+
+
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -62,3 +64,35 @@ def workers_list(request):
     workers = Worker.objects.all()
     # object_json = json.dumps(workers)
     return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
+    
+def godfather_create(request):
+    if request.method == "POST":
+        form = CreateNewGodFather(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewGodFather()
+    return render(request, 'godfather_form.html', {"form": form})
+
+def godfather_list(request):
+
+    context = {
+        'objects': GodFather.objects.all(),
+        #'objects_json' : json.dumps(list(GodFather.objects.all().values())),
+        'objects_name': 'Padrino',
+        'title': 'Gestión de padrinos'
+    }
+    return render(request, 'person/godfather_list.html', {"context":context})
+def create_child(request):
+    if request.method == "POST":
+        form = CreateNewChild(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            messages.error(request, 'Formulario con errores')
+    else:
+        form = CreateNewChild()
+    return render(request, 'person/child/create_child.html', {"form": form})
+
