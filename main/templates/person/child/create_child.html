@@ -1,0 +1,15 @@
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">
+    {{ message }}
+  </div>
+{% endfor %}
+{% endif %}
+Registrar niño
+<form method="post">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit", name="save">Registrar</button>
+</form>
+{% endblock %}
