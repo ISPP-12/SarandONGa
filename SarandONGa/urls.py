@@ -18,22 +18,28 @@ from django.urls import path, include
 from subsidy import views as subsidy_views
 from payment import views as payment_views
 from stock import views as stock_views
-from person import views as person_views
+from service import views as service_views
 from donation import urls as donation_urls
+from service import urls as service_urls
 from person import urls as person_urls
+
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
+    path('subsidy/create',subsidy_views.subsidy, name="subsidyNew"),
     path('payment/create', payment_views.create_payment, name="donationNew"),
-    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
     path('stock/list', stock_views.stock_list, name="stock_list"),
+    path('stock/register', stock_views.stock_register, name="stock_register"),
     path('person/', include(person_urls), name='persons'),
-    path('asem_user/', person_views.asem_user, name="asem_user"),
-    path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
     path('payment/list', payment_views.payment_list, name="payment_list"),
     path('donations/', include(donation_urls), name='donations'),
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
-    path('worker/create', person_views.create_worker, name="worker"),
-    path('volunteers/list', person_views.volunteers_list, name="volunteers")
+    path('service/', include(service_urls),name="service"),
+    path('worker/create', include(person_urls), name="worker"),
+    path('service/list', service_views.service_list, name="service_list"),
+    path('volunteers/list', person_views.volunteers_list, name="volunteers"),
+
 ]
