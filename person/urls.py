@@ -11,4 +11,3 @@ urlpatterns = [
     path('godfather/create', views.godfather_create, name="subsidy"),
     path('child/create', views.create_child, name="new_child"),
 ]
-
