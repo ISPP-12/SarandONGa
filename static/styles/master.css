@@ -2,6 +2,12 @@ body {
   font-family: "Maven Pro", sans-serif;
 }
 
+@font-face {
+  font-family: "ABCWhite";
+  src: url("/static/typographies/ABCWhyte-Black-Trial.otf");
+  font-weight: bold;
+}
+
 label {
   font-weight: 400;
   font-size: 20px;
@@ -16,10 +22,6 @@ input {
 .border-class {
   border: 1.4px solid #3e3e3e;
   border-radius: 7px;
-}
-
-.inptlab {
-  min-width: 100em;
 }
 
 .title {

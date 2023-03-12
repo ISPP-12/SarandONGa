@@ -26,6 +26,7 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/card-list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
     {% block extrahead %} {% endblock %}
     
@@ -34,11 +35,11 @@
 
 <body>
 
-    <hr>
+    {% include "components/navbar.html" %}
 
-
-
-    {% block contenido %} {% endblock %}
+    <div class="container-fluid">
+        {% block contenido %}{% endblock %}
+    </div>
 
 </body>
 
