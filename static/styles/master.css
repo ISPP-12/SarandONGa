@@ -46,6 +46,7 @@ input {
 
 .title {
   font-size: 2.5em;
+  font-family: "ABCWhite", sans-serif;
   font-weight: bold;
   text-decoration: underline black solid 0.2em;
   color: #000;
