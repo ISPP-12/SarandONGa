@@ -35,5 +35,5 @@ urlpatterns = [
     path('payment/list', payment_views.payment_list, name="payment_list"),
     path('donations/', include(donation_urls), name='donations'),
     path('subsidies/', include(subsidy_urls), name='subsidies'),
-    path('worker/create', person_views.create_worker, name="worker")
+    path('persons/', include(person_urls), name='persons')
 ]
