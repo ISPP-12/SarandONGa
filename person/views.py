@@ -117,7 +117,8 @@ def child_create(request):
     else:
         form = CreateNewChild()
     return render(request, 'person/child/create_child.html', {"form": form})
-    
+
+
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()
     title = "Gestion de Voluntarios"

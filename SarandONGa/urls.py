@@ -17,13 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 from subsidy import urls as subsidy_urls
 from stock import urls as stock_urls
-from service import views as service_views
 from donation import urls as donation_urls
 from service import urls as service_urls
 from person import urls as person_urls
 from payment import urls as payments_urls
-
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,6 +31,5 @@ urlpatterns = [
     path('donation/', include(donation_urls), name='donation'),
     path('user/', include(person_urls), name='user'),
     path('service/', include(service_urls),name="service"),
-
 
 ]

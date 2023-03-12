@@ -3,6 +3,7 @@ from datetime import datetime
 import json
 from donation.models import Donation
 from decimal import Decimal
+from .forms import CreateNewDonation
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -12,8 +13,6 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
-from donation.models import Donation
-from .forms import CreateNewDonation
 
 # Create your views here.
 def donation_create(request):
@@ -30,7 +29,8 @@ def donation_create(request):
             donor_address = form.cleaned_data["donor_address"]
             donor_email = form.cleaned_data["donor_email"]
             d = Donation(title= title, description=description, created_date=created_date,
-                        amount=amount, donor_name=donor_name, donor_surname=donor_surname, donor_dni=donor_dni, donor_address=donor_address, donor_email=donor_email)
+                        amount=amount, donor_name=donor_name, donor_surname=donor_surname, donor_dni=donor_dni,
+                        donor_address=donor_address, donor_email=donor_email)
             d.save()
 
     form = CreateNewDonation()
@@ -50,4 +50,5 @@ def donation_list(request):
         created_date = donation.created_date
         modified_date = created_date.strftime('%d/%m/%Y')
         donation.created_date = modified_date
-    return render(request, 'donation/list.html', {'objects': donations, 'objects_json': donations_json, 'object_name': 'donación', 'title': 'Gestión de donaciones'})
+    return render(request, 'donation/list.html', {'objects': donations, 'objects_json': donations_json,
+            'object_name': 'donación', 'title': 'Gestión de donaciones'})

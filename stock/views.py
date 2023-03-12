@@ -1,9 +1,7 @@
 from django.shortcuts import render
 from .models import Stock
 from .forms import CreateNewStock
-from django.views.decorators.csrf import csrf_exempt
-#import json
-# Create your views here.
+
 
 def stock_list(request):
 
@@ -14,7 +12,7 @@ def stock_list(request):
         'title': 'Lista de Stocks'
     }
     return render(request, 'stock/list.html', {"context":context })
- 
+
 
 def stock_create(request):
     if request.method == "POST":

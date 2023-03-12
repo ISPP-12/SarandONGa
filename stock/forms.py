@@ -1,6 +1,4 @@
-import datetime
 from django import forms
-from .models import Stock
 
 class CreateNewStock(forms.Form):
     name = forms.CharField(max_length=200, required=True)
