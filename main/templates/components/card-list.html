@@ -1,12 +1,14 @@
 {% load static %}
 <div class="container-fluid card-list w-100 rounded p-3" tabindex="1">
+  <span class="object-id d-none">{{ object.id }}</span>
+
   <div class="row d-flex justify-content-between align-items-center">
 
     <div class="row col-8">
       <div class="w-auto">
-        {%if object_name == "person"%} {% if profilePic %}
-        
-        <img class="profile-img rounded" src=" {{profilePic}} " />
+        {%if object_name == "usuario"%} {% if object.photo %}
+
+        <img class="profile-img rounded" src=" {{object.photo}} " />
         {% else %}
 
         <img class="profile-img rounded" src={% static 'img/person-icon.svg' %} />
@@ -22,7 +24,7 @@
         <h4>{{name}} {{surnames}}</h4>
         
         
-        <span>{%if object_name == "person"%}{{object_name}}{% else %}{{amount}} €{%endif%}</span>
+        <span>{%if object_name == "usuario"%}{{object_name}}{% else %}{{amount}} €{%endif%}</span>
         
         
       </div>
@@ -30,6 +32,15 @@
 
     <div class="col-2 text-end">
       <a class="pe-2" href="">Editar</a>
+    </div>
+
+    <div class="d-none d-flex flex-column" id="moreInfo">
+      <span class="object-description">Teléfono:{{ object.telephone }}</span>
+
+      <span class="object-description">Dirección:{{ object.address }}</span>
+      <span class="object-donor_name">Correo: {{ object.email  }}
+        {{object.donor_surname}}</span>
+      <span class="object-donor_email"><i>{{ object.donor_email }}</i></span>
     </div>
   </div>
 </div>

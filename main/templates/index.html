@@ -26,6 +26,7 @@
 			</div>
 		</div>
 
+
   {% comment %} Example button {% endcomment %}
 	<p>Ejemplo de botón dentro de una sección</p>
 	<div class="example-section">
@@ -37,6 +38,11 @@
 	{% include 'components/button.html' with text="EXCEL" variation="EXCEL" %}
 	{% include 'components/button.html' with text="Enviar" variation="SUBMIT" %}
 	{% include 'components/button.html' with text="Descargar" variation="DOWNLOAD" %}
+
+
+
+	{% include 'layouts/master_sidebar.html' with object_name="usuario" %}
+
 
   {% comment %} Example cardlist {% endcomment %}
 

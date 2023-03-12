@@ -24,7 +24,6 @@ from service import urls as service_urls
 from person import urls as person_urls
 
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
@@ -36,6 +35,7 @@ urlpatterns = [
     path('person/', include(person_urls), name='persons'),
     path('payment/list', payment_views.payment_list, name="payment_list"),
     path('donations/', include(donation_urls), name='donations'),
+    path('users/', include(person_urls), name='persons'),
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
     path('service/', include(service_urls),name="service"),
     path('worker/create', include(person_urls), name="worker"),

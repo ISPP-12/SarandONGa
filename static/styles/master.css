@@ -26,7 +26,7 @@ input {
 
 /* STOCK LIST VIEW */
 .border-stock-title {
-  font-family: 'ABCWhite', sans-serif;
+  font-family: "ABCWhite", sans-serif;
   border-bottom: solid 7px #f1d746;
 }
 
@@ -46,8 +46,8 @@ input {
 
 .title {
   font-size: 2.5em;
+  font-family: "ABCWhite", sans-serif;
   font-weight: bold;
   text-decoration: underline black solid 0.2em;
   color: #000;
-
 }
