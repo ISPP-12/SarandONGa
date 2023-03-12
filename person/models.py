@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils import timezone
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.validators import RegexValidator
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
+
 
 SEX_TYPES = (
     ('F', 'Femenino'),
