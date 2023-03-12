@@ -2,8 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-
-
     path('',views.user_list, name='user_list'),
     path('workers/',views.workers_list, name='workers_list'),
     path('worker/create', views.create_worker, name="worker"),
@@ -13,8 +11,6 @@ urlpatterns = [
     path('godfather/create', views.godfather_create, name="subsidy"),
     path('child/create', views.create_child, name="new_child"),
 ]
-
-
 
  
 

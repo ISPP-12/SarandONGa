@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from .models import ASEMUser
 import json
 from datetime import datetime
 from decimal import Decimal
