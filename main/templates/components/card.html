@@ -1,0 +1,27 @@
+{% comment %}
+ATTRIBUTES
+- id: for the card div, just in case
+- class_card: class for the card. It is CRUCIAL for the display switch component
+- item: the item to be shown. Should be stock, otherwise, it needs to have these three attributes:
+    - name
+    - picture
+    - quantity
+{% endcomment %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/components/cards.css' %}">
+
+<div id="{{id}}" class="productDiv">
+    <div class="card {{class_card}}">
+        <div class="row g-0">
+            <div class="card-img-col col-12">
+                <img src="{% if item.picture %}{% static item.picture %}{% else %}{% static 'img/img-not-found.svg' %}{% endif %}" class="card-img-top" alt="{{item.name}}">
+            </div>
+            <div class="card-body-col col-12">
+                <div class="card-body">
+                    <h5 class="card-title"><span title="{{item.name}}">{{item.name}}</span></h5>
+                    <p class="card-text">{{item.quantity}} unidad{% if item.quantity != 1 %}es{% endif %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
