@@ -4,14 +4,6 @@
   --main-color-light: #f9ebe3;
 }
 
-
-.title {
-  font-size: 2.5em;
-  font-weight: bold;
-  text-decoration: underline var(--main-color) solid 0.2em;
-  color: #000;
-}
-
 .complete {
   height: 85vh;
 }
