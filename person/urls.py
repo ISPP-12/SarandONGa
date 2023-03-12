@@ -12,5 +12,3 @@ urlpatterns = [
     path('child/create', views.create_child, name="new_child"),
 ]
 
- 
-
