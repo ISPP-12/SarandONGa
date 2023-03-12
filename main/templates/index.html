@@ -3,16 +3,28 @@
 {% block titulo %} Página inicial {% endblock %}
 
 {% block contenido %} 
-	
-	<hr>
-	<h5>Esta es la página de inicio</h5>   
-	<hr>
-	<h5>Esto es un ejemplo de input y label</h5>
+		<hr>
+		<h5>Esta es la página de inicio</h5>   
+		<hr>
+		<h5>Esto es un ejemplo de input y label</h5>
 
-	<div class="row">
-	{% include "components/inputs.html" with id=1 label_text='Nombre' placeholder='Escribe algo...'  type='text'  %}
-	{% include "components/inputs.html" with id=1 label_text='Apellidos' placeholder='Escribe tu apellido...'  type='text'  %}
-	
+		
+		{% include "components/inputs.html" with id=1 label_text='Nombre' placeholder='Escribe algo...'  type='text'  %}
+	  {% include "components/inputs.html" with id=1 label_text='Apellidos' placeholder='Escribe tu apellido...'  type='text'  %}
+
+
+		
+		{% include "components/select.html" with id=1 label_text="Nombre" label_text="Nombre" options=options1 placeholder="Seleciona una opción"    %}
+		{% include "components/select.html" with id=3 label_text="Apellidos"  options=options2 placeholder="Seleciona 1..."    %}
+
+		{% include "components/card-display.html" with id='id-cardsDiv' class_card='card-stock' class_card_list='card-stock-list' %}
+		<div class="container">
+			<div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
+				{% include "components/card.html" with class_card='card-stock' item=stockTest %}
+				{% include "components/card.html" with class_card='card-stock' item=stockTest %}
+				{% include "components/card.html" with class_card='card-stock' item=stockTest %}
+			</div>
+		</div>
 
 	{% comment %} Example button {% endcomment %}
 	<p>Ejemplo de botón dentro de una sección</p>
