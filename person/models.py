@@ -247,6 +247,9 @@ class Child(Person):
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
         
 
+    def __str__(self):
+        return self.name + ' ' + self.surname
+
     class Meta:
         ordering = ['name']
         verbose_name = 'Niño'
