@@ -7,3 +7,10 @@ body {
   src: url("/static/typographies/ABCWhyte-Black-Trial.otf");
   font-weight: bold;
 }
+
+.title {
+  font-size: 2.5em;
+  font-weight: bold;
+  text-decoration: underline black solid 0.2em;
+  color: #000;
+}
