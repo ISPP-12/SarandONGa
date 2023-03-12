@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'donation',
     'subsidy',
     'stock',
-    'child',
     'service',
     'payment',
 ]

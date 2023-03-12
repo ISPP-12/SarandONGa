@@ -1,10 +1,18 @@
 from django.shortcuts import render
-from .models import ASEMUser
-from django.contrib import messages
-from .models import Worker, Volunteer
+from .models import GodFather, ASEMUser, Worker, Volunteer
 from .forms import CreateNewASEMUser,CreateNewWorker
 from django.contrib import messages
+#import json
 
+def godfather_list(request):
+
+    context = {
+        'objects': GodFather.objects.all(),
+        #'objects_json' : json.dumps(list(GodFather.objects.all().values())),
+        'objects_name': 'Padrino',
+        'title': 'Gestión de padrinos'
+    }
+    return render(request, 'person/godfather_list.html', {"context":context})
 
 
 def asem_user(request):
@@ -45,4 +53,4 @@ def workers_list(request):
 def volunteers_list(request):
     volunteers = Volunteer.objects.all().values()
     # object_json = json.dumps(volunteers)
-    return render(request, 'workers.html', {"objects": volunteers,"object_name": "Voluntarios", "title": "Listado de Voluntarios"})
+    return render(request, 'volunteers.html', {"objects": volunteers,"object_name": "Voluntarios", "title": "Listado de Voluntarios"})

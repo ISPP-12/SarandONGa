@@ -28,6 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('subsidy/', subsidy_views.subsidy, name="subsidy"),
+    path('godfather/list', person_views.godfather_list, name="godfather_list"),
     path('payment/create', payment_views.create_payment, name="donationNew"),
     path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
     path('donation/list', donation_views.donations_list, name="donationList"),
