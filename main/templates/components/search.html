@@ -1,0 +1,21 @@
+{% comment %} 
+ATTRIBUTES:
+- id (id for the input)
+- text (text for the label and placeholder)
+
+{% endcomment %}
+
+{% comment %} {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/components/search.css' %}"> {% endcomment %}
+
+<div class="search input-group rounded" id="searchContainer">
+    <div class="form-floating" id="filter">
+        <input type="search" id="{{id}}" class="form-control border-dark" 
+                placeholder="{{text}}">
+        <label for="id-search"><i class="bi bi-search"></i> 
+            {{ text }}
+        </label>
+    </div>
+
+    <button class="btn btn-dark" id="searchBtn">Buscar</button>
+</div>

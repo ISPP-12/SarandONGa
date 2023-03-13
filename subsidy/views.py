@@ -45,7 +45,7 @@ def subsidy_list(request):
     context = {
         'objects': subsidies,
         'objects_json': subsidies_json,
-        'object_name': 'Subvención',
+        'object_name': 'subvención',
         'object_name_en': 'subsidy',
         'title': 'Listado de Subvenciones',
         }
