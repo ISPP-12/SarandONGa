@@ -1,5 +1,5 @@
 :root {
-  --donations-main-color: #E7C4E4;
+  --donations-main-color: #e7c4e4;
   --donations-main-color-hover: #e8a8e2;
   --donations-main-color-light: #ecd3ea;
 }
@@ -16,12 +16,12 @@
 
 /* override bootstrap */
 #section-donation .section-btn:active {
-background-color: var(--donations-main-color-hover) !important;
+  background-color: var(--donations-main-color-hover) !important;
 }
 
 /* Title */
 #section-donation .title {
-text-decoration-color: var(--donations-main-color);
+  text-decoration-color: var(--donations-main-color);
 }
 
 /* Selection */
