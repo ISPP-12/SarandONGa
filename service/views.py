@@ -18,8 +18,7 @@ def service_list(request):
     context = {
         'objects': Service.objects.all(),
         'objects_name': 'Servicio',
-        'title': 'Gestión de servicios'
+        'title': 'Gestión de servicios',
     }
-    return render(request, 'service_list.html', {"context":context})
 
-
+    return render(request, 'service_list.html', context)
