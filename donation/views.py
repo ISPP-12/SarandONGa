@@ -50,5 +50,13 @@ def donation_list(request):
         created_date = donation.created_date
         modified_date = created_date.strftime('%d/%m/%Y')
         donation.created_date = modified_date
-    return render(request, 'donation/list.html', {'objects': donations, 'objects_json': donations_json,
-            'object_name': 'donación', 'title': 'Gestión de donaciones'})
+
+    context = {
+        'objects': donations,
+        'objects_json': donations_json,
+        'object_name': 'donación',
+        'title': 'Gestión de donaciones',
+        'search_text': 'Buscar donación...',
+        }
+
+    return render(request, 'donation/list.html', context)

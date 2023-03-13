@@ -27,7 +27,16 @@ def godfather_list(request):
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Padrino', 'title': title, 'objects_json': persons_json})
+
+    context = {
+        'objects': objects,
+        'object_name': 'Padrino',
+        'title': title,
+        'objects_json': persons_json,
+        'search_text': 'Buscar padrino...',
+        }
+
+    return render(request, 'users/list.html', context)
 
 
 def user_create(request):
@@ -65,7 +74,16 @@ def worker_list(request):
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Trabajador', 'title': title, 'objects_json': persons_json})
+
+    context = {
+        'objects': objects,
+        'object_name': 'Trabajador',
+        'title': title,
+        'objects_json': persons_json,
+        'search_text': 'Buscar trabajador...',
+        }
+
+    return render(request, 'users/list.html', context)
 
 def child_list(request):
     objects = Child.objects.all().values()
@@ -76,7 +94,16 @@ def child_list(request):
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Niño', 'title': title, 'objects_json': persons_json})
+
+    context = {
+        'objects': objects, 
+        'object_name': 'Niño', 
+        'title': title, 
+        'objects_json': persons_json,
+        'search_text': 'Buscar niño...',
+        }
+
+    return render(request, 'users/list.html', context)
 
 
 def user_list(request):
@@ -88,7 +115,16 @@ def user_list(request):
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Usuario', 'title': title, 'objects_json': persons_json})
+
+    context = {
+        'objects': objects,
+        'object_name': 'Usuario',
+        'title': title,
+        'objects_json': persons_json,
+        'search_text': 'Buscar usuario...',
+        }
+
+    return render(request, 'users/list.html', context)
 
 
 def godfather_create(request):
@@ -128,4 +164,13 @@ def volunteer_list(request):
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Voluntario', 'title': title, 'objects_json': persons_json})
+
+    context = {
+        'objects': objects,
+        'object_name': 'Voluntario',
+        'title': title,
+        'objects_json': persons_json,
+        'search_text': 'Buscar voluntario...',
+        }
+
+    return render(request, 'users/list.html', context)

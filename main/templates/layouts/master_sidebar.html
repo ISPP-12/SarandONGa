@@ -4,6 +4,7 @@ ATTRIBUTES:
 - object_name: name of the object to be displayed in the preview text (e.g. "donación")
 - title: title of the page (e.g. "Gestión de donaciones")
 - text: text of the button (e.g. "Añadir donación")
+- search_text: text of the search bar (e.g. "Buscar donación...")
 
 PS: the text inside the button is displayed exactly as it is written. You can either write the text directly or use the "add" filter to concatenate strings (e.g. "Añadir "|add:object_name|safe)
 
@@ -30,9 +31,9 @@ PS: the text inside the button is displayed exactly as it is written. You can ei
         <div class="col-12 mb-4">
           <div class="row justify-content-between align-items-center">
             <div class="col-12 col-md-8">
-              
-                {% include "components/search.html" with text="Buscar por usuario..." %}
 
+              {% include "components/search.html" with text=search_text %}
+              
             </div>
             
             <div class="col-md-3 col-12 mb-md-0 mb-3 d-flex">

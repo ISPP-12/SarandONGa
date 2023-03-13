@@ -24,5 +24,5 @@ def payment_list(request):
         'objects_name': 'Payment',
         'title': 'Lista de Pagos'
     }
-    return render(request, 'payment/payment_list.html', {"context":context })
 
+    return render(request, 'payment/payment_list.html', context)
