@@ -15,7 +15,7 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
-def subsidy(request):
+def subsidy_create(request):
     if request.method == "POST":
         form = CreateNewSubsidy(request.POST)
         if form.is_valid():

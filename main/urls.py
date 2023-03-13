@@ -5,4 +5,5 @@ import subsidy.urls as subsidies_urls
 
 urlpatterns = [
     path('', views.index, name='home'),
+    path('donations/', include(donation_urls), name='donations'),
 ]

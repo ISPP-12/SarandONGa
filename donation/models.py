@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import MinValueValidator
 
 
 class Donation(models.Model):
@@ -10,7 +11,7 @@ class Donation(models.Model):
     #Fecha de creación de la donación (automática)
     created_date = models.DateTimeField(default=timezone.now,verbose_name="Fecha Creación")
     #Importe de la donación
-    amount= models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Importe")
+    amount= models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0.1)], verbose_name="Importe")
     #Información del donante
     donor_name= models.CharField(max_length=100,verbose_name="Nombre")
     donor_surname=models.CharField(max_length=250, verbose_name="Apellidos")

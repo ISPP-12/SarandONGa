@@ -4,7 +4,7 @@ from .models import Payment
 from django.contrib import messages
 #import json
 
-def create_payment(request):
+def payment_create(request):
     if request.method == 'POST':
         form = create_payment_form(request.POST)
         if form.is_valid():
@@ -13,7 +13,7 @@ def create_payment(request):
             messages.error(request, 'El formulario presenta errores')
     else:
         form = create_payment_form()
-    return render(request, 'payment/create_donation.html', {'form': form})
+    return render(request, 'payment/payment_form.html', {'form': form})
 
 
 
