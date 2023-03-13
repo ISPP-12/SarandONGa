@@ -33,7 +33,6 @@ def godfather_list(request):
         'object_name': 'Padrino',
         'title': title,
         'objects_json': persons_json,
-        'search_text': 'Buscar padrino...',
         }
 
     return render(request, 'users/list.html', context)
@@ -80,7 +79,6 @@ def worker_list(request):
         'object_name': 'Trabajador',
         'title': title,
         'objects_json': persons_json,
-        'search_text': 'Buscar trabajador...',
         }
 
     return render(request, 'users/list.html', context)
@@ -100,7 +98,6 @@ def child_list(request):
         'object_name': 'Niño', 
         'title': title, 
         'objects_json': persons_json,
-        'search_text': 'Buscar niño...',
         }
 
     return render(request, 'users/list.html', context)
@@ -121,7 +118,6 @@ def user_list(request):
         'object_name': 'Usuario',
         'title': title,
         'objects_json': persons_json,
-        'search_text': 'Buscar usuario...',
         }
 
     return render(request, 'users/list.html', context)
