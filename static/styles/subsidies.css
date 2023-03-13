@@ -1,0 +1,33 @@
+:root {
+  --grants-main-color: #f5e2d8;
+  --grants-main-color-hover: #e4b399;
+  --grants-main-color-light: #f9ebe3;
+}
+
+/* Button */
+#section-subsidy .section-btn {
+  background-color: var(--grants-main-color);
+}
+
+#section-subsidy .section-btn:hover {
+  background-color: var(--grants-main-color-hover);
+}
+
+/* override bootstrap */
+#section-subsidy .section-btn:active {
+  background-color: var(--grants-main-color-hover) !important;
+}
+
+/* Title */
+#section-subsidy .title {
+  text-decoration-color: var(--grants-main-color);
+}
+
+/* Selection */
+.selected {
+  background-color: var(--grants-main-color-light);
+}
+
+.object-amount {
+  opacity: 60%;
+}
