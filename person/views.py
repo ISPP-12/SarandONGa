@@ -119,7 +119,7 @@ def user_list(request):
     context = {
         'objects': objects,
         'object_name': 'usuario',
-        'object_name_en': 'usuario',
+        'object_name_en': 'user',
         'title': title,
         'objects_json': persons_json,
         }
