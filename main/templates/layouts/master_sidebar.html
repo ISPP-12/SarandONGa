@@ -32,7 +32,7 @@ PS: the text inside the button is displayed exactly as it is written. You can ei
           <div class="row justify-content-between align-items-center">
             <div class="col-12 col-md-8">
 
-              {% include "components/search.html" with text=search_text %}
+              {% include "components/search.html" with text="Buscar "|add:object_name|add:"..." %}
               
             </div>
             

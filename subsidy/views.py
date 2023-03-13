@@ -22,7 +22,6 @@ def subsidy_list(request):
         'objects': Subsidy.objects.all().values(),
         'objects_name': 'Subvención',
         'title': 'Listado de Subvenciones',
-        'search_text': 'Buscar subvención...',
     }
 
     return render(request, 'subsidy_list.html', context)
