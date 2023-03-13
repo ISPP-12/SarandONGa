@@ -8,6 +8,5 @@ def index(request):
     'options2': {'4':'5','9':'8'},
     'stockTest': {'name':'STOCKINGS','quantity':9999},
     'object_name': 'Ejemplo',
-    'search_text': 'Buscar ejemplo',
     }
     return render(request, 'index.html' ,context)

@@ -19,7 +19,6 @@ def service_list(request):
         'objects': Service.objects.all(),
         'objects_name': 'Servicio',
         'title': 'Gestión de servicios',
-        'search_text': 'Buscar servicio...',
     }
 
     return render(request, 'service_list.html', context)

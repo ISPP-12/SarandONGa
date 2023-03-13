@@ -10,7 +10,6 @@ def stock_list(request):
         #'objects_json' : json.dumps(list(Stock.objects.all().values())),
         'objects_name' : 'Stock',
         'title': 'Lista de Stocks',
-        'search_text': 'Buscar donación',
     }
 
     return render(request, 'stock/list.html', context)
