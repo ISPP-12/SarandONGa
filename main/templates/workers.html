@@ -1,0 +1,19 @@
+<body>
+
+    <div>
+        {% if objects %}
+            {% for w in objects %}
+                <div class="worker">
+                    <h3>{{w.name}} {{w.surname}}</h3>
+                    <p>Trabajador</p>
+                    <!--Add button edit-->
+                    <button>Editar</button>
+                    <!--TODO: añadir función al botón para editarlo-->
+
+                </div>
+            {% endfor %}
+        {% else %}
+            <h3 class="no-events-text">En este momento no hay trabajadores registrados</h3>
+        {% endif %}
+    </div>
+</body>

@@ -15,17 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from subsidy import views as subsidy_views
-from person import views as person_views
+from subsidy import urls as subsidy_urls
+from stock import urls as stock_urls
 from donation import urls as donation_urls
-
+from service import urls as service_urls
+from person import urls as person_urls
+from payment import urls as payments_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('subsidy/', subsidy_views.subsidy, name="subsidy"),
-    path('asem_user/', person_views.asem_user, name="asem_user"),
-    path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
-    path('donations/', include(donation_urls), name='donations'),
-    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy")
+    path('subsidy/', include(subsidy_urls), name="subsidy"),
+    path('payment/', include(payments_urls), name="payment"),
+    path('stock/', include(stock_urls), name="stock"),
+    path('donation/', include(donation_urls), name='donation'),
+    path('user/', include(person_urls), name='user'),
+    path('service/', include(service_urls),name="service"),
+
 ]

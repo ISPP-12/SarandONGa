@@ -1,8 +1,0 @@
-{% load static %}
-
-{% block content %}
-<h1>LISTADO DE DONACIONES</h1>
-{% for donation in donations %}
-<p><b>Titulo:</b> {{donation.title}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Cantidad:</b> {{donation.amount}} €</p>
-{% endfor %}
-{% endblock %}

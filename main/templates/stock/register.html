@@ -1,0 +1,84 @@
+{% extends "layouts/master.html" %}
+{% load static %}
+
+
+{% block contenido %} 
+
+
+
+
+    <h1 class="mx-5 my-5">Añadir suministro</h1>
+
+    <form method="post">
+    {% csrf_token %}
+
+
+            
+        <div class="row justify-content-between mx-4 ">
+            <div class="col-12 col-sm-4  mx-2 ">
+                <div class="row pt-1">
+                    
+                    {% include "components/inputs.html" with nameIn="name" id=1 label_text="Nombre" placeholder="Nombre del suministro"  type="text"  %}
+                </div>
+                <div class="row pt-4 mb-4">
+                    
+                    {% include "components/inputs.html" with nameIn="quantity" id=1 label_text="Unidades" placeholder="Número de unidades"  type="number"  %}
+
+                </div>
+            </div>
+        
+            <div class="col-12 col-sm-6 ">
+                <div>
+                    <div class=" row mb-4 d-flex justify-content-center">
+
+                        <img id="vista" {% if es.producto_4.imagen %}src={{ es.producto_4.imagen.url }}{%else %}src={% static "img\no_image.png" %}{% endif %}
+                        class="img-fluid" style="width: 300px;" />
+                    </div>
+                    <div class=" row d-flex justify-content-center  ">
+
+                        <div class="col-8">
+
+                     
+
+                            {% include "components/inputs.html" with id="file-up" nameIn="file"  type="file"  %}
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="form-section mt-5 mx-5 text-center ">  
+            
+            {% include 'components/button.html' with text="Registrar artículo" variation="SUBMIT" %}
+            
+        </div> 
+    </form>
+
+
+
+
+
+<script>
+    const inputFoto = document.querySelector('#file-up');
+    const vistaPrevia = document.querySelector('#vista');
+
+    inputFoto.addEventListener('change', () => {
+    const archivo = inputFoto.files[0];
+    if (archivo) {
+        const lector = new FileReader();
+        lector.addEventListener('load', () => {
+        vistaPrevia.src = lector.result;
+        });
+        lector.readAsDataURL(archivo);
+    } else {
+        vistaPrevia.src = '#';
+    }
+    });
+  </script>
+
+
+   
+{% endblock %}
+

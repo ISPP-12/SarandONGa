@@ -1,0 +1,48 @@
+:root {
+  --black-color: #000;
+  --white-color: #fff;
+}
+
+.btn {
+  /* Background color should be added based on the section */
+  transition: background-color 0.2s ease-in-out;
+  transition: scale 0.05s ease-in-out;
+  scale: 1;
+}
+
+.section-btn:active {
+  scale: 0.95;
+}
+
+/* Example section
+
+.example-section .section-btn {
+  background-color: var(--main-color);
+}
+
+.example-section .section-btn:hover {
+  background-color: var(--main-color-hover);
+}
+
+.example-section .section-btn:active {
+  background-color: var(--main-color-hover) !important;
+}
+*/
+
+.form-section .section-btn {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  transition: all 0.2s ease-out;
+}
+
+.form-section .section-btn:hover {
+  background-color: var(--white-color);
+  color: var(--black-color);
+  transition: all 0.2s ease-out;
+}
+
+/* override bootstrap */
+.form-section .section-btn:active {
+  background-color: var(--white-color) !important;
+  color: var(--black-color);
+}
