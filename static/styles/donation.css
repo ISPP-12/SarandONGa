@@ -1,25 +1,30 @@
 :root {
-  --donations-main-color: #f5e2d8;
-  --donations-main-color-hover: #e4b399;
-  --donations-main-color-light: #f9ebe3;
+  --donations-main-color: #E7C4E4;
+  --donations-main-color-hover: #e8a8e2;
+  --donations-main-color-light: #ecd3ea;
 }
 
-.title {
-  text-decoration-color: var(--donations-main-color);
-}
 
-.bg-object {
+/* Button */
+#section-donation .section-btn {
   background-color: var(--donations-main-color);
 }
 
-.bg-object:hover {
+#section-donation .section-btn:hover {
   background-color: var(--donations-main-color-hover);
 }
 
-.object:hover {
-  background-color: var(--donations-main-color-light);
+/* override bootstrap */
+#section-donation .section-btn:active {
+background-color: var(--donations-main-color-hover) !important;
 }
 
+/* Title */
+#section-donation .title {
+text-decoration-color: var(--donations-main-color);
+}
+
+/* Selection */
 .selected {
   background-color: var(--donations-main-color-light);
 }

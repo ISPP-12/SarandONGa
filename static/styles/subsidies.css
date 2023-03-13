@@ -15,12 +15,17 @@
 
 /* override bootstrap */
 #section-subsidy .section-btn:active {
-  background-color: var(--main-color-hover) !important;
+  background-color: var(--grants-main-color-hover) !important;
 }
 
 /* Title */
 #section-subsidy .title {
   text-decoration-color: var(--grants-main-color);
+}
+
+/* Selection */
+.selected {
+  background-color: var(--grants-main-color-light);
 }
 
 .object-amount {
