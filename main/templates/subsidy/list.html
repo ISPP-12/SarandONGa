@@ -12,37 +12,23 @@
 {% endfor %}
 {% endblock %}
 
-{% comment %} {% block objectFor %}
-{% for object in objects %}
-<div class="object border border-dark w-100 rounded p-2 mb-2">
-
-  <div class="d-none d-flex flex-column" id="moreInfo">
-    <span class="object-name">{{ object.name }}</span>
-    <span class="object-amount">{{ object.amount }} €</span>
-    <span class="object-date">{{ object.date }}</span>
-  </div>
-
-</div>
-{% endfor %}
-{% endblock %} {% endcomment %}
-
 {% block scripts %}
 <script id="object-data">
-  const objectList = document.querySelectorAll('.object')
+  const objectList = document.querySelectorAll('.card-list')
   const objetos = JSON.parse('{{ objects_json|escapejs }}')
   const preview = document.querySelector('#preview')
   const prevInfo = document.querySelector('#prev-info')
   const chevron = document.querySelector('#chevron')
 
-  console.log(objetos)
-
   objectList.forEach(object => {
     const moreInfo = object.querySelector('#moreInfo')
     object.addEventListener('click', () => {
       const isMobile = window.matchMedia("(max-width: 768px)").matches
-
+      console.log(moreInfo)
       const isExpanded = !moreInfo.classList.contains('d-none')
       const objectId = object.querySelector('.object-id').innerText
+      
+
       const objectData = objetos.find(object => object.id == objectId)
 
 
@@ -61,13 +47,31 @@
 
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
-        preview.classList.add('p-5')
-        preview.innerHTML = `
-        <div class="row">
-          <div class="col-12">
-            <h3>${objectData.name}</h3>
-            <p>Cantidad: ${objectData.amount}€</p>
-            <p>${objectData.date}</p>
+          preview.innerHTML = `
+        <div class="row ">
+          <div class="col-12 ">
+            <div class=" row justify-content-center pb-5">
+              {%if object_name == "Usuario" or object_name == "Niño" or object_name == "Padrino" or object_name == "Trabajador" or object_name == "Voluntario"%} {% if object.photo %}
+
+                <img class="profile-img-big rounded" src=" {{object.photo}} " />
+                {% else %}
+
+                <img class="profile-img-big rounded" src={% static 'img/person-icon.svg' %} />
+
+                {% endif %} {% else %}
+
+                <img class="profile-img-big  rounded" src={% static 'img/others-icon.svg' %} />
+
+                {%endif%}
+            </div>
+            <h2>${objectData.name}</h2>
+            <h5>{{object_names}}</h5>
+            <p>${objectData.organism}</p>
+            <p>${objectData.amount} €</p>
+            <p>Presentación: ${objectData.presentation_date}</p>
+            <p>Pago: ${objectData.payment_date}</p>
+            <p>Resolución provisional: ${objectData.provisional_resolution=='True'?'✅':'❌'}</p>
+            <p>Resolución final: ${objectData.provisional_resolution=='True'?'✅':'❌'}</p>
           </div>
         </div>
       `
