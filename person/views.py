@@ -31,6 +31,7 @@ def godfather_list(request):
     context = {
         'objects': objects,
         'object_name': 'padrino',
+        'object_name_en': 'godfather',
         'title': title,
         'objects_json': persons_json,
         }
@@ -77,6 +78,7 @@ def worker_list(request):
     context = {
         'objects': objects,
         'object_name': 'trabajador',
+        'object_name_en': 'worker',
         'title': title,
         'objects_json': persons_json,
         }
@@ -94,9 +96,10 @@ def child_list(request):
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects, 
-        'object_name': 'niño', 
-        'title': title, 
+        'objects': objects,
+        'object_name': 'niño',
+        'object_name_en': 'child',
+        'title': title,
         'objects_json': persons_json,
         }
 
@@ -116,6 +119,7 @@ def user_list(request):
     context = {
         'objects': objects,
         'object_name': 'usuario',
+        'object_name_en': 'user',
         'title': title,
         'objects_json': persons_json,
         }
@@ -164,6 +168,7 @@ def volunteer_list(request):
     context = {
         'objects': objects,
         'object_name': 'voluntario',
+        'object_name_en': 'volunteer',
         'title': title,
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',

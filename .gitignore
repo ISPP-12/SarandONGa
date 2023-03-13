@@ -138,3 +138,6 @@ Pipfile
 .vscode/launch.json
 !.vscode/extensions.json
 .history
+
+# Virtual environment
+Pipfile
