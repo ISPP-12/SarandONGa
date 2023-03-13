@@ -25,10 +25,8 @@ def subsidy_create(request):
     return render(request, 'subsidy_form.html', {"form": form})
 
 
-def subsidies_list(request):
+def subsidy_list(request):
     subsidies = Subsidy.objects.all()
-    objects_name = 'Subvención'
-    title = 'Listado de Subvenciones'
 
     subsidies_dict = [obj.__dict__ for obj in subsidies]
     for s in subsidies_dict:
@@ -37,15 +35,19 @@ def subsidies_list(request):
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
     for subsidy in subsidies:
-        date = subsidy.date
-        modified_date = date.strftime('%d/%m/%Y')
-        subsidy.date = modified_date
+        date1 = subsidy.presentation_date
+        date2 = subsidy.payment_date
+        modified_date1 = date1.strftime('%d/%m/%Y')
+        modified_date2 = date2.strftime('%d/%m/%Y')
+        subsidy.presentation_date = modified_date1
+        subsidy.payment_date = modified_date2
 
     context = {
         'objects': subsidies,
         'objects_json': subsidies_json,
-        'objects_name': objects_name,
-        'title': title
+        'object_name': 'Subvención',
+        'object_name_en': 'subsidy',
+        'title': 'Listado de Subvenciones',
         }
 
     return render(request, 'subsidy/list.html', context)

@@ -5,25 +5,22 @@
 }
 
 /* Button */
-.grants-section .section-btn {
+#section-subsidy .section-btn {
     background-color: var(--grants-main-color);
 }
 
-.grants-section .section-btn:hover {
+#section-subsidy .section-btn:hover {
     background-color: var(--grants-main-color-hover);
 }
 
 /* override bootstrap */
-.grants-section .section-btn:active {
+#section-subsidy .section-btn:active {
   background-color: var(--main-color-hover) !important;
 }
 
-.card-img-left {
-  border-radius: 7px;
-  background-position: left top;
-  object-fit: cover;
-  width: 67px;
-  height: 67px;
+/* Title */
+#section-subsidy .title {
+  text-decoration-color: var(--grants-main-color);
 }
 
 .object-amount {
