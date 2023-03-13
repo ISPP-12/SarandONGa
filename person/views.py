@@ -30,7 +30,7 @@ def godfather_list(request):
 
     context = {
         'objects': objects,
-        'object_name': 'Padrino',
+        'object_name': 'padrino',
         'title': title,
         'objects_json': persons_json,
         }
@@ -76,7 +76,7 @@ def worker_list(request):
 
     context = {
         'objects': objects,
-        'object_name': 'Trabajador',
+        'object_name': 'trabajador',
         'title': title,
         'objects_json': persons_json,
         }
@@ -95,7 +95,7 @@ def child_list(request):
 
     context = {
         'objects': objects, 
-        'object_name': 'Niño', 
+        'object_name': 'niño', 
         'title': title, 
         'objects_json': persons_json,
         }
@@ -115,7 +115,7 @@ def user_list(request):
 
     context = {
         'objects': objects,
-        'object_name': 'Usuario',
+        'object_name': 'usuario',
         'title': title,
         'objects_json': persons_json,
         }
@@ -163,7 +163,7 @@ def volunteer_list(request):
 
     context = {
         'objects': objects,
-        'object_name': 'Voluntario',
+        'object_name': 'voluntario',
         'title': title,
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',

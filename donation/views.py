@@ -54,7 +54,7 @@ def donation_list(request):
     context = {
         'objects': donations,
         'objects_json': donations_json,
-        'object_name': 'Donación',
+        'object_name': 'donación',
         'title': 'Gestión de donaciones',
         }
 

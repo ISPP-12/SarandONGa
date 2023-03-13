@@ -8,7 +8,7 @@ def stock_list(request):
     context = {
         'objects': Stock.objects.all(),
         #'objects_json' : json.dumps(list(Stock.objects.all().values())),
-        'objects_name' : 'Stock',
+        'object_name': 'stock',
         'title': 'Lista de Stocks',
     }
 
