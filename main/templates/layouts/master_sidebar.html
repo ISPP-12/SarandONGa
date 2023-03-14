@@ -50,6 +50,12 @@ PS: the text inside the button is displayed exactly as it is written. You can ei
               {% elif 'godfather/list' in request.path %}
                 <a  href="/user/godfather/create">
 
+              {% elif 'donation/list' in request.path %}
+                <a  href="/donation/create">
+
+              {% elif 'subsidy/list' in request.path %}
+                <a  href="/subsidy/create">
+
               {% endif %}
               {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
             </div>
