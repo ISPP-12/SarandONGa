@@ -52,6 +52,7 @@ class ASEMUserTestCase(TestCase):
 
     def test_asem_user_delete(self):
         asemuser = ASEMUser.objects.get(name="Tomas")
+        self.assertEqual(ASEMUser.objects.count(), 2)
         asemuser.delete()
         self.assertEqual(ASEMUser.objects.count(), 1)
         
@@ -871,6 +872,27 @@ class ASEMUserTestCase(TestCase):
             own_home="VP",
             own_vehicle=True,
             bank_account_number=None)
+            
+    def test_asem_user_create_bank_account_number_incorrect_pattern(self):
+        with self.assertRaises(Exception):
+            ASEMUser.objects.create(email="tcamerob2@gmail.com",
+            name="Tomas2",
+            surname='Camero',
+            birth_date=datetime.datetime(2000, 1, 24, tzinfo=datetime.timezone.utc),
+            sex="M",
+            city="Sevilla",
+            address="Logroño 19",
+            telephone=691644398,
+            postal_code=41730,
+            condition="EM",
+            member="UNA",
+            user_type="OTROS",
+            correspondence="CC",
+            status="F",
+            family_unit_size=1,
+            own_home="VP",
+            own_vehicle=True,
+            bank_account_number='No es un patron de cuenta bancaria')
             
     
                 
