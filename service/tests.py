@@ -52,11 +52,11 @@ class ServiceAmountTestCase(TestCase):
 
     def test_service_amount_service_type_incorrect_choices(self):
         with self.assertRaises(Exception):
-            ServiceAmount.objects.create(service_type="No es un tipo de servicio",
+            service_amount = ServiceAmount.objects.create(service_type="No es un tipo de servicio",
                 user_type="SACC",
                 amount=30,
                 date=datetime.datetime(2018, 1, 1, tzinfo=datetime.timezone.utc))
-            full_clean()
+            service_amount.full_clean()
 
     def test_service_amount_service_type_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -67,11 +67,11 @@ class ServiceAmountTestCase(TestCase):
 
     def test_service_amount_service_type_incorrect_blank(self):
         with self.assertRaises(Exception):
-            ServiceAmount.objects.create(service_type="",
+            service_amount = ServiceAmount.objects.create(service_type="",
                 user_type="SACC",
                 amount=30,
                 date=datetime.datetime(2018, 1, 1, tzinfo=datetime.timezone.utc))
-            full_clean()
+            service_amount.full_clean()
 
     def test_service_amount_user_type_incorrect_max_length(self):
         with self.assertRaises(Exception):
@@ -82,13 +82,13 @@ class ServiceAmountTestCase(TestCase):
 
     def test_service_amount_user_type_incorrect_choices(self):
         with self.assertRaises(Exception):
-            ServiceAmount.objects.create(service_type="Fisioterapia",
+            service_amount = ServiceAmount.objects.create(service_type="Fisioterapia",
                 user_type="No es un tipo de usuario de ASEM",
                 amount=30,
                 date=datetime.datetime(2018, 1, 1, tzinfo=datetime.timezone.utc))
-            full_clean()
+            service_amount.full_clean()
 
-    def test_service_amount_service_type_incorrect_null(self):
+    def test_service_amount_user_type_incorrect_null(self):
         with self.assertRaises(Exception):
             ServiceAmount.objects.create(service_type="Fisioterapia",
                 user_type=None,
@@ -101,7 +101,7 @@ class ServiceAmountTestCase(TestCase):
                 user_type="SACC",
                 amount="No es un número",
                 date=datetime.datetime(2018, 1, 1, tzinfo=datetime.timezone.utc))
-    
+
     def test_service_amount_amount_incorrect_null(self):
         with self.assertRaises(Exception):
             ServiceAmount.objects.create(service_type="Fisioterapia",
@@ -209,12 +209,12 @@ class ServiceTestCase(TestCase):
 
     def test_service_service_type_incorrect_choices(self):
         with self.assertRaises(Exception):
-            Service.objects.create(service_type = "No es un tipo de servicio",
+            service = Service.objects.create(service_type = "No es un tipo de servicio",
                 date = datetime.datetime(2018, 2, 1, tzinfo=datetime.timezone.utc),
                 attendance = True,
                 payment = None,
                 asem_user = self.asem_user)
-            full_clean()
+            service.full_clean()
 
     def test_service_service_type_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -226,12 +226,12 @@ class ServiceTestCase(TestCase):
 
     def test_service_service_type_incorrect_blank(self):
         with self.assertRaises(Exception):
-            Service.objects.create(service_type = "",
+            service = Service.objects.create(service_type = "",
                 date = datetime.datetime(2018, 2, 1, tzinfo=datetime.timezone.utc),
                 attendance = True,
                 payment = None,
                 asem_user = self.asem_user)
-            full_clean()
+            service.full_clean()
 
     def test_service_date_incorrect_type(self):
         with self.assertRaises(Exception):
