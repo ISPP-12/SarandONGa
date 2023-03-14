@@ -1,3 +1,4 @@
+from xml.dom import ValidationErr
 from django.db import models
 from django.utils import timezone
 
@@ -249,6 +250,13 @@ class Child(Person):
 
     def __str__(self):
         return self.name + ' ' + self.surname
+    
+    def save(self, *args, **kwargs):
+        if self.terminatio_date < self.sponsorship_date:
+            raise ValidationErr("The termination date must be after the sponsorship date")
+        if self.number_brothers_siblings < 0:
+            raise ValidationErr("A child cannot have a negative number of siblings")
+        super(Child, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['name']

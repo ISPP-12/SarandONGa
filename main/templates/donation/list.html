@@ -9,10 +9,8 @@ displayed in the preview text (e.g. "donación")
 {% load static %}
 
 {% block extrahead %}
-<meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="{% static 'styles/donation.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/donation.css' %}">
 {% endblock %}
-
 
 {% block objectFor %}
 {% for object in objects %}

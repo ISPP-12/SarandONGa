@@ -5,51 +5,6 @@
 {% block contenido %} 
 	
   <hr>
-  <h5>Esta es la página de inicio</h5>   
-  <hr>
-  <h5>Esto es un ejemplo de input y label</h5>
-
-  <div class="row">
-  {% include "components/inputs.html" with id=1 label_text='Nombre' placeholder='Escribe algo...'  type='text'  %}
-  {% include "components/inputs.html" with id=1 label_text='Apellidos' placeholder='Escribe tu apellido...'  type='text'  %}
-
-  {% include "components/select.html" with id=1 label_text='Nombre' label_text='Nombre' options=options1 placeholder='Seleciona una opción'    %}
-  {% include "components/select.html" with id=3 label_text='Apellidos'  options=options2 placeholder='Seleciona 1...'    %}
-  </div>
-
-		{% include "components/card-display.html" with id='id-cardsDiv' class_card='card-stock' class_card_list='card-stock-list' %}
-		<div class="container">
-			<div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
-				{% include "components/card.html" with class_card='card-stock' item=stockTest %}
-				{% include "components/card.html" with class_card='card-stock' item=stockTest %}
-				{% include "components/card.html" with class_card='card-stock' item=stockTest %}
-			</div>
-		</div>
-
-
-  {% comment %} Example button {% endcomment %}
-	<p>Ejemplo de botón dentro de una sección</p>
-	<div class="example-section">
-		{% include 'components/button.html' with text="Hola" onclick="alert('hola')"%}
-	</div>
-	<p>Ejemplos de las variantes de los botones</p>
-	{% include 'components/button.html' with text="Añadir" variation="PLUS" %}
-	{% include 'components/button.html' with text="PDF" variation="PDF" %}
-	{% include 'components/button.html' with text="EXCEL" variation="EXCEL" %}
-	{% include 'components/button.html' with text="Enviar" variation="SUBMIT" %}
-	{% include 'components/button.html' with text="Descargar" variation="DOWNLOAD" %}
-
-
-
-	{% include 'layouts/master_sidebar.html' with object_name="usuario" %}
-
-
-  {% comment %} Example cardlist {% endcomment %}
-
-	{% include 'components/card-list.html' with object_name="person" profilePic="https://this-person-does-not-exist.com/gen/avatar-117af80ee0a09a08091c16faa044c981.jpg" name="Adela" surnames="Perez"%}
-
-	{% include 'components/card-list.html' with object_name="person" name="Adela" surnames="Perez"%}
-
-	{% include 'components/card-list.html' with object_name="otro" amount="300" name="Adela" surnames="Perez"%}
+  <h5>Página de inicio</h5>
 
 {% endblock %}
