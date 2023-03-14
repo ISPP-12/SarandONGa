@@ -1,6 +1,7 @@
 from django.db import models
 
 from person import models as person_models
+from payment import models as payment_models
 from django.utils import timezone
 # Create your models here.
 
@@ -30,8 +31,7 @@ class Service(models.Model):
     service_type = models.CharField(max_length=50, choices=SERVICES_TYPE,verbose_name="Tipo de servicio")
     date = models.DateTimeField(default=timezone.now, verbose_name="Fecha")
     attendance = models.BooleanField(verbose_name="Asistencia")
-    #TODO: añadir una foreign key con pago cuando pago esté implementado
-    #payment = models.ForeignKey(Payment, verbose_name="Pago")
+    payment = models.ForeignKey(payment_models.Payment, verbose_name="Pago", on_delete=models.SET_NULL, null=True)
     asem_user = models.ForeignKey(person_models.ASEMUser, verbose_name="Usuario ASEM", on_delete=models.CASCADE)
     @property
     def amount(self):
