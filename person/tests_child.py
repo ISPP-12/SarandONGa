@@ -1,26 +1,28 @@
 from datetime import datetime
 from django.test import TestCase
+from ong.models import Ong
 from person.models import Child
 
 class ChildTestCase(TestCase):
     def setUp(self):
+        self.ong = Ong.objects.create(name='Mi ONG')
         Child.objects.create(email='test1@test.com', name='Test_1',surname='Test1 Test1', birth_date=datetime(2001,6,18),
                             sex="Femenino", city="Test1", address="Test1", telephone=123456789, postal_code=12345, photo="test1.jpg",
                             sponsorship_date=datetime(2006,2,23), terminatio_date=datetime(2020,9,12), study="Test1", expected_mission_time="2",
                             mission_house="Test1", site="Test1", subsite="Test1", father_name="Dn. Test1", father_profession="Test1",
-                            mother_name="Sra. Test1", mother_profession="Test1", number_brothers_siblings=3,correspondence="Test1")
+                            mother_name="Sra. Test1", mother_profession="Test1", number_brothers_siblings=3,correspondence="Test1",ong=self.ong)
         
         Child.objects.create(email='test2@test.com', name='Test_2',surname='Test2 Test2', birth_date=datetime(2003,4,8),
                             sex="Masculino", city="Test2", address="Test2", telephone=123456789, postal_code=12345, photo="test2.jpg",
                             sponsorship_date=datetime(2008,11,12), terminatio_date=datetime(2021,2,1), study="Test2", expected_mission_time="2",
                             mission_house="Test2", site="Test2", subsite="Test2", father_name="Dn. Test2", father_profession="Test2",
-                            mother_name="Sra. Test2", mother_profession="Test2", number_brothers_siblings=3,correspondence="Test2")
+                            mother_name="Sra. Test2", mother_profession="Test2", number_brothers_siblings=3,correspondence="Test2",ong=self.ong)
         
         Child.objects.create(email='test3@test.com', name='Test_3',surname='Test3 Test3', birth_date=datetime(2010,5,29),
                             sex="Femenino", city="Test3", address="Test3", telephone=123456789, postal_code=12345, photo="test3.jpg",
                             sponsorship_date=datetime(2013,11,23), terminatio_date=datetime(2022,9,2), study="Test3", expected_mission_time="2",
                             mission_house="Test3", site="Test3", subsite="Test3", father_name="Dn. Test3", father_profession="Test3",
-                            mother_name="Sra. Test3", mother_profession="Test3", number_brothers_siblings=3,correspondence="Test3")
+                            mother_name="Sra. Test3", mother_profession="Test3", number_brothers_siblings=3,correspondence="Test3",ong=self.ong)
         
         
 

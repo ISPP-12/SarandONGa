@@ -1,18 +1,21 @@
 from django.test import TestCase
+
+from ong.models import Ong
 from .models import Stock
 from decimal import Decimal
 
 class StockTestCase(TestCase):
     def setUp(self):
-        self.stock1 = Stock.objects.create(name="Manzanas", quantity=4)
-        self.stock2 = Stock.objects.create(name="Naranjas", quantity=7)
+        self.ong = Ong.objects.create(name='Mi ONG')
+        self.stock1 = Stock.objects.create(name="Manzanas", quantity=4,ong=self.ong)
+        self.stock2 = Stock.objects.create(name="Naranjas", quantity=7,ong=self.ong)
     
     def tearDown(self):
         Stock.objects.all().delete()
 
     def test_stock_create(self):
         count = Stock.objects.count()
-        Stock.objects.create(name="Peras", quantity=9)
+        Stock.objects.create(name="Peras", quantity=9,ong=self.ong)
         new_count = Stock.objects.count()
         self.assertEqual(new_count, count+1)
     
