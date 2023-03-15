@@ -8,6 +8,8 @@ from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 
+from ong.models import Ong
+
 
 SEX_TYPES = (
     ('F', 'Femenino'),
@@ -121,7 +123,8 @@ class Worker(AbstractBaseUser):
     photo = models.ImageField(verbose_name="Foto", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
     is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
-
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='trabajador')
+    
     USERNAME_FIELD = 'email'
 
     objects = WorkerManager()
@@ -161,6 +164,7 @@ class GodFather(Person):
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='padrino')
     
 
     def save(self, *args, **kwargs):
@@ -197,6 +201,7 @@ class ASEMUser(Person):
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
                                            validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
                                                                       message='El número de cuenta no es válido.')])
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='asemuser')
 
     class Meta:
         ordering = ['surname','name']
@@ -217,7 +222,7 @@ class Volunteer(Person):
     # Fecha de inicio del contrato
     contract_date = models.DateField(
         verbose_name="Fecha de inicio del contrato")
-
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='voluntario')
 
 class Child(Person):
     sponsorship_date = models.DateTimeField(
@@ -246,6 +251,7 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='niño')
         
 
     def __str__(self):
