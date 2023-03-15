@@ -21,6 +21,7 @@ class Donation(models.Model):
     donor_email= models.EmailField(verbose_name="Correo Electrónico")
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='donacion')
     
+    
     #Dejo esto comentado pero es para almacenar un documento correspondiente a la donación, si fuese necesario
     #document= models.FileField(blank=True, null=True)
 
