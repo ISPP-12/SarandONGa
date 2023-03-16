@@ -96,11 +96,42 @@ class Person(models.Model):
 
 class WorkerManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
-        user = self.model(email=email, **extra_fields)
+        ongs = Ong.objects.all()
+
+        # Agregar opción para crear una nueva ong
+        options = [f"{i}. {ong.name}" for i, ong in enumerate(ongs, start=1)]
+        options.append(f"{len(ongs) + 1}. Crear nueva ONG")
+
+        print("Seleccione una ong (ingrese el número correspondiente):")
+        for option in options:
+            print(option)
+
+        while True:
+            try:
+                choice = int(input("> "))
+                if choice == len(ongs) + 1:
+                    # Si elige la opción de crear una nueva ong, pedir el nombre
+                    ong_name = input("Nombre de la nueva ong: ")
+                    if Ong.objects.filter(name=ong_name).exists():
+                        print("Ya existe una ong con ese nombre. Intente de nuevo.")
+                    else:
+                        ong = Ong.objects.create(name=ong_name)
+                        break
+                else:
+                    # Si elige una ong existente, usarla
+                    ong = ongs[choice - 1]
+                    break
+            except (ValueError, IndexError):
+                print("Opción inválida. Intente de nuevo.")
+
+        user = self.model(email=email, ong_id=ong.id, **extra_fields)
         user.set_password(password)
         user.is_admin = True
         user.save()
+
         return user
+
+
 
 
 class Worker(AbstractBaseUser):
