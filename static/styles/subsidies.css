@@ -8,15 +8,18 @@
 /* Button */
 #section-subsidy .section-btn {
   background-color: var(--subsidies-main-color);
+  color: var(--clr-black);
 }
 
 #section-subsidy .section-btn:hover {
   background-color: var(--subsidies-main-color-hover);
+  color: var(--clr-black);
 }
 
 /* override bootstrap */
 #section-subsidy .section-btn:active {
   background-color: var(--subsidies-main-color-hover) !important;
+  color: var(--clr-black);
 }
 
 /* Title */

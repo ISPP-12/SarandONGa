@@ -12,6 +12,7 @@
 #section-user .section-btn,
 #section-volunteer .section-btn {
   background-color: var(--workers-main-color);
+  color: var(--clr-black);
 }
 
 #section-worker .section-btn:hover,
@@ -20,6 +21,7 @@
 #section-user .section-btn:hover,
 #section-volunteer .section-btn:hover {
   background-color: var(--workers-main-color-hover);
+  color: var(--clr-black);
 }
 
 /* override bootstrap */
@@ -29,6 +31,7 @@
 #section-user .section-btn:active,
 #section-volunteer .section-btn:active {
   background-color: var(--workers-main-color-hover) !important;
+  color: var(--clr-black);
 }
 
 /* Title */

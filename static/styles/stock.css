@@ -8,15 +8,18 @@
 /* Button */
 #section-stock .section-btn {
   background-color: var(--stock-main-color);
+  color: var(--clr-black);
 }
 
 #section-stock .section-btn:hover {
   background-color: var(--stock-main-color-hover);
+  color: var(--clr-black);
 }
 
 /* override bootstrap */
 #section-stock .section-btn:active {
   background-color: var(--stock-main-color-hover) !important;
+  color: var(--clr-black);
 }
 
 /* Title */

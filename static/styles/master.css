@@ -1,8 +1,8 @@
 
 :root {
   /* Neutral colors */
-  --white: hsl(0, 0%, 100%);
-  --black: hsl(0, 0%, 0%);
+  --clr-white: hsl(0, 0%, 100%);
+  --clr-black: hsl(0, 0%, 0%);
   --gray-300: hsl(0, 0%, 64%);
   --gray-600: hsl(0, 0%, 48%);
   --gray-900: hsl(0, 0%, 24%);
@@ -39,13 +39,13 @@
 
   /* Font sizes */
   --font-size-small: 12px;
-  --font-size-medium: 14px;
-  --font-size-large: 16px;
-  --font-size-xlarge: 18px;
+  --font-size-medium: 16px;
+  --font-size-large: 20px;
+  --font-size-xlarge: 24px;
 
   /* Border radius */
-  --border-radius-1: 7px;
-  --border-radius-2: 14px;
+  --border-radius-1: --bs-border-radius;
+  --border-radius-2: calc(--bs-border-radius * 2);
 }
 
 body {

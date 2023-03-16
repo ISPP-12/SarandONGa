@@ -8,15 +8,18 @@
 /* Button */
 #section-donation .section-btn {
   background-color: var(--donations-main-color);
+  color: var(--clr-black);
 }
 
 #section-donation .section-btn:hover {
   background-color: var(--donations-main-color-hover);
+  color: var(--clr-black);
 }
 
 /* override bootstrap */
 #section-donation .section-btn:active {
   background-color: var(--donations-main-color-hover) !important;
+  color: var(--clr-black);
 }
 
 /* Title */
