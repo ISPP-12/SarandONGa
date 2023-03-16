@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.test import TestCase
 from .models import Stock
 from decimal import Decimal
@@ -45,3 +46,25 @@ class StockTestCase(TestCase):
 
         updated_stock = Stock.objects.get(name="Manzanas")
         self.assertEqual(updated_stock.quantity, Decimal('4.20'))
+            
+    def test_get_stock(self):
+        stock = Stock.objects.create(name='Test Stock', quantity=100.00)
+        retrieved_stock = Stock.objects.get(id=stock.id)
+        self.assertEqual(retrieved_stock, stock)
+        
+    def test_get_nonexistent_stock(self):
+        with self.assertRaises(Stock.DoesNotExist):
+            Stock.objects.get(id=1000)
+    
+    @transaction.atomic        
+    def test_create_stock_without_name(self):
+        with self.assertRaises(Exception):
+            Stock.objects.create(name=None,quantity=100.00)
+    
+    @transaction.atomic        
+    def test_create_stock_without_quantity(self):
+        with self.assertRaises(Exception):
+            Stock.objects.create(name='Test Stock',quantity=None)
+
+
+
