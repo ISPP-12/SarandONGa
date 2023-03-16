@@ -66,5 +66,81 @@ class StockTestCase(TestCase):
         with self.assertRaises(Exception):
             Stock.objects.create(name='Test Stock',quantity=None)
 
+    @transaction.atomic  
+    def test_create_name_max(self):
+        with self.assertRaises(Exception):
+            Stock.objects.create(name='a'*201,quantity=100.00)
+    
+    @transaction.atomic 
+    def test_create_name_blank(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='',quantity=100.00)
+            s.full_clean()
+     
+    @transaction.atomic        
+    def test_create_quantity_max(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='Test Stock',quantity=10000000000000)
+            s.full_clean()
+            
+    @transaction.atomic 
+    def test_create_quantity_min(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='Test Stock',quantity=-1)
+            s.full_clean()
+            
+    @transaction.atomic         
+    def test_create_quantity_blank(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='Test Stock',quantity='')
+            s.full_clean()
+            
+    @transaction.atomic         
+    def test_create_quantity_string(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='Test Stock',quantity='a')
+            s.full_clean()
+            
+    @transaction.atomic         
+    def test_update_name_null(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.get(name="Naranjas")
+            s.stock.name = None
+            s.full_clean()
+    
+    @transaction.atomic 
+    def test_update_name_max(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.name = 'a'*201
+            stock.full_clean()
+    
+    @transaction.atomic         
+    def test_update_name_blank(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.name = ''
+            stock.full_clean()
+    
+    @transaction.atomic         
+    def test_update_quantity_null(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.quantity = None
+            stock.full_clean()
+    
+    @transaction.atomic         
+    def test_update_quantity_max(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.quantity = 10000000000000
+            stock.full_clean()
+    
+    @transaction.atomic         
+    def test_update_quantity_string(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.quantity = 'a'
+            stock.full_clean()
 
 
