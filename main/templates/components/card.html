@@ -17,9 +17,29 @@ ATTRIBUTES
                 <img src="{% if item.picture %}{% static item.picture %}{% else %}{% static 'img/img-not-found.svg' %}{% endif %}" class="card-img-top" alt="{{item.name}}">
             </div>
             <div class="card-body-col col-12">
-                <div class="card-body">
-                    <h5 class="card-title"><span title="{{item.name}}">{{item.name}}</span></h5>
-                    <p class="card-text">{{item.quantity}} unidad{% if item.quantity != 1 %}es{% endif %}</p>
+                <div class="card-body row h-100">
+                    <div class="col-12">
+                        <h5 class="card-title"><span title="{{item.name}}">{{item.name}}</span></h5>
+                    </div>
+                    <div class="col-12">
+                        <p class="card-text">{{item.quantity}} unidad{% if item.quantity != 1 %}es{% endif %}</p>
+                    </div>
+                    <div class="col-12 pt-3">
+                        <div class="row">
+                            <div class="col-6">
+                                <button id="id-editCardBtn-{{id}}" class="edit-btn btn m-auto border-dark w-100" onclick="">
+                                    <i class="bi me-2 bi-pencil-square"></i>
+                                    <span>Editar</span>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button id="id-deleteCardBtn-{{id}}" class="delete-btn btn m-auto border-dark w-100" onclick="">
+                                    <i class="bi me-2 bi-trash3"></i>
+                                    <span>Eliminar</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

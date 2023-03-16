@@ -66,3 +66,22 @@
 }
 
 /* THIS COMMENT FOR CODACY, HATE YOU */
+
+/* CARD BUTTONS */
+.btn {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.edit-btn,
+.delete-btn {
+  background-color: #eaeaea;
+  color: black;
+}
+
+.edit-btn:hover,
+.edit-btn:active,
+.delete-btn:hover,
+.delete-btn:active {
+  background-color: #f1d746;
+  color: black;
+}
