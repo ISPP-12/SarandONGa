@@ -66,7 +66,7 @@ class StockTestCase(TestCase):
         with self.assertRaises(Exception):
             Stock.objects.create(name='Test Stock',quantity=None)
 
-    @transaction.atomic  
+    @transaction.atomic 
     def test_create_name_max(self):
         with self.assertRaises(Exception):
             Stock.objects.create(name='a'*201,quantity=100.00)
@@ -141,6 +141,13 @@ class StockTestCase(TestCase):
         with self.assertRaises(Exception):
             stock = Stock.objects.get(name="Naranjas")
             stock.quantity = 'a'
+            stock.full_clean()
+            
+    @transaction.atomic         
+    def test_update_quantity_min(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.quantity = -1
             stock.full_clean()
 
 
