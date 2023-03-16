@@ -4,7 +4,7 @@ from django.contrib import messages
 import json
 from datetime import datetime,date
 from decimal import Decimal
-from .forms import CreateNewGodFather, CreateNewASEMUser,CreateNewWorker, CreateNewChild
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer,CreateNewWorker, CreateNewChild
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -175,3 +175,16 @@ def volunteer_list(request):
         }
 
     return render(request, 'users/list.html', context)
+
+
+def volunteer_create(request):
+    if request.method == "POST":
+        form = CreateNewVolunteer(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('volunteer_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewVolunteer()
+    return render(request, 'volunteers/volunteers_form.html', {"form": form})

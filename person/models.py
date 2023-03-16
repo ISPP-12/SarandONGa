@@ -97,7 +97,7 @@ class WorkerManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.is_admin = True
-        user.save()
+        user.save()        
         return user
 
 
