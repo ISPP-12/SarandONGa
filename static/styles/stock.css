@@ -1,0 +1,31 @@
+:root {
+  --stock-main-color: var(--clr-accent-1);
+  --stock-main-color-hover: var(--clr-accent-1-dark);
+  --stock-main-color-light: var(--clr-accent-1-light);
+}
+
+
+/* Button */
+#section-stock .section-btn {
+  background-color: var(--stock-main-color);
+}
+
+#section-stock .section-btn:hover {
+  background-color: var(--stock-main-color-hover);
+}
+
+/* override bootstrap */
+#section-stock .section-btn:active {
+  background-color: var(--stock-main-color-hover) !important;
+}
+
+/* Title */
+#section-stock .title {
+  border-color: var(--stock-main-color);
+}
+
+/* Selection */
+.selected {
+  background-color: var(--stock-main-color-light);
+}
+  

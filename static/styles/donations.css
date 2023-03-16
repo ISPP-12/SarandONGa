@@ -1,7 +1,7 @@
 :root {
-  --donations-main-color: #e7c4e4;
-  --donations-main-color-hover: #e8a8e2;
-  --donations-main-color-light: #ecd3ea;
+  --donations-main-color: var(--clr-accent-2);
+  --donations-main-color-hover: var(--clr-accent-2);
+  --donations-main-color-light: var(--clr-accent-2);
 }
 
 
@@ -21,7 +21,7 @@
 
 /* Title */
 #section-donation .title {
-  text-decoration-color: var(--donations-main-color);
+  border-color: var(--donations-main-color);
 }
 
 /* Selection */
