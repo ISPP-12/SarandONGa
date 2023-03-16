@@ -12,8 +12,8 @@ class Subsidy(models.Model):
     #Organismo
     organism = models.CharField(max_length=100, verbose_name="Organismo")
 
-    provisional_resolution = models.BooleanField(verbose_name="Resolución provisional", default=False)
-    final_resolution = models.BooleanField(verbose_name="Resolución definitiva", null=True)
+    provisional_resolution = models.DateField(verbose_name="Resolución provisional", null=True)
+    final_resolution = models.DateField(verbose_name="Resolución definitiva", null=True)
     # Importe de la subvención
     amount = models.FloatField(validators=[MinValueValidator(0)], verbose_name="Cantidad")
 
@@ -25,6 +25,8 @@ class Subsidy(models.Model):
         self.clean()
         if self.amount < 0:
             raise ValidationError("El importe no puede ser negativo")
+        if self.final_resolution < self.provisional_resolution:
+            raise ValidationError("La resolución definitiva no puede ser anterior a la provisional")
         super().save(force_insert, force_update, using, update_fields)
 
     def __str__(self):
