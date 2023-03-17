@@ -9,7 +9,7 @@ class create_payment_form(forms.ModelForm):
         model = Payment
         exclude = ['id']
         widgets = {
-            'payday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'payday': forms.DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
             # Cuando esté padrino, descomentar la línea de abajo
             # 'godfather': forms.Select(attrs={'class': 'form-control'}),
