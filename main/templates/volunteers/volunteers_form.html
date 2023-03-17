@@ -4,7 +4,7 @@
 <h1>Registrar Voluntario</h1>
 <form method="post" >
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <button type="submit", name="save">Registrar Voluntario</button>
 </form>
 {% endblock %}

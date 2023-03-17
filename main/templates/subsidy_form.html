@@ -3,7 +3,7 @@
 <h1>Registrar subvención</h1>
 <form method="post" action="/subsidy/">
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
 </form>
 {% endblock %}

@@ -3,7 +3,7 @@
 <h1>Registrar donación</h1>
 <form method="post" action="/donations/new/">
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
 </form>
 {% endblock %}
