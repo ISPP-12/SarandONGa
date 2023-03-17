@@ -45,7 +45,7 @@ def subsidy_list(request):
     return render(request, 'subsidy/list.html', context)
 
 
-def subsidy_delete(request, id):
-    subsidy = Subsidy.objects.get(id=id)
+def subsidy_delete(request, subsidy_id):
+    subsidy = Subsidy.objects.get(id=subsidy_id)
     subsidy.delete()
     return redirect("/subsidy/list")
