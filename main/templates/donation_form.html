@@ -1,6 +1,6 @@
 {% block content %}
 Registrar donación
-<form method="post" action="/donations/new/">
+<form method="post" action="/donations/create">
     {% csrf_token %}
     {{form}}
     <button type="submit", name="save">Registrar</button>
