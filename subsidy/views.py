@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Subsidy
 from .forms import CreateNewSubsidy
 from datetime import date
@@ -34,20 +34,18 @@ def subsidy_list(request):
 
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
-    for subsidy in subsidies:
-        date1 = subsidy.presentation_date
-        date2 = subsidy.payment_date
-        modified_date1 = date1.strftime('%d/%m/%Y')
-        modified_date2 = date2.strftime('%d/%m/%Y')
-        subsidy.presentation_date = modified_date1
-        subsidy.payment_date = modified_date2
-
     context = {
         'objects': subsidies,
         'objects_json': subsidies_json,
         'object_name': 'subvención',
         'object_name_en': 'subsidy',
         'title': 'Listado de Subvenciones',
-        }
+    }
 
     return render(request, 'subsidy/list.html', context)
+
+
+def subsidy_delete(request, subsidy_id):
+    subsidy = get_object_or_404(Subsidy, id=subsidy_id)
+    subsidy.delete()
+    return redirect("/subsidy/list")
