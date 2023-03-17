@@ -38,37 +38,10 @@ PS: the text inside the button is displayed exactly as it is written. You can ei
             </div>
             
             <div class="col-md-3 col-12 mb-md-0 mb-3 d-flex">
-              {% if 'asem/list' in request.path %}
-                <a  href="/user/asem/create">
-             
-              {% elif 'worker/list' in request.path %}
-                <a  href="/user/worker/create">
-
-              {% elif 'child/list' in request.path %}
-                <a  href="/user/child/create">
-
-              {% elif 'godfather/list' in request.path %}
-                <a  href="/user/godfather/create">
-
-              {% elif 'donation/list' in request.path %}
-                <a  href="/donation/create">
-
-              {% elif 'subsidy/list' in request.path %}
-                <a  href="/subsidy/create">
-
-              {% endif %}
-              {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
+              {%block botonPrimario%}{%endblock%}
             </div>
 
-            {% if 'asem/list' in request.path %}
-            <div class="row justify-content-end">
-              <div class="col-md-2 col-12 mb-md-0 mb-3 mt-4 d-flex">
-                <a href="/payment/create">
-                {% include 'components/button.html' with variation='PLUS' text='Añadir pago' %}
-                </a>
-              </div>
-            </div>
-            {%endif%}
+            {%block botonPagoAsem%}{%endblock%}
 
           </div>
         </div>
