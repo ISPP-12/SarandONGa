@@ -1,7 +1,7 @@
 :root {
   --donations-main-color: var(--clr-accent-2);
-  --donations-main-color-hover: var(--clr-accent-2);
-  --donations-main-color-light: var(--clr-accent-2);
+  --donations-main-color-hover: var(--clr-accent-2-dark);
+  --donations-main-color-light: var(--clr-accent-2-light);
 }
 
 
