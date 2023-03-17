@@ -200,6 +200,7 @@ class GodFather(Person):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surname)
+        
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:

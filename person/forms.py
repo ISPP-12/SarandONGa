@@ -1,6 +1,6 @@
 import datetime
 from django import forms
-from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENCE
+from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENCE,Volunteer
 
 class CreateNewGodFather(forms.ModelForm):
     class Meta:
@@ -54,3 +54,12 @@ class CreateNewChild(forms.ModelForm):
     class Meta:
         model = Child
         exclude = ['id']
+        
+class CreateNewVolunteer(forms.ModelForm):
+    class Meta:
+        model = Volunteer
+        fields = ['name','surname','email','birth_date','sex','city',
+                  'address','telephone','postal_code','photo','job','dedication_time','contract_date']
+        widgets = {
+            'contract_date': forms.DateInput(attrs={'class': 'form-control', 'value': datetime.date.today}, format='%Y-%m-%d'),
+        }
