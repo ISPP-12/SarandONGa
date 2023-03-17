@@ -11,5 +11,6 @@ urlpatterns = [
     path('godfather/list', views.godfather_list, name="godfather_list"),
     path('godfather/create', views.godfather_create, name="godfather_create"),
     path('volunteer/list',views.volunteer_list, name='volunteer_list'),
-    path('volunteer/create', views.volunteer_create, name='volunteer_create')
+    path('volunteer/create', views.volunteer_create, name='volunteer_create'),
+    path('volunteer/delete/<int:id>/', views.volunteer_delete, name="volunteer_delete")
 ]
