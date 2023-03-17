@@ -30,6 +30,29 @@ class CreateNewWorker(forms.ModelForm):
     class Meta:
         model = Worker
         exclude = ['id', 'last_login', 'is_active','is_admin','password']
+        labels = {
+            'email': 'Correo electrónico',
+            'name': 'Nombre',
+            'surname': 'Apellidos',
+            'birth_date': 'Fecha de nacimiento',
+            'sex': 'Sexo',
+            'city': 'Ciudad',
+            'address': 'Dirección',
+            'telephone': 'Teléfono',
+            'postal_code': 'Código Postal',
+            'photo': 'Fotografía',
+            'password': 'Contraseña;',
+            'password2': 'Confirme la contraseña'
+        }
+        widgets = {
+            'sex': forms.Select(attrs={'class':'form-select-lg w-100 mb-3'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CreateNewWorker, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            if not visible.field.widget.attrs.get('class'):
+                visible.field.widget.attrs['class'] = 'form-control-lg w-100 mb-3 custom-form'
 
     def clean_password2(self):
         # Check that the two password entries match

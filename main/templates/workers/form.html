@@ -1,0 +1,45 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %} 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/workers.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/forms.css' %}">
+{% endblock %}
+
+{% block contenido %}
+
+{% if messages %}
+<div class="row">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% include 'components/title.html' with title="Registrar Trabajador" %}
+<form method="post" class="mt-5 row">{% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+        <div class="col-md-6 col-12">
+            <div class="row">
+                <div class="col-12">
+                    <label for="{{field.id_for_label}}">{{field.label}}</label>
+                </div>
+                <div class="col-12">
+                    {{ field }}
+                </div>
+                <div class="col-12 text-danger">
+                    {{ field.errors }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div id="section-worker" class="col-12 d-flex justify-content-center">
+        {% include 'components/button.html' with variation="SUBMIT" text="Registrar" id="id-submitForm" type="submit" %}
+        {% include 'components/button.html' with variation="RETURN" text="Cancelar" id="id-cancelForm" onclick="window.location.pathname = '/worker/list'" %}
+    </div>
+</form>
+{% endblock %}

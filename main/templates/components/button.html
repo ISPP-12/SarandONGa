@@ -1,6 +1,6 @@
 {% comment %} 
 ATTRIBUTES:
-- variation (PLUS, PDF, EXCEL, SUBMIT, DOWNLOAD) 
+- variation (PLUS, PDF, EXCEL, SUBMIT, DOWNLOAD, RETURN) 
 - text (text on button)
 - id (for javascript)
 - href (link to page)
@@ -25,6 +25,8 @@ ATTRIBUTES:
         <i class="bi me-2 bi-filetype-pdf"></i>
     {% elif variation == "EXCEL" %}
         <i class="bi me-2 bi-file-earmark-spreadsheet"></i>
+    {% elif variation == "RETURN" %}
+        <i class="bi bi-arrow-return-left"></i>
     {% else %}
     {% endif %}
     
