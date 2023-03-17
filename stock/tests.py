@@ -49,9 +49,10 @@ class StockTestCase(TestCase):
 
         updated_stock = Stock.objects.get(name="Manzanas")
         self.assertEqual(updated_stock.quantity, Decimal('4.20'))
-            
+    
+    @transaction.atomic         
     def test_get_stock(self):
-        stock = Stock.objects.create(name='Test Stock', quantity=100.00)
+        stock = Stock.objects.create(name='Test Stock', quantity=100.00,ong=self.ong)
         retrieved_stock = Stock.objects.get(id=stock.id)
         self.assertEqual(retrieved_stock, stock)
         
