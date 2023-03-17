@@ -1,20 +1,36 @@
 {% extends 'layouts/master.html' %} {% block titulo %} Añadir pago {% endblock %} 
 {% block contenido %}
-<h1 class="mx-5 my-5">Añadir pago</h1>
-<form method="post" class="" action="/payment/create">
+<h1 class="mx-5 my-5">
+  {% if form.instance.id %}
+  Editar pago
+  {% else %}
+  Añadir pago
+  {% endif %}
+
+</h1>
+<form method="post" action="">
   {% csrf_token %}
     <div class="row my-4 mx-5">
       <div class="col">
-      {% include "components/inputs.html" with nameIn="amount" id=form.amount.id_for_label label_text="Cantidad" placeholder="Escribe cantidad" type="number" %} 
+      {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" input=form.amount %} 
       {{ form.amount.errors }}
+      
       </div>
       <div class="col">
-      {% include "components/inputs.html" with nameIn="payday" id=form.payday.id_for_label label_text="Fecha" placeholder="Escribe la fecha del pago" type="date" %}
+      {% include "components/inputs.html" with id=form.payday.id_for_label label_text="Fecha" input=form.payday  %}
       {{ form.payday.errors }}
       </div>
     </div>
     <div class="form-section mt-5 mx-5 text-center">
-      {% include 'components/button.html' with text="Añadir pago" variation="SUBMIT" %}
+      {% if form.instance.id %}
+        {% with button_text="Actualizar" %}
+          {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+        {% endwith %}
+      {% else %}
+        {% with button_text="Añadir pago" %}
+          {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+        {% endwith %}
+      {% endif %}
     </div>
 </form>
 {% endblock %}
