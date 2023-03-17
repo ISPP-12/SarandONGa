@@ -53,11 +53,10 @@ def user_create(request):
 
 def worker_create(request):
     if request.method == "POST":
-        form = CreateNewWorker(request.POST)
+        form = CreateNewWorker(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('worker_list')
-
         else:
             messages.error(request, 'Formulario con errores')
 

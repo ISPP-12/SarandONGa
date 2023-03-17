@@ -26,6 +26,7 @@ class CreateNewWorker(forms.ModelForm):
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
+    photo=forms.ImageField(required=False)
 
     class Meta:
         model = Worker
