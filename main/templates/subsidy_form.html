@@ -2,7 +2,7 @@
 Registrar subvención
 <form method="post" action="/subsidy/create">
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
 </form>
 {% endblock %}
