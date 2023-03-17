@@ -1,6 +1,6 @@
 {% block content %}
 Registrar subvención
-<form method="post" action="/subsidy/">
+<form method="post" action="/subsidy/create">
     {% csrf_token %}
     {{form}}
     <button type="submit", name="save">Registrar</button>
