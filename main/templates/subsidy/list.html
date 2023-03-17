@@ -12,6 +12,14 @@
 {% endfor %}
 {% endblock %}
 
+{% block footer %}
+<div class="row mb-4">
+<div class="col-12 justify-content-start">
+    {% include "components/button.html" with variation="EXCEL" text="Descargar página" type="button" onclick="" %}
+</div>
+</div>
+{% endblock %}
+
 {% block scripts %}
 <script id="object-data">
   const objectList = document.querySelectorAll('.card-list')

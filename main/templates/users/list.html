@@ -7,17 +7,18 @@
 {% block objectFor %}
 {% for object in objects %}
 
-  
-
-
   {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname%}
   <span class="object-id d-none">{{ object.id }}</span>
 
-
- 
-
-
 {% endfor %}
+{% endblock %}
+
+{% block footer %}
+<div class="row mb-4">
+<div class="col-12 justify-content-start">
+    {% include "components/button.html" with variation="EXCEL" text="Descargar página" type="button" onclick="" %}
+</div>
+</div>
 {% endblock %}
 
 {% block scripts %}

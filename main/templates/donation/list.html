@@ -40,6 +40,15 @@ displayed in the preview text (e.g. "donación")
 
 <div id="data" data-json='{{ objects_json|safe }}'></div>
 <div id="object-name" data-name='{{ object_name }}'></div>
+
+{% endblock %}
+
+{% block footer %}
+<div class="row mb-4">
+<div class="col-12 justify-content-start">
+    {% include "components/button.html" with variation="EXCEL" text="Descargar página" type="button" onclick="" %}
+</div>
+</div>
 {% endblock %}
 
 {% block scripts %}
