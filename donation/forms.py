@@ -1,14 +1,11 @@
-from django.utils import timezone
 from django import forms
+from .models import Donation
 
-class CreateNewDonation(forms.Form):
-    title = forms.CharField(max_length=200)
-    description = forms.CharField(required=False)
-    created_date = forms.DateTimeField(initial=timezone.now, required=False)
-    amount = forms.DecimalField(max_digits=10, decimal_places=2)
-    donor_name = forms.CharField(max_length=100)
-    donor_surname = forms.CharField(max_length=250)
-    donor_dni = forms.CharField(max_length=9)
-    donor_address = forms.CharField(max_length=200)
-    donor_email = forms.EmailField()
-    
+
+class CreateNewDonation(forms.ModelForm):
+    class Meta:
+        model = Donation
+        exclude = ['id']
+        widgets = {
+            'created_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+        }
