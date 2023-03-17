@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from datetime import datetime
 import json
 from donation.models import Donation
@@ -19,19 +19,9 @@ def donation_create(request):
     if request.method == "POST":
         form = CreateNewDonation(request.POST)
         if form.is_valid():
-            title = form.cleaned_data["title"]
-            description = form.cleaned_data["description"]
-            created_date = form.cleaned_data["created_date"]
-            amount = form.cleaned_data["amount"]
-            donor_name = form.cleaned_data["donor_name"]
-            donor_surname = form.cleaned_data["donor_surname"]
-            donor_dni = form.cleaned_data["donor_dni"]
-            donor_address = form.cleaned_data["donor_address"]
-            donor_email = form.cleaned_data["donor_email"]
-            d = Donation(title= title, description=description, created_date=created_date,
-                        amount=amount, donor_name=donor_name, donor_surname=donor_surname, donor_dni=donor_dni,
-                        donor_address=donor_address, donor_email=donor_email)
-            d.save()
+            form.save()
+        else:
+            print(form.errors) 
 
     form = CreateNewDonation()
     return render(request, 'donation_form.html', {"form": form})
@@ -60,3 +50,17 @@ def donation_list(request):
         }
 
     return render(request, 'donation/list.html', context)
+
+def donation_update(request, donation_id):
+
+    donation = get_object_or_404(Donation, id=donation_id)
+    form = CreateNewDonation(instance = donation)
+
+    if request.method == "POST":
+        form = CreateNewDonation(request.POST, instance = donation)
+        if form.is_valid():
+            form.save()
+
+            return redirect('/donation/list')
+
+    return render(request, 'donation_update_form.html', {"form": form})
