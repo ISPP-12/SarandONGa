@@ -1,4 +1,6 @@
-{% block content %}
+{% extends "layouts/master.html" %}
+
+{% block contenido %}
 {% if messages %}
 {% for message in messages %}
   <div class="alert alert-{{ message.tags }}">
@@ -6,7 +8,7 @@
   </div>
 {% endfor %}
 {% endif %}
-Registrar Padrino
+<h1>Registrar Padrino</h1>
 <form method="post" >
     {% csrf_token %}
     {{form}}

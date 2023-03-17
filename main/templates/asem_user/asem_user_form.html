@@ -1,5 +1,6 @@
-{% block content %}
-Registrar usuario
+{% extends "layouts/master.html" %}
+{% block contenido %}
+<h1>Registrar usuario</h1>
 <form method="post" >
     {% csrf_token %}
     {{form}}

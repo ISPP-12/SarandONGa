@@ -9,10 +9,12 @@
         <div class="row justify-content-between mx-4 ">
             <div class="col-12 col-sm-4  mx-2 ">
                 <div class="row pt-1">
-                    {% include "components/inputs.html" with nameIn="name" id=1 label_text="Nombre" placeholder="Nombre del suministro"  type="text"  %}
+                    {% include "components/inputs.html" with nameIn="name" id=form.name.id_for_label label_text="Nombre" placeholder="Nombre del suministro" type="text" %}
+
                 </div>
                 <div class="row pt-4 mb-4">                  
-                    {% include "components/inputs.html" with nameIn="quantity" id=1 label_text="Unidades" placeholder="Número de unidades"  type="number"  %}
+                    {% include "components/inputs.html" with nameIn="quantity" id=form.quantity.id_for_label label_text="Unidades" placeholder="Número de unidades" type="number" %}
+
                 </div>
             </div>
             <div class="col-12 col-sm-6 ">
@@ -23,7 +25,7 @@
                     </div>
                     <div class=" row d-flex justify-content-center  ">
                         <div class="col-8">
-                            {% include "components/inputs.html" with id="file-up" nameIn="file"  type="file"  %}
+                            {% include "components/inputs.html" with id="file-up" nameIn="file" type="file" %}
                         </div>
                     </div>
                 </div>

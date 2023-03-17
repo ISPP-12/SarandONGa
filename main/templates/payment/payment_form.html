@@ -5,11 +5,11 @@
   {% csrf_token %}
     <div class="row my-4 mx-5">
       <div class="col">
-      {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" placeholder="Escribe cantidad" type="number" %} 
+      {% include "components/inputs.html" with nameIn="amount" id=form.amount.id_for_label label_text="Cantidad" placeholder="Escribe cantidad" type="number" %} 
       {{ form.amount.errors }}
       </div>
       <div class="col">
-      {% include "components/inputs.html" with id=form.payday.id_for_label label_text="Fecha" placeholder="Escribe la fecha del pago" type="date" %}
+      {% include "components/inputs.html" with nameIn="payday" id=form.payday.id_for_label label_text="Fecha" placeholder="Escribe la fecha del pago" type="date" %}
       {{ form.payday.errors }}
       </div>
     </div>

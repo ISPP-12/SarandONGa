@@ -25,4 +25,4 @@ def stock_create(request):
             d.save()
             return redirect('stock_list')
     form = CreateNewStock()
-    return render(request, 'stock/register.html', {'form': form})
+    return render(request, 'stock/register.html', {'form': form, 'title': 'Registrar artículo'})
