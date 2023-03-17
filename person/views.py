@@ -189,7 +189,7 @@ def volunteer_create(request):
     form = CreateNewVolunteer()
     return render(request, 'volunteers/volunteers_form.html', {"form": form})
 
-def volunteer_delete(request, id):
+def volunteer_delete(request, volunteer_id):
     volunteer = Volunteer.objects.get(id=id)
     volunteer.delete()
     return redirect('volunteer_list')
