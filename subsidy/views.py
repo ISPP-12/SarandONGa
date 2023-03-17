@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Subsidy
 from .forms import CreateNewSubsidy
 from datetime import date
@@ -46,6 +46,6 @@ def subsidy_list(request):
 
 
 def subsidy_delete(request, subsidy_id):
-    subsidy = Subsidy.objects.get(id=subsidy_id)
+    subsidy = get_object_or_404(Subsidy, id=subsidy_id)
     subsidy.delete()
     return redirect("/subsidy/list")
