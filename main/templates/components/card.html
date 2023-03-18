@@ -26,17 +26,11 @@ ATTRIBUTES
                     </div>
                     <div class="col-12 pt-3">
                         <div class="row">
-                            <div class="col-6">
-                                <button id="id-editCardBtn-{{id}}" class="edit-btn btn m-auto border-dark w-100" onclick="">
-                                    <i class="bi me-2 bi-pencil-square"></i>
-                                    <span>Editar</span>
-                                </button>
+                            <div class="col-6 px-2">
+                                {% include 'components/button.html' with variation="EDIT" text="Editar" onclick=""  %}
                             </div>
-                            <div class="col-6">
-                                <button id="id-deleteCardBtn-{{id}}" class="delete-btn btn m-auto border-dark w-100" onclick="">
-                                    <i class="bi me-2 bi-trash3"></i>
-                                    <span>Eliminar</span>
-                                </button>
+                            <div class="col-6 px-2">
+                                {% include 'components/button.html' with variation="DELETE" text="Delete" onclick=""  %}
                             </div>
                         </div>
                     </div>

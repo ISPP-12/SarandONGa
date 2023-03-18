@@ -27,7 +27,8 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
-    {% block extrahead %} {% endblock %}
+    {% block extrahead %}
+    {% endblock %}
     
 
 </head>
@@ -38,7 +39,8 @@
 
     <div class="container mt-5">
         <div id={{"section-"|add:object_name}}>
-            {% block contenido %}{% endblock %}
+            {% block content %}
+            {% endblock %}
         </div>
     </div>
 

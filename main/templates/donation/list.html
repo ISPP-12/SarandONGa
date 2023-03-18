@@ -43,14 +43,6 @@ displayed in the preview text (e.g. "donación")
 
 {% endblock %}
 
-{% block footer %}
-<div class="row mb-4">
-<div class="col-12 justify-content-start">
-    {% include "components/button.html" with variation="EXCEL" text="Descargar página" type="button" onclick="" %}
-</div>
-</div>
-{% endblock %}
-
 {% block scripts %}
 <script src="{% static 'js/showPreview.js' %}"></script>
 {% endblock %}
