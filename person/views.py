@@ -141,6 +141,19 @@ def godfather_create(request):
     form = CreateNewGodFather()
     return render(request, 'godfather_form.html', {"form": form})
 
+def godfather_update(request,godfather_slug):
+    godfather= get_object_or_404(GodFather, slug=godfather_slug)
+
+    form= CreateNewGodFather(instance=godfather)
+    if request.method == "POST":
+        form= CreateNewGodFather(request.POST or None,request.FILES or None ,instance=godfather)
+        if form.is_valid():
+            form.save()
+            return redirect("godfather_list")
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'godfather_form.html', {"form": form})
+
 
 def godfather_details(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)

@@ -10,6 +10,7 @@ urlpatterns = [
     path('worker/create', views.worker_create, name="worker_create"),
     path('godfather/list', views.godfather_list, name="godfather_list"),
     path('godfather/create', views.godfather_create, name="godfather_create"),
+    path('godfather/<slug:godfather_slug>/update', views.godfather_update, name='godfather_update'),
     path('godfather/<int:godfather_id>',
          views.godfather_details, name="godfather_details"),
     path('volunteer/list', views.volunteer_list, name='volunteer_list'),

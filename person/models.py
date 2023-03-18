@@ -164,8 +164,7 @@ class GodFather(Person):
     slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name + ' ' + self.surname)
-
+        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:
