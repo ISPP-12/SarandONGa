@@ -1,0 +1,50 @@
+{% extends 'layouts/master.html' %} {% block titulo %} Añadir pago {% endblock %} 
+{% block contenido %}
+<h1 class="mx-5 my-5 title">Añadir subvención</h1>
+<form method="post" class="" action="/payment/create">
+  {% csrf_token %}
+    <div class="row my-4 mx-5">
+      <div class="col">
+      {% include "components/inputs.html" with id=form.name.id_for_label label_text="Nombre" placeholder="Escribe un nombre" type="text" %} 
+      {{ form.amount.errors }}
+      </div>
+      <div class="col">
+      {% include "components/inputs.html" with id=form.organism.id_for_label label_text="Organismo" placeholder="Escribe un organismo" type="text" %}
+      {{ form.payday.errors }}
+      </div>
+    </div>
+    <div class="row my-4 mx-5">
+        <div class="col">
+        {% include "components/inputs.html" with id=form.presentation_date.id_for_label label_text="Fecha de presentación" placeholder="Escribe una fecha" type="date" %} 
+        {{ form.amount.errors }}
+        </div>
+        <div class="col">
+        {% include "components/inputs.html" with id=form.payment_date.id_for_label label_text="Fecha de pago" placeholder="Escribe una fecha" type="date" %}
+        {{ form.payday.errors }}
+        </div>
+    </div>
+    <div class="row my-4 mx-5">
+        <div class="col">
+        {% include "components/inputs.html" with id=form.provisional_resolution.id_for_label label_text="Resolución provisional" placeholder="Escribe una fecha" type="date" %} 
+        {{ form.amount.errors }}
+        </div>
+        <div class="col">
+        {% include "components/inputs.html" with id=form.final_resolution.id_for_label label_text="Fecha de resolución" placeholder="Escribe una fecha" type="date" %}
+        {{ form.payday.errors }}
+        </div>
+    </div>
+    <div class="row my-4 mx-5">
+        <div class="col">
+        {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" placeholder="Escribe una cantidad" type="number" %} 
+        {{ form.amount.errors }}
+        </div>
+        <div class="col">
+        {% include "components/select.html" with id=form.ong.id_for_label label_text="Ong" placeholder="Selecciona una ong" options=option type="select" %}
+        {{ form.payday.errors }}
+        </div>
+      </div>
+    <div class="form-section mt-5 mx-5 text-center">
+      {% include 'components/button.html' with text="Añadir subvención" variation="SUBMIT" %}
+    </div>
+</form>
+{% endblock %}

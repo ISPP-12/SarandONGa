@@ -4,6 +4,7 @@ from .forms import CreateNewSubsidy
 from datetime import date
 import json
 from decimal import Decimal
+from ong.models import Ong
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -22,7 +23,13 @@ def subsidy_create(request):
             form.save()
 
     form = CreateNewSubsidy()
-    return render(request, 'subsidy_form.html', {"form": form})
+    ongs = Ong.objects.all()
+    choices=[]
+    for o in ongs:
+        choices.append((o.id, o.name))
+
+
+    return render(request, 'subsidy/create.html', {"form": form ,ongs:choices })
 
 
 def subsidy_list(request):
