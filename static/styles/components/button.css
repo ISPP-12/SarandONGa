@@ -13,10 +13,7 @@
   background-color: var(--clr-white) !important;
 }
 
-.secondary:hover {
-  background-color: var(--gray-300) !important;
-}
-
+.secondary:hover,
 .secondary:active {
   background-color: var(--gray-300) !important;
 }

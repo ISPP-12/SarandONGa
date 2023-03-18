@@ -34,7 +34,9 @@
 }
 
 .card-stock a,
-.card-stock p {
+.card-stock p,
+.card-stock-list a,
+.card-stock-list p {
   color: var(--clr-black) !important;
 }
 
