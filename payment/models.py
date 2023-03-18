@@ -2,11 +2,14 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 
+from proyect.models import Proyect
+
 class Payment(models.Model):
     id= models.AutoField(primary_key=True)
     #Fecha y cantidad de la operación
     payday = models.DateTimeField(default=timezone.now)
     amount= models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
+    proyect = models.ForeignKey(Proyect, null=True, blank=True, on_delete=models.CASCADE)
     
     #ACTUALMENTE ESTO FALLA PORQUE SERVICIO Y PADRINO NO EXISTEN
     #godfather = models.ForeignKey(Godfather, on_delete=models.CASCADE)

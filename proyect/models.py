@@ -1,5 +1,7 @@
 from django.db import models
 
+from ong.models import Ong
+
 # Create your models here.
 
 class Proyect(models.Model):
@@ -10,6 +12,7 @@ class Proyect(models.Model):
     number_of_beneficiaries = models.IntegerField(null=True, verbose_name="Número de beneficiarios")
     amount = models.IntegerField(null=True, verbose_name="Cantidad solicitada")
     announcement_date = models.DateField(null=True, verbose_name="Fecha de convocatoria")
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='proyect')
 
     def __str__(self):
         return self.title

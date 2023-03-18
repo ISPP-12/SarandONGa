@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'stock',
     'service',
     'payment',
-    'proyect'
+    'proyect',
+    'ong',
 ]
 
 AUTH_USER_MODEL = 'person.Worker'
