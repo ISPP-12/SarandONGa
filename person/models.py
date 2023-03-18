@@ -1,3 +1,4 @@
+from xml.dom import ValidationErr
 from django.db import models
 from django.utils import timezone
 
@@ -140,6 +141,7 @@ class Worker(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
+
 class GodFather(Person):
     dni = models.CharField(max_length=9, unique=True, verbose_name='DNI')
     payment_method = models.CharField(
@@ -160,19 +162,16 @@ class GodFather(Person):
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
-    
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surname)
+
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['name']
         verbose_name = 'Padrino'
         verbose_name_plural = 'Padrinos'
-        
-        
-
 
 
 class ASEMUser(Person):
@@ -198,12 +197,13 @@ class ASEMUser(Person):
                                                                       message='El número de cuenta no es válido.')])
 
     class Meta:
-        ordering = ['surname','name']
+        ordering = ['surname', 'name']
         verbose_name = 'Usuario de ASEM'
         verbose_name_plural = 'Usuarios de ASEM'
 
     def __str__(self):
         return self.surname + ', ' + self.name
+
 
 class Volunteer(Person):
 
@@ -221,7 +221,7 @@ class Volunteer(Person):
 class Child(Person):
     sponsorship_date = models.DateTimeField(
         default=timezone.now, verbose_name="Fecha de apadrinamiento")
-    terminatio_date = models.DateTimeField(
+    termination_date = models.DateTimeField(
         default=timezone.now, verbose_name="Fecha de baja")
     study = models.CharField(
         max_length=200, verbose_name="Estudio", default='Apadrinamiento en curso')
@@ -245,10 +245,18 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
-        
 
     def __str__(self):
         return self.name + ' ' + self.surname
+
+    def save(self, *args, **kwargs):
+        if self.termination_date < self.sponsorship_date:
+            raise ValidationErr(
+                "The termination date must be after the sponsorship date")
+        if self.number_brothers_siblings < 0:
+            raise ValidationErr(
+                "A child cannot have a negative number of siblings")
+        super(Child, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['name']

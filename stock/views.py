@@ -8,10 +8,11 @@ def stock_list(request):
     context = {
         'objects': Stock.objects.all(),
         #'objects_json' : json.dumps(list(Stock.objects.all().values())),
-        'objects_name' : 'Stock',
-        'title': 'Lista de Stocks'
+        'object_name': 'stock',
+        'title': 'Lista de Stocks',
     }
-    return render(request, 'stock/list.html', {"context":context })
+
+    return render(request, 'stock/list.html', context)
 
 
 def stock_create(request):

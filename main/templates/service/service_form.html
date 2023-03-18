@@ -1,8 +1,31 @@
-{% block content %}
-Ingresar servicio
-<form method="post" action="/service/">
-    {% csrf_token %}
-    {{form}}
-    <button type="submit", name="save">Añadir</button>
-</form>
+{% extends "layouts/master.html" %}
+{% load static %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'styles/components/title.css' %}">
 {% endblock %}
+
+{% block contenido %} 
+    <h1 class="title mx-5 my-5">Añadir servicio</h1>
+    <form method="post">
+    {% csrf_token %}
+        <div class="row justify-content-between mx-4 ">
+            <div class="col-12 col-sm-4  mx-2 ">
+                <div class="row pt-1">
+                    {% include "components/select.html" with id=1 label_text='Tipo de servicio' options=form.service_type.field.choices placeholder='Seleciona el tipo de servicio'    %}
+                </div>
+                <div class="row pt-4 mb-4">                  
+                    {% include "components/inputs.html" with nameIn="Fecha" id=1 label_text="Fecha" placeholder="Introduzca la fecha"  type="date"  %}
+                </div>
+                
+            </div>
+            
+            </div>
+        </div>
+        <div class="form-section mt-5 mx-5 text-center ">  
+            {% include 'components/button.html' with text="Registrar servicio" variation="SUBMIT" %}
+        </div> 
+    </form>
+   
+{% endblock %}
+
