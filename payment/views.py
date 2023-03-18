@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .forms import create_payment_form
 from .models import Payment
 from django.contrib import messages
@@ -26,3 +26,8 @@ def payment_list(request):
     }
 
     return render(request, 'payment/payment_list.html', context)
+
+def payment_delete(request, payment_id):
+    payment = Payment.objects.get(id=payment_id)
+    payment.delete()
+    return redirect('payment_list')
