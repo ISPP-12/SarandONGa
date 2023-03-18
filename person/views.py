@@ -159,6 +159,19 @@ def child_create(request):
         form = CreateNewChild()
     return render(request, 'person/child/create_child.html', {"form": form})
 
+def child_update(request,child_slug):
+    child= get_object_or_404(Child, slug=child_slug)
+
+    form= CreateNewChild(instance=child)
+    if request.method == "POST":
+        form= CreateNewChild(request.POST or None,request.FILES or None ,instance=child)
+        if form.is_valid():
+            form.save()
+            return redirect("child_list")
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'person/child/create_child.html', {"form": form})
+
 
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()

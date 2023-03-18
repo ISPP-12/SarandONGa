@@ -245,6 +245,7 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
+    slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
         return self.name + ' ' + self.surname
@@ -256,6 +257,9 @@ class Child(Person):
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
                 "A child cannot have a negative number of siblings")
+        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
+        print("=====================================")
+        print(self.slug)
         super(Child, self).save(*args, **kwargs)
 
     class Meta:
