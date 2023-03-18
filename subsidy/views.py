@@ -60,8 +60,6 @@ def subsidy_update(request, subsidy_id):
     if request.method == "POST":
         form= CreateNewSubsidy(request.POST or None, instance=subsidy)
         if form.is_valid():
-            print("="*50)
-            print(form.cleaned_data)
             form.save()
             return redirect("/subsidy/list")
         else:
