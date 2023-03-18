@@ -43,7 +43,7 @@ class VolunteerTestCase(TestCase):
             table = 'Table',
             volunteer_type = 'Otro'
         )
-  
+
     def test_volunteer_correct_creation(self):
 
         volunteer1 = Volunteer.objects.get(name='John')
@@ -269,7 +269,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_job_incorrect_max_length(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -314,7 +314,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_job_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -336,7 +336,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_dedication_time_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -358,7 +358,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_dedication_time_incorrect_value(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail-com',
@@ -380,7 +380,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_contract_start_date_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -402,7 +402,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_contract_start_date_incorrect_value(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -424,7 +424,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_contract_end_date_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -446,7 +446,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_contract_end_date_incorrect_value(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -492,7 +492,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_raffle_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -514,7 +514,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_raffle_incorrect_value(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -536,7 +536,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_lottery_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -558,7 +558,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_lottery_incorrect_value(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -580,7 +580,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_is_member_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -602,7 +602,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_is_member_incorrect_value(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -624,7 +624,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_pres_table_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -646,7 +646,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_pres_table_incorrect_value(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -668,7 +668,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_is_contributor_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -690,7 +690,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_is_contributor_incorrect_value(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -712,7 +712,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_notes_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -734,7 +734,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_entity_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -756,7 +756,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_entity_incorrect_max_length(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -778,7 +778,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_table_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -800,7 +800,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_table_incorrect_max_length(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -822,7 +822,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_volunteer_type_incorrect_max_length(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -844,7 +844,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_volunteer_type_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
