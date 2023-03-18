@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from subsidy import urls as subsidy_urls
-from subsidy import views as subsidy_views
 from stock import urls as stock_urls
 from donation import urls as donation_urls
 from service import urls as service_urls
