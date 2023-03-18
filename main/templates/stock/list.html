@@ -1,0 +1,48 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+
+{% block contenido %} 
+<!-- TITULO -->
+<h1 class="mb-5"><span class="border-stock-title">Gesti&oacute;n de stock</span></h1>
+
+<!-- REST OF THE PAGE -->
+
+<!-- FILTERS -->
+<div class="row h-100 mb-4">
+    <div class="col-12">
+        <div id="id-menuDiv" class="row justify-content-between">
+            {% include "components/card-display.html" with id="id-cardsDiv" class_card="card-stock" class_card_list="card-stock-list" %}
+
+            <div class="col-md-6 col-8 mb-md-0 mb-3">
+                <div class="input-group rounded border-dark w-100">
+                    <div class="form-floating">
+                        <input type="search" id="id-searchStock" class="form-control" placeholder="Escribe un producto...">
+                        <label for="id-searchStock"><i class="bi bi-search"></i>&nbsp;Escribe un producto...</label>
+                    </div>
+                    <button class="btn btn-dark">Filtrar</button>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-12 mb-md-0 mb-3 d-flex btn-more-stock">
+                {% include "components/button.html" with variation="PLUS" text="A&ntilde;adir stock" href="/stock/create" type="button" onclick="window.location.pathname = '/stock/create'" %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CARDS -->
+<div class="row h-100 mb-4">
+    <div class="col-12">
+        <div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
+
+            {% for product in context.objects %}
+                {% with id_counter=forloop.counter|stringformat:"s" %}
+                    {% include "components/card.html" with id="id-productDiv-"|add:id_counter class_card="card-stock" item=product  %}
+                {% endwith %}
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

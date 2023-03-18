@@ -15,30 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from subsidy import urls as subsidy_urls
 from subsidy import views as subsidy_views
-from donation import views as donation_views
-from stock import views as stock_views
-from person import views as person_views
+from stock import urls as stock_urls
 from donation import urls as donation_urls
-from payment import views as payment_views
-from stock import views as stock_views
+from service import urls as service_urls
 from person import urls as person_urls
+from home import urls as home_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('subsidy/', subsidy_views.subsidy, name="subsidy"),
-    path('godfather/list', person_views.godfather_list, name="godfather_list"),
-    path('payment/create', payment_views.create_payment, name="donationNew"),
-    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
-    path('donation/list', donation_views.donations_list, name="donationList"),
-    path('stock/list', stock_views.stock_list, name="stock_list"),
+    path('subsidy/', include(subsidy_urls), name="subsidy"),
     path('person/', include(person_urls), name='persons'),
-    path('asem_user/', person_views.asem_user, name="asem_user"),
-    path('asem/asem_user_list', person_views.asem_user_list, name="asem_user_list"),
-    path('payment/list', payment_views.payment_list, name="payment_list"),
     path('donations/', include(donation_urls), name='donations'),
-    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
-    path('worker/create', person_views.create_worker, name="worker"),
-    path('volunteers/list', person_views.volunteers_list, name="volunteers"),
+    path('subsidy/', include(subsidy_urls), name="subsidy"),
+    path('stock/', include(stock_urls), name="stock"),
+    path('donation/', include(donation_urls), name='donation'),
+    path('user/', include(person_urls), name='user'),
+    path('service/', include(service_urls),name="service"),
+    path('home/',include(home_urls), name="home")
 ]

@@ -1,43 +1,54 @@
-from django.shortcuts import render
-from .models import GodFather, ASEMUser, Worker, Volunteer
-from .forms import CreateNewASEMUser,CreateNewWorker
+from django.shortcuts import render,redirect
+from .models import GodFather, ASEMUser, Worker, Child, Volunteer
 from django.contrib import messages
-#import json
+import json
+from datetime import datetime,date
+from decimal import Decimal
+from .forms import CreateNewGodFather, CreateNewASEMUser,CreateNewWorker, CreateNewChild
+
+
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.strftime('%d/%m/%Y')
+        elif isinstance(obj, date):
+            return obj.strftime('%d/%m/%Y')
+        elif isinstance(obj, Decimal):
+            return float(obj)
+        return super().default(obj)
+
 
 def godfather_list(request):
+    objects = GodFather.objects.all().values()
+    title = "Gestion de Padrinos"
+    #depending of the user type write one title or another
+    persons_dict = [obj for obj in objects]
+    for d in persons_dict:
+        d.pop('_state', None)
 
-    context = {
-        'objects': GodFather.objects.all(),
-        #'objects_json' : json.dumps(list(GodFather.objects.all().values())),
-        'objects_name': 'Padrino',
-        'title': 'Gestión de padrinos'
-    }
-    return render(request, 'person/godfather_list.html', {"context":context})
+    persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
+    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Padrino', 'title': title, 'objects_json': persons_json})
 
 
-def asem_user(request):
+def user_create(request):
     if request.method == "POST":
         form = CreateNewASEMUser(request.POST)
         if form.is_valid():
-            form.save()
 
+            form.save()
+            return redirect('user_list')
     form = CreateNewASEMUser()
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
 
 
-def asem_user_list(request):
-    objects = ASEMUser.objects.all().values()
-    # objects_json = json.dumps(objects)
-    object_name = 'usuario'
-    title = "Gestion de Usuarios ASEM"
-    return render(request, 'asem_user_list.html', {"objects": objects, "objects_name": object_name, "title": title})
 
-
-def create_worker(request):
+def worker_create(request):
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('worker_list')
+
         else:
             messages.error(request, 'Formulario con errores')
 
@@ -45,12 +56,76 @@ def create_worker(request):
     return render(request, 'worker/worker_form.html', {"form": form})
 
 
-def workers_list(request):
-    workers = Worker.objects.all()
-    # object_json = json.dumps(workers)
-    return render(request, 'workers.html', {"objects": workers,"object_name": "Trabajadores", "title": "Listado de trabajadores"})
+def worker_list(request):
+    objects = Worker.objects.all().values()
+    title = "Gestion de Trabajadores"
+    #depending of the user type write one title or another
+    persons_dict = [obj for obj in objects]
+    for d in persons_dict:
+        d.pop('_state', None)
 
-def volunteers_list(request):
-    volunteers = Volunteer.objects.all().values()
-    # object_json = json.dumps(volunteers)
-    return render(request, 'volunteers.html', {"objects": volunteers,"object_name": "Voluntarios", "title": "Listado de Voluntarios"})
+    persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
+    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Trabajador', 'title': title, 'objects_json': persons_json})
+
+def child_list(request):
+    objects = Child.objects.all().values()
+    title = "Gestion de Niños"
+    #depending of the user type write one title or another
+    persons_dict = [obj for obj in objects]
+    for d in persons_dict:
+        d.pop('_state', None)
+
+    persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
+    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Niño', 'title': title, 'objects_json': persons_json})
+
+
+def user_list(request):
+    objects = ASEMUser.objects.all().values()
+    title = "Gestion de Usuarios ASEM"
+    #depending of the user type write one title or another
+    persons_dict = [obj for obj in objects]
+    for d in persons_dict:
+        d.pop('_state', None)
+
+    persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
+    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Usuario', 'title': title, 'objects_json': persons_json})
+
+
+def godfather_create(request):
+    if request.method == "POST":
+        form = CreateNewGodFather(request.POST)
+        print(form.errors)
+
+        if form.is_valid():
+            form.save()
+            return redirect('godfather_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewGodFather()
+    return render(request, 'godfather_form.html', {"form": form})
+
+
+def child_create(request):
+    if request.method == "POST":
+        form = CreateNewChild(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('child_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+    else:
+        form = CreateNewChild()
+    return render(request, 'person/child/create_child.html', {"form": form})
+
+
+def volunteer_list(request):
+    objects = Volunteer.objects.all().values()
+    title = "Gestion de Voluntarios"
+    #depending of the user type write one title or another
+    persons_dict = [obj for obj in objects]
+    for d in persons_dict:
+        d.pop('_state', None)
+
+    persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
+    return render(request, 'users/list.html', {'objects': objects, 'object_name': 'Voluntario', 'title': title, 'objects_json': persons_json})
