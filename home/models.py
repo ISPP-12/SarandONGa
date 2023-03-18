@@ -19,7 +19,7 @@ FREQUENCY = (
 class Home(models.Model):
     id= models.AutoField(primary_key=True)
     
-    name = models.CharField(default="")
+    name = models.CharField(default="", max_length=25)
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
@@ -34,7 +34,7 @@ class Home(models.Model):
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
     seniority = models.DateField(verbose_name='Antigüedad de la casa')
-    province = models.CharField(default="Sevilla",verbose_name='provincia')
+    province = models.CharField(default="Sevilla",verbose_name='provincia', max_length= 25)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     #status = models.CharField(
     #    max_length=20, choices=STATUS, verbose_name='Estado')
