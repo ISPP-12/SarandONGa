@@ -1,0 +1,10 @@
+{% load static %}
+
+{% block content %}
+
+{% for o in context.objects %}
+    <p>Casa: {{o.home.name}}</p>
+    <p>Padrino: {{o.godfather.name}}</p>
+    <p>Niño: {{o.child.name}}</p>
+{% endfor %}
+{% endblock %}
