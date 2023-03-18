@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .forms import CreateNewService
 from .models import Service
 
-def service(request):
+def service_create(request):
     if request.method == "POST":
         form = CreateNewService(request.POST)
         if form.is_valid():
@@ -18,8 +18,7 @@ def service_list(request):
     context = {
         'objects': Service.objects.all(),
         'objects_name': 'Servicio',
-        'title': 'Gestión de servicios'
+        'title': 'Gestión de servicios',
     }
-    return render(request, 'service_list.html', {"context":context})
 
-
+    return render(request, 'service_list.html', context)

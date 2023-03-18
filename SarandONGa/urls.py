@@ -15,35 +15,22 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from subsidy import views as subsidy_views
-from donation import views as donation_views
-from stock import views as stock_views
-from service import views as service_views
+from subsidy import urls as subsidy_urls
+from stock import urls as stock_urls
 from donation import urls as donation_urls
 from payment import views as payment_views
 from service import urls as service_urls
 from person import urls as person_urls
-from person import views as person_views
-
+from payment import urls as payments_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
-    path('subsidy/', subsidy_views.subsidy, name="subsidy"),
-    path('subsidy/create',subsidy_views.subsidy, name="subsidyNew"),
-    path('payment/create', payment_views.create_payment, name="donationNew"),
-    path('donation/list', donation_views.donations_list, name="donationList"),
-    path('stock/list', stock_views.stock_list, name="stock_list"),
-    path('stock/register', stock_views.stock_register, name="stock_register"),
-    path('person/', include(person_urls), name='persons'),
-    path('payment/list', payment_views.payment_list, name="payment_list"),
-    path('donations/', include(donation_urls), name='donations'),
-    path('users/', include(person_urls), name='persons'),
-    path('subsidy/list', subsidy_views.subsidy_list, name="subsidy"),
-    path('volunteers/list', person_views.volunteers_list, name="volunteers"),
+    path('subsidy/', include(subsidy_urls), name="subsidy"),
+    path('payment/', include(payments_urls), name="payment"),
+    path('stock/', include(stock_urls), name="stock"),
+    path('donation/', include(donation_urls), name='donation'),
+    path('user/', include(person_urls), name='user'),
     path('service/', include(service_urls),name="service"),
-    path('worker/create', include(person_urls), name="worker"),
-    path('service/list', service_views.service_list, name="service_list"),
-
+    path('', include(person_urls), name="person")
 
 ]

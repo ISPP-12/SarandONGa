@@ -2,14 +2,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('children/', views.children_list, name='children_list'),
-    path('',views.user_list, name='user_list'),
-    path('workers/',views.workers_list, name='workers_list'),
-    path('worker/create', views.create_worker, name="worker"),
-    path('asem_user/', views.asem_user, name="asem_user"),
-    path('asem/asem_user_list', views.asem_user_list, name="asem_user_list"),
+    path('child/list', views.child_list, name='child_list'),
+    path('child/create', views.child_create, name="child_create"),
+    path('asem/create', views.user_create, name="user_create"),
+    path('asem/list', views.user_list, name='user_list'),
+    path('worker/list', views.worker_list, name='worker_list'),
+    path('worker/create', views.worker_create, name="worker_create"),
     path('godfather/list', views.godfather_list, name="godfather_list"),
-    path('godfather/create', views.godfather_create, name="subsidy"),
-    path('child/create', views.create_child, name="new_child"),
-    path('volunteers/',views.volunteers_list, name='volunteers_list'),
+    path('godfather/create', views.godfather_create, name="godfather_create"),
+    path('godfather/<int:godfather_id>',
+         views.godfather_details, name="godfather_details"),
+    path('volunteer/list', views.volunteer_list, name='volunteer_list'),
+    path('volunteer/create', views.volunteer_create, name='volunteer_create')
 ]
