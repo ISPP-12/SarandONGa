@@ -43,7 +43,7 @@ class VolunteerTestCase(TestCase):
             table = 'Table',
             volunteer_type = 'Otro'
         )
-            
+  
     def test_volunteer_correct_creation(self):
 
         volunteer1 = Volunteer.objects.get(name='John')
@@ -247,7 +247,7 @@ class VolunteerTestCase(TestCase):
 
     def test_volunteer_dni_incorrect_null(self):
         with self.assertRaises(Exception):
-            volunteer = Volunteer.objects.create(
+            Volunteer.objects.create(
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
@@ -433,9 +433,9 @@ class VolunteerTestCase(TestCase):
                 dedication_time = 10,
                 contract_start_date = date(2023, 1, 20),
                 contract_end_date = None,
-                raffle = False, 
+                raffle = False,
                 lottery = False,
-                is_member = False,  
+                is_member = False,
                 pres_table = False,
                 is_contributor = False,
                 notes = 'This is a note',
@@ -893,7 +893,7 @@ class VolunteerTestCase(TestCase):
                 name = 'Jesús',
                 surname = 'García',
                 email = 'jgarcia@gmail.com',
-                dni = '22345678A',  
+                dni = '22345678A',
                 job = 'Developer',
                 dedication_time = 10,
                 contract_start_date = date(2023, 1, 20),

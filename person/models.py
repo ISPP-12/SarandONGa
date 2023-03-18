@@ -1,7 +1,7 @@
 from xml.dom import ValidationErr
 from django.db import models
 from django.utils import timezone
-
+from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -252,7 +252,7 @@ class Volunteer(Person):
     def __str__(self):
         return self.surname + ', ' + self.name
 
-    def clean():
+    def clean(self):
         if self.contract_start_date >= self.contract_end_date:
             raise ValidationError(
                 'La fecha de inicio del contrato debe ser anterior a la fecha de finalización del contrato')
