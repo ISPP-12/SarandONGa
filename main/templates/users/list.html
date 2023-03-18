@@ -10,7 +10,7 @@
   
 
 
-  {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname%}
+  {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
   <span class="object-id d-none">{{ object.id }}</span>
 
 
@@ -77,6 +77,10 @@
             <p>Teléfono: ${objectData.telephone}</p>
             <p>Direción: ${objectData.address}</p>
             <p>Correo: ${objectData.email}</p>
+            <p>Fecha de nacimiento: ${objectData.birth_date}</p>
+            <p>Ciudad: ${objectData.city}</p>
+            <p>Código Postal: ${objectData.postal_code}</p>
+            <p>Teléfono: ${objectData.telephone}</p>
           </div>
         </div>
       `
