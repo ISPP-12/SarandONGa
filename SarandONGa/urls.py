@@ -18,13 +18,13 @@ from django.urls import path, include
 from subsidy import urls as subsidy_urls
 from stock import urls as stock_urls
 from donation import urls as donation_urls
+from payment import views as payment_views
 from service import urls as service_urls
 from person import urls as person_urls
 from payment import urls as payments_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
     path('subsidy/', include(subsidy_urls), name="subsidy"),
     path('payment/', include(payments_urls), name="payment"),
     path('stock/', include(stock_urls), name="stock"),

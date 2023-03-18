@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from .models import Stock
 from .forms import CreateNewStock
 
-
 def stock_list(request):
 
     context = {
@@ -11,7 +10,6 @@ def stock_list(request):
         'object_name': 'stock',
         'title': 'Lista de Stocks',
     }
-
     return render(request, 'stock/list.html', context)
 
 
