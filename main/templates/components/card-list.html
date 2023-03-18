@@ -1,43 +1,42 @@
 {% load static %}
-<div class="container card-list rounded p-3" tabindex="1">
+<div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
    
       
     <div class="row">
       <div class="col-md-5 col-lg-4 col-sm-6 ">
-        <strong><h5>{{object.surname}}, {{object.name}}</h4></strong>
+        <strong><h5>{{object.surname}}, {{object.name}}</h5></strong>
       
       </div>
       <div class="col-md-2 col-lg-2 col-sm-1">
         <span>{{object.city}}</span>
 
       </div>  
-      <div class="col-md-2 col-lg-2  col-sm-1">
+      <div class="col-md-3 col-lg-2  col-sm-1">
         <span>{{object.telephone}}</span>
 
       </div> 
-      <div class="col-md-2 col-sm-1 col-lg-4">
+      <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
         <span>{{object.email}}</span>
 
       </div> 
         
         
-      </div>
+    </div>
     
     
 
    
 
     <div class="d-none d-flex flex-column" id="moreInfo">
-      <span class="object-description">Teléfono:{{ object.telephone }}</span>
+      <span class="object-description"><strong>Teléfono: </strong>{{ object.telephone }}</span>
 
-      <span class="object-description">Dirección:{{ object.address }}</span>
-      <span class="object-birthdate">Fecha de nacimiento: {{ object.birth_date  }}</span>
-      <span class="object-city">Ciudad: {{ object.city  }}</span>
-      <span class="object-postalcode">Código postal: {{ object.postal_code  }}</span>
-      <span class="object-telephone">Teléfono: {{ object.telephone  }}</span>
+      <span class="object-description"><strong>Dirección: </strong>{{ object.address }}</span>
+      <span class="object-birthdate"><strong>Fecha de nacimiento: </strong>{{ object.birth_date  }}</span>
+      <span class="object-city"><strong>Ciudad: </strong>{{ object.city  }}</span>
+      <span class="object-postalcode"><strong>Código postal: </strong>{{ object.postal_code  }}</span>
+      <span class="object-telephone"><strong>Teléfono: </strong>{{ object.telephone  }}</span>
 
       
     </div>
-  </div>
 </div>
