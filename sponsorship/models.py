@@ -16,7 +16,7 @@ class Sponsorship(models.Model):
     slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
-        return "{}, {}".format(self.home.name, self.godfather.name, self.child.name)
+        return "{}, {}, {}".format(self.home.name, self.godfather.name, self.child.name)
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.home.name + ' ' + self.godfather.name + ' ' + self.child.name)
