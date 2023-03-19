@@ -10,7 +10,7 @@ class Subsidy(models.Model):
 
     # Fecha en la que se presenta la subvención
     presentation_date = models.DateField(
-        verbose_name="Fecha", null=True, blank=True)
+        verbose_name="Fecha de presentación", null=True, blank=True)
     payment_date = models.DateField(
         verbose_name="Fecha de cobro", null=True, blank=True)
     # Organismo
