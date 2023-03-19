@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from main import views as main_views
 from subsidy import urls as subsidy_urls
 from stock import urls as stock_urls
 from donation import urls as donation_urls
@@ -33,6 +34,6 @@ urlpatterns = [
     path('user/', include(person_urls), name='user'),
     path('service/', include(service_urls),name="service"),
     path('home/',include(home_urls), name="home"),
-    path('', include(person_urls), name="person")
+    path('', main_views.index, name="index")
 
 ]
