@@ -1,11 +1,13 @@
 from django.test import TestCase
 from donation.models import Donation
 import datetime
+from ong.models import Ong
 
 
 class DonationTestCase(TestCase):
 
     def setUp(self):
+        self.ong = Ong.objects.create(name='Mi ONG')
         Donation.objects.create(
             title="donation",
             description="donation",
@@ -15,7 +17,8 @@ class DonationTestCase(TestCase):
             donor_surname="Moscoso",
             donor_dni="12345678A",
             donor_address="Sevilla",
-            donor_email="email@email.com"
+            donor_email="email@email.com",
+            ong=self.ong
         )
 
     def test_donation_create(self):
@@ -61,7 +64,8 @@ class DonationTestCase(TestCase):
                 donor_surname="Moscoso",
                 donor_dni="12345678A",
                 donor_address="Sevilla",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
 
     def test_donation_create_incorrect_creation_date(self):
@@ -75,7 +79,8 @@ class DonationTestCase(TestCase):
                 donor_surname="Moscoso",
                 donor_dni="12345678A",
                 donor_address="Sevilla",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
 
     def test_donation_create_incorrect_max_digits_amount(self):
@@ -89,7 +94,8 @@ class DonationTestCase(TestCase):
                 donor_surname="Moscoso",
                 donor_dni="12345678A",
                 donor_address="Sevilla",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
 
     def test_donation_create_incorrect_min_amount(self):
@@ -103,7 +109,8 @@ class DonationTestCase(TestCase):
                 donor_surname="Moscoso",
                 donor_dni="12345678A",
                 donor_address="Sevilla",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
             donation.full_clean()
             donation.save()
@@ -119,7 +126,8 @@ class DonationTestCase(TestCase):
                 donor_surname="Moscoso",
                 donor_dni="12345678A",
                 donor_address="Sevilla",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
 
     def test_donation_create_incorrect_max_length_donor_name(self):
@@ -133,7 +141,8 @@ class DonationTestCase(TestCase):
                 donor_surname="Moscoso",
                 donor_dni="12345678A",
                 donor_address="Sevilla",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
 
     def test_donation_create_incorrect_max_length_donor_surname(self):
@@ -149,7 +158,8 @@ class DonationTestCase(TestCase):
                 "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",
                 donor_dni="12345678A",
                 donor_address="Sevilla",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
 
     def test_donation_create_incorrect_size_dni(self):
@@ -163,7 +173,8 @@ class DonationTestCase(TestCase):
                 donor_surname="Moscoso",
                 donor_dni="123456789A",
                 donor_address="Sevilla",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
 
     def test_donation_create_incorrect_max_length_address(self):
@@ -179,7 +190,8 @@ class DonationTestCase(TestCase):
                 donor_address="iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii" +
                 "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii" +
                 "iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii",
-                donor_email="email@email.com"
+                donor_email="email@email.com",
+                ong=self.ong
             )
 
     def test_donation_create_incorrect_email(self):
@@ -193,7 +205,8 @@ class DonationTestCase(TestCase):
                 donor_surname="Moscoso",
                 donor_dni="123456789A",
                 donor_address="Sevilla",
-                donor_email="email"
+                donor_email="email",
+                ong=self.ong
             )
 
     def test_donation_update_incorrect_title_max(self):

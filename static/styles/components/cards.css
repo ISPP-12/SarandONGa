@@ -1,6 +1,6 @@
 /* GENERAL */
 .card {
-  border-color: #535353;
+  border-color: var(--gray-900);
 }
 
 .card-title,
@@ -35,7 +35,7 @@
 
 .card-stock a,
 .card-stock p {
-  color: black !important;
+  color: var(--clr-black) !important;
 }
 
 .card-stock .card-title,
@@ -45,7 +45,7 @@
 
 /* LIST CARDS */
 .card-stock-list {
-  border-color: #535353;
+  border-color: var(--gray-900);
 }
 
 .card-stock-list .card-img-top {

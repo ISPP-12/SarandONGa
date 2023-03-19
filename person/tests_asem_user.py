@@ -1,11 +1,13 @@
 import datetime
 from django.test import TestCase
+from ong.models import Ong
 from person.models import ASEMUser
 
 
 class ASEMUserTestCase(TestCase):
 
     def setUp(self):
+       self.ong = Ong.objects.create(name='Mi ONG')
        ASEMUser.objects.create(email="tcamerob@gmail.com",
         name="Tomas",
         surname="Camero",
@@ -22,7 +24,7 @@ class ASEMUserTestCase(TestCase):
         family_unit_size=4,
         own_home="Vivienda compartida",
         own_vehicle=True,
-        bank_account_number="ES6700832134418939683447")
+        bank_account_number="ES6700832134418939683447",ong=self.ong)
        
        
        ASEMUser.objects.create(email="tcamerob2@gmail.com",
@@ -42,7 +44,7 @@ class ASEMUserTestCase(TestCase):
         family_unit_size=0,
         own_home="VP",
         own_vehicle=False,
-        bank_account_number="ES6700832134418939683449")
+        bank_account_number="ES6700832134418939683449",ong=self.ong)
        
     def test_asem_user_create(self):
         asemuser = ASEMUser.objects.get(name="Tomas")
@@ -112,7 +114,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
     
     def test_asem_user_create_name_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -132,7 +134,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             
     def test_asem_user_create_email_incorrect(self):
         with self.assertRaises(Exception):
@@ -152,7 +154,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             user.full_clean()
             
     def test_asem_user_create_email_incorrect_null(self):
@@ -173,7 +175,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             
     def test_asem_user_create_surname_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -193,7 +195,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             user.full_clean()
             
     def test_asem_user_create_surname_incorrect_max(self):
@@ -214,7 +216,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             user.full_clean()
             
     def test_asem_user_create_birth_date_incorrect(self):
@@ -235,7 +237,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             user.full_clean()
 
     def test_asem_user_create_sex_incorrect_max(self):
@@ -256,7 +258,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             user.full_clean()
                 
     def test_asem_user_create_sex_incorrect(self):
@@ -277,7 +279,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             user.full_clean()
                 
     def test_asem_user_create_city_incorrect_max(self):
@@ -301,7 +303,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_address_incorrect(self):
         with self.assertRaises(Exception):
@@ -325,7 +327,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_telephone_incorrect(self):
         with self.assertRaises(Exception):
@@ -346,7 +348,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_postal_code_incorrect(self):
         with self.assertRaises(Exception):
@@ -367,7 +369,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
             
     def test_asem_user_create_condition_incorrect_max(self):
         with self.assertRaises(Exception):
@@ -388,7 +390,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_condition_incorrect(self):
         with self.assertRaises(Exception):
@@ -409,7 +411,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_condition_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -430,7 +432,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
     
     def test_asem_user_create_member_incorrect_max(self):
         with self.assertRaises(Exception):
@@ -451,7 +453,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_member_incorrect(self):
         with self.assertRaises(Exception):
@@ -472,7 +474,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
     
     def test_asem_user_create_member_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -493,7 +495,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_user_type_incorrect_max(self):
         with self.assertRaises(Exception):
@@ -514,7 +516,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_user_type_incorrect(self):
         with self.assertRaises(Exception):
@@ -535,7 +537,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_user_type_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -556,7 +558,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_correspondence_incorrect_max(self):
         with self.assertRaises(Exception):
@@ -577,7 +579,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
     
     def test_asem_user_create_correspondence_incorrect(self):
         with self.assertRaises(Exception):
@@ -598,7 +600,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_correspondence_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -619,7 +621,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_status_incorrect_max(self):
         with self.assertRaises(Exception):
@@ -640,7 +642,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_status_incorrect(self):
         with self.assertRaises(Exception):
@@ -661,7 +663,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_status_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -682,7 +684,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=0,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_family_incorrect_min(self):
         with self.assertRaises(Exception):
@@ -703,7 +705,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=-1,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_family_incorrect_max(self):
         with self.assertRaises(Exception):
@@ -724,7 +726,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=31,
             own_home="VP",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_own_home_incorrect_max(self):
         with self.assertRaises(Exception):
@@ -745,7 +747,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=1,
             own_home="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_own_home_incorrect(self):
         with self.assertRaises(Exception):
@@ -766,7 +768,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=1,
             own_home="No es un tipo",
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_own_home_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -787,7 +789,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=1,
             own_home=None,
             own_vehicle=False,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_own_vehicle_incorrect(self):
         with self.assertRaises(Exception):
@@ -808,7 +810,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=1,
             own_home="VP",
             own_vehicle="No es un booleano",
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_own_vehicle_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -829,7 +831,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=1,
             own_home="VP",
             own_vehicle=None,
-            bank_account_number="ES6700832134418939683449")
+            bank_account_number="ES6700832134418939683449",ong=self.ong)
                 
     def test_asem_user_create_bank_account_number_incorrect_max(self):
         with self.assertRaises(Exception):
@@ -850,7 +852,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=1,
             own_home="VP",
             own_vehicle=True,
-            bank_account_number="ES11111111111111111111111")
+            bank_account_number="ES11111111111111111111111",ong=self.ong)
     
     def test_asem_user_create_bank_account_number_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -871,7 +873,7 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=1,
             own_home="VP",
             own_vehicle=True,
-            bank_account_number=None)
+            bank_account_number=None,ong=self.ong)
             
     def test_asem_user_create_bank_account_number_incorrect_pattern(self):
         with self.assertRaises(Exception):
@@ -892,4 +894,4 @@ class ASEMUserTestCase(TestCase):
             family_unit_size=1,
             own_home="VP",
             own_vehicle=True,
-            bank_account_number='No es un patron de cuenta bancaria')
+            bank_account_number='No es un patron de cuenta bancaria',ong=self.ong)

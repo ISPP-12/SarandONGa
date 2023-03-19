@@ -1,4 +1,5 @@
 from django.test import TestCase
+from ong.models import Ong
 from service.models import Service, ServiceAmount
 from person.models import ASEMUser
 from payment.models import Payment
@@ -126,6 +127,7 @@ class ServiceAmountTestCase(TestCase):
 class ServiceTestCase(TestCase):
 
     def setUp(self):
+        self.ong = Ong.objects.create(name='Mi ONG')
         self.asem_user = ASEMUser.objects.create(email="manfergom@gmail.com",
             name="Manuel",
             surname="Fernández",
@@ -143,7 +145,7 @@ class ServiceTestCase(TestCase):
             family_unit_size=3,
             own_home="Vivienda propia",
             own_vehicle=False,
-            bank_account_number="ES6700567834215439610225")
+            bank_account_number="ES6700567834215439610225",ong=self.ong)
 
         self.payment_1 = Payment.objects.create(payday=datetime.datetime(2018, 2, 27, tzinfo=datetime.timezone.utc),
             amount=30)

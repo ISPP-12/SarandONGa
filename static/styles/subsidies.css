@@ -1,33 +1,48 @@
 :root {
-  --grants-main-color: #f5e2d8;
-  --grants-main-color-hover: #e4b399;
-  --grants-main-color-light: #f9ebe3;
+  --subsidies-main-color: var(--clr-accent-4);
+  --subsidies-main-color-hover: var(--clr-accent-4-dark);
+  --subsidies-main-color-light: var(--clr-accent-4-light);
 }
 
 /* Button */
 #section-subsidy .section-btn {
-  background-color: var(--grants-main-color);
+  background-color: var(--subsidies-main-color);
+  color: var(--clr-black);
 }
 
 #section-subsidy .section-btn:hover {
-  background-color: var(--grants-main-color-hover);
+  background-color: var(--subsidies-main-color-hover);
+  color: var(--clr-black);
 }
 
 /* override bootstrap */
 #section-subsidy .section-btn:active {
-  background-color: var(--grants-main-color-hover) !important;
+  background-color: var(--subsidies-main-color-hover) !important;
+  color: var(--clr-black);
 }
 
 /* Title */
 #section-subsidy .title {
-  text-decoration-color: var(--grants-main-color);
+  border-color: var(--subsidies-main-color);
 }
 
 /* Selection */
 .selected {
-  background-color: var(--grants-main-color-light);
+  background-color: var(--subsidies-main-color-light);
 }
 
 .object-amount {
   opacity: 60%;
+}
+
+/* cards hover */
+
+.card-list:hover {
+  cursor: pointer;
+  background-color: var(--subsidies-main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.card-list:focus {
+  background-color: var(--subsidies-main-color-light);
 }

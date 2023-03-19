@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
+from ong.models import Ong
 
 
 class Donation(models.Model):
@@ -20,6 +21,8 @@ class Donation(models.Model):
     donor_dni = models.CharField(max_length=9, verbose_name="DNI/CIF")
     donor_address = models.CharField(max_length=200, verbose_name="Dirección")
     donor_email = models.EmailField(verbose_name="Correo Electrónico")
+    ong = models.ForeignKey(
+        Ong, on_delete=models.CASCADE, related_name='donacion')
 
     # Dejo esto comentado pero es para almacenar un documento correspondiente a la donación, si fuese necesario
     # document= models.FileField(blank=True, null=True)
