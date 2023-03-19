@@ -3,6 +3,7 @@
 {% block content %}
 
 {% for o in context.objects %}
+    <p>{{o.slug}}</p>
     <p>Casa: {{o.home.name}}</p>
     <p>Padrino: {{o.godfather.name}}</p>
     <p>Niño: {{o.child.name}}</p>

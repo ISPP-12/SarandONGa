@@ -25,7 +25,8 @@ def sponsorship_list(request):
     }
     return render(request, 'sponsorship/sponsorship_list.html', {"context":context })
 
-def sponsorship_delete(request, slug):
-    sponsorship = Sponsorship.objects.get(slug=slug)
+def sponsorship_delete(request, sponsorship_slug):
+    sponsorship = Sponsorship.objects.get(slug=sponsorship_slug)
+    
     sponsorship.delete()
     return redirect('sponsorship_list')
