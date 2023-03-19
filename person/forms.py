@@ -11,7 +11,21 @@ class CreateNewGodFather(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'seniority': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
+            'sex': forms.Select(attrs={'step': "0.01"}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(CreateNewGodFather, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select border-class'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input border-class'})
+            else:
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control border-class'})
 
 
 class CreateNewASEMUser(forms.ModelForm):
@@ -21,6 +35,19 @@ class CreateNewASEMUser(forms.ModelForm):
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(CreateNewASEMUser, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select border-class'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input border-class'})
+            else:
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control border-class'})
 
 
 class CreateNewWorker(forms.ModelForm):
@@ -36,6 +63,19 @@ class CreateNewWorker(forms.ModelForm):
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         }
+
+    def __init__(self, *args, **kwargs):
+        super(CreateNewWorker, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select border-class'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input border-class'})
+            else:
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control border-class'})
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -68,6 +108,19 @@ class CreateNewChild(forms.ModelForm):
             'sponsorship_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(CreateNewChild, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select border-class'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input border-class'})
+            else:
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control border-class'})
+
 
 class CreateNewVolunteer(forms.ModelForm):
     class Meta:
@@ -77,3 +130,16 @@ class CreateNewVolunteer(forms.ModelForm):
             'contract_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
         }
+
+    def __init__(self, *args, **kwargs):
+        super(CreateNewVolunteer, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select border-class'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input border-class'})
+            else:
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control border-class'})
