@@ -1,7 +1,7 @@
 {% extends 'layouts/master.html' %}
 {% block contenido %}
 <h1>Registrar subvención</h1>
-<form method="post" action="/subsidy/">
+<form method="post">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
