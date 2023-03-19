@@ -7,8 +7,8 @@
 {% block objectFor %}
 {% for object in objects %}
 
-  {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname%}
-  <span class="object-id d-none">{{ object.id }}</span>
+{% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
+<span class="object-id d-none">{{ object.id }}</span>
 
 {% endfor %}
 {% endblock %}
@@ -49,27 +49,51 @@
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
           preview.innerHTML = `
-        <div class="row ">
-          <div class="col-12 ">
-            <div class=" row justify-content-center pb-5">
-              {%if object_name == "Usuario" or object_name == "Niño" or object_name == "Padrino" or object_name == "Trabajador" or object_name == "Voluntario"%} {% if object.photo %}
+        <div class="container">
+          <div class="row">
+            <div class="col justify-content-center">
+              <div class=" row justify-content-center ">
+                {%if object_name == "Usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if object.photo %}
 
-                <img class="profile-img-big rounded" src=" {{object.photo}} " />
-                {% else %}
+                  <img class="profile-img-big rounded" src=" {{object.photo}} " />
+                  {% else %}
 
-                <img class="profile-img-big rounded" src={% static 'img/person-icon.svg' %} />
+                  <img class="profile-img-big rounded" src={% static 'img/person-icon.svg' %} />
 
-                {% endif %} {% else %}
+                  {% endif %} 
 
-                <img class="profile-img-big  rounded" src={% static 'img/others-icon.svg' %} />
 
                 {%endif%}
+              </div>
+              <div class="row">
+                <h1 class="text-center object-title">${objectData.name+ ' '+ objectData.surname}</h1>
+              </div>
+              
+              <div class="row">
+                <p class="text-center">{{ object_name}}</p>
+              </div>
+              <div class="row">
+                <h5>{{object_names}}</h5>
+
+              </div>
+              <div class="row ">
+                <p><strong>Teléfono: </strong>${objectData.telephone}</p>
+
+              </div>
+              <div class="row">
+                <p><strong>Direción:  </strong>${objectData.address}</p>
+
+              </div>
+              <div class="row">
+                <div class="col-12 col-email2">
+      
+                  <span><strong>Correo:  </strong>${objectData.email}</span>
+                </div>
+
+              </div>
+
+
             </div>
-            <h2>${objectData.name  + " " + objectData.surname}</h2>
-            <h5>{{object_names}}</h5>
-            <p>Teléfono: ${objectData.telephone}</p>
-            <p>Direción: ${objectData.address}</p>
-            <p>Correo: ${objectData.email}</p>
           </div>
         </div>
       `

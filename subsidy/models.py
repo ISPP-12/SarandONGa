@@ -1,4 +1,5 @@
 from django.db import models
+from ong.models import Ong
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
 
@@ -25,6 +26,9 @@ class Subsidy(models.Model):
 
     # Nombre completo (con apellidos) de la persona o entidad que dona
     name = models.CharField(max_length=200, verbose_name="Nombre completo")
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='subvencion')
+    
+    
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -36,6 +40,7 @@ class Subsidy(models.Model):
                 raise ValidationError(
                     "La resolución definitiva no puede ser anterior a la provisional")
         super().save(force_insert, force_update, using, update_fields)
+
 
     def __str__(self):
         return self.name
