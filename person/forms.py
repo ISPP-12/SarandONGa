@@ -1,12 +1,17 @@
 import datetime
 from django import forms
 from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENCE, Volunteer
+from localflavor.es.forms import ESIdentityCardNumberField
+from localflavor.generic.forms import IBANFormField
+from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 
 
 class CreateNewGodFather(forms.ModelForm):
+    dni = ESIdentityCardNumberField(only_nif=True)
+    bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
     class Meta:
         model = GodFather
-        exclude = ['id']
+        exclude = ['id','dni','bank_account_number']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'seniority': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),

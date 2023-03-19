@@ -133,7 +133,10 @@ def godfather_create(request):
         print(form.errors)
 
         if form.is_valid():
-            form.save()
+            godfather=form.save()
+            godfather.dni=request.POST["dni"]
+            godfather.bank_account_number=request.POST["bank_account_number"]
+            godfather.save()
             return redirect('godfather_list')
         else:
             messages.error(request, 'Formulario con errores')
@@ -149,6 +152,9 @@ def godfather_update(request,godfather_slug):
         form= CreateNewGodFather(request.POST or None,request.FILES or None ,instance=godfather)
         if form.is_valid():
             form.save()
+            godfather.dni=request.POST["dni"]
+            godfather.bank_account_number=request.POST["bank_account_number"]
+            godfather.save()
             return redirect("godfather_list")
         else:
             messages.error(request, 'Formulario con errores')
