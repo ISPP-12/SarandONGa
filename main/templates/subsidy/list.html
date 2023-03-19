@@ -3,6 +3,11 @@
 
 {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/subsidies.css' %}"> {% endblock %}
 
+{% block botonPrimario %}
+<a  href="/subsidy/create">
+{% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
+{% endblock %}
+
 {% block objectFor %}
 {% for object in objects %}
 

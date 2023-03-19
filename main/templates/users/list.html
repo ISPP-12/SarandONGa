@@ -1,29 +1,29 @@
 {% extends "layouts/master_sidebar.html" %}
 {% load static %}
 {% block botonPrimario %}
-{% if 'asem/list' in request.path %}
+{% if object_name_en == "user" %}
 <a  href="/user/asem/create">
 
-{% elif 'worker/list' in request.path %}
+{% elif object_name_en == "worker" %}
 <a  href="/user/worker/create">
 
-{% elif 'child/list' in request.path %}
+{% elif object_name_en == "child" %}
 <a  href="/user/child/create">
 
-{% elif 'godfather/list' in request.path %}
+{% elif object_name_en == "godfather" %}
 <a  href="/user/godfather/create">
 
-{% elif 'donation/list' in request.path %}
+{% elif object_name_en == "donation" %}
 <a  href="/donation/create">
 
-{% elif 'subsidy/list' in request.path %}
+{% elif object_name_en == "subsidy" %}
 <a  href="/subsidy/create">
 
 {% endif %}
 {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
 {% endblock %}
 
-{% if 'asem/list' in request.path %}
+{% if object_name_en == "user" %}
 {% block botonPagoAsem %}
 
 <div class="row justify-content-end">
