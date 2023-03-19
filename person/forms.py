@@ -33,21 +33,7 @@ class CreateNewWorker(forms.ModelForm):
     class Meta:
         model = Worker
         exclude = ['id', 'last_login', 'is_active','is_admin','password']
-        labels = {
-            'email': 'Correo electrónico',
-            'name': 'Nombre',
-            'surname': 'Apellidos',
-            'birth_date': 'Fecha de nacimiento',
-            'sex': 'Sexo',
-            'city': 'Ciudad',
-            'address': 'Dirección',
-            'telephone': 'Teléfono',
-            'postal_code': 'Código Postal',
-            'photo': 'Fotografía',
-            'ong': 'ONG',
-            'password': 'Contraseña;',
-            'password2': 'Confirme la contraseña'
-        }
+        
         widgets = {
             'sex': forms.Select(attrs={'class':'form-select w-100 mb-3'}),
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
