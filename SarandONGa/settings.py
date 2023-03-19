@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'service',
     'payment',
     'proyect',
+    'home',
     'ong',
 ]
 
