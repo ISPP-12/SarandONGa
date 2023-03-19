@@ -5,6 +5,7 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild
+from xml.dom import ValidationErr
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -151,8 +152,11 @@ def child_create(request):
     if request.method == "POST":
         form = CreateNewChild(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('child_list')
+            try:
+                form.save()
+                return redirect('child_list')
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
     else:
@@ -166,8 +170,11 @@ def child_update(request,child_slug):
     if request.method == "POST":
         form= CreateNewChild(request.POST or None,request.FILES or None ,instance=child)
         if form.is_valid():
-            form.save()
-            return redirect("child_list")
+            try:
+                form.save()
+                return redirect("child_list")
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
     return render(request, 'person/child/create_child.html', {"form": form})

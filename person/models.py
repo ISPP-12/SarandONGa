@@ -254,6 +254,10 @@ class Child(Person):
         if self.termination_date < self.sponsorship_date:
             raise ValidationErr(
                 "The termination date must be after the sponsorship date")
+        if self.birth_date > self.sponsorship_date:
+            raise ValidationErr(
+                "The birth date must be before the sponsorship date")
+
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
                 "A child cannot have a negative number of siblings")
