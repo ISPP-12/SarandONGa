@@ -1,0 +1,8 @@
+{% block content %}
+Registrar casa
+<form method="post" action="/home/create">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit", name="save">Registrar</button>
+</form>
+{% endblock %}

@@ -34,7 +34,7 @@ def donation_create(request):
             d.save()
 
     form = CreateNewDonation()
-    return render(request, 'donation_form.html', {"form": form})
+    return render(request, 'donation_form.html', {"form": form, "title": "Crear Donación"})
 
 def donation_list(request):
     # get donations from database

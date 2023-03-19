@@ -1,32 +1,9 @@
 :root {
-  --workers-main-color: #c4e8ce;
-  --workers-main-color-hover: #cfeed8;
-  --workers-main-color-light: #d5e8da;
+  --workers-main-color: var(--clr-accent-5);
+  --workers-main-color-hover: var(--clr-accent-5-dark);
+  --workers-main-color-light: var(--clr-accent-5-light);
 }
 
-/* This section is temporal, it will be removed in the next sprint */
-
-.title {
-  text-decoration-color: var(--workers-main-color) !important;
-}
-
-.bg-card-list {
-  background-color: var(--workers-main-color) !important;
-}
-
-.bg-card-list:hover {
-  background-color: var(--workers-main-color-hover) !important;
-}
-
-.card-list:hover {
-  background-color: var(--workers-main-color-light) !important;
-}
-
-.selected {
-  background-color: var(--workers-main-color-light);
-}
-
-/* ========== */
 
 /* Button */
 #section-worker .section-btn,
@@ -35,6 +12,7 @@
 #section-user .section-btn,
 #section-volunteer .section-btn {
   background-color: var(--workers-main-color);
+  color: var(--clr-black);
 }
 
 #section-worker .section-btn:hover,
@@ -43,6 +21,7 @@
 #section-user .section-btn:hover,
 #section-volunteer .section-btn:hover {
   background-color: var(--workers-main-color-hover);
+  color: var(--clr-black);
 }
 
 /* override bootstrap */
@@ -52,4 +31,23 @@
 #section-user .section-btn:active,
 #section-volunteer .section-btn:active {
   background-color: var(--workers-main-color-hover) !important;
+  color: var(--clr-black);
+}
+
+/* Title */
+#section-worker .title,
+#section-godfather .title,
+#section-child .title,
+#section-user .title,
+#section-volunteer .title {
+  border-color: var(--workers-main-color);
+}
+
+/* Selection */
+#section-worker .selected,
+#section-godfather .selected,
+#section-child .selected,
+#section-user .selected,
+#section-volunteer .selected {
+  background-color: var(--subsidies-main-color-light);
 }

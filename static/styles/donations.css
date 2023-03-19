@@ -1,27 +1,30 @@
 :root {
-  --donations-main-color: #e7c4e4;
-  --donations-main-color-hover: #e8a8e2;
-  --donations-main-color-light: #ecd3ea;
+  --donations-main-color: var(--clr-accent-2);
+  --donations-main-color-hover: var(--clr-accent-2-dark);
+  --donations-main-color-light: var(--clr-accent-2-light);
 }
 
 
 /* Button */
 #section-donation .section-btn {
   background-color: var(--donations-main-color);
+  color: var(--clr-black);
 }
 
 #section-donation .section-btn:hover {
   background-color: var(--donations-main-color-hover);
+  color: var(--clr-black);
 }
 
 /* override bootstrap */
 #section-donation .section-btn:active {
   background-color: var(--donations-main-color-hover) !important;
+  color: var(--clr-black);
 }
 
 /* Title */
 #section-donation .title {
-  text-decoration-color: var(--donations-main-color);
+  border-color: var(--donations-main-color);
 }
 
 /* Selection */
