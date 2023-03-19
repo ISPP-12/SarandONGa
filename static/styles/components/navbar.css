@@ -1,9 +1,9 @@
 nav a {
-  color: black !important;
+  color: var(--clr-black) !important;
 }
 
 .navbar-brand {
-  font-family: 'ABCWhite', sans-serif;
+  font-family: var(--font-header);
 }
 
 .active {
