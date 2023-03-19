@@ -35,11 +35,7 @@
   opacity: 60%;
 }
 
-/*cards hover*/
-
-.card-list:hover {
-  background-color: var(--subsidies-main-color-light);
-}
+/* cards hover */
 
 .card-list:hover {
   cursor: pointer;
