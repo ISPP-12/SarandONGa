@@ -14,8 +14,6 @@ def sponsorship_create(request):
         form = create_sponsorship_form()
     return render(request, 'sponsorship/sponsorship_form.html', {'form': form})
 
-
-
 def sponsorship_list(request):
     context = {
         'objects': Sponsorship.objects.all(),
@@ -27,6 +25,5 @@ def sponsorship_list(request):
 
 def sponsorship_delete(request, sponsorship_slug):
     sponsorship = Sponsorship.objects.get(slug=sponsorship_slug)
-    
     sponsorship.delete()
     return redirect('sponsorship_list')
