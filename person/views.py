@@ -85,6 +85,11 @@ def worker_list(request):
     return render(request, 'users/list.html', context)
 
 
+def worker_delete(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    worker.delete()
+    return redirect('worker_list')
+
 def child_list(request):
     objects = Child.objects.all().values()
     title = "Gestion de Niños"

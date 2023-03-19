@@ -160,6 +160,11 @@ class Worker(AbstractBaseUser):
 
     objects = WorkerManager()
 
+    class Meta:
+        ordering = ['surname', 'name']
+        verbose_name = 'Trabajador'
+        verbose_name_plural = 'Trabajadores'
+
     def __str__(self):
         return self.email
 
