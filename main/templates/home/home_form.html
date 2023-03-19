@@ -1,7 +1,6 @@
-{% extends 'layouts/master.html' %}
-{% block contenido %}
-<h1>Registrar subvención</h1>
-<form method="post">
+{% block content %}
+Registrar casa
+<form method="post" action="/home/create">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
