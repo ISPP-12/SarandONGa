@@ -45,7 +45,6 @@
   font-size: medium;
 }
 
-
 @media (max-width: 768px) {
   #previewContainer {
     display: none !important;

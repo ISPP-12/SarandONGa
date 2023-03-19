@@ -4,7 +4,6 @@
   --donations-main-color-light: var(--clr-accent-2-light);
 }
 
-
 /* Button */
 #section-donation .section-btn {
   background-color: var(--donations-main-color);
@@ -26,9 +25,24 @@
   border-color: var(--donations-main-color);
 }
 
-
 @media (min-width: 768px) {
   #chevron {
     display: none !important;
   }
+}
+
+/*cards hover*/
+
+.card-list:hover {
+  background-color: var(--donations-main-color-light);
+}
+
+.card-list:hover {
+  cursor: pointer;
+  background-color: var(--donations-main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.card-list:focus {
+  background-color: var(--donations-main-color-light);
 }
