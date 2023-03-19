@@ -47,7 +47,7 @@ def user_create(request):
             form.save()
             return redirect('user_list')
     form = CreateNewASEMUser()
-    return render(request, 'asem_user/asem_user_form.html', {"form": form})
+    return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
 def user_update(request, asem_user_id):
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
@@ -74,7 +74,7 @@ def worker_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewWorker()
-    return render(request, 'worker/worker_form.html', {"form": form})
+    return render(request, 'worker/worker_form.html', {"form": form, "title": "Añadir Trabajador"})
 
 
 def worker_list(request):
@@ -152,7 +152,7 @@ def godfather_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewGodFather()
-    return render(request, 'godfather_form.html', {"form": form})
+    return render(request, 'godfather_form.html', {"form": form, "title": "Añadir Padrino"})
 
 
 def godfather_details(request, godfather_id):
@@ -170,7 +170,7 @@ def child_create(request):
             messages.error(request, 'Formulario con errores')
     else:
         form = CreateNewChild()
-    return render(request, 'person/child/create_child.html', {"form": form})
+    return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
 
 
 def volunteer_list(request):
@@ -205,4 +205,4 @@ def volunteer_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewVolunteer()
-    return render(request, 'volunteers/volunteers_form.html', {"form": form})
+    return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
