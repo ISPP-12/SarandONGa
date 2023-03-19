@@ -51,7 +51,10 @@ def user_create(request):
 
 
 def worker_create(request):
-    form = CreateNewWorker(initial={'ong':request.user.ong})
+    if request.user.is_anonymous:
+        form = CreateNewWorker()
+    else:
+        form = CreateNewWorker(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
         if form.is_valid():
