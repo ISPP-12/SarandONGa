@@ -1,5 +1,7 @@
-{% block content %}
-Registrar Voluntario
+{% extends 'layouts/master.html' %}
+
+{% block contenido %}
+<h1>Registrar Voluntario</h1>
 <form method="post" >
     {% csrf_token %}
     {{form.as_p}}

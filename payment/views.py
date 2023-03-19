@@ -14,7 +14,9 @@ def payment_create(request):
             messages.error(request, 'El formulario presenta errores')
     else:
         form = create_payment_form()
-    return render(request, 'payment/payment_form_malo.html', {'form': form})
+
+    return render(request, 'payment/payment_form.html', {'form': form, 'title': 'Añadir Pago'})
+
 
 
 def payment_update(request, payment_id):
@@ -28,8 +30,8 @@ def payment_update(request, payment_id):
             form.save()
             return redirect('/payment/list')
 
-    context = {'form': form}
-    return render(request, 'payment/payment_form_malo.html', context)
+    context = {'form': form, 'title': 'Actualizar pago'}
+    return render(request, 'payment/payment_form.html', context)
 
 
 def payment_list(request):

@@ -22,7 +22,7 @@ def subsidy_create(request):
             form.save()
 
     form = CreateNewSubsidy()
-    return render(request, 'subsidy_form.html', {"form": form})
+    return render(request, 'subsidy_form.html', {"form": form, "title": "Crear Subvención"})
 
 
 def subsidy_list(request):
