@@ -51,7 +51,7 @@ def user_create(request):
 
 
 def worker_create(request):
-    form = CreateNewWorker()
+    form = CreateNewWorker(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
         if form.is_valid():
@@ -60,7 +60,7 @@ def worker_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'worker/worker_form.html', {"form": form, "title": "Añadir Trabajador"})
+    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador"})
 
 
 def worker_list(request):

@@ -44,19 +44,22 @@ class CreateNewWorker(forms.ModelForm):
             'telephone': 'Teléfono',
             'postal_code': 'Código Postal',
             'photo': 'Fotografía',
+            'ong': 'ONG',
             'password': 'Contraseña;',
             'password2': 'Confirme la contraseña'
         }
         widgets = {
-            'sex': forms.Select(attrs={'class':'form-select-lg w-100 mb-3'}),
-            'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
+            'sex': forms.Select(attrs={'class':'form-select w-100 mb-3'}),
+            'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'ong': forms.Select(attrs={'class':'form-select w-100 mb-3','disabled':True})
         }
 
     def __init__(self, *args, **kwargs):
         super(CreateNewWorker, self).__init__(*args, **kwargs)
+
         for visible in self.visible_fields():
             if not visible.field.widget.attrs.get('class'):
-                visible.field.widget.attrs['class'] = 'form-control-lg w-100 mb-3 custom-form'
+                visible.field.widget.attrs['class'] = 'form-control w-100 mb-3'
 
     def clean_password2(self):
         # Check that the two password entries match
