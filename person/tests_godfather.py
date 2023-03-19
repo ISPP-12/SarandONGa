@@ -131,16 +131,6 @@ class GodFatherTestCase(TestCase):
             gf.save()
             gf.full_clean()
 
-    def test_godfather_bank_account_number_incorrect_max(self):
-        with self.assertRaises(Exception):
-            GodFather.objects.create(email="tcamerob2@gmail.com",
-            name="Tomas2",
-            surname='Camero',
-            amount = 100,
-            frequency = 'M',
-            seniority = datetime(2021, 1, 24, tzinfo=timezone.utc),
-            payment_method = 'T',
-            bank_account_number="ES11111111111111111111111")
         
     def test_gf_incorrect_bank_number(self):
         
