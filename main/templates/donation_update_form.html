@@ -1,0 +1,8 @@
+{% block content %}
+Registrar donación
+<form method="POST" action="">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit", name="save">Actualizar</button>
+</form>
+{% endblock %}

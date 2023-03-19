@@ -10,7 +10,7 @@ def service_create(request):
             return service_list(request)
 
     form = CreateNewService()
-    return render(request, 'service/service_form.html', {"form": form})
+    return render(request, 'service/service_form.html', {"form": form, "title": "Crear Servicio"})
 
 
 def service_list(request):
