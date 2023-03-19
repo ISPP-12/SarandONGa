@@ -16,7 +16,7 @@ class Proyect(models.Model):
 
     def __str__(self):
         return self.title
-    
+
     def save(self, *args, **kwargs):
         if self.end_date < self.start_date:
             raise Exception("La fecha de finalización del proyecto no puede ser anterior a la de inicio")
