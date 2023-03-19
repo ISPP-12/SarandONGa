@@ -29,11 +29,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/card-list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
     {% block extrahead %} {% endblock %}
-    
-
     {% block head %}
-    {% endblock head %}
-
+    {% endblock %}
+    
 </head>
 
 <body>
@@ -43,7 +41,8 @@
 
 
     <div class="container-fluid">
-        {% block contenido %}{% endblock %}
+        {% block content %}
+        {% endblock %}
     </div>
 
 </body>
