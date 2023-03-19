@@ -31,7 +31,7 @@ def payment_update(request, payment_id):
             return redirect('/payment/list')
 
     context = {'form': form, 'title': 'Actualizar pago'}
-    return render(request, 'payment/payment_form_malo.html', context)
+    return render(request, 'payment/payment_form.html', context)
 
 
 def payment_list(request):
