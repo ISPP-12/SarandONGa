@@ -13,12 +13,6 @@
 {% elif object_name_en == "godfather" %}
 <a  href="/user/godfather/create">
 
-{% elif object_name_en == "donation" %}
-<a  href="/donation/create">
-
-{% elif object_name_en == "subsidy" %}
-<a  href="/subsidy/create">
-
 {% endif %}
 {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
 {% endblock %}
