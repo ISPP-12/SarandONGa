@@ -1,7 +1,8 @@
 {% load static %}
 
 {% block content %}
-{% for payment in objects %}
-<p>{{payment.amount}}</p>
+
+{% for o in context.objects %}
+    <p>{{o.name}}</p>
 {% endfor %}
 {% endblock %}
