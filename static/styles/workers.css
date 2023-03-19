@@ -4,7 +4,6 @@
   --workers-main-color-light: var(--clr-accent-5-light);
 }
 
-
 /* Button */
 #section-worker .section-btn,
 #section-godfather .section-btn,
@@ -50,4 +49,16 @@
 #section-user .selected,
 #section-volunteer .selected {
   background-color: var(--subsidies-main-color-light);
+}
+
+/* Add hover in cards */
+
+.card-list:hover {
+  cursor: pointer;
+  background-color: var(--workers-main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.card-list:focus {
+  background-color: var(--workers-main-color-light);
 }

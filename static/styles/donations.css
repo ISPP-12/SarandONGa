@@ -4,7 +4,6 @@
   --donations-main-color-light: var(--clr-accent-2-light);
 }
 
-
 /* Button */
 #section-donation .section-btn {
   background-color: var(--donations-main-color);
@@ -12,7 +11,6 @@
 }
 
 #section-donation .section-btn:hover {
-  background-color: var(--donations-main-color-hover);
   color: var(--clr-black);
 }
 
@@ -27,13 +25,20 @@
   border-color: var(--donations-main-color);
 }
 
-/* Selection */
-.selected {
-  background-color: var(--donations-main-color-light);
-}
-
 @media (min-width: 768px) {
   #chevron {
     display: none !important;
   }
+}
+
+/* cards hover */
+
+.card-list:hover {
+  cursor: pointer;
+  background-color: var(--donations-main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.card-list:focus {
+  background-color: var(--donations-main-color-light);
 }
