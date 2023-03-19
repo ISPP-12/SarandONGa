@@ -221,7 +221,7 @@ class ASEMUser(Person):
     correspondence = models.CharField(
         max_length=20, choices=CORRESPONDENCE, verbose_name='Tipo de correspondencia')
     status = models.CharField(
-        max_length=20, choices=STATUS, verbose_name='Estado')
+        max_length=20, choices=STATUS, verbose_name='Estado civil')
     family_unit_size = models.IntegerField(
         verbose_name='Tamaño de la unidad familiar', validators=[MinValueValidator(0), MaxValueValidator(30)])
     own_home = models.CharField(

@@ -49,6 +49,19 @@ def user_create(request):
     form = CreateNewASEMUser()
     return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
+def user_update(request, asem_user_id):
+    asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
+    if request.method == "POST":
+        form = CreateNewASEMUser(request.POST, instance=asem_user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewASEMUser(instance=asem_user)
+    return render(request, 'asem_user/asem_user_form.html', {"form": form})
+
 
 def worker_create(request):
     if request.method == "POST":
