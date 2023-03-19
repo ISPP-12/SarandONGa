@@ -1,6 +1,7 @@
-{% block content %}
-Registrar donación
-<form method="post" action="/donations/create">
+{% extends 'layouts/master.html' %}
+{% block contenido %}
+<h1>Registrar donación</h1>
+<form method="POST" action="/donations/create">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
