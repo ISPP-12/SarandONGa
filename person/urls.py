@@ -15,4 +15,5 @@ urlpatterns = [
          views.godfather_details, name="godfather_details"),
     path('volunteer/list', views.volunteer_list, name='volunteer_list'),
     path('volunteer/create', views.volunteer_create, name='volunteer_create'),
+    path('volunteer/<int:volunteer_id>/update', views.volunteer_update, name='volunteer_update')
 ]
