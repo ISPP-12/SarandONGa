@@ -132,8 +132,6 @@ class WorkerManager(BaseUserManager):
         return user
 
 
-
-
 class Worker(AbstractBaseUser):
     email = models.EmailField(unique=True, verbose_name="E-Mail")
     name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
@@ -154,8 +152,9 @@ class Worker(AbstractBaseUser):
     photo = models.ImageField(verbose_name="Foto", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
     is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='trabajador')
-    
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='trabajador', verbose_name="ONG")
+
     USERNAME_FIELD = 'email'
 
     objects = WorkerManager()
@@ -196,8 +195,8 @@ class GodFather(Person):
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='padrino')
-
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='padrino', verbose_name="ONG")
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surname)
@@ -221,7 +220,7 @@ class ASEMUser(Person):
     correspondence = models.CharField(
         max_length=20, choices=CORRESPONDENCE, verbose_name='Tipo de correspondencia')
     status = models.CharField(
-        max_length=20, choices=STATUS, verbose_name='Estado')
+        max_length=20, choices=STATUS, verbose_name='Estado civil')
     family_unit_size = models.IntegerField(
         verbose_name='Tamaño de la unidad familiar', validators=[MinValueValidator(0), MaxValueValidator(30)])
     own_home = models.CharField(
@@ -231,7 +230,8 @@ class ASEMUser(Person):
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
                                            validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
                                                                       message='El número de cuenta no es válido.')])
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='asemuser')
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='asemuser', verbose_name="ONG")
 
     class Meta:
         ordering = ['surname', 'name']
@@ -253,7 +253,9 @@ class Volunteer(Person):
     # Fecha de inicio del contrato
     contract_date = models.DateField(
         verbose_name="Fecha de inicio del contrato")
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='voluntario')
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='voluntario', verbose_name="ONG")
+
 
 class Child(Person):
     sponsorship_date = models.DateTimeField(
@@ -282,8 +284,8 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='niño')
-        
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='niño', verbose_name="ONG")
 
     def __str__(self):
         return self.name + ' ' + self.surname

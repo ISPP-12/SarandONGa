@@ -1,6 +1,6 @@
 {% block content %}
 Registrar casa
-<form method="post" action="/home/create">
+<form method="post" action="">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
