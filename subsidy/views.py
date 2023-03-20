@@ -4,6 +4,7 @@ from .forms import CreateNewSubsidy
 from datetime import date
 import json
 from decimal import Decimal
+from django.contrib import messages
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -20,9 +21,11 @@ def subsidy_create(request):
         form = CreateNewSubsidy(request.POST)
         if form.is_valid():
             form.save()
+            return redirect("/subsidy/list")
+
 
     form = CreateNewSubsidy()
-    return render(request, 'subsidy_form.html', {"form": form})
+    return render(request, 'subsidy_form.html', {"form": form, "title": "Crear Subvención"})
 
 
 def subsidy_list(request):
@@ -49,3 +52,18 @@ def subsidy_delete(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
     subsidy.delete()
     return redirect("/subsidy/list")
+
+def subsidy_update(request, subsidy_id):
+    subsidy= get_object_or_404(Subsidy, id=subsidy_id)
+
+    form= CreateNewSubsidy(instance=subsidy)
+    if request.method == "POST":
+        form= CreateNewSubsidy(request.POST or None, instance=subsidy)
+        if form.is_valid():
+            form.save()
+            return redirect("/subsidy/list")
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'subsidy_form.html', {"form": form})
+
+
