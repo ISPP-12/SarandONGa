@@ -17,20 +17,6 @@
 {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
 {% endblock %}
 
-{% if object_name_en == "user" %}
-{% block botonPagoAsem %}
-
-<div class="row justify-content-end">
-  <div class="col-md-4 col-12 mb-md-0 mb-3 mt-4 d-flex justify-content-end">
-    <a href="/payment/create">
-    {% include 'components/button.html' with variation='PLUS' text='Añadir pago' %}
-    </a>
-  </div>
-</div>
-
-{% endblock %}
-{%endif%}
-
 {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/workers.css' %}"> {% endblock %}
 
 
