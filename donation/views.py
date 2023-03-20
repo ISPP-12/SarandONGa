@@ -3,6 +3,7 @@ from datetime import datetime
 import json
 from donation.models import Donation
 from decimal import Decimal
+from django.contrib import messages
 from .forms import CreateNewDonation
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -16,15 +17,27 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 # Create your views here.
 def donation_create(request):
+    if request.user.is_anonymous:
+        form= CreateNewDonation()
+        print("anonimo")
+    else:
+        form = CreateNewDonation(initial={'ong': request.user.ong})
     if request.method == "POST":
         form = CreateNewDonation(request.POST)
-        if form.is_valid():
-            form.save()
-        else:
-            print(form.errors) 
 
-    form = CreateNewDonation()
-    return render(request, 'donation_form.html', {"form": form, "title": "Crear Donación"})
+        if form.is_valid():
+            ong=request.user.ong
+            donation=form.save()
+            donation.ong=ong
+            donation.save()
+            
+
+            return redirect("/donation/list")
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
 
 def donation_list(request):
     # get donations from database
@@ -63,4 +76,4 @@ def donation_update(request, donation_id):
 
             return redirect('/donation/list')
 
-    return render(request, 'donation_update_form.html', {"form": form})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
