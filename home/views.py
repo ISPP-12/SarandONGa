@@ -26,7 +26,7 @@ def home_list(request):
     return render(request, 'home/home_list.html', {"context": context})
 
 
-def home_delete(request, slug):
+def home_delete(request, slug=None):
     home = Home.objects.get(slug=slug)
     home.delete()
     return redirect('home_list')
