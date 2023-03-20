@@ -4,7 +4,7 @@ from django.contrib import messages
 import json
 from datetime import datetime, date
 from decimal import Decimal
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -74,8 +74,20 @@ def worker_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewWorker()
-    return render(request, 'worker/worker_form.html', {"form": form, "title": "Añadir Trabajador"})
+    return render(request, 'worker/worker_create_form.html', {"form": form, "title": "Añadir Trabajador"})
 
+def worker_update(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    if request.method == "POST":
+        form = UpdateWorker(request.POST, instance=worker)
+        if form.is_valid():
+            form.save()
+            return redirect('worker_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = UpdateWorker(instance=worker)
+    return render(request, 'worker/worker_update_form.html', {"form": form, "title": "Actualizar Trabajador"})
 
 def worker_list(request):
     objects = Worker.objects.all().values()
