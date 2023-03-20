@@ -26,11 +26,12 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/card-list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/subsidies.css' %}">
 
     {% block extrahead %} {% endblock %}
+
+
     
 
 </head>
@@ -40,7 +41,10 @@
     {% include "components/navbar.html" %}
 
     <div class="container mt-5">
-        {% block contenido %}{% endblock %}
+        <div id={{"section-"|add:object_name}}>
+            {% block content %}
+            {% endblock %}
+        </div>
     </div>
 
 </body>

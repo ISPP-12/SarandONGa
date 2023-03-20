@@ -8,7 +8,7 @@ def stock_list(request):
         'objects': Stock.objects.all(),
         #'objects_json' : json.dumps(list(Stock.objects.all().values())),
         'object_name': 'stock',
-        'title': 'Lista de Stocks',
+        'title': 'Lista de stock',
     }
     return render(request, 'stock/list.html', context)
 
