@@ -157,7 +157,7 @@ class GodFather(Person):
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
-    seniority = models.DateField(verbose_name='Antigüedad')
+    seniority = models.DateTimeField(verbose_name='Antigüedad')
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
@@ -165,6 +165,9 @@ class GodFather(Person):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
+        if self.seniority < self.birth_date:
+            raise ValidationErr(
+                "The seniority date can't be before the birth date")
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:
