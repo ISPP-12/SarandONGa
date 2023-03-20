@@ -1,73 +1,98 @@
-{% extends "layouts/master.html" %}
+{% extends "layouts/master_full_width.html" %}
 {% load static %}
 
 {% block titulo %} Añadir subvención   {% endblock %} 
 {% block contenido %}
-<h1 class="mx-5 my-5">
+<div id="section-subsidy">
   {% if form.instance.id %}
-      Editar subvención
+      {% include 'components/title.html' with title="Editar subvención" %}
   {% else %}
-      Añadir subvención
+      {% include 'components/title.html' with title="Añadir subvención" %}
   {% endif %}
-</h1>
-<form method="post" class="" action="/subsidy/create">
-  {% csrf_token %}
-    <div class="row my-4 mx-5">
-      <div class="col">
-     
-      {% include "components/inputs.html" with id=form.name.id_for_label label_text="Nombre" input=form.name %} 
-      {{ form.name.errors }}
-      </div>
-      <div class="col">
-        {% include "components/inputs.html" with id=form.organism.id_for_label label_text="Organismo" input=form.organism %} 
-        {{ form.organism.errors }}
-   
-      </div>
-    </div>
-    <div class="row my-4 mx-5">
-        <div class="col">
-          {% include "components/inputs.html" with id=form.presentation_date.id_for_label label_text="Fecha de presentación" input=form.presentation_date %} 
-          {{ form.presentation_date.errors }}
-        </div>
-        <div class="col">
-          {% include "components/inputs.html" with id=form.payment_date.id_for_label label_text="Fecha de pago" input=form.payment_date %} 
-          {{ form.payment_date.errors }}
+  <form method="post"  action="">
+    {% csrf_token %}
+      <div class="row my-4 mx-5">
+        <div class="col-sm-12 col-lg-6">
+        {% include "components/inputs.html" with id=form.name.id_for_label label_text="Nombre" input=form.name %} 
+      
+        {{ form.name.errors }}
 
         </div>
-    </div>
-    <div class="row my-4 mx-5">
-        <div class="col">
-          {% include "components/inputs.html" with id=form.provisional_resolution.id_for_label label_text="Fecha de resolución" input=form.provisional_resolution %} 
-          {{ form.provisional_resolution.errors }}
+        <div class="col-sm-12 col-lg-6">
+          {% include "components/inputs.html" with id=form.organism.id_for_label label_text="Organismo" input=form.organism %} 
+          {{ form.organism.errors }}
     
         </div>
-        <div class="col">
-          {% include "components/inputs.html" with id=form.final_resolution.id_for_label label_text="Resolución final" input=form.final_resolution %} 
-          {{ form.final_resolution.errors }}
-  
-        </div>
-    </div>
-    <div class="row my-4 mx-5">
-        <div class="col">
-          {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" input=form.amount %} 
-          {{ form.amount.errors }}
-        </div>
-        <div class="col">
-          {% include "components/inputs.html" with id=form.ong.id_for_label label_text="ONG" input=form.ong %} 
-          {{ form.ong.errors }}
-        
-        </div>
       </div>
-    <div class="form-section mt-5 mx-5 text-center">
-      {% if form.instance.id %}
-      {% with button_text="Actualizar" %}
-          {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
-      {% endwith %}
-      {% else %}
-      {% with button_text="Registrar subvención" %}
-          {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
-      {% endwith %}
-      {% endif %}
-    </div>
-</form>
+      <div class="row my-4 mx-5">
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.presentation_date.id_for_label label_text="Fecha de presentación" input=form.presentation_date %} 
+            {{ form.presentation_date.errors }}
+          </div>
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.payment_date.id_for_label label_text="Fecha de pago" input=form.payment_date %} 
+            {{ form.payment_date.errors }}
+
+          </div>
+      </div>
+      <div class="row my-4 mx-5">
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.provisional_resolution.id_for_label label_text="Fecha de resolución provisional" input=form.provisional_resolution %} 
+            {{ form.provisional_resolution.errors }}
+      
+          </div>
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.final_resolution.id_for_label label_text="Fecha de resolución final" input=form.final_resolution %} 
+            {{ form.final_resolution.errors }}
+            <div id="message-dates"></div>
+
+    
+          </div>
+      </div>
+      <div class="row my-4 mx-5">
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" input=form.amount %} 
+            {{ form.amount.errors }}
+          </div>
+      
+         
+        </div>
+      <div class="form-section mt-5 mx-5 text-center">
+        {% if form.instance.id %}
+        {% with button_text="Actualizar" %}
+            {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+        {% endwith %}
+        {% else %}
+        {% with button_text="Registrar subvención" %}
+            {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+        {% endwith %}
+        {% endif %}
+      </div>
+  </form>
+</div>
+
+
+<script type="text/javascript">
+  let startInput = document.getElementById('id_provisional_resolution');
+  let endInput = document.getElementById('id_final_resolution');
+  let messageDiv = document.getElementById('message-dates');
+  let submitButton = document.getElementsByClassName('section-btn btn m-auto border-dark');
+
+  let compare = () => {
+    let startValue = (new Date(startInput.value)).getTime();
+    let endValue = (new Date(endInput.value)).getTime();
+
+    if (endValue < startValue) {
+      messageDiv.innerHTML = 'La fecha de resolución final debe ser posterior a la fecha de resolución provisional';
+      submitButton.disabled = true;
+    } else {
+      messageDiv.innerHTML = '';
+      submitButton.disabled = false;
+    }
+  };
+
+  startInput.addEventListener('change', compare);
+  endInput.addEventListener('change', compare);
+</script>
 {% endblock %}
+

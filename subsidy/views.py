@@ -18,21 +18,26 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 
 def subsidy_create(request):
+    if request.user.is_anonymous:
+        form= CreateNewSubsidy()
+    else:
+        form = CreateNewSubsidy(initial={'ong': request.user.ong})
     if request.method == "POST":
         form = CreateNewSubsidy(request.POST)
+
         if form.is_valid():
-            form.save()
+            ong=request.user.ong
+            subsidy=form.save()
+            subsidy.ong=ong
+            subsidy.save()
+            
+
             return redirect("/subsidy/list")
+        else:
+            messages.error(request, 'Formulario con errores')
+          
 
-
-    form = CreateNewSubsidy()
-    ongs = Ong.objects.all()
-    choices=[]
-    for o in ongs:
-        choices.append((o.id, o.name))
-
-
-    return render(request, 'subsidy/create.html', {"form": form ,ongs:choices })
+    return render(request, 'subsidy/create.html', {"form": form })
 
 
 def subsidy_list(request):
@@ -61,8 +66,9 @@ def subsidy_delete(request, subsidy_id):
     return redirect("/subsidy/list")
 
 def subsidy_update(request, subsidy_id):
-    subsidy= get_object_or_404(Subsidy, id=subsidy_id)
-
+    subsidy = get_object_or_404(Subsidy, id=subsidy_id)
+    
+    
     form= CreateNewSubsidy(instance=subsidy)
     if request.method == "POST":
         form= CreateNewSubsidy(request.POST or None, instance=subsidy)
@@ -71,6 +77,7 @@ def subsidy_update(request, subsidy_id):
             return redirect("/subsidy/list")
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'subsidy_form.html', {"form": form})
+    return render(request, 'subsidy/create.html', {"form": form})
 
 
+     

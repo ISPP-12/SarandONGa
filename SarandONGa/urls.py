@@ -22,17 +22,18 @@ from payment import views as payment_views
 from service import urls as service_urls
 from person import urls as person_urls
 from home import urls as home_urls
+from main import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('subsidy/', include(subsidy_urls), name="subsidy"),
     path('donations/', include(donation_urls), name='donations'),
-    path('subsidy/', include(subsidy_urls), name="subsidy"),
     path('stock/', include(stock_urls), name="stock"),
     path('donation/', include(donation_urls), name='donation'),
     path('user/', include(person_urls), name='user'),
     path('service/', include(service_urls),name="service"),
     path('home/',include(home_urls), name="home"),
-    path('', include(person_urls), name="person")
+    path('', views.index, name='home'),
+
 
 ]

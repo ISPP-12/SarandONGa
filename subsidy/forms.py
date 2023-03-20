@@ -5,6 +5,12 @@ from .models import Subsidy
 
 
 class CreateNewSubsidy(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(CreateNewSubsidy, self).__init__(*args, **kwargs)
+
+        for visible in self.visible_fields():
+            if not visible.field.widget.attrs.get('class'):
+                visible.field.widget.attrs['class'] = 'form-control w-100 mb-3'
     class Meta:
         model = Subsidy
         exclude = ['id']
@@ -14,4 +20,5 @@ class CreateNewSubsidy(forms.ModelForm):
             'provisional_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'final_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
+            'ong':forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
         }
