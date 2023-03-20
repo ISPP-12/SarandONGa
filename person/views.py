@@ -172,6 +172,9 @@ def child_create(request):
         form = CreateNewChild()
     return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
 
+def child_details(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+    return render(request, 'child_details.html', {'child': child})
 
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()
