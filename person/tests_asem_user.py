@@ -26,7 +26,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=True,
             bank_account_number="ES6700832134418939683447",
             ong=self.ong)
-        
+
         ASEMUser.objects.create(email="tcamerob2@gmail.com",
             name="Tomas2",
             surname="Camero2",
@@ -66,7 +66,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES8676001832134412893649",
             ong=self.ong)
-       
+
     def test_asem_user_create(self):
         asemuser = ASEMUser.objects.get(name="Tomas")
         self.assertEqual(asemuser.name, "Tomas")
@@ -78,7 +78,7 @@ class ASEMUserTestCase(TestCase):
         self.assertEqual(ASEMUser.objects.count(), 3)
         asemuser.delete()
         self.assertEqual(ASEMUser.objects.count(), 2)
-        
+
     def test_asem_user_update(self):
         asemuser = ASEMUser.objects.get(name="Tomas2")
         asemuser.name = "Tomasito"
@@ -116,7 +116,7 @@ class ASEMUserTestCase(TestCase):
         self.assertEqual(asemuser.own_home,"VC")
         self.assertEqual(asemuser.own_vehicle,True)
         self.assertEqual(asemuser.bank_account_number,"ES6700832134418939683447")
-        
+
     def test_asem_user_create_name_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -137,7 +137,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-    
+
     def test_asem_user_create_name_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -158,7 +158,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-            
+
     def test_asem_user_create_email_incorrect(self):
         with self.assertRaises(Exception):
             user = ASEMUser.objects.create(email="No es un email",
@@ -180,7 +180,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             user.full_clean()
-            
+
     def test_asem_user_create_email_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email = None,
@@ -201,7 +201,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-            
+
     def test_asem_user_create_surname_incorrect_null(self):
         with self.assertRaises(Exception):
             user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -223,7 +223,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             user.full_clean()
-            
+
     def test_asem_user_create_surname_incorrect_max(self):
         with self.assertRaises(Exception):
             user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -245,7 +245,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             user.full_clean()
-            
+
     def test_asem_user_create_birth_date_incorrect(self):
         with self.assertRaises(Exception):
             user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -289,7 +289,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             user.full_clean()
-                
+
     def test_asem_user_create_sex_incorrect(self):
         with self.assertRaises(Exception):
             user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -311,7 +311,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             user.full_clean()
-                
+
     def test_asem_user_create_city_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -335,7 +335,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_address_incorrect(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -360,7 +360,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_telephone_incorrect(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -382,7 +382,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_postal_code_incorrect(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -404,7 +404,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-            
+
     def test_asem_user_create_condition_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -426,7 +426,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_condition_incorrect(self):
         with self.assertRaises(Exception):
             asem_user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -449,7 +449,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             asem_user.full_clean()
-                
+
     def test_asem_user_create_condition_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -495,7 +495,7 @@ class ASEMUserTestCase(TestCase):
                 bank_account_number="ES6700832134418939683449",
                 ong=self.ong)
             asem_user.full_clean()
-    
+
     def test_asem_user_create_member_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -517,7 +517,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_member_incorrect(self):
         with self.assertRaises(Exception):
             asem_user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -540,7 +540,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             asem_user.full_clean()
-    
+
     def test_asem_user_create_member_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -587,7 +587,7 @@ class ASEMUserTestCase(TestCase):
                 ong=self.ong
             )
             asem_user.full_clean()
-                
+
     def test_asem_user_create_user_type_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -609,7 +609,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_user_type_incorrect(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -631,7 +631,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_user_type_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -699,7 +699,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-    
+
     def test_asem_user_create_correspondence_incorrect(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -721,7 +721,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_correspondence_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -767,7 +767,7 @@ class ASEMUserTestCase(TestCase):
                 bank_account_number="ES6700832134418939683449",
                 ong=self.ong)
             asem_user.full_clean()
-                
+
     def test_asem_user_create_status_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -789,7 +789,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_status_incorrect(self):
         with self.assertRaises(Exception):
             asem_user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -812,7 +812,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             asem_user.full_clean()
-                
+
     def test_asem_user_create_status_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -856,7 +856,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_family_incorrect_min(self):
         with self.assertRaises(Exception):
             asem_user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -879,7 +879,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             asem_user.full_clean()
-                
+
     def test_asem_user_create_family_incorrect_max(self):
         with self.assertRaises(Exception):
             asem_user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -902,7 +902,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             asem_user.full_clean()
-                
+
     def test_asem_user_create_own_home_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -924,7 +924,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_own_home_incorrect(self):
         with self.assertRaises(Exception):
             asem_user = ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -947,7 +947,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
             asem_user.full_clean()
-                
+
     def test_asem_user_create_own_home_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -1013,7 +1013,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=None,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-                
+
     def test_asem_user_create_bank_account_number_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -1035,7 +1035,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=True,
             bank_account_number="ES11111111111111111111111",
             ong=self.ong)
-    
+
     def test_asem_user_create_bank_account_number_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -1058,7 +1058,7 @@ class ASEMUserTestCase(TestCase):
             bank_account_number=None,
             ong=self.ong)
 
-    def test_asem_user_create_correspondence_incorrect_blank(self):
+    def test_asem_user_create_bank_account_numberincorrect_blank(self):
         with self.assertRaises(Exception):
             asem_user = ASEMUser.objects.create(
                 email="tcamerob3@gmail.com",
@@ -1081,7 +1081,7 @@ class ASEMUserTestCase(TestCase):
                 bank_account_number="",
                 ong=self.ong)
             asem_user.full_clean()
-            
+
     def test_asem_user_create_ong_incorrect_null(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -1125,29 +1125,6 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=True,
             bank_account_number='ES11111111111111111111111',
             ong="No es una ONG")
-
-    def test_asem_user_create_ong_incorrect_null(self):
-        with self.assertRaises(Exception):
-            ASEMUser.objects.create(email="tcamerob3@gmail.com",
-            name="Tomas2",
-            surname='Camero',
-            birth_date=datetime.datetime(2000, 1, 24, tzinfo=datetime.timezone.utc),
-            sex="M",
-            city="Sevilla",
-            address="Logroño 19",
-            telephone=691644398,
-            postal_code=41730,
-            condition="EM",
-            member="UNA",
-            user_type="OTROS",
-            correspondence="CC",
-            status="F",
-            family_unit_size=1,
-            own_home="VP",
-            own_vehicle=True,
-            bank_account_number='No es un patron de cuenta bancaria',
-            ong=self.ong)
-
 
     ### TESTS UPDATE ASEM USER ###
 
