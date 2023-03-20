@@ -4,7 +4,6 @@ from .forms import CreateNewSubsidy
 from datetime import date
 import json
 from decimal import Decimal
-from ong.models import Ong
 from django.contrib import messages
 
 
