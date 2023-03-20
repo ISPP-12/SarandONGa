@@ -58,7 +58,11 @@ def worker_create(request):
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
         if form.is_valid():
-            form.save()
+            ong = request.user.ong
+            worker = form.save()
+            worker.ong = ong
+            worker.save()
+            
             return redirect('worker_list')
         else:
             messages.error(request, 'Formulario con errores')
