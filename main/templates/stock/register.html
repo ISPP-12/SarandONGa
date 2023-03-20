@@ -1,18 +1,26 @@
 {% extends "layouts/master.html" %}
 {% load static %}
+{% block extrahead %}<link rel="stylesheet" type="text/css" href="{% static 'styles/stock.css' %}">{% endblock %}
 
-
-{% block contenido %} 
-    <h1 class="mx-5 my-5">Añadir suministro</h1>
-    <form method="post">
+{% block content %} 
+    <h1 class="mx-5 my-5">
+        {% if form.instance.id %}
+            Editar suministro
+        {% else %}
+            Añadir suministro
+        {% endif %}
+    </h1>
+    <form method="post" action="">
     {% csrf_token %}
         <div class="row justify-content-between mx-4 ">
             <div class="col-12 col-sm-4  mx-2 ">
                 <div class="row pt-1">
-                    {% include "components/inputs.html" with nameIn="name" id=1 label_text="Nombre" placeholder="Nombre del suministro"  type="text"  %}
+                    {% include "components/inputs.html" with id=form.name.id_for_label label_text="Nombre" input=form.name %}
+
                 </div>
                 <div class="row pt-4 mb-4">                  
-                    {% include "components/inputs.html" with nameIn="quantity" id=1 label_text="Unidades" placeholder="Número de unidades"  type="number"  %}
+                    {% include "components/inputs.html" with id=form.quantity.id_for_label label_text="Unidades" input=form.quantity %}
+
                 </div>
             </div>
             <div class="col-12 col-sm-6 ">
@@ -23,7 +31,7 @@
                     </div>
                     <div class=" row d-flex justify-content-center  ">
                         <div class="col-8">
-                            {% include "components/inputs.html" with id="file-up" nameIn="file"  type="file"  %}
+                            {% include "components/inputs.html" with id=form.file.id_for_label input=form.file  %}
                         </div>
                     </div>
                 </div>
@@ -31,12 +39,22 @@
             </div>
         </div>
         <div class="form-section mt-5 mx-5 text-center ">  
-            {% include 'components/button.html' with text="Registrar artículo" variation="SUBMIT" %}
+            {% if form.instance.id %}
+                {% with button_text="Actualizar" %}
+                    {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+                {% endwith %}
+            {% else %}
+                {% with button_text="Registrar artículo" %}
+                    {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+                {% endwith %}
+            {% endif %}
+
         </div> 
     </form>
 
 
 <script>
+    //TODO: modify this script to work with the new file input id
     const inputFoto = document.querySelector('#file-up');
     const vistaPrevia = document.querySelector('#vista');
 
