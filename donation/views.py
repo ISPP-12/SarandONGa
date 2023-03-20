@@ -19,21 +19,22 @@ class CustomJSONEncoder(json.JSONEncoder):
 def donation_create(request):
     if request.user.is_anonymous:
         form= CreateNewDonation()
-        print("anonimo")
+        
     else:
         form = CreateNewDonation(initial={'ong': request.user.ong})
     if request.method == "POST":
         form = CreateNewDonation(request.POST)
-
         if form.is_valid():
-            ong=request.user.ong
-            donation=form.save()
-            donation.ong=ong
-            donation.save()
-            
+            if not request.user.is_anonymous:
+                ong=request.user.ong
+                donation=form.save()
+                donation.ong=ong
+                donation.save()
+            form.save()
 
             return redirect("/donation/list")
         else:
+            print(form)
             messages.error(request, 'Formulario con errores')
 
     
