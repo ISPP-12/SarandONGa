@@ -19,7 +19,6 @@ class CustomJSONEncoder(json.JSONEncoder):
 def donation_create(request):
     if request.user.is_anonymous:
         form= CreateNewDonation()
-        
     else:
         form = CreateNewDonation(initial={'ong': request.user.ong})
     if request.method == "POST":
@@ -31,7 +30,6 @@ def donation_create(request):
                 donation.ong=ong
                 donation.save()
             form.save()
-
             return redirect("/donation/list")
         else:
             print(form)

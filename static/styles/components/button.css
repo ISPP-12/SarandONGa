@@ -9,12 +9,12 @@ button[type="submit"] > span {
   font-weight: 500;
 }
 
-button:hover {
-  opacity: 0.8;
-}
-
 button {
   cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
 }
 
 .section-btn:active {
