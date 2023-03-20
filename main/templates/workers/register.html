@@ -5,7 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'styles/workers.css' %}">
 {% endblock %}
 
-{% block contenido %}
+{% block content %}
 
 <div id="section-worker">
 
@@ -45,7 +45,7 @@
             </div>
         </div>
     {% endfor %}
-    <div class="form-section col-12 d-flex justify-content-center">
+    <div class="form-section mt-3 mb-5 col-12 d-flex justify-content-center">
         {% if form.instance.id %}
             {% include 'components/button.html' with variation="SUBMIT" text="Actualizar" id="id-submitForm" type="submit" %}
         {% else %}
