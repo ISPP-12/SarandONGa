@@ -2,16 +2,14 @@ from django.shortcuts import render, redirect
 from .models import Stock
 from .forms import CreateNewStock
 
-
 def stock_list(request):
 
     context = {
         'objects': Stock.objects.all(),
         #'objects_json' : json.dumps(list(Stock.objects.all().values())),
         'object_name': 'stock',
-        'title': 'Lista de Stocks',
+        'title': 'Lista de stock',
     }
-
     return render(request, 'stock/list.html', context)
 
 
@@ -25,4 +23,4 @@ def stock_create(request):
             d.save()
             return redirect('stock_list')
     form = CreateNewStock()
-    return render(request, 'stock/register.html', {'form': form})
+    return render(request, 'stock/register.html', {'form': form, 'title': 'Registrar artículo'})

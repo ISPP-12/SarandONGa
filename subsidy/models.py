@@ -1,4 +1,5 @@
 from django.db import models
+from ong.models import Ong
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
 
@@ -9,7 +10,7 @@ class Subsidy(models.Model):
 
     # Fecha en la que se presenta la subvención
     presentation_date = models.DateField(
-        verbose_name="Fecha", null=True, blank=True)
+        verbose_name="Fecha de presentación", null=True, blank=True)
     payment_date = models.DateField(
         verbose_name="Fecha de cobro", null=True, blank=True)
     # Organismo
@@ -25,6 +26,8 @@ class Subsidy(models.Model):
 
     # Nombre completo (con apellidos) de la persona o entidad que dona
     name = models.CharField(max_length=200, verbose_name="Nombre completo")
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='subvencion', verbose_name="ONG")
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):

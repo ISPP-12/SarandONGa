@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta, timezone
 from django.test import TestCase
+from ong.models import Ong
 from person.models import GodFather
 
 class GodFatherTestCase(TestCase):
     def setUp(self):
+        self.ong = Ong.objects.create(name='Mi ONG')
         GodFather.objects.create(
             name = 'John',
             surname = 'Doe',
@@ -17,7 +19,7 @@ class GodFatherTestCase(TestCase):
             frequency = 'M',
             seniority = datetime(2023, 1, 24, tzinfo=timezone.utc),
             notes = 'Some notes',
-            status = 'S',
+            status = 'S',ong=self.ong
             )
         
 
@@ -34,7 +36,7 @@ class GodFatherTestCase(TestCase):
             frequency = 'M',
             seniority = datetime(2022, 1, 24, tzinfo=timezone.utc),
             notes = 'Some notes',
-            status = 'C',
+            status = 'C',ong=self.ong
             )
         
 
@@ -51,7 +53,7 @@ class GodFatherTestCase(TestCase):
             frequency = 'M',
             seniority = datetime(2021, 1, 24, tzinfo=timezone.utc),
             notes = 'Some notes',
-            status = 'S',
+            status = 'S',ong=self.ong
             )
         
 
@@ -67,6 +69,7 @@ class GodFatherTestCase(TestCase):
         self.assertEqual(gf.seniority.strftime('%Y-%m-%d'), "2023-01-24")
         self.assertEqual(gf.notes, 'Some notes')
         self.assertEqual(gf.status, 'S')
+        self.assertEqual(gf.ong, self.ong)
         
 
         gf2 = GodFather.objects.get(dni='65004204T')
@@ -80,6 +83,7 @@ class GodFatherTestCase(TestCase):
         self.assertEqual(gf2.seniority.strftime('%Y-%m-%d'), "2022-01-24")
         self.assertEqual(gf2.notes, 'Some notes')
         self.assertEqual(gf2.status, 'C')
+        self.assertEqual(gf2.ong, self.ong)
         
 
         gf3 = GodFather.objects.get(dni='65001204Z')
@@ -93,6 +97,7 @@ class GodFatherTestCase(TestCase):
         self.assertEqual(gf3.seniority.strftime('%Y-%m-%d'), "2021-01-24")
         self.assertEqual(gf3.notes, 'Some notes')
         self.assertEqual(gf3.status, 'S')
+        self.assertEqual(gf3.ong, self.ong)
         
 
     def test_godfather_update(self):
@@ -140,7 +145,7 @@ class GodFatherTestCase(TestCase):
             frequency = 'M',
             seniority = datetime(2021, 1, 24, tzinfo=timezone.utc),
             payment_method = 'T',
-            bank_account_number="ES11111111111111111111111")
+            bank_account_number="ES11111111111111111111111",ong=self.ong)
         
     def test_gf_incorrect_bank_number(self):
         

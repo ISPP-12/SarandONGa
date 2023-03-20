@@ -19,34 +19,119 @@ displayed in the preview text (e.g. "donación")
 
 {% block objectFor %}
 {% for object in objects %}
-<div class="object border border-dark w-100 rounded p-2 mb-2">
-  <div class="d-flex flex-row justify-content-between align-items-center">
-    <div class="d-flex flex-column">
-      <span class="object-id d-none">{{ object.id }}</span>
-      <span class="object-title">{{ object.title }}</span>
-      <span class="object-amount">Importe: {{ object.amount }} €</span>
-      <span class="object-date">Fecha: {{ object.created_date }}</span>
+<div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
+  <span class="object-id d-none">{{ object.id }}</span>
+   
+      
+    <div class="row">
+      <div class="col-md-5 col-lg-4 col-sm-6 ">
+        <strong><h5>{{object.title}}</h5></strong>
+      
+      </div>
+      <div class="col-md-2 col-lg-2 col-sm-1">
+        <span>{{object.created_date}}</span>
+
+      </div>  
+      <div class="col-md-3 col-lg-2  col-sm-1">
+        <span>{{object.amount}} €</span>
+
+      </div> 
+      <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
+        <span>{{object.donor_email}}</span>
+
+      </div> 
+        
+        
     </div>
-    <i class="bi bi-chevron-right" id="chevron"></i>
-  </div>
-
-  <div class="d-none d-flex flex-column" id="moreInfo">
-    <span class="object-description">Descripción: {{ object.description }}</span>
-    <span class="object-donor_name">Realizada por: {{ object.donor_name }}
-      {{object.donor_surname}}</span>
-    <span class="object-donor_dni">DNI: {{ object.donor_dni }}</span>
-    <span class="object-donor_address">Dirección: {{ object.donor_address }}</span>
-    <span class="object-donor_email">Correo electrónico:<i>{{ object.donor_email }}</i></span>
-
     
-  </div>
+    
+
+   
+
+    <div class="d-none d-flex flex-column " id="moreInfo">
+      <span class="object-description pt-1"><strong>Descripción: </strong>{{ object.description }}</span>
+
+      <span class="object-donor-name pt-1"><strong>Nombre donante: </strong>{{ object.donor_name  }} {{object.donor_surname}}</span>
+      <span class="object-donor-dni pt-1"><strong>DNI donante: </strong>{{ object.donor_dni  }}</span>
+      <span class="object-donor-address pt-1"><strong>Dirección donante: </strong> {{ object.donor_address  }}</span>
+      <span class="object-donor-email pt-1"><strong>Correo donante: </strong> {{ object.donor_email  }}</span>
+
+      
+    </div>
 </div>
 {% endfor %}
 
 <div id="data" data-json='{{ objects_json|safe }}'></div>
 <div id="object-name" data-name='{{ object_name }}'></div>
+
 {% endblock %}
 
+
 {% block scripts %}
-<script src="{% static 'js/showPreview.js' %}"></script>
+<script id="object-data">
+  const objectList = document.querySelectorAll('.card-list')
+  const objetos = JSON.parse('{{ objects_json|escapejs }}')
+  const preview = document.querySelector('#preview')
+  const prevInfo = document.querySelector('#prev-info')
+  const chevron = document.querySelector('#chevron')
+
+  objectList.forEach(object => {
+    const moreInfo = object.querySelector('#moreInfo')
+    object.addEventListener('click', () => {
+      const isMobile = window.matchMedia("(max-width: 768px)").matches
+      console.log(moreInfo)
+      const isExpanded = !moreInfo.classList.contains('d-none')
+      const objectId = object.querySelector('.object-id').innerText
+      
+
+      const objectData = objetos.find(object => object.id == objectId)
+
+
+      if (isMobile) {
+        if (isExpanded) {
+          moreInfo.classList.add('d-none')
+          chevron.classList.remove('bi-chevron-down')
+          chevron.classList.add('bi-chevron-right')
+        } else {
+          moreInfo.classList.remove('d-none')
+          chevron.classList.remove('bi-chevron-right')
+          chevron.classList.add('bi-chevron-down')
+        }
+
+  } else {
+
+        prevInfo.classList.add('d-none')
+        preview.classList.remove('text-center')
+          preview.innerHTML = `
+        <div class="row ">
+          <div class="col-12 ">
+            
+            <h2>${objectData.title}</h2>
+            <h5>{{object_name}}</h5>
+            <p>${objectData.description}</p>
+            <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
+            <p><strong>Nombre donante: </strong>${objectData.donor_name + ' ' + objectData.donor_surname}</p>
+            <p><strong>DNI donate:  </strong>${objectData.donor_dni}</p>
+            <p><strong>Dirección donante:  </strong>${objectData.donor_address}</p>
+            <p><strong>Correo donante:  </strong>${objectData.donor_email}</p>
+          </div>
+        </div>
+      `
+      }
+
+    })
+
+    // when resizing the window, the preview will be reset
+    window.addEventListener('resize', () => {
+      moreInfo.classList.add('d-none')
+      prevInfo.classList.remove('d-none')
+      preview.classList.add('text-center')
+      preview.classList.remove('p-5')
+      preview.innerHTML = `<span id="prev-info">Pulsa sobre una {{ object_name }} para la vista previa</span>`
+
+    })
+
+  })
+
+</script>
 {% endblock %}
