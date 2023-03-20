@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'payment',
     'home',
     'ong',
+    'sponsorship',
 ]
 
 AUTH_USER_MODEL = 'person.Worker'

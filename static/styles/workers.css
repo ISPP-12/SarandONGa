@@ -4,32 +4,31 @@
   --workers-main-color-light: var(--clr-accent-5-light);
 }
 
-
 /* Button */
-#section-worker .section-btn,
-#section-godfather .section-btn,
-#section-child .section-btn,
-#section-user .section-btn,
-#section-volunteer .section-btn {
+#section-worker .section-btn:not(.secondary),
+#section-godfather .section-btn:not(.secondary),
+#section-child .section-btn:not(.secondary),
+#section-user .section-btn:not(.secondary),
+#section-volunteer .section-btn:not(.secondary) {
   background-color: var(--workers-main-color);
   color: var(--clr-black);
 }
 
-#section-worker .section-btn:hover,
-#section-godfather .section-btn:hover,
-#section-child .section-btn:hover,
-#section-user .section-btn:hover,
-#section-volunteer .section-btn:hover {
+#section-worker .section-btn:hover:not(.secondary),
+#section-godfather .section-btn:hover:not(.secondary),
+#section-child .section-btn:hover:not(.secondary),
+#section-user .section-btn:hover:not(.secondary),
+#section-volunteer .section-btn:hover:not(.secondary) {
   background-color: var(--workers-main-color-hover);
   color: var(--clr-black);
 }
 
 /* override bootstrap */
-#section-worker .section-btn:active,
-#section-godfather .section-btn:active,
-#section-child .section-btn:active,
-#section-user .section-btn:active,
-#section-volunteer .section-btn:active {
+#section-worker .section-btn:active:not(.secondary),
+#section-godfather .section-btn:active:not(.secondary),
+#section-child .section-btn:active:not(.secondary),
+#section-user .section-btn:active:not(.secondary),
+#section-volunteer .section-btn:active:not(.secondary) {
   background-color: var(--workers-main-color-hover) !important;
   color: var(--clr-black);
 }
@@ -50,4 +49,16 @@
 #section-user .selected,
 #section-volunteer .selected {
   background-color: var(--subsidies-main-color-light);
+}
+
+/* Add hover in cards */
+
+.card-list:hover {
+  cursor: pointer;
+  background-color: var(--workers-main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.card-list:focus {
+  background-color: var(--workers-main-color-light);
 }

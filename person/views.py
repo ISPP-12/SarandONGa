@@ -49,6 +49,19 @@ def user_create(request):
     form = CreateNewASEMUser()
     return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
+def user_update(request, asem_user_id):
+    asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
+    if request.method == "POST":
+        form = CreateNewASEMUser(request.POST, instance=asem_user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewASEMUser(instance=asem_user)
+    return render(request, 'asem_user/asem_user_form.html', {"form": form})
+
 
 def worker_create(request):
     if request.user.is_anonymous:
@@ -165,6 +178,9 @@ def child_create(request):
         form = CreateNewChild()
     return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
 
+def child_details(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+    return render(request, 'child_details.html', {'child': child})
 
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()
@@ -199,3 +215,16 @@ def volunteer_create(request):
 
     form = CreateNewVolunteer()
     return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
+
+def volunteer_update(request, volunteer_id):
+    volunteer = get_object_or_404(Volunteer, id=volunteer_id)
+    if request.method == "POST":
+        form = CreateNewVolunteer(request.POST, instance=volunteer)
+        if form.is_valid():
+            form.save()
+            return redirect('volunteer_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewVolunteer(instance=volunteer)
+    return render(request, 'volunteers/volunteers_form.html', {"form": form})

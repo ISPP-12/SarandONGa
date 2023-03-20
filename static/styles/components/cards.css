@@ -34,7 +34,9 @@
 }
 
 .card-stock a,
-.card-stock p {
+.card-stock p,
+.card-stock-list a,
+.card-stock-list p {
   color: var(--clr-black) !important;
 }
 
@@ -66,3 +68,23 @@
 }
 
 /* THIS COMMENT FOR CODACY, HATE YOU */
+
+/* CARD BUTTONS */
+.btn {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.section-btn {
+  background-color: #eaeaea;
+  color: black;
+}
+
+.section-btn:hover,
+.section-btn:active {
+  background-color: #f1d746;
+  color: black;
+}
+
+.card .section-btn {
+  width: 100%;
+}
