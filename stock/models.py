@@ -6,7 +6,7 @@ from django.core.validators import MinValueValidator
 class Stock(models.Model):   
     id= models.AutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='suministro')
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='suministro', null=True, blank = True,default="")
     quantity = models.DecimalField(max_digits=10, decimal_places=2,validators=[MinValueValidator(1)])
 
 
