@@ -1,9 +1,13 @@
 from django.test import TestCase
 from .models import Volunteer
+from ong.models import Ong
 from datetime import date
 
 class VolunteerTestCase(TestCase):
     def setUp(self):
+
+        self.ong = Ong.objects.create(name='Mi ONG')
+
         Volunteer.objects.create(
             name = 'John',
             surname = 'Smith',
@@ -21,7 +25,8 @@ class VolunteerTestCase(TestCase):
             notes = 'This is a note',
             entity = 'Entity',
             table = 'Table',
-            volunteer_type = 'Otro'
+            volunteer_type = 'Otro',
+            ong = self.ong
         )
 
         Volunteer.objects.create(
@@ -41,7 +46,8 @@ class VolunteerTestCase(TestCase):
             notes = 'This is a note',
             entity = 'Entity',
             table = 'Table',
-            volunteer_type = 'Otro'
+            volunteer_type = 'Otro',
+            ong = self.ong
         )
 
     def test_volunteer_correct_creation(self):
@@ -66,6 +72,7 @@ class VolunteerTestCase(TestCase):
         self.assertEqual(volunteer1.entity, 'Entity')
         self.assertEqual(volunteer1.table, 'Table')
         self.assertEqual(volunteer1.volunteer_type, 'Otro')
+        self.assertEqual(volunteer1.ong, self.ong)
 
         self.assertEqual(volunteer2.name, 'Gabriel')
         self.assertEqual(volunteer2.surname, 'Moreno')
@@ -84,6 +91,7 @@ class VolunteerTestCase(TestCase):
         self.assertEqual(volunteer2.entity, 'Entity')
         self.assertEqual(volunteer2.table, 'Table')
         self.assertEqual(volunteer2.volunteer_type, 'Otro')
+        self.assertEqual(volunteer2.ong, self.ong)
 
     def test_volunteer_correct_update(self):
 
@@ -174,7 +182,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_dni_incorrect_max_length(self):
@@ -196,7 +205,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_dni_incorrect_format(self):
@@ -218,7 +228,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
             volunteer.full_clean()
 
@@ -241,7 +252,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
             volunteer.full_clean()
 
@@ -264,7 +276,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_job_incorrect_max_length(self):
@@ -286,7 +299,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_job_incorrect_blank(self):
@@ -308,7 +322,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
             volunteer.full_clean()
 
@@ -331,7 +346,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_dedication_time_incorrect_null(self):
@@ -353,7 +369,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_dedication_time_incorrect_value(self):
@@ -375,7 +392,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_contract_start_date_incorrect_null(self):
@@ -397,7 +415,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_contract_start_date_incorrect_value(self):
@@ -419,7 +438,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_contract_end_date_incorrect_null(self):
@@ -441,7 +461,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_contract_end_date_incorrect_value(self):
@@ -463,7 +484,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_contract_end_date_incorrect_date(self):
@@ -485,7 +507,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
             volunteer.full_clean()
             
@@ -509,7 +532,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_raffle_incorrect_value(self):
@@ -531,7 +555,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_lottery_incorrect_null(self):
@@ -553,7 +578,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_lottery_incorrect_value(self):
@@ -575,7 +601,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_is_member_incorrect_null(self):
@@ -597,7 +624,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_is_member_incorrect_value(self):
@@ -619,7 +647,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_pres_table_incorrect_null(self):
@@ -641,7 +670,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_pres_table_incorrect_value(self):
@@ -663,7 +693,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_is_contributor_incorrect_null(self):
@@ -685,7 +716,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_is_contributor_incorrect_value(self):
@@ -707,7 +739,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_notes_incorrect_null(self):
@@ -729,7 +762,8 @@ class VolunteerTestCase(TestCase):
                 notes = None,
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_entity_incorrect_null(self):
@@ -751,7 +785,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = None,
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_entity_incorrect_max_length(self):
@@ -773,7 +808,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'E' * 51,
                 table = 'Table',
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_table_incorrect_null(self):
@@ -795,7 +831,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = None,
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_table_incorrect_max_length(self):
@@ -817,7 +854,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'T' * 51,
-                volunteer_type = 'Otro'
+                volunteer_type = 'Otro',
+                ong = self.ong
             )
 
     def test_volunteer_volunteer_type_incorrect_max_length(self):
@@ -839,7 +877,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'T' * 21
+                volunteer_type = 'T' * 21,
+                ong = self.ong
             )
 
     def test_volunteer_volunteer_type_incorrect_null(self):
@@ -861,7 +900,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = None
+                volunteer_type = None,
+                ong = self.ong
             )
 
     def test_volunteer_volunteer_type_incorrect_blank(self):
@@ -883,7 +923,8 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = ''
+                volunteer_type = '',
+                ong = self.ong
             )
             volunteer.full_clean()
 
@@ -906,6 +947,51 @@ class VolunteerTestCase(TestCase):
                 notes = 'This is a note',
                 entity = 'Entity',
                 table = 'Table',
-                volunteer_type = 'Volunteer'
+                volunteer_type = 'Volunteer',
+                ong = self.ong
             )
             volunteer.full_clean()
+
+    def test_volunteer_ong_incorrect_null(self):
+        with self.assertRaises(Exception):
+            Volunteer.objects.create(
+                name = 'Jesús',
+                surname = 'García',
+                email = 'jgarcia@gmail.com',
+                dni = '22345678A',
+                job = 'Developer',
+                dedication_time = 10,
+                contract_start_date = date(2023, 1, 20),
+                contract_end_date = date(2023, 2, 5),
+                raffle = False,
+                lottery = False,
+                is_member = False,
+                pres_table = False,
+                is_contributor = False,
+                notes = 'This is a note',
+                entity = 'Entity',
+                table = 'Table',
+                volunteer_type = 'Volunteer',
+                ong = None
+            )
+
+    def test_volunteer_ong_incorrect_value(self):
+        with self.assertRaises(Exception):
+            Volunteer.objects.create(
+                email = 'jgarcia@gmail.com',
+                dni = '22345678A',
+                job = 'Developer',
+                dedication_time = 10,
+                contract_start_date = date(2023, 1, 20),
+                contract_end_date = date(2023, 2, 5),
+                raffle = False,
+                lottery = False,
+                is_member = False,
+                pres_table = False,
+                is_contributor = False,
+                notes = 'This is a note',
+                entity = 'Entity',
+                table = 'Table',
+                volunteer_type = 'Volunteer',
+                ong = 'No es una ONG'
+            )
