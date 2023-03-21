@@ -41,10 +41,9 @@
     {% include "components/navbar.html" %}
 
     <div class="container mt-5">
-        <div id={{"section-"|add:object_name}}>
-            {% block content %}
-            {% endblock %}
-        </div>
+        {% block content %}
+        {% endblock %}
+ 
     </div>
 
 </body>
