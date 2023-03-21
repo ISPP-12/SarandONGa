@@ -126,8 +126,10 @@ class CreateNewVolunteer(forms.ModelForm):
         model = Volunteer
         exclude = ['id']
         widgets = {
-            'contract_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
+            'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
+            'contract_end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
+            'dedication_time': forms.NumberInput(attrs={'step': "0.01"}),
         }
 
     def __init__(self, *args, **kwargs):

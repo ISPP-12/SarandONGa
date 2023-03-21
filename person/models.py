@@ -1,12 +1,10 @@
 from xml.dom import ValidationErr
 from django.db import models
 from django.utils import timezone
-
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.utils.text import slugify
-from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 from ong.models import Ong
 
@@ -70,6 +68,18 @@ CORRESPONDENCE = (
 HOUSING_TYPE = (
     ('VC', 'Vivienda compartida'),
     ('VP', 'Vivienda propia')
+)
+
+VOLUNTEER_TYPE = (
+    ('AP', 'Alumno en prácticas'),
+    ('O', 'Otro')
+)
+
+DNI_REGEX = r'^\d{8}[A-Z]$'
+    
+DNI_VALIDATOR = RegexValidator(
+    regex=DNI_REGEX,
+    message='Introduce un DNI válido (8 números y 1 letra).'
 )
 
 
@@ -181,7 +191,12 @@ class Worker(AbstractBaseUser):
 
 
 class GodFather(Person):
-    dni = models.CharField(max_length=9, unique=True, verbose_name='DNI')
+    dni = models.CharField(
+        max_length=9,
+        unique=True,
+        validators=[DNI_VALIDATOR],
+        verbose_name='DNI'
+    )
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
@@ -249,18 +264,42 @@ class ASEMUser(Person):
 
 class Volunteer(Person):
 
+    dni = models.CharField(
+        max_length=9,
+        unique=True,
+        validators=[DNI_VALIDATOR],
+        verbose_name='DNI'
+    )
     # Trabajo que realiza el voluntario
     job = models.CharField(max_length=50, verbose_name="Trabajo")
-
     # Tiempo de dedicación en horas
     dedication_time = models.FloatField(verbose_name="Tiempo de dedicación")
-
-    # Fecha de inicio del contrato
-    contract_date = models.DateField(
-        verbose_name="Fecha de inicio del contrato")
+    contract_start_date = models.DateField(verbose_name="Fecha de inicio del contrato")
+    contract_end_date = models.DateField(verbose_name="Fecha de finalización del contrato")
+    raffle = models.BooleanField(default=False, verbose_name="¿Participa en la rifa?")
+    lottery = models.BooleanField(default=False, verbose_name="¿Participa en la lotería?")
+    is_member = models.BooleanField(default=False, verbose_name="¿Es socio?")
+    pres_table = models.BooleanField(default=False, verbose_name="¿Preside la mesa?")
+    is_contributor = models.BooleanField(default=False, verbose_name="¿Es colaborador?")
+    notes = models.TextField(blank=True, verbose_name='Observaciones')
+    entity = models.CharField(max_length=50, blank=True, verbose_name="Entidad")
+    table = models.CharField(max_length=50, blank=True, verbose_name="Mesa")
+    volunteer_type = models.CharField(max_length=20, choices = VOLUNTEER_TYPE, verbose_name="Tipo de voluntario")
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='voluntario', verbose_name="ONG")
 
+    class Meta:
+        ordering = ['surname', 'name']
+        verbose_name = 'Voluntario'
+        verbose_name_plural = 'Voluntarios'
+
+    def __str__(self):
+        return self.surname + ', ' + self.name
+
+    def clean(self):
+        if self.contract_start_date >= self.contract_end_date:
+            raise ValidationError(
+                'La fecha de inicio del contrato debe ser anterior a la fecha de finalización del contrato')
 
 class Child(Person):
     sponsorship_date = models.DateTimeField(
