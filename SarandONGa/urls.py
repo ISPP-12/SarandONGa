@@ -27,9 +27,10 @@ from main import urls as main_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('main.urls')),
     path('subsidy/', include(subsidy_urls), name="subsidy"),
+    path('payment/', include(payment_urls), name="payment"),
     path('donations/', include(donation_urls), name='donations'),
-    path('subsidy/', include(subsidy_urls), name="subsidy"),
     path('stock/', include(stock_urls), name="stock"),
     path('donation/', include(donation_urls), name='donation'),
     path('user/', include(person_urls), name='user'),
