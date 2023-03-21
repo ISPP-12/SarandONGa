@@ -100,7 +100,7 @@ class CreateNewChild(forms.ModelForm):
 
     class Meta:
         model = Child
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),

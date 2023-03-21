@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
+from functools import wraps
 from datetime import datetime, date
 from decimal import Decimal
 from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild
@@ -17,6 +19,14 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+def videssur_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "videssur":
+            return function(request, *args, **kwargs)
+        else:
+            return redirect("/")
+    return wrapper
 
 def godfather_list(request):
     objects = GodFather.objects.all().values()
@@ -160,11 +170,17 @@ def godfather_details(request, godfather_id):
     return render(request, 'prueba_padrino_detalles.html', {'godfather': godfather})
 
 
+@login_required(login_url='/admin/login/?next=/user/child/create/')
+@videssur_required
 def child_create(request):
+    form = CreateNewVolunteer(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewChild(request.POST)
         if form.is_valid():
-            form.save()
+            ong = request.user.ong  # it is videssur basically
+            child = form.save(commit=False)
+            child.ong = ong
+            child.save()
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
