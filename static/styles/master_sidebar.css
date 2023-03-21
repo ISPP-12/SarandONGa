@@ -45,8 +45,11 @@
   font-size: medium;
 }
 
+#previewContainerButtons {
+  height: 200px;
+}
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   #previewContainer {
     display: none !important;
   }
