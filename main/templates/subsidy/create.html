@@ -1,8 +1,7 @@
 {% extends "layouts/master_full_width.html" %}
 {% load static %}
 
-{% block titulo %} Añadir subvención   {% endblock %} 
-{% block contenido %}
+{% block content %}
 <div id="section-subsidy">
   {% if form.instance.id %}
       {% include 'components/title.html' with title="Editar subvención" %}

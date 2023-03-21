@@ -36,7 +36,7 @@ def subsidy_create(request):
             messages.error(request, 'Formulario con errores')
           
 
-    return render(request, 'subsidy/create.html', {"form": form })
+    return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" })
 
 
 def subsidy_list(request):
