@@ -12,6 +12,11 @@ displayed in the preview text (e.g. "donación")
   <link rel="stylesheet" type="text/css" href="{% static 'styles/donations.css' %}">
 {% endblock %}
 
+{% block botonPrimario %}
+<a  href="/donation/create">
+{% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
+{% endblock %}
+
 {% block objectFor %}
 {% for object in objects %}
 <div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">

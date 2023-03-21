@@ -61,24 +61,3 @@ body {
   src: url("/static/typographies/ABCWhyte-Black-Trial.otf");
   font-weight: bold;
 }
-
-/* STOCK LIST VIEW */
-.border-stock-title {
-  font-family: var(--font-header);
-  border-bottom: solid var(--border-radius-1) var(--color-accent-1);
-}
-
-.btn-more-stock button,
-.btn-more-stock button:hover,
-.btn-more-stock button:active {
-  background-color: var(--color-accent-1) !important;
-}
-
-@media (max-width: 767px) {
-
-  .btn-more-stock button,
-  .btn-more-stock button:hover,
-  .btn-more-stock button:active {
-    width: 100%;
-  }
-}

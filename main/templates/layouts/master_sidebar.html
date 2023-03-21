@@ -52,46 +52,19 @@ BLOCKS IN THIS LAYOUT
               {% include "components/search.html" with text="Buscar "|add:object_name|add:"..." %}
             </div>
             
-            <div class="col-md-6 col-12 d-flex {% if 'asem/list' in request.path %}justify-content-between{% else %}justify-content-end{% endif %}">
-              <div class="px-1">
-
-                {% if 'asem/list' in request.path %}
-                <a  href="/user/asem/create">
-                  
-                {% elif 'worker/list' in request.path %}
-                <a  href="/user/worker/create">
-                  
-                {% elif 'child/list' in request.path %}
-                <a  href="/user/child/create">
-                  
-                {% elif 'godfather/list' in request.path %}
-                <a  href="/user/godfather/create">
-                        
-                {% elif 'donation/list' in request.path %}
-                <a  href="/donation/create">
-                  
-                {% elif 'subsidy/list' in request.path %}
-                <a  href="/subsidy/create">
-                    
-                {% endif %}
-                {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
-              </div>
-                  
-              {% if 'asem/list' in request.path %}
-              <div class="px-1">
-                    <a href="/payment/create">{% include 'components/button.html' with variation='PLUS' text='Añadir pago' %}</a>
-                </div>
-              {%endif%}
-              
+            <div class="col-md-3 col-12 mb-md-0 me-4 mb-3 justify-content-end d-flex">
+              {%block botonPrimario%}{%endblock%}
             </div>
 
-          </div>
+            
+
 
           <div class="row">
               <div class="col-8 col-md-8 mb-3">
                 {% block filters %}
                 {% endblock %}
               </div>
+
 
               <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
                 <div class="px-1">
