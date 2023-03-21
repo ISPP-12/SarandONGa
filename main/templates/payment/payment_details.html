@@ -1,7 +1,4 @@
-{% load static %}
+<h2>Detalles de pago</h2>
 
-{% block content %}
-{% for atributo in payment %}
-<p>{{atributo}}</p>
-{% endfor %}
-{% endblock %}
+<p>Fecha de pago: {{payment.payday}}</p>
+<p>Cantidad: {{payment.amount}}</p>
