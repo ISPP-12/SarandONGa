@@ -167,7 +167,7 @@ class GodFather(Person):
         self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         if self.seniority < self.birth_date:
             raise ValidationErr(
-                "The seniority date can't be before the birth date")
+                "la fecha de Antigüedad no puede ser menor que la fecha de nacimiento")
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:
