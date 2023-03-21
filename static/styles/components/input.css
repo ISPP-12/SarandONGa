@@ -1,15 +1,15 @@
 label {
   font-weight: 400;
-  font-size: var(--font-size-large);
+  font-size: 20px;
   line-height: 24px;
 }
 
 input {
-  border: 1.4px solid var(--clr-gray-900);
+  border: 1.4px solid var(--gray-900);
   border-radius: var(--border-radius-1);
 }
 
 .border-class {
-  border: 1.4px solid var(--clr-gray-900);
+  border: 1.4px solid var(--gray-900);
   border-radius: var(--border-radius-1);
 }

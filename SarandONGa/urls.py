@@ -18,19 +18,26 @@ from django.urls import path, include
 from subsidy import urls as subsidy_urls
 from stock import urls as stock_urls
 from donation import urls as donation_urls
+from payment import urls as payment_urls
 from service import urls as service_urls
 from person import urls as person_urls
-from payment import urls as payments_urls
+from home import urls as home_urls
+from sponsorship import urls as sponsorship_urls
+from main import urls as main_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('main.urls')),
     path('subsidy/', include(subsidy_urls), name="subsidy"),
-    path('payment/', include(payments_urls), name="payment"),
+    path('donations/', include(donation_urls), name='donations'),
+    path('subsidy/', include(subsidy_urls), name="subsidy"),
     path('stock/', include(stock_urls), name="stock"),
     path('donation/', include(donation_urls), name='donation'),
     path('user/', include(person_urls), name='user'),
     path('service/', include(service_urls),name="service"),
-    path('', include(person_urls), name="person")
+    path('home/',include(home_urls), name="home"),
+    path('payment/', include(payment_urls), name="payment"),
+    path('', include(person_urls), name="person"),
+    path('sponsorship/',include(sponsorship_urls), name="sponsorship"),
+
 
 ]

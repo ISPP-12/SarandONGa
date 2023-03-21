@@ -16,7 +16,7 @@
                 <a class="nav-link {% if 'stock' in request.path %}active{% endif %}" href="/stock/list">Stock</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle {% if 'asem_user' in request.path or 'worker' in request.path %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle {% if 'user' in request.path %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Usuarios
                 </a>
                 <ul class="dropdown-menu">
@@ -29,7 +29,7 @@
                 </ul>
               </li>
             <li class="nav-item">
-                <a class="nav-link {% if 'donations' in request.path %}active{% endif %}"  href="/donation/list">Donaciones</a>
+                <a class="nav-link {% if 'donation' in request.path %}active{% endif %}"  href="/donation/list">Donaciones</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if 'subsidy' in request.path %}active{% endif %}"  href="/subsidy/list">Subvenciones</a>
