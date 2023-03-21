@@ -6,7 +6,42 @@
 {% block objectFor %}
 {% for object in objects %}
 
-  {% include 'components/card-list.html' with object_name=object_name  name=object.name amount=object.amount %}
+<div class="container-fluid mw-100  card-list rounded px-2 py-1" tabindex="1">
+  <span class="object-id d-none">{{ object.id }}</span>
+   
+      
+    <div class="row">
+      <div class="col-md-5 col-lg-5 col-sm-6 ">
+        <strong><h5>{{object.name}}</h5></strong>
+      
+      </div>
+      <div class="col-md-2 col-lg-3 col-sm-1">
+        <span>{{object.amount}} €</span>
+
+      </div>  
+      <div class="col-md-3 col-lg-4 col-email col-sm-1">
+        <span>{{object.organism}}</span>
+
+      </div> 
+     
+        
+        
+    </div>
+    
+    
+
+   
+
+    <div class="d-none d-flex flex-column" id="moreInfo">
+      <span class="object-description"><strong>Fecha de presentación: </strong>{{ object.telephone }}</span>
+
+      <span class="object-payment"><strong>Fecha de pago: </strong>{{ object.payment_date }}</span>
+      <span class="object-prov"><strong>Resolucion provisional: </strong>{{ object.provisional_resolution  }}</span>
+      <span class="object-final"><strong>Resolución final: </strong>{{ object.final_resolution  }}</span>
+
+      
+    </div>
+</div>
   <span class="object-id d-none">{{ object.id }}</span>
 
 {% endfor %}
@@ -50,28 +85,15 @@
           preview.innerHTML = `
         <div class="row ">
           <div class="col-12 ">
-            <div class=" row justify-content-center pb-5">
-              {%if object_name == "Usuario" or object_name == "Niño" or object_name == "Padrino" or object_name == "Trabajador" or object_name == "Voluntario"%} {% if object.photo %}
-
-                <img class="profile-img-big rounded" src=" {{object.photo}} " />
-                {% else %}
-
-                <img class="profile-img-big rounded" src={% static 'img/person-icon.svg' %} />
-
-                {% endif %} {% else %}
-
-                <img class="profile-img-big  rounded" src={% static 'img/others-icon.svg' %} />
-
-                {%endif%}
-            </div>
+            
             <h2>${objectData.name}</h2>
-            <h5>{{object_names}}</h5>
+            <h5>{{object_name}}</h5>
             <p>${objectData.organism}</p>
-            <p>${objectData.amount} €</p>
-            <p>Presentación: ${objectData.presentation_date}</p>
-            <p>Pago: ${objectData.payment_date}</p>
-            <p>Resolución provisional: ${objectData.provisional_resolution=='True'?'✅':'❌'}</p>
-            <p>Resolución final: ${objectData.provisional_resolution=='True'?'✅':'❌'}</p>
+            <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
+            <p><strong>Presentación: </strong>${objectData.presentation_date}</p>
+            <p><strong>Pago: </strong>${objectData.payment_date}</p>
+            <p><strong>Resolución provisional: </strong>${objectData.provisional_resolution}</p>
+            <p><strong>Resolución final: </strong>${objectData.provisional_resolution}</p>
           </div>
         </div>
       `

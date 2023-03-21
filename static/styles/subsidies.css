@@ -4,7 +4,6 @@
   --subsidies-main-color-light: var(--clr-accent-4-light);
 }
 
-
 /* Button */
 #section-subsidy .section-btn {
   background-color: var(--subsidies-main-color);
@@ -34,4 +33,16 @@
 
 .object-amount {
   opacity: 60%;
+}
+
+/* cards hover */
+
+.card-list:hover {
+  cursor: pointer;
+  background-color: var(--subsidies-main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.card-list:focus {
+  background-color: var(--subsidies-main-color-light);
 }

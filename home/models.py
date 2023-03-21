@@ -16,10 +16,11 @@ FREQUENCY = (
     ('S', 'Semestral'),
 )
 
+
 class Home(models.Model):
-    id= models.AutoField(primary_key=True)
-    
-    name = models.CharField(default="", max_length=25)
+    id = models.AutoField(primary_key=True)
+
+    name = models.CharField(default="", max_length=25, verbose_name="Nombre")
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
@@ -34,18 +35,17 @@ class Home(models.Model):
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
     seniority = models.DateField(verbose_name='Antigüedad de la casa')
-    province = models.CharField(default="Sevilla",verbose_name='provincia', max_length= 25)
+    province = models.CharField(
+        default="Sevilla", verbose_name='Provincia', max_length=25)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
-    #status = models.CharField(
+    # status = models.CharField(
     #    max_length=20, choices=STATUS, verbose_name='Estado')
     # ¿CUAL ES EL ESTADO DE UNA CASA?¿EN RUINAS, EN OBRAS...?
     slug = models.SlugField(max_length=200, unique=True, editable=False)
 
-
-
     def __str__(self):
         return "{}, {}".format(self.name, self.province)
-    
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.province)
         super(Home, self).save(*args, **kwargs)
