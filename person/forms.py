@@ -124,7 +124,7 @@ class CreateNewChild(forms.ModelForm):
 class CreateNewVolunteer(forms.ModelForm):
     class Meta:
         model = Volunteer
-        exclude = ['id']
+        exclude = ['id', 'ong'] # ong is added in the view
         widgets = {
             'contract_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
