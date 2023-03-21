@@ -30,7 +30,7 @@ class CreateNewGodFather(forms.ModelForm):
 class CreateNewASEMUser(forms.ModelForm):
     class Meta:
         model = ASEMUser
-        exclude = ['id']
+        exclude = ['id', 'ong'] #ong should be ASEM
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
