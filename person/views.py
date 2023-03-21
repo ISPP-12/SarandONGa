@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from ong.models import Ong
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer
 from django.contrib import messages
 import json
@@ -209,7 +208,7 @@ def volunteer_create(request):
         if form.is_valid():
             ong = request.user.ong
             # if the user is anonymous, the ong is not set yet. Actually, it won't be possible to create a volunteer unless the user is logged in
-            volunteer = form.save(commit=False) 
+            volunteer = form.save(commit=False)
             volunteer.ong = ong
             volunteer.save()
             return redirect('volunteer_list')
