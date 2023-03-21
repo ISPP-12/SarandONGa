@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.contrib.auth.decorators import login_required
 from ong.models import Ong
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer
 from django.contrib import messages
@@ -199,12 +199,9 @@ def volunteer_list(request):
 
     return render(request, 'users/list.html', context)
 
-
+@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_create(request):
-    if request.user.is_anonymous:
-        return redirect('/admin')
-    else:
-        form = CreateNewVolunteer(initial={'ong':request.user.ong})
+    form = CreateNewVolunteer(initial={'ong':request.user.ong})
 
     if request.method == "POST":
         form = CreateNewVolunteer(request.POST)
