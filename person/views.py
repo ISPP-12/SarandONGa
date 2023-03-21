@@ -214,9 +214,7 @@ def volunteer_create(request):
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-
-    # print(form)
-    return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario", "object_name": "volunteer"})
+    return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
 
 def volunteer_update(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
