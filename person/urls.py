@@ -10,6 +10,8 @@ urlpatterns = [
     path('asem/<int:asem_user_id>/update', views.user_update, name='user_update'),
     path('worker/list', views.worker_list, name='worker_list'),
     path('worker/create', views.worker_create, name="worker_create"),
+    path('worker/<int:worker_id>/delete',
+        views.worker_delete, name="worker_delete"),
     path('godfather/list', views.godfather_list, name="godfather_list"),
     path('godfather/create', views.godfather_create, name="godfather_create"),
     path('godfather/<int:godfather_id>',
