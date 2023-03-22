@@ -1161,7 +1161,7 @@ class ASEMUserTestCase(TestCase):
     def test_asem_user_update_birth_date_incorrect_null(self):
         with self.assertRaises(Exception):
             self.asem_user_update.birth_date = None
-            self.asem_user_update.sfull_clean()
+            self.asem_user_update.full_clean()
 
     def test_asem_user_update_birth_date_incorrect_value(self):
         with self.assertRaises(Exception):
