@@ -5,6 +5,8 @@ from datetime import date
 import json
 from decimal import Decimal
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -15,7 +17,7 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
-
+@login_required(login_url='/admin/login/?next=/user/subsidy/create/')
 def subsidy_create(request):
     if request.user.is_anonymous:
         form= CreateNewSubsidy()
@@ -26,7 +28,7 @@ def subsidy_create(request):
 
         if form.is_valid():
             ong=request.user.ong
-            subsidy=form.save()
+            subsidy=form.save(commit=False)
             subsidy.ong=ong
             subsidy.save()
             
@@ -34,9 +36,8 @@ def subsidy_create(request):
             return redirect("/subsidy/list")
         else:
             messages.error(request, 'Formulario con errores')
-          
 
-    return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" })
+    return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" ,  "title": "Añadir Subvención"})
 
 
 def subsidy_list(request):
