@@ -40,7 +40,6 @@ urlpatterns = [
     path('payment/', include(payment_urls), name="payment"),
     path('', include(person_urls), name="person"),
     path('sponsorship/',include(sponsorship_urls), name="sponsorship"),
-    path('proyect/',include(proyect_urls), name = 'proyect')
-
+    path('proyect/',include(proyect_urls),name = "proyect"),
 
 ]
