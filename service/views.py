@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .forms import CreateNewService
 from .models import Service
 
@@ -22,3 +22,7 @@ def service_list(request):
     }
 
     return render(request, 'service_list.html', context)
+
+def service_details(request, service_id):
+    service = get_object_or_404(Service, id=service_id)
+    return render(request, 'service/service_details.html', {'service': service})
