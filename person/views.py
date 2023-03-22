@@ -50,7 +50,7 @@ def user_create(request):
     return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
 def asem_user_delete(request, asem_user_id):
-    asemuser = ASEMUser.objects.get(id=asem_user_id)
+    asemuser = get_object_or_404(ASEMUser, id=asem_user_id)
     asemuser.delete()
     return redirect('user_list')
 
