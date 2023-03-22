@@ -1,0 +1,81 @@
+
+/* TOOLBAR */
+
+.fc .fc-toolbar.fc-header-toolbar {
+  flex-wrap: wrap;
+}
+
+.fc .fc-button-primary {
+    background-color: var(--clr-accent-5-light);
+    border: none;
+    color: var(--clr-accent-5-darker);
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.fc .fc-button-primary:not(:disabled):hover {
+    background-color: var(--clr-accent-5-dark);
+    color: var(--clr-accent-5-darker);
+}
+
+/* .fc .fc-button-primary:not(:disabled):active {
+    background-color: var(--clr-accent-5-darker);
+    color: var(--clr-accent-5-darker);
+} */
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+    background-color: var(--clr-accent-5-darker);
+    color: var(--clr-white);
+    outline: none; /* not working */
+}
+
+/* first child (title) */
+.fc .fc-toolbar.fc-header-toolbar > *:first-child {
+  flex: 1 1 100%;
+  margin-bottom: 1em;
+  text-transform: capitalize;
+}
+
+/* EVENTS */
+
+.fc-daygrid-event {
+    background-color: var(--clr-accent-5-light);
+    border: none;
+}
+
+.fc-h-event .fc-event-main {
+    color: var(--clr-accent-5-darker);
+    font-weight: 600;
+}
+
+/* DAYS */
+
+.fc .fc-daygrid-day-top {
+    flex-direction: row;
+}
+
+.fc .fc-daygrid-day-top a {
+    color: var(--clr-black);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+    background-color: var(--clr-accent-5-light);
+}
+
+/* WEEK DAYS */
+
+.fc .fc-col-header-cell a {
+    color: var(--gray-600);
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+/* GRID */
+
+.fc-theme-standard td, .fc-theme-standard th {
+    border: 1px solid var(--gray-20);
+}
