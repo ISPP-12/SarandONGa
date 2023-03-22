@@ -64,7 +64,7 @@
     let birthDate = document.getElementById('id_birth_date')
     let startContractDate = document.getElementById('id_contract_start_date')
     let endContractDate = document.getElementById('id_contract_end_date')
-    let submitButton = document.getElementsByClassName('section-btn btn m-auto border-dark')
+    let submitButton = document.getElementById('id-submitForm')
     
     let birthDiv = document.createElement('div')
     birthDiv.setAttribute('class', 'text-danger')
@@ -84,9 +84,11 @@
         console.log("fecha fin contrato", endValue)
 
         submitButton.disabled = true
+
         
         if(birthDateValue >= startValue) {
             birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha de inicio del contrato'
+
         } else if (birthDateValue >= endValue) {
             birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha de finalización del contrato'
         } else {
@@ -101,7 +103,7 @@
             finishDiv.innerHTML = ''
         }
         
-        if(birthDateValue < startValue && birthDateValue < endValue && endValue > startValue) {
+        if(birthDateValue < startValue && birthDateValue < endValue && endValue >= startValue) {
             submitButton.disabled = false
         }
 
