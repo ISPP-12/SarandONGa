@@ -1,11 +1,13 @@
 import datetime
 from django.test import TestCase
+from ong.models import Ong
 from person.models import Worker
 
 
 class WorkerTestCase(TestCase):
 
     def setUp(self):
+        self.ong = Ong.objects.create(name='Mi ONG')
         Worker.objects.create(email="worker1@gmail.com",
                               name="Worker1",
                               surname="Worker1",
@@ -18,7 +20,8 @@ class WorkerTestCase(TestCase):
                               postal_code=41013,
                               photo="",
                               is_active=True,
-                              is_admin=True)
+                              is_admin=True,
+                              ong=self.ong)
 
         Worker.objects.create(email="worker2@gmail.com",
                               name="Worker2",
@@ -32,7 +35,8 @@ class WorkerTestCase(TestCase):
                               postal_code=41015,
                               photo="",
                               is_active=True,
-                              is_admin=True)
+                              is_admin=True,
+                              ong=self.ong)
 
     def test_worker_create(self):
         worker = Worker.objects.get(name="Worker1")
@@ -89,7 +93,7 @@ class WorkerTestCase(TestCase):
                                   postal_code=41015,
                                   photo="",
                                   is_active=True,
-                                  is_admin=True)
+                                  is_admin=True,ong=self.ong)
 
     def test_worker_create_name_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -105,7 +109,7 @@ class WorkerTestCase(TestCase):
                                   postal_code=41015,
                                   photo="",
                                   is_active=True,
-                                  is_admin=True)
+                                  is_admin=True,ong=self.ong)
 
     def test_worker_create_email_incorrect(self):
         with self.assertRaises(Exception):
@@ -121,7 +125,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_email_incorrect_null(self):
@@ -138,7 +142,7 @@ class WorkerTestCase(TestCase):
                                   postal_code=41015,
                                   photo="",
                                   is_active=True,
-                                  is_admin=True)
+                                  is_admin=True,ong=self.ong)
 
     def test_worker_create_surname_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -154,7 +158,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_surname_incorrect_max(self):
@@ -171,7 +175,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_birth_date_incorrect(self):
@@ -187,7 +191,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_sex_incorrect_max(self):
@@ -204,7 +208,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_sex_incorrect(self):
@@ -221,7 +225,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_city_incorrect_max(self):
@@ -238,7 +242,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_address_incorrect(self):
@@ -255,7 +259,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_telephone_incorrect(self):
@@ -272,7 +276,7 @@ class WorkerTestCase(TestCase):
                                            postal_code=41015,
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_postal_code_incorrect(self):
@@ -289,5 +293,5 @@ class WorkerTestCase(TestCase):
                                            postal_code="bad_postal_code",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True)
+                                           is_admin=True,ong=self.ong)
             worker.full_clean()

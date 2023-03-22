@@ -8,6 +8,8 @@ from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 
+from ong.models import Ong
+
 
 SEX_TYPES = (
     ('F', 'Femenino'),
@@ -94,11 +96,42 @@ class Person(models.Model):
 
 class WorkerManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
-        user = self.model(email=email, **extra_fields)
+        ongs = Ong.objects.all()
+
+        # Agregar opción para crear una nueva ong
+        options = [f"{i}. {ong.name}" for i, ong in enumerate(ongs, start=1)]
+        options.append(f"{len(ongs) + 1}. Crear nueva ONG")
+
+        print("Seleccione una ong (ingrese el número correspondiente):")
+        for option in options:
+            print(option)
+
+        while True:
+            try:
+                choice = int(input("> "))
+                if choice == len(ongs) + 1:
+                    # Si elige la opción de crear una nueva ong, pedir el nombre
+                    ong_name = input("Nombre de la nueva ong: ")
+                    if Ong.objects.filter(name=ong_name).exists():
+                        print("Ya existe una ong con ese nombre. Intente de nuevo.")
+                    else:
+                        ong = Ong.objects.create(name=ong_name)
+                        break
+                else:
+                    # Si elige una ong existente, usarla
+                    ong = ongs[choice - 1]
+                    break
+            except (ValueError, IndexError):
+                print("Opción inválida. Intente de nuevo.")
+
+        user = self.model(email=email, ong_id=ong.id, **extra_fields)
         user.set_password(password)
         user.is_admin = True
         user.save()
+
         return user
+
+
 
 
 class Worker(AbstractBaseUser):
@@ -121,7 +154,8 @@ class Worker(AbstractBaseUser):
     photo = models.ImageField(verbose_name="Foto", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
     is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
-
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='trabajador')
+    
     USERNAME_FIELD = 'email'
 
     objects = WorkerManager()
@@ -162,6 +196,8 @@ class GodFather(Person):
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='padrino')
+
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surname)
@@ -195,6 +231,7 @@ class ASEMUser(Person):
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
                                            validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
                                                                       message='El número de cuenta no es válido.')])
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='asemuser')
 
     class Meta:
         ordering = ['surname', 'name']
@@ -216,7 +253,7 @@ class Volunteer(Person):
     # Fecha de inicio del contrato
     contract_date = models.DateField(
         verbose_name="Fecha de inicio del contrato")
-
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='voluntario')
 
 class Child(Person):
     sponsorship_date = models.DateTimeField(
@@ -246,6 +283,8 @@ class Child(Person):
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='niño')
+
 
     def __str__(self):
         return self.name + ' ' + self.surname
