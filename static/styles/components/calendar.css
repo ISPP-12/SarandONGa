@@ -1,8 +1,9 @@
 
-/* TOOLBAR */
+    /* TOOLBAR */
 
 .fc .fc-toolbar.fc-header-toolbar {
   flex-wrap: wrap;
+  row-gap: 0.5em;
 }
 
 .fc .fc-button-primary {
@@ -18,26 +19,29 @@
     color: var(--clr-accent-5-darker);
 }
 
-/* .fc .fc-button-primary:not(:disabled):active {
-    background-color: var(--clr-accent-5-darker);
-    color: var(--clr-accent-5-darker);
-} */
-
 .fc .fc-button-primary:not(:disabled).fc-button-active,
 .fc .fc-button-primary:not(:disabled):active {
     background-color: var(--clr-accent-5-darker);
     color: var(--clr-white);
-    outline: none; /* not working */
 }
 
-/* first child (title) */
+/* disabled */
+.fc .fc-button-primary:disabled {
+    background-color: var(--clr-black);
+    color: var(--clr-white);
+}
+
+/* title (first child) */
 .fc .fc-toolbar.fc-header-toolbar > *:first-child {
-  flex: 1 1 100%;
-  margin-bottom: 1em;
-  text-transform: capitalize;
+    flex: 1 1 100%;
+    text-transform: capitalize;
 }
 
-/* EVENTS */
+.fc .fc-toolbar.fc-header-toolbar > *:first-child h2 {
+    font-weight: 600;
+}
+
+    /* EVENTS */
 
 .fc-daygrid-event {
     background-color: var(--clr-accent-5-light);
@@ -49,7 +53,7 @@
     font-weight: 600;
 }
 
-/* DAYS */
+    /* DAYS */
 
 .fc .fc-daygrid-day-top {
     flex-direction: row;
@@ -65,17 +69,64 @@
     background-color: var(--clr-accent-5-light);
 }
 
-/* WEEK DAYS */
+.fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
+    min-height: 3em;
+}
+
+    /* WEEK DAYS */
 
 .fc .fc-col-header-cell a {
     color: var(--gray-600);
+    font-size: 1.3em;
     font-weight: 600;
     text-decoration: none;
     text-transform: uppercase;
 }
 
-/* GRID */
+    /* GRID */
 
-.fc-theme-standard td, .fc-theme-standard th {
+.fc-theme-standard .fc-scrollgrid {
+    border: none;
+}
+
+/* body */
+
+.fc-daygrid-body {
+    border: none;
+}
+
+/* - outer body border */
+.fc-scrollgrid-section-body .fc-scroller-liquid-absolute {
     border: 1px solid var(--gray-20);
+}
+
+/* - inner body cells borders */
+.fc-daygrid-day-frame {
+    border: 1px solid var(--gray-20);
+}
+
+.fc-daygrid-body .fc-theme-standard td, 
+.fc-daygrid-body .fc-theme-standard th {
+    border: 2px solid red;
+}
+
+/* header */
+
+.fc-col-header {
+    margin-bottom: 0.5em;
+    margin-top: 1em;
+}
+
+.fc-col-header .fc-theme-standard td, 
+.fc-col-header .fc-theme-standard th {
+    border: 2px solid blue;
+}
+
+.fc-scrollgrid-section-header .fc-scroller {
+    overflow: visible !important;
+}
+
+.fc-theme-standard td, 
+.fc-theme-standard th {
+    border: none;
 }
