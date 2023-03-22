@@ -253,14 +253,14 @@ class Child(Person):
     def save(self, *args, **kwargs):
         if self.termination_date < self.sponsorship_date:
             raise ValidationErr(
-                "The termination date must be after the sponsorship date")
+                "La fecha de baja debe ser posterior a la fecha de apadrinamiento")
         if self.birth_date > self.sponsorship_date:
             raise ValidationErr(
-                "The birth date must be before the sponsorship date")
+                "La fecha de apadrinamiento debe ser posterior a la fecha de nacimiento")
 
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
-                "A child cannot have a negative number of siblings")
+                "Un niño no puede tener menos de 0 hermanos")
         self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         print("=====================================")
         print(self.slug)
