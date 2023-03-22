@@ -22,19 +22,24 @@ from payment import urls as payment_urls
 from service import urls as service_urls
 from person import urls as person_urls
 from home import urls as home_urls
+from sponsorship import urls as sponsorship_urls
 from main import urls as main_urls
+from proyect import urls as proyect_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('main.urls')),
     path('subsidy/', include(subsidy_urls), name="subsidy"),
+    path('payment/', include(payment_urls), name="payment"),
     path('donations/', include(donation_urls), name='donations'),
-    path('subsidy/', include(subsidy_urls), name="subsidy"),
     path('stock/', include(stock_urls), name="stock"),
     path('donation/', include(donation_urls), name='donation'),
     path('user/', include(person_urls), name='user'),
-    path('service/', include(service_urls), name="service"),
+    path('service/', include(service_urls),name="service"),
+    path('home/',include(home_urls), name="home"),
     path('payment/', include(payment_urls), name="payment"),
-    path('home/', include(home_urls), name="home"),
-    path('', include(main_urls), name="main")
+    path('', include(person_urls), name="person"),
+    path('sponsorship/',include(sponsorship_urls), name="sponsorship"),
+    path('proyect/',include(proyect_urls),name = "proyect"),
 
 ]

@@ -110,6 +110,11 @@ def worker_list(request):
     return render(request, 'users/list.html', context)
 
 
+def worker_delete(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    worker.delete()
+    return redirect('worker_list')
+
 def child_list(request):
     objects = Child.objects.all().values()
     title = "Gestion de Niños"
@@ -184,6 +189,9 @@ def child_create(request):
         form = CreateNewChild()
     return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
 
+def child_details(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+    return render(request, 'child_details.html', {'child': child})
 
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()

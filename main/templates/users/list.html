@@ -1,7 +1,23 @@
 {% extends "layouts/master_sidebar.html" %}
 {% load static %}
+{% block botonPrimario %}
+{% if object_name_en == "user" %}
+<a  href="/user/asem/create">
 
-{% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/workers.css' %}"> {% endblock %}
+{% elif object_name_en == "worker" %}
+<a  href="/user/worker/create">
+
+{% elif object_name_en == "child" %}
+<a  href="/user/child/create">
+
+{% elif object_name_en == "godfather" %}
+<a  href="/user/godfather/create">
+
+{% endif %}
+{% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
+{% endblock %}
+
+{% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
 
 
 {% block objectFor %}
