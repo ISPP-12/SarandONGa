@@ -5,17 +5,38 @@ let events = [
     {
     title: 'Pago 1',
     start: '2023-03-01',
-    end: '2023-03-01'
+    end: '2023-03-01',
+    extendedProps: {
+        type: 'payment',
+        id: 1,
+        amount: 100,
+        observations: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+        paid: true,
+    },
     },
     {
     title: 'Pago 10',
     start: '2023-03-01',
-    end: '2023-03-01'
+    end: '2023-03-01',
+    extendedProps: {
+        type: 'payment',
+        id: 10,
+        amount: 100,
+        observations: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+        paid: false,
+    },
     },
     {
-    title: 'Pago 2',
-    start: '2023-03-012',
-    end: '2023-03-012'
+    title: 'Servicio 1',
+    start: '2023-03-04',
+    end: '2023-03-012',
+    extendedProps: {
+        type: 'service',
+        id: 10,
+        amount: 100,
+        observations: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+        paid: false,
+    },
     },
     {
     title: 'Pago 3',
@@ -87,6 +108,27 @@ let specificViewOptions = {
     },
 }
 
+let onEventClick = (info) => {
+    console.log('Event: ' + info.event.title);
+    console.log('Event Start: ' + info.event.start);
+    console.log('Event End (none): ' + info.event.end);
+    console.log('Id: ' + info.event.extendedProps.id);
+
+    // Properties from payment model
+    console.log('PAGO');
+    console.log('Cantidad: ' + info.event.extendedProps.amount);
+    console.log('Observaciones: ' + info.event.extendedProps.observations);
+    console.log('Pagado: ' + info.event.extendedProps.paid);
+    
+    // Properties from service model
+    console.log('SERVICIO');
+    console.log('Asistencia: ' + info.event.extendedProps.attendance);
+    console.log('Tipo: ' + info.event.extendedProps.service_type);
+    console.log('Usiario: ' + info.event.extendedProps.user);
+    console.log('Pago: ' + info.event.extendedProps.payment);
+
+    console.log('---------------------------------')
+}
 
 // FUNCTIONS
 
@@ -103,7 +145,8 @@ let setupCalendar = () => {
     fixedWeekCount: false,
     events: events,
     views: specificViewOptions,
-    customButtons: customButtons,
+    customButtons: customButtons,  
+    eventClick: onEventClick,
     });
     calendar.render();
 }
@@ -116,10 +159,29 @@ let disableToolbarButtons = () => {
     listButton.disabled = true;
 }
 
+let translateEmptyList = () => {
+    let emptyList = document.querySelector('.fc-list-empty-cushion');
+
+    if (emptyList) {
+        console.log('empty list');
+        emptyList.textContent = 'No hay eventos para mostrar';
+    }
+}
+
+let addButtonsEventListeners = () => {
+    let buttons = document.querySelectorAll('.fc-button.fc-button-primary');
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            translateEmptyList();
+        });
+    });
+}
 
 // MAIN FUNCTION
 
 document.addEventListener('DOMContentLoaded', function() {
     setupCalendar();
     disableToolbarButtons();
+    addButtonsEventListeners();
 });
