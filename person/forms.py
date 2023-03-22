@@ -53,8 +53,7 @@ class CreateNewWorker(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(
-        label='Confirmar contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
 
     class Meta:
         model = Worker
@@ -81,7 +80,7 @@ class CreateNewWorker(forms.ModelForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
+            raise forms.ValidationError("Las contraseñas no coinciden")
         return password2
 
     def save(self, commit=True):
@@ -91,7 +90,35 @@ class CreateNewWorker(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+class UpdateWorker(forms.ModelForm):
 
+    class Meta:
+        model = Worker
+        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password']
+        widgets = {
+            'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateWorker, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select border-class'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input border-class'})
+            else:
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control border-class'})
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super(UpdateWorker, self).save(commit=False)
+        if commit:
+            user.save()
+        return user
 
 class CreateNewChild(forms.ModelForm):
     sex = forms.ChoiceField(choices=SEX_TYPES, label="Género")
