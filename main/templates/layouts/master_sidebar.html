@@ -1,4 +1,5 @@
 {% extends 'layouts/master.html' %}
+
 {% comment %} 
 ATTRIBUTES:
 - object_name: name of the object to be displayed in the preview text (e.g. "donación")
@@ -7,19 +8,34 @@ ATTRIBUTES:
 
 PS: the text inside the button is displayed exactly as it is written. You can either write the text directly or use the "add" filter to concatenate strings (e.g. "Añadir "|add:object_name|safe)
 
+BLOCKS IN THIS LAYOUT
+- head (inherited)
+- content (inherited)
+- filters: for all the filter buttons in the bar
+- objectFor: to show all the objects
+- scripts
+
 {% endcomment %}
 
+{% block head %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
+  {% block extrahead %}
+  {% endblock %}
+{% endblock %}
 
-
-{% block contenido %}
+{% block content %}
 
 <div id={{"section-"|add:object_name_en}}  class="p-4" >
 
   <div class="row complete">
 
-    <div class="col-md-4 d-flex justify-content-center align-items-center" id="previewContainer">
-      <div class="fs-4 text-center" id="preview">
+    <div id="previewContainer" class="col-md-4 d-flex flex-column justify-content-end">
+      <div id="preview" class="w-100 h-100 fs-4 text-center d-flex align-items-center">
         <span id="prev-info">Pulsa sobre una {{ object_name }} para la vista previa</span>
+      </div>
+      <div id="previewContainerButtons" class="col-12 align-baseline">
+
       </div>
     </div>
 
@@ -29,49 +45,35 @@ PS: the text inside the button is displayed exactly as it is written. You can ei
         <div class="col-12 mb-4">
           {% include 'components/title.html' with title=title %}
         </div>
-        <div class="col-12 mb-4">
-          <div class="row justify-content-between align-items-center">
-            <div class="col-12 col-md-8">
 
+        <div class="col-12 mb-4">
+          <div class="row justify-content-between align-items-center mb-3">
+            <div class="col-12 col-md-6 mb-md-0 mb-3">
               {% include "components/search.html" with text="Buscar "|add:object_name|add:"..." %}
-              
             </div>
             
-            <div class="col-md-3 col-12 mb-md-0 mb-3 d-flex">
-              {% if 'asem/list' in request.path %}
-                <a  href="/user/asem/create">
-             
-              {% elif 'worker/list' in request.path %}
-                <a  href="/user/worker/create">
-
-              {% elif 'child/list' in request.path %}
-                <a  href="/user/child/create">
-
-              {% elif 'godfather/list' in request.path %}
-                <a  href="/user/godfather/create">
-
-              {% elif 'donation/list' in request.path %}
-                <a  href="/donation/create">
-
-              {% elif 'subsidy/list' in request.path %}
-                <a  href="/subsidy/create">
-
-              {% endif %}
-              {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
+            <div class="col-md-3 col-12 mb-md-0 me-4 mb-3 justify-content-end d-flex">
+              {%block botonPrimario%}{%endblock%}
             </div>
 
-            {% if 'asem/list' in request.path %}
-            <div class="row justify-content-end">
-              <div class="col-md-2 col-12 mb-md-0 mb-3 mt-4 d-flex">
-                <a href="/payment/create">
-                {% include 'components/button.html' with variation='PLUS' text='Añadir pago' %}
-                </a>
+            
+
+
+          <div class="row">
+              <div class="col-8 col-md-8 mb-3">
+                {% block filters %}
+                {% endblock %}
               </div>
-            </div>
-            {%endif%}
 
+
+              <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
+                <div class="px-1">
+                  {% include "components/button.html" with variation="EXCEL" text="Descargar" type="button" onclick="" secondary=True %}
+                </div>
+              </div>
           </div>
         </div>
+        
         <div class="col-12 d-flex flex-column align-items-center justify-content-center 3">
           {% block objectFor %}
           {% endblock %}
@@ -82,8 +84,7 @@ PS: the text inside the button is displayed exactly as it is written. You can ei
   </div>
 </div>
 
-
-
 {% block scripts %}
 {% endblock %}
+
 {% endblock %}

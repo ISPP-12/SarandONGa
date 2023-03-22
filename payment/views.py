@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import create_payment_form
+from .forms import CreatePaymentForm
 from .models import Payment
 from django.contrib import messages
 # import json
@@ -7,24 +7,23 @@ from django.contrib import messages
 
 def payment_create(request):
     if request.method == 'POST':
-        form = create_payment_form(request.POST)
+        form = CreatePaymentForm(request.POST)
         if form.is_valid():
             form.save()
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
-        form = create_payment_form()
+        form = CreatePaymentForm()
 
     return render(request, 'payment/payment_form.html', {'form': form, 'title': 'Añadir Pago'})
 
 
-
 def payment_update(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
-    form = create_payment_form(instance=payment)
+    form = CreatePaymentForm(instance=payment)
 
     if request.method == 'POST':
-        form = create_payment_form(
+        form = CreatePaymentForm(
             request.POST, request.FILES, instance=payment)
         if form.is_valid():
             form.save()
@@ -43,3 +42,8 @@ def payment_list(request):
     }
 
     return render(request, 'payment/payment_list.html', context)
+
+def payment_delete(request, payment_id):
+    payment = get_object_or_404(Payment, id=payment_id)
+    payment.delete()
+    return redirect('payment_list')
