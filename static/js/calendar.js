@@ -1,66 +1,4 @@
 
-// EVENTS
-
-let events = [
-    {
-    title: 'Pago 1',
-    start: '2023-03-01',
-    end: '2023-03-01',
-    extendedProps: {
-        type: 'payment',
-        id: 1,
-        amount: 100,
-        observations: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-        paid: true,
-    },
-    },
-    {
-    title: 'Pago 10',
-    start: '2023-03-01',
-    end: '2023-03-01',
-    extendedProps: {
-        type: 'payment',
-        id: 10,
-        amount: 100,
-        observations: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-        paid: false,
-    },
-    },
-    {
-    title: 'Servicio 1',
-    start: '2023-03-04',
-    end: '2023-03-012',
-    extendedProps: {
-        type: 'service',
-        id: 10,
-        amount: 100,
-        observations: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-        paid: false,
-    },
-    },
-    {
-    title: 'Pago 3',
-    start: '2023-03-08',
-    end: '2023-03-08'
-    },
-    {
-    title: 'Pago 4',
-    start: '2023-03-09',
-    end: '2023-03-09'
-    },
-    {
-    title: 'Pago 5',
-    start: '2023-03-10',
-    end: '2023-03-10'
-    },
-    {
-    title: 'Pago 6',
-    start: '2023-03-11',
-    end: '2023-03-11'
-    },
-]
-
-
 // CALENDAR OPTIONS
 
 let buttonText = {
@@ -123,7 +61,7 @@ let onEventClick = (info) => {
     // Properties from service model
     console.log('SERVICIO');
     console.log('Asistencia: ' + info.event.extendedProps.attendance);
-    console.log('Tipo: ' + info.event.extendedProps.service_type);
+    console.log('Tipo de servicio: ' + info.event.extendedProps.service_type);
     console.log('Usiario: ' + info.event.extendedProps.user);
     console.log('Pago: ' + info.event.extendedProps.payment);
 
@@ -181,6 +119,8 @@ let addButtonsEventListeners = () => {
 // MAIN FUNCTION
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log(events);
+
     setupCalendar();
     disableToolbarButtons();
     addButtonsEventListeners();
