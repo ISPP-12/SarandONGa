@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Home
 from .forms import CreateHomeForm
@@ -30,3 +30,7 @@ def home_delete(request, slug=None):
     home = Home.objects.get(slug=slug)
     home.delete()
     return redirect('home_list')
+
+def home_details(request, home_id):
+    home = get_object_or_404(Home, id=home_id)
+    return render(request, 'home/home_details.html', {'home': home})
