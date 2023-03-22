@@ -41,4 +41,5 @@ urlpatterns = [
     path('', include(person_urls), name="person"),
     path('sponsorship/',include(sponsorship_urls), name="sponsorship"),
     path('proyect/',include(proyect_urls),name = "proyect"),
+
 ]
