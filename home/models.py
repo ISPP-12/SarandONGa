@@ -1,3 +1,4 @@
+from xml.dom import ValidationErr
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
@@ -48,4 +49,7 @@ class Home(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.province)
+        if self.amount < 1:
+            raise ValidationErr(
+                'La cantidad debe ser mayor que 1')
         super(Home, self).save(*args, **kwargs)
