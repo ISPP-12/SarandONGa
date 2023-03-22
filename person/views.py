@@ -227,3 +227,7 @@ def volunteer_update(request, volunteer_id):
 
     form = CreateNewVolunteer(instance=volunteer)
     return render(request, 'volunteers/volunteers_form.html', {"form": form})
+
+def asem_user_details(request, asem_user_id):
+    asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
+    return render(request, 'asem_user/asem_user_details.html', {'asem_user': asem_user})
