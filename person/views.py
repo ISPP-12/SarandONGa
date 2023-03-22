@@ -49,6 +49,11 @@ def user_create(request):
     form = CreateNewASEMUser()
     return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
+def asem_user_delete(request, asem_user_id):
+    asemuser = get_object_or_404(ASEMUser, id=asem_user_id)
+    asemuser.delete()
+    return redirect('user_list')
+
 def user_update(request, asem_user_id):
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
     if request.method == "POST":
@@ -61,6 +66,7 @@ def user_update(request, asem_user_id):
 
     form = CreateNewASEMUser(instance=asem_user)
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
+
 
 
 def worker_create(request):
@@ -226,6 +232,12 @@ def volunteer_create(request):
 
     form = CreateNewVolunteer()
     return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
+
+
+def volunteer_delete(request, volunteer_id):
+    volunteer = Volunteer.objects.get(id=volunteer_id)
+    volunteer.delete()
+    return redirect('volunteer_list')
 
 def volunteer_update(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
