@@ -1,6 +1,5 @@
 from django import forms
 from proyect.models import Proyect
-from django.core.exceptions import ValidationError
 
 class CreateNewProyect(forms.ModelForm):
     class Meta:
@@ -24,6 +23,7 @@ class CreateNewProyect(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control border-class'})
+    
                 
     def clean(self):
         cleaned_data = super().clean()

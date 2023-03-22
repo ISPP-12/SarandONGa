@@ -22,6 +22,7 @@ class Proyect(models.Model):
             if self.end_date < self.start_date:
                 raise Exception("La fecha de finalización del proyecto no puede ser anterior a la de inicio")
         super(Proyect, self).save(*args, **kwargs)
+    
         
     class Meta:
         ordering = ['title']
