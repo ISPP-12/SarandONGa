@@ -45,6 +45,7 @@
             </div>
         </div>
     {% endfor %}
+    <div id="message-dates" style="color:red"></div>
     <div class="form-section mt-3 mb-5 col-12 d-flex justify-content-center">
 
         {% include 'components/button.html' with variation="RETURN" text="Cancelar" id="id-cancelForm" onclick="window.location.pathname = '/user/volunteer/list'" %}
@@ -59,5 +60,55 @@
     </div>
 </form>
 
+<script type="text/javascript">
+    let birthDate = document.getElementById('id_birth_date')
+    let startContractDate = document.getElementById('id_contract_start_date')
+    let endContractDate = document.getElementById('id_contract_end_date')
+    let submitButton = document.getElementsByClassName('section-btn btn m-auto border-dark')
+    
+    let birthDiv = document.createElement('div')
+    birthDiv.setAttribute('class', 'text-danger')
+    birthDate.parentElement.parentElement.appendChild(birthDiv)
 
+    let finishDiv = document.createElement('div')
+    finishDiv.setAttribute('class', 'text-danger')
+    endContractDate.parentElement.parentElement.appendChild(finishDiv)
+    
+    let compare = () => {
+        let birthDateValue = Date.parse(birthDate.value)
+        let startValue = Date.parse(startContractDate.value)
+        let endValue = Date.parse(endContractDate.value)
+        
+        console.log("fecha de nacimiento", birthDateValue)
+        console.log("fecha inicio contrato", startValue)
+        console.log("fecha fin contrato", endValue)
+
+        submitButton.disabled = true
+        
+        if(birthDateValue >= startValue) {
+            birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha de inicio del contrato'
+        } else if (birthDateValue >= endValue) {
+            birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha de finalización del contrato'
+        } else {
+            birthDiv.innerHTML = ''
+            
+        }
+  
+        if (endValue < startValue) {
+            finishDiv.innerHTML = 'La fecha de finalización del contrato debe ser posterior a la fecha de inicio del contrato'
+            submitButton.disabled = true
+        } else {
+            finishDiv.innerHTML = ''
+        }
+        
+        if(birthDateValue < startValue && birthDateValue < endValue && endValue > startValue) {
+            submitButton.disabled = false
+        }
+
+
+    };
+    birthDate.addEventListener('change', compare)
+    startContractDate.addEventListener('change', compare)
+    endContractDate.addEventListener('change', compare)
+  </script>
 {% endblock %}

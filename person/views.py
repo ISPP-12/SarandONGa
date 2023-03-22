@@ -221,6 +221,7 @@ def volunteer_create(request):
             messages.error(request, 'Formulario con errores')
     return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
 
+@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_update(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if request.method == "POST":
