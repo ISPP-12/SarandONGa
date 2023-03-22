@@ -24,6 +24,7 @@ from person import urls as person_urls
 from home import urls as home_urls
 from sponsorship import urls as sponsorship_urls
 from main import urls as main_urls
+from proyect import urls as proyect_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,6 +40,5 @@ urlpatterns = [
     path('payment/', include(payment_urls), name="payment"),
     path('', include(person_urls), name="person"),
     path('sponsorship/',include(sponsorship_urls), name="sponsorship"),
-
-
+    path('proyect/',include(proyect_urls),name = "proyect"),
 ]
