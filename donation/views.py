@@ -20,6 +20,7 @@ def donation_create(request):
         form = CreateNewDonation(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('/donation/list')
         else:
             print(form.errors) 
 

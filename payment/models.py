@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 from proyect.models import Proyect
+from django.utils.text import slugify
+
 
 
 class Payment(models.Model):
@@ -17,5 +19,16 @@ class Payment(models.Model):
     # godfather = models.ForeignKey(Godfather, on_delete=models.CASCADE)
     # CUANDO SE CREE SERVICIO PONER LA LÍNEA DE ARRIBA PERO A PAGO <3
 
+    slug = models.SlugField(max_length=200, unique=True, editable=False)
+
     def __str__(self):
         return "{}: {}".format(self.payday, self.amount)
+
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.proyect.title + ' ' + self.amount)
+        super(Payment, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Pago'
+        verbose_name_plural = 'Pagos'

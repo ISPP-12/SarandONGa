@@ -84,8 +84,8 @@ DNI_VALIDATOR = RegexValidator(
 
 
 class Person(models.Model):
-
-    email = models.EmailField(unique=True, blank=True, verbose_name="E-Mail")
+    id = models.AutoField(primary_key=True)
+    email = models.EmailField( blank=True, null=True, verbose_name="E-Mail")
     name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
     surname = models.CharField(
         max_length=50, blank=True, verbose_name="Apellido")
@@ -97,12 +97,16 @@ class Person(models.Model):
         max_length=200, verbose_name="Ciudad", null=True, blank=True)
     address = models.CharField(
         max_length=200, verbose_name="Dirección", null=True, blank=True)
-    telephone = models.IntegerField(
+    telephone = models.CharField(max_length=50,
         verbose_name="Teléfono", null=True, blank=True)
-    postal_code = models.IntegerField(
+    postal_code = models.CharField(max_length=50,
         verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(verbose_name="Foto", null=True, blank=True)
+    slug = models.SlugField(max_length=200, unique=True, editable=False)
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
+        super(Person, self).save(*args, **kwargs)
 
 class WorkerManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
@@ -214,12 +218,12 @@ class GodFather(Person):
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+   # slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='padrino', verbose_name="ONG")
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name + ' ' + self.surname)
+        #self.slug = slugify(self.name + ' ' + self.surname)
 
         super(GodFather, self).save(*args, **kwargs)
 

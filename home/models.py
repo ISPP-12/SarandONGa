@@ -49,3 +49,7 @@ class Home(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.province)
         super(Home, self).save(*args, **kwargs)
+        
+    class Meta:
+        verbose_name = 'Casa'
+        verbose_name_plural = 'Casas'
