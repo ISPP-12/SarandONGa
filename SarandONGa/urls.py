@@ -21,6 +21,8 @@ from donation import urls as donation_urls
 from service import urls as service_urls
 from person import urls as person_urls
 from payment import urls as payments_urls
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,3 +35,6 @@ urlpatterns = [
     path('service/', include(service_urls),name="service"),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -88,7 +88,7 @@ class Person(models.Model):
         verbose_name="Teléfono", null=True, blank=True)
     postal_code = models.IntegerField(
         verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", upload_to="images/", null=True, blank=True)
+    photo = models.ImageField(verbose_name="Foto", upload_to="person/", null=True, blank=True)
 
 
 class WorkerManager(BaseUserManager):
@@ -117,7 +117,7 @@ class Worker(AbstractBaseUser):
         verbose_name="Teléfono", null=True, blank=True)
     postal_code = models.IntegerField(
         verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", upload_to="images/", null=True, blank=True)
+    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
     is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
 

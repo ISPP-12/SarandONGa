@@ -3,12 +3,13 @@
   <span class="object-id d-none">{{ object.id }}</span>
 
   <div class="row d-flex justify-content-between align-items-center">
-
+  {{object.photo}}
     <div class="row col-8">
       <div class="w-auto">
-        {%if object_name == "Usuario" or object_name == "Niño" or object_name == "Padrino" or object_name == "Trabajador" or object_name == "Voluntario"%} {% if object.photo %}
+        {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if object.photo %}
 
-        <img class="profile-img rounded" src=" {{object.photo}} " />
+        <img class="profile-img rounded" src={% static 'img/worker/Captura_de_pantalla_2023-03-16_a_las_0.20.48.png' %}/>
+
         {% else %}
 
         <img class="profile-img rounded" src={% static 'img/person-icon.svg' %} />
