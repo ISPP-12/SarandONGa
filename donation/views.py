@@ -64,3 +64,8 @@ def donation_update(request, donation_id):
             return redirect('/donation/list')
 
     return render(request, 'donation_update_form.html', {"form": form})
+
+def donation_delete(request, donation_id):
+    donation = get_object_or_404(Donation, id=donation_id)
+    donation.delete()
+    return redirect('donation_list')
