@@ -5,6 +5,7 @@ urlpatterns = [
     path('child/list', views.child_list, name='child_list'),
     path('child/create', views.child_create, name="child_create"),
     path('child/<int:child_id>', views.child_details, name="child_details"),
+    path('child/<int:child_id>/delete', views.child_delete, name="child_delete"),
     path('asem/create', views.user_create, name="user_create"),
     path('asem/list', views.user_list, name='user_list'),
     path('asem/<int:asem_user_id>/delete', views.asem_user_delete, name='asem_user_delete'),

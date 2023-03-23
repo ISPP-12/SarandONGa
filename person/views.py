@@ -200,6 +200,11 @@ def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
     return render(request, 'child_details.html', {'child': child})
 
+def child_delete(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+    child.delete()
+    return redirect('child_list')
+
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()
     title = "Gestion de Voluntarios"
