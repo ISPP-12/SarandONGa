@@ -25,8 +25,7 @@ def ong_required(function):
             return redirect("/")
     return wrapper
 
-@login_required(login_url='/admin/login')
-@ong_required
+@login_required(login_url='/admin/login/?next=/donation/create')
 # Create your views here.
 def donation_create(request):
     if request.user.is_anonymous:
@@ -36,11 +35,10 @@ def donation_create(request):
     if request.method == "POST":
         form = CreateNewDonation(request.POST)
         if form.is_valid():
-            if not request.user.is_anonymous:
-                ong=request.user.ong
-                donation=form.save(commit=False)
-                donation.ong=ong
-                donation.save()
+            ong=request.user.ong
+            donation=form.save(commit=False)
+            donation.ong=ong
+            donation.save()
             form.save()
             return redirect("/donation/list")
         else:
@@ -75,23 +73,18 @@ def donation_list(request):
     return render(request, 'donation/list.html', context)
 
 
-@login_required(login_url='/admin/login')
-@ong_required
+@login_required(login_url='/admin/login/?next=/donation/create')
 def donation_update(request, donation_id):
 
     donation = get_object_or_404(Donation, id=donation_id)
-    if request.user.is_anonymous:
-        form= CreateNewDonation()
-    else:
-        form = CreateNewDonation(initial={'ong': request.user.ong})
+    form = CreateNewDonation(initial={'ong': request.user.ong})
     if request.method == "POST":
         form = CreateNewDonation(request.POST, instance=donation)
         if form.is_valid():
-            if not request.user.is_anonymous:
-                ong=request.user.ong
-                donation=form.save(commit=False)
-                donation.ong=ong
-                donation.save()
+            ong=request.user.ong
+            donation=form.save(commit=False)
+            donation.ong=ong
+            donation.save()
             form.save()
             return redirect("/donation/list")
         else:
