@@ -14,7 +14,7 @@
 {% else %}
     {% include 'components/title.html' with title="Añadir trabajador" %}
 {% endif %}
-</div>
+
 
 {% if messages %}
 <div class="row">
@@ -47,14 +47,12 @@
     {% endfor %}
     <div class="form-section mt-3 mb-5 col-12 d-flex justify-content-center">
         {% if form.instance.id %}
-            {% include 'components/button.html' with variation="SUBMIT" text="Actualizar" id="id-submitForm" type="submit" %}
+            {% include 'components/button.html' with variation="SUBMIT" text="Actualizar trabajador" id="id-submitForm" type="submit" %}
         {% else %}
-            {% include 'components/button.html' with variation="SUBMIT" text="Registrar" id="id-submitForm" type="submit" %}
+            {% include 'components/button.html' with variation="SUBMIT" text="Registrar trabajador" id="id-submitForm" type="submit" %}
         {% endif %}
-        
-        {% include 'components/button.html' with variation="RETURN" text="Cancelar" id="id-cancelForm" onclick="window.location.pathname = '/user/worker/list'" %}
     </div>
 </form>
 
-
+</div>
 {% endblock %}
