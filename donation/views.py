@@ -16,15 +16,6 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
-def ong_required(function):
-    @wraps(function)
-    def wrapper(request, *args, **kwargs):
-        if request.user.ong.name.lower() == "asem" or request.user.ong.name.lower() == "videssur":
-            return function(request, *args, **kwargs)
-        else:
-            return redirect("/")
-    return wrapper
-
 @login_required(login_url='/admin/login/?next=/donation/create')
 # Create your views here.
 def donation_create(request):
