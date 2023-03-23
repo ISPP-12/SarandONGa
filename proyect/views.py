@@ -24,3 +24,19 @@ def proyect_create(request):
     form = CreateNewProyect()
     return render(request, 'proyect/proyect_form.html', {"form": form, "title": "Crear Proyecto"})
 
+
+def proyect_update(request, proyect_id):
+    proyect = get_object_or_404(Proyect, id=proyect_id)
+    if request.method == "POST":
+        form = CreateNewProyect(request.POST, instance=proyect)
+        if form.is_valid():
+            form.save()
+            return redirect('/')
+        else:
+           for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+
+    form = CreateNewProyect(instance=proyect)
+    return render(request, 'proyect/proyect_form.html', {'form': form, 'title': 'Actualizar proyecto'})
+
