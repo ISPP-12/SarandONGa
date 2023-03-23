@@ -18,6 +18,7 @@ urlpatterns = [
     path('godfather/create', views.godfather_create, name="godfather_create"),
     path('godfather/<int:godfather_id>',
          views.godfather_details, name="godfather_details"),
+    path('godfather/<int:godfather_id>/delete', views.godfather_delete, name="godfather_delete"),
     path('volunteer/list', views.volunteer_list, name='volunteer_list'),
     path('volunteer/create', views.volunteer_create, name='volunteer_create'),
     path('volunteer/<int:volunteer_id>/update', views.volunteer_update, name='volunteer_update')
