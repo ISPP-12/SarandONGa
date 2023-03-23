@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer
 from django.contrib import messages
 import json
@@ -220,19 +221,23 @@ def volunteer_list(request):
 
     return render(request, 'users/list.html', context)
 
-
+@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_create(request):
+    form = CreateNewVolunteer(initial={'ong':request.user.ong})
+
     if request.method == "POST":
         form = CreateNewVolunteer(request.POST)
+
         if form.is_valid():
-            form.save()
+            ong = request.user.ong
+            # if the user is anonymous, the ong is not set yet. Actually, it won't be possible to create a volunteer unless the user is logged in
+            volunteer = form.save(commit=False)
+            volunteer.ong = ong
+            volunteer.save()
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-
-    form = CreateNewVolunteer()
     return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
-
 
 def volunteer_delete(request, volunteer_id):
     volunteer = Volunteer.objects.get(id=volunteer_id)
