@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import GodFather, ASEMUser, Worker, Child, Volunteer
+from .models import GodFather, ASEMUser, Worker, Child, Volunteer, SEX_TYPES, PAYMENT_METHOD, STATUS, FREQUENCY, CONDITION, MEMBER, ASEMUSER_TYPE, CORRESPONDENCE, HOUSING_TYPE, VOLUNTEER_TYPE
 from django.contrib import messages
 import json
 from datetime import datetime, date
@@ -62,6 +62,33 @@ def user_update(request, asem_user_id):
     form = CreateNewASEMUser(instance=asem_user)
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
 
+def choices_dicts():
+    choices_dict = {
+    'sex_types': dict(SEX_TYPES),
+    'payment_method': dict(PAYMENT_METHOD),
+    'status': dict(STATUS),
+    'frequency': dict(FREQUENCY),
+    'condition': dict(CONDITION),
+    'member': dict(MEMBER),
+    'asemuser_type': dict(ASEMUSER_TYPE),
+    'correspondence': dict(CORRESPONDENCE),
+    'housing_type': dict(HOUSING_TYPE),
+    'volunteer_type': dict(VOLUNTEER_TYPE)
+    }
+    return choices_dict
+
+def asem_user_details(request, asem_user_id):
+    asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
+    
+    choices_dict = choices_dicts()
+    asem_user.condition = choices_dict['condition'][asem_user.condition]
+    asem_user.member = choices_dict['member'][asem_user.member]
+    asem_user.correspondence = choices_dict['correspondence'][asem_user.correspondence]
+    asem_user.user_type = choices_dict['asemuser_type'][asem_user.user_type]
+    asem_user.status = choices_dict['status'][asem_user.status]
+    asem_user.own_home = choices_dict['housing_type'][asem_user.own_home]
+
+    return render(request, 'asem_user/asem_user_details.html', {'asem_user': asem_user})
 
 def worker_create(request):
     if request.method == "POST":
@@ -227,7 +254,3 @@ def volunteer_update(request, volunteer_id):
 
     form = CreateNewVolunteer(instance=volunteer)
     return render(request, 'volunteers/volunteers_form.html', {"form": form})
-
-def asem_user_details(request, asem_user_id):
-    asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
-    return render(request, 'asem_user/asem_user_details.html', {'asem_user': asem_user})
