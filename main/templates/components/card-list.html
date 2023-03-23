@@ -8,7 +8,7 @@
       <div class="w-auto">
         {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if object.photo %}
 
-        <img class="profile-img rounded" src={% static 'img/worker/Captura_de_pantalla_2023-03-16_a_las_0.20.48.png' %}/>
+        <img class="profile-img rounded" src={{"../../"|add:object.photo}}/>
 
         {% else %}
 
