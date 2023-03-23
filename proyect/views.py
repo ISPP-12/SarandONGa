@@ -3,9 +3,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateNewProyect
 from django.contrib import messages
 from proyect.models import Proyect
-from django.shortcuts import render
-
-
 
 def proyect_delete(request, proyect_id):
     proyect = get_object_or_404(Proyect, id=proyect_id)
