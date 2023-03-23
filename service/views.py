@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateNewService
 from .models import Service
 
@@ -22,3 +22,9 @@ def service_list(request):
     }
 
     return render(request, 'service_list.html', context)
+
+
+def service_delete(request, service_id):
+    service = get_object_or_404(Service, id=service_id)
+    service.delete()
+    return redirect('service_list')
