@@ -1,5 +1,5 @@
 
-    /* TOOLBAR */
+  /* TOOLBAR */
 
 .fc .fc-toolbar.fc-header-toolbar {
   flex-wrap: wrap;
@@ -7,125 +7,115 @@
 }
 
 .fc .fc-button-primary {
-    background-color: var(--clr-accent-5-light);
-    border: none;
-    color: var(--clr-accent-5-darker);
-    font-weight: 600;
-    text-transform: capitalize;
-}
-
-.fc .fc-button-primary:not(:disabled):hover {
-    background-color: var(--clr-accent-5-dark);
-    color: var(--clr-accent-5-darker);
-}
-
-.fc .fc-button-primary:not(:disabled).fc-button-active,
-.fc .fc-button-primary:not(:disabled):active {
-    background-color: var(--clr-accent-5-darker);
-    color: var(--clr-white);
+  background-color: var(--clr-accent-5-light);
+  border: none;
+  color: var(--clr-accent-5-darker);
+  font-weight: 600;
+  text-transform: capitalize;
 }
 
 /* disabled */
 .fc .fc-button-primary:disabled {
     background-color: var(--clr-black);
     color: var(--clr-white);
+  }
+
+.fc .fc-button-primary:not(:disabled):hover {
+  background-color: var(--clr-accent-5-dark);
+  color: var(--clr-accent-5-darker);
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  background-color: var(--clr-accent-5-darker);
+  color: var(--clr-white);
 }
 
 /* title (first child) */
 .fc .fc-toolbar.fc-header-toolbar > *:first-child {
-    flex: 1 1 100%;
-    text-transform: capitalize;
+  flex: 1 1 100%;
+  text-transform: capitalize;
 }
 
 .fc .fc-toolbar.fc-header-toolbar > *:first-child h2 {
-    font-weight: 600;
+  font-weight: 600;
 }
 
-    /* EVENTS */
+  /* EVENTS */
 
 .fc-daygrid-event {
-    background-color: var(--clr-accent-5-light);
-    border: none;
+  background-color: var(--clr-accent-5-light);
+  border: none;
 }
 
 .fc-daygrid-event:hover {
-    background-color: var(--clr-accent-5);
-    cursor: pointer;
+  background-color: var(--clr-accent-5);
+  cursor: pointer;
 }
 
 .fc-h-event .fc-event-main {
-    color: var(--clr-accent-5-darker);
-    font-weight: 600;
+  color: var(--clr-accent-5-darker);
+  font-weight: 600;
 }
 
-    /* DAYS */
+  /* DAYS */
 
 .fc .fc-daygrid-day-top {
-    flex-direction: row;
+  flex-direction: row;
 }
 
 .fc .fc-daygrid-day-top a {
-    color: var(--clr-black);
-    font-weight: 600;
-    text-decoration: none;
+  color: var(--clr-black);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .fc .fc-daygrid-day.fc-day-today {
-    background-color: var(--clr-accent-5-light);
+  background-color: var(--clr-accent-5-light);
 }
 
 .fc .fc-daygrid-body-unbalanced .fc-daygrid-day-events {
-    min-height: 3em;
+  min-height: 3em;
 }
 
-    /* WEEK DAYS */
+  /* WEEK DAYS */
 
 .fc .fc-col-header-cell a {
-    color: var(--gray-600);
-    font-size: 1.3em;
-    font-weight: 600;
-    text-decoration: none;
-    text-transform: uppercase;
+  color: var(--gray-600);
+  font-size: 1.3em;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: uppercase;
 }
 
-    /* GRID */
+  /* GRID */
 
 .fc-theme-standard .fc-scrollgrid {
-    border: none;
+  border: none;
 }
 
 /* body */
 
 .fc-daygrid-body {
-    border: none;
+  border: none;
 }
 
 /* - outer body border */
 .fc-scrollgrid-section-body .fc-scroller-liquid-absolute {
-    border: 1px solid var(--gray-20);
+  border: 1px solid var(--gray-20);
 }
 
 /* - inner body cells borders */
 .fc-daygrid-day-frame {
-    border: 1px solid var(--gray-20);
+  border: 1px solid var(--gray-20);
 }
-
-/* .fc-daygrid-body .fc-theme-standard td, 
-.fc-daygrid-body .fc-theme-standard th {
-    border: 2px solid red;
-} */
 
 /* header */
 
 .fc-col-header {
-    margin-bottom: 0.5em;
-    margin-top: 1em;
+  margin-bottom: 0.5em;
+  margin-top: 1em;
 }
-
-/* .fc-col-header .fc-theme-standard td, 
-.fc-col-header .fc-theme-standard th {
-    border: 2px solid blue;
-} */
 
 .fc-scrollgrid-section-header .fc-scroller {
     overflow: visible !important;
@@ -133,22 +123,22 @@
 
 .fc-theme-standard td, 
 .fc-theme-standard th {
-    border: none;
+  border: none;
 }
 
-    /* LIST VIEW */
+  /* LIST VIEW */
 
 .fc-list .fc-list-day-text,
 .fc-list .fc-list-day-side-text {
-    color: var(--clr-black);
-    font-weight: 600;
-    text-decoration: none;
+  color: var(--clr-black);
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .fc .fc-list-event-dot {
-    display: none;
+  display: none;
 }
 
 .fc .fc-list-event-time {
-    display: none;
+  display: none;
 }
