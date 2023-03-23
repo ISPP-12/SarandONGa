@@ -21,9 +21,6 @@ from donation import urls as donation_urls
 from payment import urls as payment_urls
 from service import urls as service_urls
 from person import urls as person_urls
-from payment import urls as payments_urls
-from django.conf import settings
-from django.conf.urls.static import static
 from home import urls as home_urls
 from sponsorship import urls as sponsorship_urls
 from main import urls as main_urls
@@ -46,6 +43,3 @@ urlpatterns = [
     path('proyect/',include(proyect_urls),name = "proyect"),
 
 ]
-
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
