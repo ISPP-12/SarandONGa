@@ -1,0 +1,14 @@
+{% load static %}
+
+{% block content %}
+PRUEBA
+{% for s in context.objects %}
+<p>TÍTULO: {{s.title}}</p>
+<p>PAÍS: {{s.country}}</p>
+<p>FECHA INICIO: {{s.start_date}}</p>
+<p>FECHA FIN: {{s.end_date}}</p>
+<p>CANTIDAD: {{s.amount}}</p>
+<p>FECHA PUBLICACION: {{s.announcement_date}}</p>
+
+{% endfor %}
+{% endblock %}
