@@ -221,6 +221,10 @@ def volunteer_list(request):
 
     return render(request, 'users/list.html', context)
 
+def volunteer_details(request, volunteer_id):
+    volunteer = get_object_or_404(Volunteer, id=volunteer_id)
+    return render(request, 'volunteer_details.html', {'volunteer': volunteer})
+
 @login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_create(request):
     form = CreateNewVolunteer(initial={'ong':request.user.ong})
