@@ -3,7 +3,7 @@
 
 {% comment %} {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/workers_form.css' %}"> {% endblock %} {% endcomment %}
 
-{% block contenido %}
+{% block content %}
 {% if messages %}
 {% for message in messages %}
 <div class="alert alert-{{ message.tags }}">
@@ -11,10 +11,10 @@
 </div>
 {% endfor %}
 {% endif %}
-Registrar Trabajador
-<form method="post" enctype="multipart/form-data">
+<h1>Actualizar Trabajador</h1>
+<form method="post">
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <button type="submit" , name="save">Registrar</button>
 </form>
 {% endblock %}

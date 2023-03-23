@@ -1,3 +1,5 @@
+{% extends "layouts/master.html" %}
+
 {% block content %}
 {% if messages %}
 {% for message in messages %}
@@ -6,10 +8,10 @@
   </div>
 {% endfor %}
 {% endif %}
-Registrar Padrino
+<h1>Registrar Padrino</h1>
 <form method="post" >
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
 </form>
 {% endblock %}

@@ -1,6 +1,6 @@
 /* GENERAL */
 .card {
-  border-color: #535353;
+  border-color: var(--gray-900);
 }
 
 .card-title,
@@ -34,8 +34,10 @@
 }
 
 .card-stock a,
-.card-stock p {
-  color: black !important;
+.card-stock p,
+.card-stock-list a,
+.card-stock-list p {
+  color: var(--clr-black) !important;
 }
 
 .card-stock .card-title,
@@ -45,7 +47,7 @@
 
 /* LIST CARDS */
 .card-stock-list {
-  border-color: #535353;
+  border-color: var(--gray-900);
 }
 
 .card-stock-list .card-img-top {
@@ -66,3 +68,23 @@
 }
 
 /* THIS COMMENT FOR CODACY, HATE YOU */
+
+/* CARD BUTTONS */
+.btn {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.section-btn {
+  background-color: #eaeaea;
+  color: black;
+}
+
+.section-btn:hover,
+.section-btn:active {
+  background-color: #f1d746;
+  color: black;
+}
+
+.card .section-btn {
+  width: 100%;
+}
