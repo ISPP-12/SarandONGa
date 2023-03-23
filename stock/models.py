@@ -12,7 +12,7 @@ class Stock(models.Model):
     quantity = models.DecimalField(max_digits=10, decimal_places=2, validators=[
                                    MinValueValidator(1)], verbose_name="Cantidad")
     slug = models.SlugField(max_length=200, unique=True, editable=False)
-
+    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/stock/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.id)
