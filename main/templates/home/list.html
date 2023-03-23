@@ -1,0 +1,126 @@
+{% extends "layouts/master_sidebar.html" %}
+
+{% comment %}
+ATTENTION FOR THE SCRIPT: you must include the divs with the id "data" and "object-name" in order to make the script
+work. The first one must contain the data in json format and the second one must contain the name of the object to be
+displayed in the preview text (e.g. "donación")
+{% endcomment %}
+
+{% load static %}
+
+{% block extrahead %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/homes.css' %}">
+{% endblock %}
+
+{% block botonPrimario %}
+<a  href="/home/create">
+{% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
+{% endblock %}
+
+{% block objectFor %}
+{% for object in objects %}
+<div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
+    <span class="object-id d-none">{{ object.id }}</span>
+   
+    <div class="row">
+      <div class="col-md-5 col-lg-4 col-sm-6 ">
+        <strong><h5>{{object.name}}</h5></strong>
+      </div>
+
+      <div class="col-md-2 col-lg-2 col-sm-1">
+        <span>{{object.province}}</span>
+      </div>
+
+      <div class="col-md-3 col-lg-2  col-sm-1">
+        <span>{{object.amount}} €</span>
+      </div>
+
+      <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
+        <span>{{object.frequency}}</span>
+      </div>
+    </div>
+    
+    <div class="d-none d-flex flex-column " id="moreInfo">
+      <span class="object-description pt-1"><strong>Método de pago: </strong>{{ object.payment_method }}</span>
+      <span class="object-donor-name pt-1"><strong>Titular de cuenta bancaria: </strong>{{ object.bank_account_holder  }}</span>
+      <span class="object-donor-dni pt-1"><strong>Referencia de la cuenta bancaria: </strong>{{ object.bank_account_reference  }}</span>
+      <span class="object-donor-address pt-1"><strong>Antigüedad: </strong> {{ object.seniority  }}</span>
+      <span class="object-donor-email pt-1"><strong>Observaiciones: </strong> {{ object.notes  }}</span>
+    </div>
+</div>
+{% endfor %}
+
+<div id="data" data-json='{{ objects_json|safe }}'></div>
+<div id="object-name" data-name='{{ object_name }}'></div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script id="object-data">
+  const objectList = document.querySelectorAll('.card-list')
+  const objetos = JSON.parse('{{ objects_json|escapejs }}')
+  const preview = document.querySelector('#preview')
+  const prevInfo = document.querySelector('#prev-info')
+  const chevron = document.querySelector('#chevron')
+
+  objectList.forEach(object => {
+    const moreInfo = object.querySelector('#moreInfo')
+    object.addEventListener('click', () => {
+      const isMobile = window.matchMedia("(max-width: 768px)").matches
+      console.log(moreInfo)
+      const isExpanded = !moreInfo.classList.contains('d-none')
+      const objectId = object.querySelector('.object-id').innerText
+      
+
+      const objectData = objetos.find(object => object.id == objectId)
+
+
+      if (isMobile) {
+        if (isExpanded) {
+          moreInfo.classList.add('d-none')
+          chevron.classList.remove('bi-chevron-down')
+          chevron.classList.add('bi-chevron-right')
+        } else {
+          moreInfo.classList.remove('d-none')
+          chevron.classList.remove('bi-chevron-right')
+          chevron.classList.add('bi-chevron-down')
+        }
+
+  } else {
+
+        prevInfo.classList.add('d-none')
+        preview.classList.remove('text-center')
+          preview.innerHTML = `
+        <div class="row ">
+          <div class="col-12 ">
+            <h2>${objectData.name}</h2>
+            <h5>{{object_name}}</h5>
+            <p>${objectData.province}</p>
+            <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
+            <p><strong>Frecuencia de pago: </strong>${objectData.frequency}</p>
+            <p><strong>Método de pago:  </strong>${objectData.payment_method}</p>
+            <p><strong>Referencia de la cuenta bancaria:  </strong>${objectData.bank_account_holder}</p>
+            <p><strong>Antigüedad:  </strong>${objectData.seniority}</p>
+            <p><strong>Observaciones:  </strong>${objectData.notes}</p>
+          </div>
+        </div>
+      `
+      }
+
+    })
+
+    // when resizing the window, the preview will be reset
+    window.addEventListener('resize', () => {
+      moreInfo.classList.add('d-none')
+      prevInfo.classList.remove('d-none')
+      preview.classList.add('text-center')
+      preview.classList.remove('p-5')
+      preview.innerHTML = `<span id="prev-info">Pulsa sobre una {{ object_name }} para la vista previa</span>`
+
+    })
+
+  })
+
+</script>
+{% endblock %}

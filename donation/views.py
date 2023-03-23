@@ -5,6 +5,7 @@ from donation.models import Donation
 from decimal import Decimal
 from .forms import CreateNewDonation
 
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
