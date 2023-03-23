@@ -126,7 +126,7 @@ class ProjectTestCase(TestCase):
 
     def test_project_update_amount_incorrect_min(self):
         with self.assertRaises(Exception):
-            self.project_update.amount = -1
+            self.project_update.amount = 0.9
             self.project_update.full_clean()
             self.project_update.save()
 
