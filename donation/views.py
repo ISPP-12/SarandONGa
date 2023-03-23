@@ -1,4 +1,3 @@
-from functools import wraps
 from django.shortcuts import render, get_object_or_404, redirect
 from datetime import datetime
 import json
@@ -35,7 +34,6 @@ def donation_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
 
 def donation_list(request):
@@ -68,7 +66,7 @@ def donation_list(request):
 def donation_update(request, donation_id):
 
     donation = get_object_or_404(Donation, id=donation_id)
-    form = CreateNewDonation(initial={'ong': request.user.ong})
+    form = CreateNewDonation(instance=donation)
     if request.method == "POST":
         form = CreateNewDonation(request.POST, instance=donation)
         if form.is_valid():
