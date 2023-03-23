@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'stock',
     'service',
     'payment',
-    'proyect',
+    'project',
     'home',
     'ong',
     'sponsorship',
