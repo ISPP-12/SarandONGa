@@ -210,9 +210,9 @@ class GodFather(Person):
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
-    start_date = models.DateTimeField(
+    start_date = models.DateField(
         default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
-    termination_date = models.DateTimeField(verbose_name="Fecha de baja", null=True, blank=True)
+    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
@@ -304,9 +304,9 @@ class Volunteer(Person):
                 'La fecha de inicio del contrato debe ser anterior a la fecha de finalización del contrato')
 
 class Child(Person):
-    start_date = models.DateTimeField(
+    start_date = models.DateField(
         default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
-    termination_date = models.DateTimeField(verbose_name="Fecha de baja", null=True, blank=True)
+    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
     study = models.CharField(
         max_length=200, verbose_name="Estudio", default='Apadrinamiento en curso')
     expected_mission_time = models.CharField(

@@ -35,9 +35,9 @@ class Home(models.Model):
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
-    start_date = models.DateTimeField(
+    start_date = models.DateField(
         default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
-    termination_date = models.DateTimeField(verbose_name="Fecha de baja", null=True, blank=True)
+    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
     province = models.CharField(
         default="Sevilla", verbose_name='Provincia', max_length=25)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
