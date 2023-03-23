@@ -1,10 +1,116 @@
-{% extends 'layouts/master.html' %}
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %} 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}">
+{% endblock %}
 
 {% block content %}
-<h1>Registrar Voluntario</h1>
-<form method="post" >
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit", name="save">Registrar Voluntario</button>
-</form>
+
+<div id="section-volunteer">
+
+    {% if form.instance.id %}
+        {% include 'components/title.html' with title="Editar voluntario" %}
+    {% else %}
+        {% include 'components/title.html' with title="Añadir voluntario" %}
+    {% endif %}
+   
+
+    {% if messages %}
+    <div class="row">
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="mt-3 row">{% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="col-md-6 col-12">
+                <div class="row my-3">
+                    {% if field.field.required %}
+                        {% with field.label_tag|add:" (obligatorio)" as label_tag_required %}
+                            {% include 'components/inputs.html' with id=field.id_for_label label_text=label_tag_required input=field %}
+                        {% endwith %}
+                    {% else %}
+                        {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+                    {% endif %}
+                </div>
+                <div class="row text-danger">
+                    {{ field.errors }}
+                </div>
+            </div>
+        {% endfor %}
+        <div id="message-dates" style="color:red"></div>
+        <div class="form-section mt-5 mb-5 col-12 d-flex justify-content-center">
+        
+            {% if form.instance.id %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Actualizar voluntario" id="id-submitForm" type="submit" %}
+            {% else %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Registrar voluntario" id="id-submitForm" type="submit" %}
+            {% endif %}
+
+            
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    let birthDate = document.getElementById('id_birth_date')
+    let startContractDate = document.getElementById('id_contract_start_date')
+    let endContractDate = document.getElementById('id_contract_end_date')
+    let submitButton = document.getElementById('id-submitForm')
+    
+    let birthDiv = document.createElement('div')
+    birthDiv.setAttribute('class', 'text-danger')
+    birthDate.parentElement.parentElement.appendChild(birthDiv)
+
+    let finishDiv = document.createElement('div')
+    finishDiv.setAttribute('class', 'text-danger')
+    endContractDate.parentElement.parentElement.appendChild(finishDiv)
+    
+    let compare = () => {
+        let birthDateValue = Date.parse(birthDate.value)
+        let startValue = Date.parse(startContractDate.value)
+        let endValue = Date.parse(endContractDate.value)
+        let currentDate = Date.now()
+        
+        console.log("fecha de nacimiento", birthDateValue)
+        console.log("fecha inicio contrato", startValue)
+        console.log("fecha fin contrato", endValue)
+
+        submitButton.disabled = true
+
+        
+        if(birthDateValue >= startValue) {
+            birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha de inicio del contrato'
+
+        } else if (birthDateValue >= endValue) {
+            birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha de finalización del contrato'
+        } else if(birthDateValue >= currentDate) {
+            birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha actual'
+        } else {
+            birthDiv.innerHTML = ''
+        }
+  
+        if (endValue < startValue) {
+            finishDiv.innerHTML = 'La fecha de finalización del contrato debe ser posterior a la fecha de inicio del contrato'
+            submitButton.disabled = true
+        } else {
+            finishDiv.innerHTML = ''
+        }
+        
+        if(birthDateValue < startValue && birthDateValue < endValue && endValue >= startValue) {
+            submitButton.disabled = false
+        }
+
+    }
+    birthDate.addEventListener('change', compare)
+    startContractDate.addEventListener('change', compare)
+    endContractDate.addEventListener('change', compare)
+  </script>
 {% endblock %}

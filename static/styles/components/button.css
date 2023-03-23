@@ -4,6 +4,19 @@
   scale: 1;
 }
 
+button[type="submit"] > span {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
 .section-btn:active {
   scale: 0.95;
 }

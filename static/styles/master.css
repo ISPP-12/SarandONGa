@@ -2,6 +2,10 @@
   /* Neutral colors */
   --clr-white: hsl(0, 0%, 100%);
   --clr-black: hsl(0, 0%, 0%);
+  --gray-20: hsl(0, 0%, 95%);
+  --gray-50: hsl(0, 0%, 90%);
+  --gray-100: hsl(0, 0%, 80%);
+  --gray-200: hsl(0, 0%, 72%);
   --gray-300: hsl(0, 0%, 64%);
   --gray-600: hsl(0, 0%, 48%);
   --gray-900: hsl(0, 0%, 24%);
@@ -35,6 +39,7 @@
   /* green */
   --clr-accent-5-light: hsl(137, 44%, 94%);
   --clr-accent-5-dark: hsl(137, 44%, 74%);
+  --clr-accent-5-darker: hsl(137, 44%, 44%);
 
 
   /* Fonts */
