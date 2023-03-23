@@ -5,11 +5,11 @@ label {
 }
 
 input {
-  border: 1.4px solid #3e3e3e;
-  border-radius: 7px;
+  border: 1.4px solid var(--gray-900);
+  border-radius: var(--border-radius-1);
 }
 
 .border-class {
-  border: 1.4px solid #3e3e3e;
-  border-radius: 7px;
+  border: 1.4px solid var(--gray-900);
+  border-radius: var(--border-radius-1);
 }

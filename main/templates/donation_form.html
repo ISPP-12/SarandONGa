@@ -1,8 +1,9 @@
+{% extends 'layouts/master.html' %}
 {% block content %}
-Registrar donación
-<form method="post" action="/donations/new/">
+<h1>Registrar donación</h1>
+<form method="POST" >
     {% csrf_token %}
-    {{form}}
+    {{form.as_p}}
     <button type="submit", name="save">Registrar</button>
 </form>
 {% endblock %}

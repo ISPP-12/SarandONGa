@@ -1,12 +1,12 @@
 from xml.dom import ValidationErr
 from django.db import models
 from django.utils import timezone
-
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.utils.text import slugify
-from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
+from ong.models import Ong
 
 SEX_TYPES = (
     ('F', 'Femenino'),
@@ -69,6 +69,18 @@ HOUSING_TYPE = (
     ('VP', 'Vivienda propia')
 )
 
+VOLUNTEER_TYPE = (
+    ('AP', 'Alumno en prácticas'),
+    ('O', 'Otro')
+)
+
+DNI_REGEX = r'^\d{8}[A-Z]$'
+    
+DNI_VALIDATOR = RegexValidator(
+    regex=DNI_REGEX,
+    message='Introduce un DNI válido (8 números y 1 letra).'
+)
+
 
 class Person(models.Model):
 
@@ -93,10 +105,39 @@ class Person(models.Model):
 
 class WorkerManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
-        user = self.model(email=email, **extra_fields)
+        ongs = Ong.objects.all()
+
+        # Agregar opción para crear una nueva ong
+        options = [f"{i}. {ong.name}" for i, ong in enumerate(ongs, start=1)]
+        options.append(f"{len(ongs) + 1}. Crear nueva ONG")
+
+        print("Seleccione una ong (ingrese el número correspondiente):")
+        for option in options:
+            print(option)
+
+        while True:
+            try:
+                choice = int(input("> "))
+                if choice == len(ongs) + 1:
+                    # Si elige la opción de crear una nueva ong, pedir el nombre
+                    ong_name = input("Nombre de la nueva ong: ")
+                    if Ong.objects.filter(name=ong_name).exists():
+                        print("Ya existe una ong con ese nombre. Intente de nuevo.")
+                    else:
+                        ong = Ong.objects.create(name=ong_name)
+                        break
+                else:
+                    # Si elige una ong existente, usarla
+                    ong = ongs[choice - 1]
+                    break
+            except (ValueError, IndexError):
+                print("Opción inválida. Intente de nuevo.")
+
+        user = self.model(email=email, ong_id=ong.id, **extra_fields)
         user.set_password(password)
         user.is_admin = True
         user.save()
+
         return user
 
 
@@ -120,10 +161,17 @@ class Worker(AbstractBaseUser):
     photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
     is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='trabajador', verbose_name="ONG")
 
     USERNAME_FIELD = 'email'
 
     objects = WorkerManager()
+
+    class Meta:
+        ordering = ['surname', 'name']
+        verbose_name = 'Trabajador'
+        verbose_name_plural = 'Trabajadores'
 
     def __str__(self):
         return self.email
@@ -140,8 +188,14 @@ class Worker(AbstractBaseUser):
     def is_staff(self):
         return self.is_admin
 
+
 class GodFather(Person):
-    dni = models.CharField(max_length=9, unique=True, verbose_name='DNI')
+    dni = models.CharField(
+        max_length=9,
+        unique=True,
+        validators=[DNI_VALIDATOR],
+        verbose_name='DNI'
+    )
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
@@ -155,24 +209,25 @@ class GodFather(Person):
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
-    seniority = models.DateField(verbose_name='Antigüedad')
+    start_date = models.DateField(
+        default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
+    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
     slug = models.SlugField(max_length=200, unique=True, editable=False)
-    
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='padrino', verbose_name="ONG")
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surname)
+
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:
         ordering = ['name']
         verbose_name = 'Padrino'
         verbose_name_plural = 'Padrinos'
-        
-        
-
 
 
 class ASEMUser(Person):
@@ -186,7 +241,7 @@ class ASEMUser(Person):
     correspondence = models.CharField(
         max_length=20, choices=CORRESPONDENCE, verbose_name='Tipo de correspondencia')
     status = models.CharField(
-        max_length=20, choices=STATUS, verbose_name='Estado')
+        max_length=20, choices=STATUS, verbose_name='Estado civil')
     family_unit_size = models.IntegerField(
         verbose_name='Tamaño de la unidad familiar', validators=[MinValueValidator(0), MaxValueValidator(30)])
     own_home = models.CharField(
@@ -196,33 +251,61 @@ class ASEMUser(Person):
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
                                            validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
                                                                       message='El número de cuenta no es válido.')])
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='asemuser', verbose_name="ONG")
 
     class Meta:
-        ordering = ['surname','name']
+        ordering = ['surname', 'name']
         verbose_name = 'Usuario de ASEM'
         verbose_name_plural = 'Usuarios de ASEM'
 
     def __str__(self):
         return self.surname + ', ' + self.name
 
+
 class Volunteer(Person):
 
+    dni = models.CharField(
+        max_length=9,
+        unique=True,
+        validators=[DNI_VALIDATOR],
+        verbose_name='DNI'
+    )
     # Trabajo que realiza el voluntario
     job = models.CharField(max_length=50, verbose_name="Trabajo")
-
     # Tiempo de dedicación en horas
     dedication_time = models.FloatField(verbose_name="Tiempo de dedicación")
+    contract_start_date = models.DateField(verbose_name="Fecha de inicio del contrato")
+    contract_end_date = models.DateField(verbose_name="Fecha de finalización del contrato")
+    raffle = models.BooleanField(default=False, verbose_name="¿Participa en la rifa?")
+    lottery = models.BooleanField(default=False, verbose_name="¿Participa en la lotería?")
+    is_member = models.BooleanField(default=False, verbose_name="¿Es socio?")
+    pres_table = models.BooleanField(default=False, verbose_name="¿Preside la mesa?")
+    is_contributor = models.BooleanField(default=False, verbose_name="¿Es colaborador?")
+    notes = models.TextField(blank=True, verbose_name='Observaciones')
+    entity = models.CharField(max_length=50, blank=True, verbose_name="Entidad")
+    table = models.CharField(max_length=50, blank=True, verbose_name="Mesa")
+    volunteer_type = models.CharField(max_length=20, choices = VOLUNTEER_TYPE, verbose_name="Tipo de voluntario")
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='voluntario', verbose_name="ONG")
 
-    # Fecha de inicio del contrato
-    contract_date = models.DateField(
-        verbose_name="Fecha de inicio del contrato")
+    class Meta:
+        ordering = ['surname', 'name']
+        verbose_name = 'Voluntario'
+        verbose_name_plural = 'Voluntarios'
 
+    def __str__(self):
+        return self.surname + ', ' + self.name
+
+    def clean(self):
+        if self.contract_start_date >= self.contract_end_date:
+            raise ValidationError(
+                'La fecha de inicio del contrato debe ser anterior a la fecha de finalización del contrato')
 
 class Child(Person):
-    sponsorship_date = models.DateTimeField(
-        default=timezone.now, verbose_name="Fecha de apadrinamiento")
-    terminatio_date = models.DateTimeField(
-        default=timezone.now, verbose_name="Fecha de baja")
+    start_date = models.DateField(
+        default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
+    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
     study = models.CharField(
         max_length=200, verbose_name="Estudio", default='Apadrinamiento en curso')
     expected_mission_time = models.CharField(
@@ -245,16 +328,20 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
-        
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='niño', verbose_name="ONG")
 
     def __str__(self):
         return self.name + ' ' + self.surname
-    
+
     def save(self, *args, **kwargs):
-        if self.terminatio_date < self.sponsorship_date:
-            raise ValidationErr("The termination date must be after the sponsorship date")
+        if self.termination_date is not None:
+            if self.termination_date < self.start_date:
+                raise ValidationErr(
+                    "The termination date must be after the start date")
         if self.number_brothers_siblings < 0:
-            raise ValidationErr("A child cannot have a negative number of siblings")
+            raise ValidationErr(
+                "A child cannot have a negative number of siblings")
         super(Child, self).save(*args, **kwargs)
 
     class Meta:

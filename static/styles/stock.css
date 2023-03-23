@@ -1,0 +1,28 @@
+:root {
+  --stock-main-color: var(--clr-accent-1);
+  --stock-main-color-hover: var(--clr-accent-1-dark);
+  --stock-main-color-light: var(--clr-accent-1-light);
+}
+
+
+/* Button */
+#section-stock .section-btn:not(.secondary) {
+  background-color: var(--stock-main-color) !important;
+  color: var(--clr-black);
+}
+
+#section-stock .section-btn:hover:not(.secondary),
+#section-stock .section-btn:active:not(.secondary) {
+  background-color: var(--stock-main-color-hover) !important;
+  color: var(--clr-black);
+}
+
+/* Title */
+#section-stock .title {
+  border-color: var(--stock-main-color);
+}
+
+/* Selection */
+.selected {
+  background-color: var(--stock-main-color-light);
+}
