@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -6,7 +7,7 @@ import json
 from functools import wraps
 from datetime import datetime, date
 from decimal import Decimal
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -67,6 +68,11 @@ def user_create(request):
 
     return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
+def asem_user_delete(request, asem_user_id):
+    asemuser = get_object_or_404(ASEMUser, id=asem_user_id)
+    asemuser.delete()
+    return redirect('user_list')
+
 def user_update(request, asem_user_id):
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
     if request.method == "POST":
@@ -81,6 +87,7 @@ def user_update(request, asem_user_id):
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
 
 
+
 def worker_create(request):
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
@@ -92,8 +99,20 @@ def worker_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewWorker()
-    return render(request, 'worker/worker_form.html', {"form": form, "title": "Añadir Trabajador"})
+    return render(request, 'worker/worker_create_form.html', {"form": form, "title": "Añadir Trabajador"})
 
+def worker_update(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    if request.method == "POST":
+        form = UpdateWorker(request.POST, instance=worker)
+        if form.is_valid():
+            form.save()
+            return redirect('worker_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = UpdateWorker(instance=worker)
+    return render(request, 'worker/worker_update_form.html', {"form": form, "title": "Actualizar Trabajador"})
 
 def worker_list(request):
     objects = Worker.objects.all().values()
@@ -115,6 +134,11 @@ def worker_list(request):
 
     return render(request, 'users/list.html', context)
 
+
+def worker_delete(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    worker.delete()
+    return redirect('worker_list')
 
 def child_list(request):
     objects = Child.objects.all().values()
@@ -215,18 +239,28 @@ def volunteer_list(request):
 
     return render(request, 'users/list.html', context)
 
-
+@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_create(request):
+    form = CreateNewVolunteer(initial={'ong':request.user.ong})
+
     if request.method == "POST":
         form = CreateNewVolunteer(request.POST)
+
         if form.is_valid():
-            form.save()
+            ong = request.user.ong
+            # if the user is anonymous, the ong is not set yet. Actually, it won't be possible to create a volunteer unless the user is logged in
+            volunteer = form.save(commit=False)
+            volunteer.ong = ong
+            volunteer.save()
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-
-    form = CreateNewVolunteer()
     return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
+
+def volunteer_delete(request, volunteer_id):
+    volunteer = Volunteer.objects.get(id=volunteer_id)
+    volunteer.delete()
+    return redirect('volunteer_list')
 
 def volunteer_update(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
