@@ -16,9 +16,9 @@
 
 /* disabled */
 .fc .fc-button-primary:disabled {
-    background-color: var(--clr-black);
-    color: var(--clr-white);
-  }
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+}
 
 .fc .fc-button-primary:not(:disabled):hover {
   background-color: var(--clr-accent-5-dark);
