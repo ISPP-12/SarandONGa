@@ -210,7 +210,9 @@ class GodFather(Person):
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
-    seniority = models.DateField(verbose_name='Antigüedad')
+    start_date = models.DateTimeField(
+        default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
+    termination_date = models.DateTimeField(verbose_name="Fecha de baja", null=True, blank=True)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
@@ -302,10 +304,9 @@ class Volunteer(Person):
                 'La fecha de inicio del contrato debe ser anterior a la fecha de finalización del contrato')
 
 class Child(Person):
-    sponsorship_date = models.DateTimeField(
-        default=timezone.now, verbose_name="Fecha de apadrinamiento")
-    termination_date = models.DateTimeField(
-        default=timezone.now, verbose_name="Fecha de baja")
+    start_date = models.DateTimeField(
+        default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
+    termination_date = models.DateTimeField(verbose_name="Fecha de baja", null=True, blank=True)
     study = models.CharField(
         max_length=200, verbose_name="Estudio", default='Apadrinamiento en curso')
     expected_mission_time = models.CharField(
@@ -335,9 +336,10 @@ class Child(Person):
         return self.name + ' ' + self.surname
 
     def save(self, *args, **kwargs):
-        if self.termination_date < self.sponsorship_date:
-            raise ValidationErr(
-                "The termination date must be after the sponsorship date")
+        if self.termination_date is not None:
+            if self.termination_date < self.start_date:
+                raise ValidationErr(
+                    "The termination date must be after the start date")
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
                 "A child cannot have a negative number of siblings")
