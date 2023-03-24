@@ -219,10 +219,12 @@ class GodFather(Person):
     slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='padrino', verbose_name="ONG")
+    
+    def __str__(self):
+        return self.name + ' ' + self.surname + ' (' + self.dni + ')'
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name + ' ' + self.surname)
-
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:
