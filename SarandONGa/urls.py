@@ -41,6 +41,6 @@ urlpatterns = [
     path('payment/',include(payment_urls), name="payment"),
     path('', main_views.index, name="index"),
     path('sponsorship/',include(sponsorship_urls), name="sponsorship"),
-    path('proyect/',include(proyect_urls),name = "proyect"),
+    path('proyect/',include(project_urls),name = "proyect"),
 
 ]
