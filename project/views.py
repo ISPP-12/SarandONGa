@@ -39,4 +39,4 @@ def project_update(request, project_id):
                     messages.error(request, f"{field}: {error}")
 
     form = CreateNewProject(instance=project)
-    return render(request, 'proyect/project_form.html', {'form': form, 'title': 'Actualizar proyecto'})
+    return render(request, 'project/project_form.html', {'form': form, 'title': 'Actualizar proyecto'})
