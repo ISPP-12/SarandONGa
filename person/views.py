@@ -268,17 +268,39 @@ def child_create(request):
     if request.method == "POST":
         form = CreateNewChild(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('child_list')
+            try:
+                form.save()
+                return redirect('child_list')
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
     else:
         form = CreateNewChild()
     return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
 
+
+def child_update(request,child_slug):
+    child= get_object_or_404(Child, slug=child_slug)
+
+    form= CreateNewChild(instance=child)
+    if request.method == "POST":
+        form= CreateNewChild(request.POST or None,request.FILES or None ,instance=child)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect("child_list")
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'person/child/create_child.html', {"form": form})
+
+
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
     return render(request, 'child_details.html', {'child': child})
+
 
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()

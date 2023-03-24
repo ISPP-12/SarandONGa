@@ -333,20 +333,32 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
+    slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='niño', verbose_name="ONG")
+
 
     def __str__(self):
         return self.name + ' ' + self.surname
 
     def save(self, *args, **kwargs):
+
+       
+        if self.birth_date > self.sponsorship_date:
+            raise ValidationErr(
+                "La fecha de apadrinamiento debe ser posterior a la fecha de nacimiento")
         if self.termination_date is not None:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "The termination date must be after the start date")
+            elif self.termination_date < self.sponsorship_date:
+            raise ValidationErr(
+                "La fecha de baja debe ser posterior a la fecha de apadrinamiento")
+                
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
-                "A child cannot have a negative number of siblings")
+                "Un niño no puede tener menos de 0 hermanos")
+        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         super(Child, self).save(*args, **kwargs)
 
     class Meta:

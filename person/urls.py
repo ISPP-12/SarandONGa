@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('child/list', views.child_list, name='child_list'),
     path('child/create', views.child_create, name="child_create"),
+    path('child/<slug:child_slug>/update', views.child_update, name='child_update'),
     path('child/<int:child_id>', views.child_details, name="child_details"),
     path('asem/create', views.user_create, name="user_create"),
     path('asem/list', views.user_list, name='user_list'),
