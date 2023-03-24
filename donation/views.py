@@ -3,6 +3,8 @@ from datetime import datetime
 import json
 from donation.models import Donation
 from decimal import Decimal
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .forms import CreateNewDonation
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -13,18 +15,26 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
-
+@login_required(login_url='/admin/login/?next=/donation/create')
 # Create your views here.
 def donation_create(request):
+    if request.user.is_anonymous:
+        form= CreateNewDonation()
+    else:
+        form = CreateNewDonation(initial={'ong': request.user.ong})
     if request.method == "POST":
         form = CreateNewDonation(request.POST)
         if form.is_valid():
+            ong=request.user.ong
+            donation=form.save(commit=False)
+            donation.ong=ong
+            donation.save()
             form.save()
+            return redirect("/donation/list")
         else:
-            print(form.errors) 
+            messages.error(request, 'Formulario con errores')
 
-    form = CreateNewDonation()
-    return render(request, 'donation_form.html', {"form": form, "title": "Crear Donación"})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
 
 def donation_list(request):
     # get donations from database
@@ -51,16 +61,22 @@ def donation_list(request):
 
     return render(request, 'donation/list.html', context)
 
+
+@login_required(login_url='/admin/login/?next=/donation/create')
 def donation_update(request, donation_id):
 
     donation = get_object_or_404(Donation, id=donation_id)
-    form = CreateNewDonation(instance = donation)
-
+    form = CreateNewDonation(instance=donation)
     if request.method == "POST":
-        form = CreateNewDonation(request.POST, instance = donation)
+        form = CreateNewDonation(request.POST, instance=donation)
         if form.is_valid():
+            ong=request.user.ong
+            donation=form.save(commit=False)
+            donation.ong=ong
+            donation.save()
             form.save()
+            return redirect("/donation/list")
+        else:
+            messages.error(request, 'Formulario con errores')
 
-            return redirect('/donation/list')
-
-    return render(request, 'donation_update_form.html', {"form": form})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
