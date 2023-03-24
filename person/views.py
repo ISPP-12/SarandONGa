@@ -5,7 +5,10 @@ from django.contrib import messages
 import json
 from datetime import datetime, date
 from decimal import Decimal
+
 from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
+from xml.dom import ValidationErr
+
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -200,13 +203,60 @@ def godfather_create(request):
         print(form.errors)
 
         if form.is_valid():
-            form.save()
-            return redirect('godfather_list')
+            try:
+                godfather=form.save(commit=False)
+                godfather.dni=request.POST["dni"]
+                godfather.bank_account_number=request.POST["bank_account_number"]
+                godfather.save()
+                return redirect('godfather_list')
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewGodFather()
     return render(request, 'godfather_form.html', {"form": form, "title": "Añadir Padrino"})
+
+def godfather_update(request,godfather_slug):
+    godfather= get_object_or_404(GodFather, slug=godfather_slug)
+    data={'email': godfather.email,
+          'name': godfather.name,
+          'surname': godfather.surname,
+          'birth_date': godfather.birth_date,
+          'sex': godfather.sex,
+          'city': godfather.city,
+          'address': godfather.address,
+          'telephone': godfather.telephone,
+          'postal_code': godfather.postal_code,
+          'photo': godfather.photo,
+          'dni': godfather.dni,
+          'payment_method': godfather.payment_method,
+          'bank_account_number': godfather.bank_account_number,
+          'bank_account_holder': godfather.bank_account_holder,
+          'bank_account_reference': godfather.bank_account_reference,
+          'amount': godfather.amount,
+          'frequency': godfather.frequency,
+          'start_date': godfather.start_date,
+          'termination_date': godfather.termination_date,
+          'notes': godfather.notes,
+          'status': godfather.status,
+          'ong': godfather.ong}
+
+    form= CreateNewGodFather(instance=godfather,data=data)
+    if request.method == "POST":
+        form= CreateNewGodFather(request.POST or None,request.FILES or None ,instance=godfather)
+        if form.is_valid():
+            try:
+                form.save(commit=False)
+                godfather.dni=request.POST["dni"]
+                godfather.bank_account_number=request.POST["bank_account_number"]
+                godfather.save()
+                return redirect("godfather_list")
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'godfather_form.html', {"form": form})
 
 
 def godfather_details(request, godfather_id):

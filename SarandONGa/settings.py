@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'stock',
     'service',
     'payment',
+    'localflavor',
     'project',
     'home',
     'ong',
