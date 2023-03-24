@@ -1,0 +1,85 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{%block extrahead%}<link rel="stylesheet" type="text/css" href="{% static 'styles/donations.css' %}">{%endblock%}
+
+{% block title %}Añadir donación{% endblock %} 
+{% block content %}
+<div id="section-donation">
+  {% if form.instance.id %}
+      {% include 'components/title.html' with title="Editar donación" %}
+  {% else %}
+      {% include 'components/title.html' with title="Añadir donación" %}
+  {% endif %}
+  <form method="post"  action="">
+    {% csrf_token %}
+      <div class="row my-4 mx-5">
+        <div class="col-sm-12 col-lg-6">
+        {% include "components/inputs.html" with id=form.title.id_for_label label_text="Título" input=form.title %} 
+      
+        {{ form.title.errors }}
+
+        </div>
+        <div class="col-sm-12 col-lg-6">
+          {% include "components/inputs.html" with id=form.description.id_for_label label_text="Descripción" input=form.description %} 
+          {{ form.description.errors }}
+    
+        </div>
+      </div>
+      <div class="row my-4 mx-5">
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.created_date.id_for_label label_text="Fecha de presentación" input=form.created_date %} 
+            {{ form.created_date.errors }}
+          </div>
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" input=form.amount %} 
+            {{ form.amount.errors }}
+
+          </div>
+      </div>
+      <div class="row my-4 mx-5">
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.donor_name.id_for_label label_text="Nombre" input=form.donor_name %} 
+            {{ form.donor_name.errors }}
+      
+          </div>
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.donor_surname.id_for_label label_text="Apellidos" input=form.donor_surname %} 
+            {{ form.donor_surname.errors }}
+          </div>
+      </div>
+      <div class="row my-4 mx-5">
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.donor_dni.id_for_label label_text="DNI" input=form.donor_dni %} 
+            {{ form.donor_dni.errors }}
+          </div>
+      
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.donor_email.id_for_label label_text="Correo electrónico" input=form.donor_email %} 
+            {{ form.donor_email.errors }}
+          </div>
+        </div>
+
+        <div class="row my-4 mx-5">
+            <div class="col-sm-12 col-lg-6">
+              {% include "components/inputs.html" with id=form.donor_address.id_for_label label_text="Dirección" input=form.donor_address %} 
+              {{ form.donor_address.errors }}
+            </div>
+          </div>
+      <div class="form-section mt-5 mx-5 mb-5 text-center">
+        {% if form.instance.id %}
+        {% with button_text="Actualizar" %}
+            {% include 'components/button.html'  with type="submit" text=button_text variation="SUBMIT" %}
+        {% endwith %}
+        {% else %}
+        {% with button_text="Registrar donación" %}
+            {% include 'components/button.html' with type="submit" text=button_text variation="SUBMIT" %}
+        {% endwith %}
+        {% endif %}
+      </div>
+  </form>
+</div>
+
+
+
+{% endblock %}

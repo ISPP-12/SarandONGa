@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
+from project.models import Project
 
 
 class Payment(models.Model):
@@ -10,6 +11,8 @@ class Payment(models.Model):
         default=timezone.now, verbose_name="Día de cobro")
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
                                  MinValueValidator(0)], verbose_name="Importe")
+    project = models.ForeignKey(
+        Project, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Proyecto")
 
     # ACTUALMENTE ESTO FALLA PORQUE SERVICIO Y PADRINO NO EXISTEN
     # godfather = models.ForeignKey(Godfather, on_delete=models.CASCADE)
