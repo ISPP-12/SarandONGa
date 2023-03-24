@@ -1,18 +1,19 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateNewProyect
+from .forms import CreateNewProject
 from django.contrib import messages
-from proyect.models import Proyect
+from .models import Project
 
 
-def proyect_delete(request, proyect_id):
-    proyect = get_object_or_404(Proyect, id=proyect_id)
-    proyect.delete()
+def project_delete(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    project.delete()
     return redirect('/')
 
-def proyect_create(request):
+
+def project_create(request):
     if request.method == "POST":
-        form = CreateNewProyect(request.POST)
+        form = CreateNewProject(request.POST)
         if form.is_valid():
             form.save()
             return redirect('/')
@@ -21,6 +22,5 @@ def proyect_create(request):
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
 
-    form = CreateNewProyect()
-    return render(request, 'proyect/proyect_form.html', {"form": form, "title": "Crear Proyecto"})
-
+    form = CreateNewProject()
+    return render(request, 'project/project_form.html', {"form": form, "title": "Crear Proyecto"})
