@@ -17,7 +17,9 @@ def service_list(request):
 
     context = {
         'objects': Service.objects.all(),
-        'objects_name': 'Servicio',
+        'objects_json': '[]',
+        'object_name': 'Servicio',
+        'object_name_en': 'service',
         'title': 'Gestión de servicios',
     }
 
