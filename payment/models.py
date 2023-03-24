@@ -27,4 +27,7 @@ class Payment(models.Model):
             raise Exception("La cantidad del pago no puede ser negativa")
         if self.amount > 9999999999:
             raise Exception("La cantidad del pago no puede ser superior a 10 dígitos")
+        #check that self.amount is decimal:
+        if type(self.paid) is not bool:
+            raise Exception("El pago debe ser un booleano")
         super(Payment, self).save(*args, **kwargs)

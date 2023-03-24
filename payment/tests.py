@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from django.test import TestCase
 from datetime import datetime
 from ong.models import Ong
@@ -53,6 +54,18 @@ class PaymentTestCase(TestCase):
         with self.assertRaises(ValueError):
             Payment.objects.create(payday=datetime(2020,2,31), amount=10000000000)
 
+    def test_payment_create_amount_not_decimal(self):
+        with self.assertRaises(ValueError):
+            Payment.objects.create(payday=datetime(2020,2,31), amount="1.111")
+    
+    def test_payment_create_payday_not_datetime(self):
+        with self.assertRaises(ValidationError):
+            Payment.objects.create(payday="2020-02-31", amount=1.11)
+
+    def test_payment_create_paid_not_boolean(self):
+        with self.assertRaises(ValueError):
+            Payment.objects.create(payday=datetime(2020,2,31), amount=1.11, paid="True")
+
     def test_payment_update_negative_amount(self):
         payment = Payment.objects.get(amount=105.56)
         with self.assertRaises(Exception):
@@ -64,6 +77,25 @@ class PaymentTestCase(TestCase):
         with self.assertRaises(Exception):
             payment.amount = 10000000000
             payment.save()
+
+    def test_payment_update_amount_not_decimal(self):
+        payment = Payment.objects.get(amount=105.56)
+        with self.assertRaises(Exception):
+            payment.amount = "1.78"
+            payment.save()
+    
+    def test_payment_update_payday_not_datetime(self):
+        payment = Payment.objects.get(amount=105.56)
+        with self.assertRaises(Exception):
+            payment.payday = "2020-02-31"
+            payment.save()
+    
+    def test_payment_update_paid_not_boolean(self):
+        payment = Payment.objects.get(amount=105.56)
+        with self.assertRaises(Exception):
+            payment.paid = "True"
+            payment.save()
+    
 
 
 
