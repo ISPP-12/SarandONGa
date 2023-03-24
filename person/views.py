@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 import json
 from functools import wraps
 from datetime import datetime, date
