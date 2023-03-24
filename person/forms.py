@@ -138,6 +138,7 @@ class CreateNewChild(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'number_brothers_siblings': forms.NumberInput(attrs={'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):

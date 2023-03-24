@@ -58,16 +58,17 @@
 <script type="text/javascript">
     let birthDate = document.getElementById('id_birth_date')
     let submitButton = document.getElementById('id-submitForm')
-    let sponsorshipDate = document.getElementById('id_sponsorship_date')
+    let startDate = document.getElementById('id_start_date')
     let terminationDate = document.getElementById('id_termination_date')
+
     
     let birthDiv = document.createElement('div')
     birthDiv.setAttribute('class', 'text-danger')
     birthDate.parentElement.parentElement.appendChild(birthDiv)
 
-    let sponsorshipDiv = document.createElement('div')
-    sponsorshipDiv.setAttribute('class', 'text-danger')
-    sponsorshipDate.parentElement.parentElement.appendChild(sponsorshipDiv)
+    let startDateDiv = document.createElement('div')
+    startDateDiv.setAttribute('class', 'text-danger')
+    startDate.parentElement.parentElement.appendChild(startDateDiv)
 
     let terminationDiv = document.createElement('div')
     terminationDiv.setAttribute('class', 'text-danger')
@@ -76,7 +77,7 @@
     
     let compare = () => {
         let birthDateValue = Date.parse(birthDate.value)
-        let sponsorshipDateValue = Date.parse(sponsorshipDate.value)
+        let startDateValue = Date.parse(startDate.value)
         let terminationDateValue = Date.parse(terminationDate.value)
         let currentDate = Date.now()
         
@@ -88,25 +89,28 @@
             birthDiv.innerHTML = ''
         }
   
-        if (sponsorshipDateValue < birthDateValue) {
-            sponsorshipDiv.innerHTML = 'La fecha de apadrinamiento debe ser igual o posterior a la fecha de nacimiento del niño.'
+        if (startDateValue < birthDateValue) {
+            startDateDiv.innerHTML = 'La fecha de alta debe ser igual o posterior a la fecha de nacimiento del niño.'
+        } else if (startDateValue > currentDate) {
+            startDateDiv.innerHTML = 'La fecha de alta debe ser anterior a la fecha actual.'
         } else {
-            sponsorshipDiv.innerHTML = ''
+            startDateDiv.innerHTML = ''
         }
 
-        if(terminationDateValue < sponsorshipDateValue) {
-            terminationDiv.innerHTML = 'La fecha de terminación debe ser igual o posterior a la fecha de apadrinamiento del niño.'
+        if(terminationDateValue < startDateValue) {
+            terminationDiv.innerHTML = 'La fecha de baja debe ser igual o posterior a la fecha de alta del niño.'
         } else {
             terminationDiv.innerHTML = ''
         }
         
-        if(birthDateValue < currentDate && sponsorshipDateValue >= birthDateValue && terminationDateValue >= sponsorshipDateValue) {
+        if(birthDateValue < currentDate && startDateValue >= birthDateValue && terminationDateValue >= startDateValue) {
             submitButton.disabled = false
         }
 
     }
     birthDate.addEventListener('change', compare)
-    sponsorshipDate.addEventListener('change', compare)
+    startDate.addEventListener('change', compare)
+    terminationDate.addEventListener('change', compare)
 
   </script>
 {% endblock %}
