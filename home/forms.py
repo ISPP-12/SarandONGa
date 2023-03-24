@@ -1,6 +1,6 @@
 from django import forms
 from .models import Home
-from datetime import datetime
+from datetime import date
 
 
 class CreateHomeForm(forms.ModelForm):
@@ -8,7 +8,8 @@ class CreateHomeForm(forms.ModelForm):
         model = Home
         exclude = ['id']
         widgets = {
-            'seniority': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
         }
 
@@ -24,3 +25,4 @@ class CreateHomeForm(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control border-class'})
+

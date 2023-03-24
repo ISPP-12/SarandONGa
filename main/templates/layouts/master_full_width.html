@@ -4,7 +4,8 @@
 <head>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }}</title>
+    <title>{{ title }}{% block title %}
+        {% endblock %}</title>
 
     <!-- Bootstrap -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -40,10 +41,11 @@
 
     {% include "components/navbar.html" %}
 
-    <div class="container mt-5">
+
+    <div class="container mt-5">      
         {% block content %}
         {% endblock %}
- 
+
     </div>
 
 </body>

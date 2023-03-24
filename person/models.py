@@ -1,12 +1,14 @@
 from xml.dom import ValidationErr
 from django.db import models
 from django.utils import timezone
-
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
+from localflavor.generic.models import IBANField
+from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 from ong.models import Ong
 
@@ -72,6 +74,18 @@ HOUSING_TYPE = (
     ('VP', 'Vivienda propia')
 )
 
+VOLUNTEER_TYPE = (
+    ('AP', 'Alumno en prácticas'),
+    ('O', 'Otro')
+)
+
+DNI_REGEX = r'^\d{8}[A-Z]$'
+    
+DNI_VALIDATOR = RegexValidator(
+    regex=DNI_REGEX,
+    message='Introduce un DNI válido (8 números y 1 letra).'
+)
+
 
 class Person(models.Model):
 
@@ -79,7 +93,7 @@ class Person(models.Model):
     name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
     surname = models.CharField(
         max_length=50, blank=True, verbose_name="Apellido")
-    birth_date = models.DateTimeField(
+    birth_date = models.DateField(
         default=timezone.now, verbose_name="Fecha de nacimiento", null=True, blank=True)
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
                            verbose_name="Género", null=True, blank=True)
@@ -159,6 +173,11 @@ class Worker(AbstractBaseUser):
 
     objects = WorkerManager()
 
+    class Meta:
+        ordering = ['surname', 'name']
+        verbose_name = 'Trabajador'
+        verbose_name_plural = 'Trabajadores'
+
     def __str__(self):
         return self.email
 
@@ -176,12 +195,15 @@ class Worker(AbstractBaseUser):
 
 
 class GodFather(Person):
-    dni = models.CharField(max_length=9, unique=True, verbose_name='DNI')
+    dni = models.CharField(
+        max_length=9,
+        unique=True,
+        validators=[DNI_VALIDATOR],
+        verbose_name='DNI'
+    )
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
-    bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
-                                           validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
-                                                                      message='El número de cuenta no es válido.')])
+    bank_account_number = IBANField(include_countries=IBAN_SEPA_COUNTRIES)
     bank_account_holder = models.CharField(
         max_length=100, verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(
@@ -190,7 +212,9 @@ class GodFather(Person):
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
-    seniority = models.DateField(verbose_name='Antigüedad')
+    start_date = models.DateField(
+        default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
+    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
@@ -199,8 +223,10 @@ class GodFather(Person):
                             related_name='padrino', verbose_name="ONG")
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name + ' ' + self.surname)
-
+        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
+        if self.termination_date < self.birth_date:
+            raise ValidationErr(
+                "la fecha de terminación no puede ser menor que la fecha de nacimiento")
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:
@@ -244,24 +270,47 @@ class ASEMUser(Person):
 
 class Volunteer(Person):
 
+    dni = models.CharField(
+        max_length=9,
+        unique=True,
+        validators=[DNI_VALIDATOR],
+        verbose_name='DNI'
+    )
     # Trabajo que realiza el voluntario
     job = models.CharField(max_length=50, verbose_name="Trabajo")
-
     # Tiempo de dedicación en horas
     dedication_time = models.FloatField(verbose_name="Tiempo de dedicación")
-
-    # Fecha de inicio del contrato
-    contract_date = models.DateField(
-        verbose_name="Fecha de inicio del contrato")
+    contract_start_date = models.DateField(verbose_name="Fecha de inicio del contrato")
+    contract_end_date = models.DateField(verbose_name="Fecha de finalización del contrato")
+    raffle = models.BooleanField(default=False, verbose_name="¿Participa en la rifa?")
+    lottery = models.BooleanField(default=False, verbose_name="¿Participa en la lotería?")
+    is_member = models.BooleanField(default=False, verbose_name="¿Es socio?")
+    pres_table = models.BooleanField(default=False, verbose_name="¿Preside la mesa?")
+    is_contributor = models.BooleanField(default=False, verbose_name="¿Es colaborador?")
+    notes = models.TextField(blank=True, verbose_name='Observaciones')
+    entity = models.CharField(max_length=50, blank=True, verbose_name="Entidad")
+    table = models.CharField(max_length=50, blank=True, verbose_name="Mesa")
+    volunteer_type = models.CharField(max_length=20, choices = VOLUNTEER_TYPE, verbose_name="Tipo de voluntario")
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='voluntario', verbose_name="ONG")
 
+    class Meta:
+        ordering = ['surname', 'name']
+        verbose_name = 'Voluntario'
+        verbose_name_plural = 'Voluntarios'
+
+    def __str__(self):
+        return self.surname + ', ' + self.name
+
+    def clean(self):
+        if self.contract_start_date >= self.contract_end_date:
+            raise ValidationError(
+                'La fecha de inicio del contrato debe ser anterior a la fecha de finalización del contrato')
 
 class Child(Person):
-    sponsorship_date = models.DateTimeField(
-        default=timezone.now, verbose_name="Fecha de apadrinamiento")
-    termination_date = models.DateTimeField(
-        default=timezone.now, verbose_name="Fecha de baja")
+    start_date = models.DateField(
+        default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
+    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
     study = models.CharField(
         max_length=200, verbose_name="Estudio", default='Apadrinamiento en curso')
     expected_mission_time = models.CharField(
@@ -284,19 +333,32 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
+    slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='niño', verbose_name="ONG")
+
 
     def __str__(self):
         return self.name + ' ' + self.surname
 
     def save(self, *args, **kwargs):
-        if self.termination_date < self.sponsorship_date:
+
+       
+        if self.birth_date > self.sponsorship_date:
             raise ValidationErr(
-                "The termination date must be after the sponsorship date")
+                "La fecha de apadrinamiento debe ser posterior a la fecha de nacimiento")
+        if self.termination_date is not None:
+            if self.termination_date < self.start_date:
+                raise ValidationErr(
+                    "The termination date must be after the start date")
+            elif self.termination_date < self.sponsorship_date:
+                raise ValidationErr(
+                    "La fecha de baja debe ser posterior a la fecha de apadrinamiento")
+                
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
-                "A child cannot have a negative number of siblings")
+                "Un niño no puede tener menos de 0 hermanos")
+        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         super(Child, self).save(*args, **kwargs)
 
     class Meta:
