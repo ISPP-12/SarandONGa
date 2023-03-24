@@ -116,6 +116,9 @@ def worker_list(request):
 
     return render(request, 'users/list.html', context)
 
+def worker_details(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    return render(request, 'worker/details.html', {'worker': worker})
 
 def worker_delete(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
