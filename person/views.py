@@ -126,17 +126,23 @@ def asem_user_details(request, asem_user_id):
 
 
 def worker_create(request):
+    if request.user.is_anonymous:
+        form = CreateNewWorker()
+    else:
+        form = CreateNewWorker(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
         if form.is_valid():
-            form.save()
+            ong = request.user.ong
+            worker = form.save()
+            worker.ong = ong
+            worker.save()
+            
             return redirect('worker_list')
-
         else:
             messages.error(request, 'Formulario con errores')
 
-    form = CreateNewWorker()
-    return render(request, 'worker/worker_create_form.html', {"form": form, "title": "Añadir Trabajador"})
+    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador"})
 
 def worker_update(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)

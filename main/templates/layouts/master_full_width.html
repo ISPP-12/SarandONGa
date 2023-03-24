@@ -28,8 +28,11 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
-    {% block extrahead %}
-    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/subsidies.css' %}">
+
+    {% block extrahead %} {% endblock %}
+
+
     
 
 </head>
@@ -38,10 +41,12 @@
 
     {% include "components/navbar.html" %}
 
+
     <div class="container mt-5">
         {% block content %}
         {% endblock %}
-    </div>
+
+
 
 </body>
 

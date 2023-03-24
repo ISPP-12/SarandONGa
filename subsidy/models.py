@@ -26,8 +26,10 @@ class Subsidy(models.Model):
 
     # Nombre completo (con apellidos) de la persona o entidad que dona
     name = models.CharField(max_length=200, verbose_name="Nombre completo")
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
-                            related_name='subvencion', verbose_name="ONG")
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='subvencion')
+    
+    
+
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
