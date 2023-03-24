@@ -166,9 +166,8 @@ class Worker(AbstractBaseUser):
     photo = models.ImageField(verbose_name="Foto", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
     is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
-                            related_name='trabajador', verbose_name="ONG")
-
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='trabajador', verbose_name="ONG", null=True, blank=True)
+    
     USERNAME_FIELD = 'email'
 
     objects = WorkerManager()

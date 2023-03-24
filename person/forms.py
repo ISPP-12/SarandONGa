@@ -63,23 +63,26 @@ class CreateNewWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password']
+        exclude = ['id', 'last_login', 'is_active','is_admin','password']
+        
         widgets = {
-            'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
+            'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'ong': forms.Select(attrs={'disabled':True})
         }
 
     def __init__(self, *args, **kwargs):
         super(CreateNewWorker, self).__init__(*args, **kwargs)
+
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-select border-class'})
+                    {'class': 'form-select border-class mb-3'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-check-input border-class'})
+                    {'class': 'form-check-input border-class mb-3'})
             else:
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-control border-class'})
+                    {'class': 'form-control border-class mb-3'})
 
     def clean_password2(self):
         # Check that the two password entries match
