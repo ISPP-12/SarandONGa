@@ -1,8 +1,8 @@
 {% extends "layouts/master.html" %}
 {% load static %}
+{% block extrahead %}<link rel="stylesheet" type="text/css" href="{% static 'styles/stock.css' %}">{% endblock %}
 
-
-{% block contenido %} 
+{% block content %} 
     <h1 class="mx-5 my-5">
         {% if form.instance.id %}
             Editar suministro

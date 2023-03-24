@@ -1,46 +1,46 @@
 {% load static %}
-<div class="container-fluid card-list w-100 rounded p-3" tabindex="1">
+<div class=" container-fluid card-list mw-100 px-2 card-list rounded py-1" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
-
-  <div class="row d-flex justify-content-between align-items-center">
-
-    <div class="row col-8">
-      <div class="w-auto">
-        {%if object_name == "Usuario" or object_name == "Niño" or object_name == "Padrino" or object_name == "Trabajador" or object_name == "Voluntario"%} {% if object.photo %}
-
-        <img class="profile-img rounded" src=" {{object.photo}} " />
-        {% else %}
-
-        <img class="profile-img rounded" src={% static 'img/person-icon.svg' %} />
-
-        {% endif %} {% else %}
-
-        <img class="profile-img rounded" src={% static 'img/others-icon.svg' %} />
-
-        {%endif%}
+   
+      
+    <div class="row">
+      <div class="col-md-5 col-lg-3 col-sm-6 ">
+        <strong><h5>{{object.surname}}, {{object.name}}</h5></strong>
+      
       </div>
+      <div class="col-md-2 col-lg-2 col-sm-1">
+        <span>{{object.city}}</span>
 
-      <div class="col-8">
-        <h4>{{name}} {{surnames}}</h4>
-        
-        
-        <span>{%if object_name == "Donación" or object_name == "Subvención" %}{{amount}}€{% else %} {{object_name}}{%endif%}</span>
-        
-        
-      </div>
+      </div>  
+      <div class="col-md-3 col-lg-2  col-sm-1">
+        <span>{{object.telephone}}</span>
+
+      </div> 
+      <div class="col-md-2 col-sm-1 col-lg-2 col-sm-1 col-email ">
+        <span>{{object.email}}</span>
+      </div> 
+    <div class="col-md-1 col-lg-1  col-sm-1 text-end">
+      <a class="pe-2 text-end" href="{{ object.id }}/update">Editar</a>
     </div>
 
-    <div class="col-2 text-end">
-      <a class="pe-2" href="">Editar</a>
-    </div>
+        
+        
+  
+    
+    
+
+
+  </div>
 
     <div class="d-none d-flex flex-column" id="moreInfo">
-      <span class="object-description">Teléfono:{{ object.telephone }}</span>
+      <span class="object-description"><strong>Teléfono: </strong>{{ object.telephone }}</span>
 
-      <span class="object-description">Dirección:{{ object.address }}</span>
-      <span class="object-donor_name">Correo: {{ object.email  }}
-        {{object.donor_surname}}</span>
-      <span class="object-donor_email"><i>{{ object.donor_email }}</i></span>
+      <span class="object-description"><strong>Dirección: </strong>{{ object.address }}</span>
+      <span class="object-birthdate"><strong>Fecha de nacimiento: </strong>{{ object.birth_date  }}</span>
+      <span class="object-city"><strong>Ciudad: </strong>{{ object.city  }}</span>
+      <span class="object-postalcode"><strong>Código postal: </strong>{{ object.postal_code  }}</span>
+      <span class="object-telephone"><strong>Teléfono: </strong>{{ object.telephone  }}</span>
+
+      
     </div>
-  </div>
 </div>

@@ -1,19 +1,27 @@
-
 :root {
   /* Neutral colors */
   --clr-white: hsl(0, 0%, 100%);
   --clr-black: hsl(0, 0%, 0%);
+  --gray-20: hsl(0, 0%, 95%);
+  --gray-50: hsl(0, 0%, 90%);
+  --gray-100: hsl(0, 0%, 80%);
+  --gray-200: hsl(0, 0%, 72%);
   --gray-300: hsl(0, 0%, 64%);
   --gray-600: hsl(0, 0%, 48%);
   --gray-900: hsl(0, 0%, 24%);
   --gray-1000: hsl(0, 0%, 16%);
 
   /* Accent colors */
-  --clr-accent-1: hsl(51, 86%, 61%); /* yellow */ 
-  --clr-accent-2: hsl(305, 42%, 84%); /* blue */
-  --clr-accent-3: hsl(211, 42%, 84%); /* green */
-  --clr-accent-4: hsl(0, 59%, 84%); /* red */
-  --clr-accent-5: hsl(137, 44%, 84%); /* purple */
+  --clr-accent-1: hsl(51, 86%, 61%);
+  /* yellow */
+  --clr-accent-2: hsl(305, 42%, 84%);
+  /* blue */
+  --clr-accent-3: hsl(211, 42%, 84%);
+  /* green */
+  --clr-accent-4: hsl(0, 59%, 84%);
+  /* red */
+  --clr-accent-5: hsl(137, 44%, 84%);
+  /* purple */
 
   /* Accent colors variations */
   /* yellow */
@@ -31,6 +39,7 @@
   /* green */
   --clr-accent-5-light: hsl(137, 44%, 94%);
   --clr-accent-5-dark: hsl(137, 44%, 74%);
+  --clr-accent-5-darker: hsl(137, 44%, 44%);
 
 
   /* Fonts */
@@ -56,40 +65,4 @@ body {
   font-family: "ABCWhite";
   src: url("/static/typographies/ABCWhyte-Black-Trial.otf");
   font-weight: bold;
-}
-
-label {
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-}
-
-input {
-  border: 1.4px solid var(--gray-900);
-  border-radius: var(--border-radius-1);
-}
-
-.border-class {
-  border: 1.4px solid var(--gray-900);
-  border-radius: var(--border-radius-1);
-}
-
-/* STOCK LIST VIEW */
-.border-stock-title {
-  font-family: var(--font-header);
-  border-bottom: solid var(--border-radius-1) var(--color-accent-1);
-}
-
-.btn-more-stock button,
-.btn-more-stock button:hover,
-.btn-more-stock button:active {
-  background-color: var(--color-accent-1) !important;
-}
-
-@media (max-width: 767px) {
-  .btn-more-stock button,
-  .btn-more-stock button:hover,
-  .btn-more-stock button:active {
-    width: 100%;
-  }
 }

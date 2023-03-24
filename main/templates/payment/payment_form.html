@@ -1,5 +1,5 @@
 {% extends 'layouts/master.html' %} {% block titulo %} Añadir pago {% endblock %} 
-{% block contenido %}
+{% block content %}
 <h1 class="mx-5 my-5">
   {% if form.instance.id %}
   Editar pago
@@ -12,12 +12,12 @@
   {% csrf_token %}
     <div class="row my-4 mx-5">
       <div class="col">
-      {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" input=form.amount %} 
+      {% include "components/inputs.html" with id=form.amount.id_for_label label_text=form.amount.label_tag input=form.amount %} 
       {{ form.amount.errors }}
       
       </div>
       <div class="col">
-      {% include "components/inputs.html" with id=form.payday.id_for_label label_text="Fecha" input=form.payday  %}
+      {% include "components/inputs.html" with id=form.payday.id_for_label label_text=form.amount.label_tag input=form.payday  %}
       {{ form.payday.errors }}
       </div>
     </div>
