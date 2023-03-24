@@ -1019,6 +1019,31 @@ class VolunteerTestCase(TestCase):
 
     #TESTS UPDATE VOLUNTEER
 
+    def test_update_volunteer_dni_incorrect_unique(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.dni = "12345678Z"
+            self.volunteer_update.save()
+
+    def test_update_volunteer_dni_incorrect_max_length(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.dni = "123456789Z"
+            self.volunteer_update.save()
+
+    def test_update_volunteer_dni_incorrect_format(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.dni = "1234567ZZ"
+            self.volunteer_update.full_clean()
+
+    def test_update_volunteer_dni_incorrect_blank(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.dni = ""
+            self.volunteer_update.full_clean()
+
+    def test_update_volunteer_dni_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.dni = None
+            self.volunteer_update.save()
+
     def test_update_volunteer_name_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.volunteer_update.name = "A" * 51
@@ -1099,9 +1124,29 @@ class VolunteerTestCase(TestCase):
             self.volunteer_update.job = "A" * 51
             self.volunteer_update.save()
 
+    def test_update_volunteer_job_incorrect_blank(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.job = ""
+            self.volunteer_update.full_clean()
+
+    def test_update_volunteer_job_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.job = None
+            self.volunteer_update.save()
+
     def test_update_volunteer_entity_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.volunteer_update.entity = "A" * 51
+            self.volunteer_update.save()
+
+    def test_update_volunteer_entity_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.entity = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_notes_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.notes = None
             self.volunteer_update.save()
 
     def test_update_volunteer_table_incorrect_max_length(self):
@@ -1109,14 +1154,108 @@ class VolunteerTestCase(TestCase):
             self.volunteer_update.table = "A" * 51
             self.volunteer_update.save()
 
+    def test_update_volunteer_table_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.table = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_pres_table_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.pres_table = "Valor inválido"
+            self.volunteer_update.save()
+
     def test_update_volunteer_type_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.volunteer_update.volunteer_type = "A" * 21
             self.volunteer_update.save()
 
-    def test_update_volunteer_incorrect_start_date(self):
+    def test_update_volunteer_type_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.volunteer_type = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_type_incorrect_blank(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.volunteer_type = "Valor inválido"
+            self.volunteer_update.full_clean()
+
+    def test_update_volunteer_type_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.volunteer_type = ""
+            self.volunteer_update.full_clean()
+
+    def test_update_volunteer_incorrect_start_date_before_end_date(self):
         with self.assertRaises(Exception):
             self.volunteer_update.contract_start_date = date(2023, 2, 5)
-            self.volunteer_update.contract_end_date = date(2023, 1, 5),
+            self.volunteer_update.contract_end_date = date(2023, 1, 5)
+            self.volunteer_update.full_clean()
+
+    def test_update_volunteer_incorrect_start_date_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.contract_start_date = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_incorrect_end_date_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.contract_end_date = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_start_date_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.contract_start_date = "Valor inválido"
+            self.volunteer_update.save()
+
+    def test_update_volunteer_end_date_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.contract_end_date = "Valor inválido"
+            self.volunteer_update.save()
+
+    def test_update_volunteer_dedication_time_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.dedication_time = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_dedication_time_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.dedication_time = "Valor inválido"
+            self.volunteer_update.save()
+
+    def test_update_volunteer_raffle_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.raffle = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_raffle_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.raffle = "Valor inválido"
+            self.volunteer_update.save()
+
+    def test_update_volunteer_lottery_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.lottery = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_lottery_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.lottery = "Valor inválido"
             self.volunteer_update.save()
     
+    def test_update_volunteer_is_member_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.is_member = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_is_member_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.is_member = "Valor inválido"
+            self.volunteer_update.save()
+
+    def test_update_volunteer_is_contributor_incorrect_null(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.is_contributor = None
+            self.volunteer_update.save()
+
+    def test_update_volunteer_is_contributor_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.is_contributor = "Valor inválido"
+            self.volunteer_update.save()
