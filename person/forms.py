@@ -8,7 +8,8 @@ class CreateNewGodFather(forms.ModelForm):
         exclude = ['id']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'seniority': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
             'sex': forms.Select(attrs={'step': "0.01"}),
         }
@@ -130,8 +131,8 @@ class CreateNewChild(forms.ModelForm):
         exclude = ['id']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'sponsorship_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
 
     def __init__(self, *args, **kwargs):

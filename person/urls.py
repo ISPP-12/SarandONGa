@@ -9,7 +9,8 @@ urlpatterns = [
     path('asem/list', views.user_list, name='user_list'),
     path('asem/<int:asem_user_id>/delete', views.asem_user_delete, name='asem_user_delete'),
     path('asem/<int:asem_user_id>/update', views.user_update, name='user_update'),
-    path('worker/list', views.worker_list, name='worker_list'),
+    path('worker/<int:worker_id>', views.worker_details, name='worker_details'),
+    path('worker/list', views.worker_list, name="worker_list"),
     path('worker/create', views.worker_create, name="worker_create"),
     path('worker/<int:worker_id>/update', views.worker_update, name='worker_update'),
     path('worker/<int:worker_id>/delete',
@@ -19,6 +20,7 @@ urlpatterns = [
     path('godfather/<int:godfather_id>',
          views.godfather_details, name="godfather_details"),
     path('volunteer/list', views.volunteer_list, name='volunteer_list'),
+    path('volunteer/<int:volunteer_id>', views.volunteer_details, name='volunteer_details'),
     path('volunteer/create', views.volunteer_create, name='volunteer_create'),
     path('volunteer/<int:volunteer_id>/update', views.volunteer_update, name='volunteer_update')
 ]
