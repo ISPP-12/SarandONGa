@@ -246,7 +246,7 @@ def godfather_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewGodFather()
-    return render(request, 'godfather_form.html', {"form": form, "title": "Añadir Padrino"})
+    return render(request, 'person/godfather/godfather_form.html', {"form": form, "title": "Añadir Padrino"})
 
 def godfather_update(request,godfather_slug):
     godfather= get_object_or_404(GodFather, slug=godfather_slug)
@@ -287,7 +287,7 @@ def godfather_update(request,godfather_slug):
                 messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'godfather_form.html', {"form": form})
+    return render(request, 'person/godfather/godfather_form.html', {"form": form})
 
 
 def godfather_details(request, godfather_id):
