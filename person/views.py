@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer, SEX_TYPES, PAYMENT_METHOD, STATUS, FREQUENCY, CONDITION, MEMBER, ASEMUSER_TYPE, CORRESPONDENCE, HOUSING_TYPE, VOLUNTEER_TYPE
 from django.contrib import messages
 import json
+from functools import wraps
 from datetime import datetime, date
 from decimal import Decimal
 
@@ -21,6 +22,22 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+def asem_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "asem":
+            return function(request, *args, **kwargs)
+        else:
+            return redirect("/")
+    return wrapper
+def videssur_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "videssur":
+            return function(request, *args, **kwargs)
+        else:
+            return redirect("/")
+    return wrapper
 
 def godfather_list(request):
     objects = GodFather.objects.all().values()
@@ -43,14 +60,22 @@ def godfather_list(request):
     return render(request, 'users/list.html', context)
 
 
+
+@login_required(login_url='/admin/login/?next=/user/asem/create/')
+@asem_required
 def user_create(request):
+    form = CreateNewASEMUser(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewASEMUser(request.POST)
         if form.is_valid():
-
-            form.save()
+            ong = request.user.ong #basically, it is ASEM
+            user = form.save(commit=False)
+            user.ong = ong
+            user.save()
             return redirect('user_list')
-    form = CreateNewASEMUser()
+        else:
+            messages.error(request, 'Formulario con errores')
+
     return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
 def asem_user_delete(request, asem_user_id):
@@ -101,17 +126,23 @@ def asem_user_details(request, asem_user_id):
 
 
 def worker_create(request):
+    if request.user.is_anonymous:
+        form = CreateNewWorker()
+    else:
+        form = CreateNewWorker(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
         if form.is_valid():
-            form.save()
+            ong = request.user.ong
+            worker = form.save()
+            worker.ong = ong
+            worker.save()
+            
             return redirect('worker_list')
-
         else:
             messages.error(request, 'Formulario con errores')
 
-    form = CreateNewWorker()
-    return render(request, 'worker/worker_create_form.html', {"form": form, "title": "Añadir Trabajador"})
+    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador"})
 
 def worker_update(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
@@ -264,15 +295,18 @@ def godfather_details(request, godfather_id):
     return render(request, 'prueba_padrino_detalles.html', {'godfather': godfather})
 
 
+@login_required(login_url='/admin/login/?next=/user/child/create/')
+@videssur_required
 def child_create(request):
+    form = CreateNewVolunteer(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewChild(request.POST)
         if form.is_valid():
-            try:
-                form.save()
-                return redirect('child_list')
-            except ValidationErr as v:
-                messages.error(request, str(v.args[0]))
+            ong = request.user.ong  # it is videssur basically
+            child = form.save(commit=False)
+            child.ong = ong
+            child.save()
+            return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
     else:

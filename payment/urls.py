@@ -7,6 +7,4 @@ urlpatterns = [
     path('<int:payment_id>/delete', views.payment_delete, name="payment_delete"),
     path('<int:payment_id>/update', views.payment_update, name="payment_update"),
     path('<int:payment_id>', views.payment_details, name="payment_details"),
-
-
 ]
