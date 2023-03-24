@@ -1,9 +1,11 @@
 from datetime import datetime, timedelta, timezone
 from django.test import TestCase
+from ong.models import Ong
 from person.models import GodFather
 
 class GodFatherTestCase(TestCase):
     def setUp(self):
+        self.ong = Ong.objects.create(name='Mi ONG')
         GodFather.objects.create(
             name = 'John',
             surname = 'Doe',
@@ -15,10 +17,10 @@ class GodFatherTestCase(TestCase):
             bank_account_reference='1465 0100 72 2030876293',
             amount = 100,
             frequency = 'M',
-            birth_date = datetime(1990, 1, 24, tzinfo=timezone.utc),
-            seniority = datetime(2023, 1, 24, tzinfo=timezone.utc),
+            start_date = datetime(2023, 1, 24, tzinfo=timezone.utc),
+            termination_date = datetime(2024, 1, 24, tzinfo=timezone.utc),
             notes = 'Some notes',
-            status = 'S',
+            status = 'S',ong=self.ong
             )
         
 
@@ -33,10 +35,10 @@ class GodFatherTestCase(TestCase):
             bank_account_reference='1465 0100 72 2030876294',
             amount = 100,
             frequency = 'M',
-            birth_date = datetime(1990, 1, 24, tzinfo=timezone.utc),
-            seniority = datetime(2022, 1, 24, tzinfo=timezone.utc),
+            start_date = datetime(2023, 1, 24, tzinfo=timezone.utc),
+            termination_date = datetime(2024, 1, 24, tzinfo=timezone.utc),
             notes = 'Some notes',
-            status = 'C',
+            status = 'C',ong=self.ong
             )
         
 
@@ -51,10 +53,10 @@ class GodFatherTestCase(TestCase):
             bank_account_reference='1465 0100 72 2030876214',
             amount = 100,
             frequency = 'M',
-            birth_date = datetime(1990, 1, 24, tzinfo=timezone.utc),
-            seniority = datetime(2021, 1, 24, tzinfo=timezone.utc),
+            start_date = datetime(2023, 1, 24, tzinfo=timezone.utc),
+            termination_date = datetime(2024, 1, 24, tzinfo=timezone.utc),
             notes = 'Some notes',
-            status = 'S',
+            status = 'S',ong=self.ong
             )
         
 
@@ -67,9 +69,11 @@ class GodFatherTestCase(TestCase):
         self.assertEqual(gf.bank_account_reference, '1465 0100 72 2030876293')
         self.assertEqual(gf.amount, 100)
         self.assertEqual(gf.frequency, 'M')
-        self.assertEqual(gf.seniority.strftime('%Y-%m-%d'), "2023-01-24")
+        self.assertEqual(gf.start_date.strftime('%Y-%m-%d'), "2023-01-24")
+        self.assertEqual(gf.termination_date.strftime('%Y-%m-%d'), "2024-01-24")
         self.assertEqual(gf.notes, 'Some notes')
         self.assertEqual(gf.status, 'S')
+        self.assertEqual(gf.ong, self.ong)
         
 
         gf2 = GodFather.objects.get(dni='65004204T')
@@ -80,9 +84,11 @@ class GodFatherTestCase(TestCase):
         self.assertEqual(gf2.bank_account_reference, '1465 0100 72 2030876294')
         self.assertEqual(gf2.amount, 100)
         self.assertEqual(gf2.frequency, 'M')
-        self.assertEqual(gf2.seniority.strftime('%Y-%m-%d'), "2022-01-24")
+        self.assertEqual(gf.start_date.strftime('%Y-%m-%d'), "2023-01-24")
+        self.assertEqual(gf.termination_date.strftime('%Y-%m-%d'), "2024-01-24")
         self.assertEqual(gf2.notes, 'Some notes')
         self.assertEqual(gf2.status, 'C')
+        self.assertEqual(gf2.ong, self.ong)
         
 
         gf3 = GodFather.objects.get(dni='65001204Z')
@@ -93,31 +99,36 @@ class GodFatherTestCase(TestCase):
         self.assertEqual(gf3.bank_account_reference, '1465 0100 72 2030876214')
         self.assertEqual(gf3.amount, 100)
         self.assertEqual(gf3.frequency, 'M')
-        self.assertEqual(gf3.seniority.strftime('%Y-%m-%d'), "2021-01-24")
+        self.assertEqual(gf.start_date.strftime('%Y-%m-%d'), "2023-01-24")
+        self.assertEqual(gf.termination_date.strftime('%Y-%m-%d'), "2024-01-24")
         self.assertEqual(gf3.notes, 'Some notes')
         self.assertEqual(gf3.status, 'S')
+        self.assertEqual(gf3.ong, self.ong)
         
 
     def test_godfather_update(self):
         godfather = GodFather.objects.get(dni='65004204V')
         godfather.amount = 200
-        godfather.psyment_method = 'TB'
+        godfather.payment_method = 'TB'
         godfather.bank_account_number = 'ES6621000418401234567890'
         godfather.bank_account_holder = 'John Doe 2'
         godfather.bank_account_reference = '1465 0100 72 2030876299'
         godfather.frequency = 'Y'
-        godfather.seniority = datetime(2000, 1, 24, tzinfo=timezone.utc)
+        godfather.birth_date = datetime(1990, 1, 24, tzinfo=timezone.utc)
+        godfather.start_date = datetime(2000, 1, 24, tzinfo=timezone.utc)
+        godfather.termination_date = datetime(2010, 1, 24, tzinfo=timezone.utc)
         godfather.notes = 'Some notes 2'
         godfather.status = 'C'
         godfather.save()
 
         self.assertEqual(godfather.amount, 200)
-        self.assertEqual(godfather.payment_method, 'T')
+        self.assertEqual(godfather.payment_method, 'TB')
         self.assertEqual(godfather.bank_account_number, 'ES6621000418401234567890')
         self.assertEqual(godfather.bank_account_holder, 'John Doe 2')
         self.assertEqual(godfather.bank_account_reference, '1465 0100 72 2030876299')
         self.assertEqual(godfather.frequency, 'Y')
-        self.assertEqual(godfather.seniority.strftime('%Y-%m-%d'), "2000-01-24")
+        self.assertEqual(godfather.start_date.strftime('%Y-%m-%d'), "2000-01-24")
+        self.assertEqual(godfather.termination_date.strftime('%Y-%m-%d'), "2010-01-24")
         self.assertEqual(godfather.notes, 'Some notes 2')
         self.assertEqual(godfather.status, 'C')
         
@@ -127,13 +138,15 @@ class GodFatherTestCase(TestCase):
         godfather.delete()
         self.assertEqual(GodFather.objects.count(), 2)
 
-    def test_gf_incorrect_seniority(self):
-        gf = GodFather.objects.get(dni='65004204T')
-        gf.seniority = datetime.now() + timedelta(days=1)
+    def test_godfather_bank_account_number_incorrect_max(self):
         with self.assertRaises(Exception):
-            gf.save()
-            gf.full_clean()
-
+            GodFather.objects.create(email="tcamerob2@gmail.com",
+            name="Tomas2",
+            surname='Camero',
+            amount = 100,
+            frequency = 'M',
+            payment_method = 'T',
+            bank_account_number="ES11111111111111111111111",ong=self.ong)
         
     def test_gf_incorrect_bank_number(self):
         

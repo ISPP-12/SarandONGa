@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer
 from django.contrib import messages
 import json
 from datetime import datetime, date
 from decimal import Decimal
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild
+
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
 from xml.dom import ValidationErr
+
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -48,7 +51,26 @@ def user_create(request):
             form.save()
             return redirect('user_list')
     form = CreateNewASEMUser()
+    return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
+
+def asem_user_delete(request, asem_user_id):
+    asemuser = get_object_or_404(ASEMUser, id=asem_user_id)
+    asemuser.delete()
+    return redirect('user_list')
+
+def user_update(request, asem_user_id):
+    asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
+    if request.method == "POST":
+        form = CreateNewASEMUser(request.POST, instance=asem_user)
+        if form.is_valid():
+            form.save()
+            return redirect('user_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = CreateNewASEMUser(instance=asem_user)
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
+
 
 
 def worker_create(request):
@@ -62,8 +84,20 @@ def worker_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewWorker()
-    return render(request, 'worker/worker_form.html', {"form": form})
+    return render(request, 'worker/worker_create_form.html', {"form": form, "title": "Añadir Trabajador"})
 
+def worker_update(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    if request.method == "POST":
+        form = UpdateWorker(request.POST, instance=worker)
+        if form.is_valid():
+            form.save()
+            return redirect('worker_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+
+    form = UpdateWorker(instance=worker)
+    return render(request, 'worker/worker_update_form.html', {"form": form, "title": "Actualizar Trabajador"})
 
 def worker_list(request):
     objects = Worker.objects.all().values()
@@ -85,6 +119,14 @@ def worker_list(request):
 
     return render(request, 'users/list.html', context)
 
+def worker_details(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    return render(request, 'worker/details.html', {'worker': worker})
+
+def worker_delete(request, worker_id):
+    worker = get_object_or_404(Worker, id=worker_id)
+    worker.delete()
+    return redirect('worker_list')
 
 def child_list(request):
     objects = Child.objects.all().values()
@@ -146,7 +188,7 @@ def godfather_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewGodFather()
-    return render(request, 'godfather_form.html', {"form": form})
+    return render(request, 'godfather_form.html', {"form": form, "title": "Añadir Padrino"})
 
 def godfather_update(request,godfather_slug):
     godfather= get_object_or_404(GodFather, slug=godfather_slug)
@@ -167,9 +209,11 @@ def godfather_update(request,godfather_slug):
           'bank_account_reference': godfather.bank_account_reference,
           'amount': godfather.amount,
           'frequency': godfather.frequency,
-          'seniority': godfather.seniority,
+          'start_date': godfather.start_date,
+          'termination_date': godfather.termination_date,
           'notes': godfather.notes,
-          'status': godfather.status}
+          'status': godfather.status,
+          'ong': godfather.ong}
 
     form= CreateNewGodFather(instance=godfather,data=data)
     if request.method == "POST":
@@ -203,8 +247,11 @@ def child_create(request):
             messages.error(request, 'Formulario con errores')
     else:
         form = CreateNewChild()
-    return render(request, 'person/child/create_child.html', {"form": form})
+    return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
 
+def child_details(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+    return render(request, 'child_details.html', {'child': child})
 
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()
@@ -227,15 +274,42 @@ def volunteer_list(request):
 
     return render(request, 'users/list.html', context)
 
+def volunteer_details(request, volunteer_id):
+    volunteer = get_object_or_404(Volunteer, id=volunteer_id)
+    return render(request, 'volunteer_details.html', {'volunteer': volunteer})
 
+@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_create(request):
+    form = CreateNewVolunteer(initial={'ong':request.user.ong})
+
     if request.method == "POST":
         form = CreateNewVolunteer(request.POST)
+
+        if form.is_valid():
+            ong = request.user.ong
+            # if the user is anonymous, the ong is not set yet. Actually, it won't be possible to create a volunteer unless the user is logged in
+            volunteer = form.save(commit=False)
+            volunteer.ong = ong
+            volunteer.save()
+            return redirect('volunteer_list')
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
+
+def volunteer_delete(request, volunteer_id):
+    volunteer = Volunteer.objects.get(id=volunteer_id)
+    volunteer.delete()
+    return redirect('volunteer_list')
+
+def volunteer_update(request, volunteer_id):
+    volunteer = get_object_or_404(Volunteer, id=volunteer_id)
+    if request.method == "POST":
+        form = CreateNewVolunteer(request.POST, instance=volunteer)
         if form.is_valid():
             form.save()
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
 
-    form = CreateNewVolunteer()
+    form = CreateNewVolunteer(instance=volunteer)
     return render(request, 'volunteers/volunteers_form.html', {"form": form})

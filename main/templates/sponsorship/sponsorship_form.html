@@ -1,0 +1,8 @@
+{% block content %}
+Registrar apadrinamiento
+<form method="post" action="/sponsorship/create">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit", name="save">Registrar</button>
+</form>
+{% endblock %}
