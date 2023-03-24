@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Home
 from .forms import CreateHomeForm
-
+from xml.dom import ValidationErr
 
 def home_create(request):
     if request.method == 'POST':
@@ -33,10 +33,13 @@ def home_update(request,slug):
     if request.method == "POST":
         form = CreateHomeForm(request.POST, instance=home_to_update)
         if form.is_valid():
-            form.save()
-            return redirect('home_list')
+            try:
+                form.save()
+                return redirect('home_list')
+            except ValidationErr as v:
+                    messages.error(request, str(v.args[0]))
         else:
-            messages.error(request,"El formulario presenta errores")
+            messages.error(request, 'Formulario con errores')
     return render(request,'home/home_form.html', {"form": form})
 
 

@@ -55,7 +55,7 @@ class Home(models.Model):
         if self.start_date is not None:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
-                    "The termination date must be after the start date")
+                    "La fecha de baja debe ser posterior a la fecha de alta.")
 
             else:
                 self.slug = slugify(self.name + ' ' + self.province)
