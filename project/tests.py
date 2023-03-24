@@ -59,6 +59,183 @@ class ProjectTestCase(TestCase):
             2003, 7, 14, tzinfo=datetime.timezone.utc))
         self.assertEqual(self.project_update.ong, self.ong2)
 
+    ### TESTS CREATE PROJECT ###
+
+    def test_project_create_title_incorrect_max_length(self):
+        with self.assertRaises(Exception):
+            Project.objects.create(
+                title="P" * 101,
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+
+    def test_project_create_title_incorrect_null(self):
+        with self.assertRaises(Exception):
+            project = Project.objects.create(
+                title=None,
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+            Project.full_clean()
+
+    def test_project_create_title_incorrect_blank(self):
+        with self.assertRaises(Exception):
+            project = Project.objects.create(
+                title="",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+            project.full_clean()
+
+    def test_project_create_country_incorrect_max_length(self):
+        with self.assertRaises(Exception):
+            Project.objects.create(
+                title="Project",
+                country="A" * 101,
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+
+    def test_project_create_start_date_incorrect(self):
+        with self.assertRaises(Exception):
+            Project.objects.create(
+                title="Project",
+                country="España",
+                start_date="Valor no válido",
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+
+    def test_project_create_end_date_incorrect(self):
+        with self.assertRaises(Exception):
+            project = Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date="Valor no válido",
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+            project.full_clean()
+
+    def test_project_create_end_date_before_start_date(self):
+        with self.assertRaises(Exception):
+            project = Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2022, 1, 2),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+            project.full_clean()
+
+    def test_project_create_number_of_beneficiaries_incorrect(self):
+        with self.assertRaises(Exception):
+            Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries="Valor no válido",
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+
+    def test_project_create_number_of_beneficiaries_incorrect_min(self):
+        with self.assertRaises(Exception):
+            project = Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=-1,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+            project.full_clean()
+
+    def test_project_create_amount_incorrect(self):
+        with self.assertRaises(Exception):
+            Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount="Valor no válido",
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+
+    def test_project_create_amount_incorrect_min(self):
+        with self.assertRaises(Exception):
+            project = Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=-1,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=self.ong)
+            project.full_clean()
+
+    def test_project_create_announcement_date_incorrect(self):
+        with self.assertRaises(Exception):
+            project = Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date="Valor no válido",
+                ong=self.ong)
+            project.full_clean()
+
+    def test_project_create_ong_incorrect(self):
+        with self.assertRaises(Exception):
+            Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong="Valor no válido")
+
+    def test_project_create_ong_incorrect_null(self):
+        with self.assertRaises(Exception):
+            Project.objects.create(
+                title="Project",
+                country="España",
+                start_date=datetime.date(2023, 1, 3),
+                end_date=datetime.date(2024, 1, 3),
+                number_of_beneficiaries=3,
+                amount=15000,
+                announcement_date=datetime.date(2024, 1, 3),
+                ong=None)
+
     ### TESTS UPDATE PROJECT ###
 
     def test_project_update_title_incorrect_max_length(self):
