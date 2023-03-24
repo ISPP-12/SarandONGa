@@ -344,16 +344,10 @@ class Child(Person):
     def save(self, *args, **kwargs):
 
        
-        if self.birth_date > self.sponsorship_date:
-            raise ValidationErr(
-                "La fecha de apadrinamiento debe ser posterior a la fecha de nacimiento")
         if self.termination_date is not None:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "The termination date must be after the start date")
-            elif self.termination_date < self.sponsorship_date:
-            raise ValidationErr(
-                "La fecha de baja debe ser posterior a la fecha de apadrinamiento")
                 
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
