@@ -114,6 +114,7 @@ class GodFatherTestCase(TestCase):
         godfather.bank_account_holder = 'John Doe 2'
         godfather.bank_account_reference = '1465 0100 72 2030876299'
         godfather.frequency = 'Y'
+        godfather.birth_date = datetime(1990, 1, 24, tzinfo=timezone.utc)
         godfather.start_date = datetime(2000, 1, 24, tzinfo=timezone.utc)
         godfather.termination_date = datetime(2010, 1, 24, tzinfo=timezone.utc)
         godfather.notes = 'Some notes 2'

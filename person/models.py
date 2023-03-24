@@ -4,6 +4,10 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.utils.text import slugify
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import BaseUserManager
+from localflavor.generic.models import IBANField
+from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 from ong.models import Ong
@@ -89,7 +93,7 @@ class Person(models.Model):
     name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
     surname = models.CharField(
         max_length=50, blank=True, verbose_name="Apellido")
-    birth_date = models.DateTimeField(
+    birth_date = models.DateField(
         default=timezone.now, verbose_name="Fecha de nacimiento", null=True, blank=True)
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
                            verbose_name="Género", null=True, blank=True)
@@ -199,9 +203,7 @@ class GodFather(Person):
     )
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
-    bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
-                                           validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
-                                                                      message='El número de cuenta no es válido.')])
+    bank_account_number = IBANField(include_countries=IBAN_SEPA_COUNTRIES)
     bank_account_holder = models.CharField(
         max_length=100, verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(
@@ -224,7 +226,10 @@ class GodFather(Person):
         return self.name + ' ' + self.surname + ' (' + self.dni + ')'
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name + ' ' + self.surname)
+        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
+        if self.termination_date < self.birth_date:
+            raise ValidationErr(
+                "la fecha de terminación no puede ser menor que la fecha de nacimiento")
         super(GodFather, self).save(*args, **kwargs)
 
     class Meta:
@@ -331,20 +336,26 @@ class Child(Person):
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
+    slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='niño', verbose_name="ONG")
+
 
     def __str__(self):
         return self.name + ' ' + self.surname
 
     def save(self, *args, **kwargs):
+
+       
         if self.termination_date is not None:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "The termination date must be after the start date")
+                
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
-                "A child cannot have a negative number of siblings")
+                "Un niño no puede tener menos de 0 hermanos")
+        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         super(Child, self).save(*args, **kwargs)
 
     class Meta:

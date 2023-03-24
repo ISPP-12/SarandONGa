@@ -1,0 +1,7 @@
+<h2>Detalles de Servicio</h2>
+
+<p>Tipo de servicio: {{service.service_type}}</p>
+<p>Fecha: {{service.date}}</p>
+<p>Asistencia confirmada: {% if service.attendance %}Sí{% else %}No{% endif %}</p>
+<p>Pago: {{service.payment.amount}}</p>
+<p>Usuario ASEM: {{service.asem_user}}</p>
