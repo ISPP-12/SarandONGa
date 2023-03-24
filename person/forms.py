@@ -5,7 +5,7 @@ from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENC
 class CreateNewGodFather(forms.ModelForm):
     class Meta:
         model = GodFather
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),

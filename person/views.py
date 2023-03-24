@@ -3,10 +3,19 @@ from django.contrib.auth.decorators import login_required
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer
 from django.contrib import messages
 import json
+from functools import wraps
 from datetime import datetime, date
 from decimal import Decimal
 from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
 
+def videssur_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "videssur":
+            return function(request, *args, **kwargs)
+        else:
+            return redirect("/")
+    return wrapper
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -166,20 +175,25 @@ def user_list(request):
 
     return render(request, 'users/list.html', context)
 
-
+@login_required(login_url='/admin/login/?next=/user/godfather/create/')
+@videssur_required
 def godfather_create(request):
+    form = CreateNewGodFather(initial={'ong':request.user.ong})
+
     if request.method == "POST":
         form = CreateNewGodFather(request.POST)
-        print(form.errors)
 
         if form.is_valid():
-            form.save()
+            ong = request.user.ong
+            godfather = form.save(commit=False)
+            godfather.ong = ong
+            godfather.save()
             return redirect('godfather_list')
         else:
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewGodFather()
-    return render(request, 'godfather_form.html', {"form": form, "title": "Añadir Padrino"})
+    return render(request, 'person/godfather/godfather_form.html', {"form": form, "title": "Añadir Padrino"})
 
 
 def godfather_details(request, godfather_id):
@@ -246,11 +260,13 @@ def volunteer_create(request):
             messages.error(request, 'Formulario con errores')
     return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
 
+@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_delete(request, volunteer_id):
     volunteer = Volunteer.objects.get(id=volunteer_id)
     volunteer.delete()
     return redirect('volunteer_list')
 
+@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_update(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if request.method == "POST":
