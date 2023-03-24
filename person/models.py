@@ -352,8 +352,8 @@ class Child(Person):
                 raise ValidationErr(
                     "The termination date must be after the start date")
             elif self.termination_date < self.sponsorship_date:
-            raise ValidationErr(
-                "La fecha de baja debe ser posterior a la fecha de apadrinamiento")
+                raise ValidationErr(
+                    "La fecha de baja debe ser posterior a la fecha de apadrinamiento")
                 
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
