@@ -1,21 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import GodFather, ASEMUser, Worker, Child, Volunteer
+from .models import GodFather, ASEMUser, Worker, Child, Volunteer, SEX_TYPES, PAYMENT_METHOD, STATUS, FREQUENCY, CONDITION, MEMBER, ASEMUSER_TYPE, CORRESPONDENCE, HOUSING_TYPE, VOLUNTEER_TYPE
 from django.contrib import messages
 import json
 from functools import wraps
 from datetime import datetime, date
 from decimal import Decimal
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
 
-def videssur_required(function):
-    @wraps(function)
-    def wrapper(request, *args, **kwargs):
-        if request.user.ong.name.lower() == "videssur":
-            return function(request, *args, **kwargs)
-        else:
-            return redirect("/")
-    return wrapper
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
+from xml.dom import ValidationErr
+
+
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -27,6 +22,22 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+def asem_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "asem":
+            return function(request, *args, **kwargs)
+        else:
+            return redirect("/")
+    return wrapper
+def videssur_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "videssur":
+            return function(request, *args, **kwargs)
+        else:
+            return redirect("/")
+    return wrapper
 
 def godfather_list(request):
     objects = GodFather.objects.all().values()
@@ -49,14 +60,22 @@ def godfather_list(request):
     return render(request, 'users/list.html', context)
 
 
+
+@login_required(login_url='/admin/login/?next=/user/asem/create/')
+@asem_required
 def user_create(request):
+    form = CreateNewASEMUser(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewASEMUser(request.POST)
         if form.is_valid():
-
-            form.save()
+            ong = request.user.ong #basically, it is ASEM
+            user = form.save(commit=False)
+            user.ong = ong
+            user.save()
             return redirect('user_list')
-    form = CreateNewASEMUser()
+        else:
+            messages.error(request, 'Formulario con errores')
+
     return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
 def asem_user_delete(request, asem_user_id):
@@ -77,20 +96,53 @@ def user_update(request, asem_user_id):
     form = CreateNewASEMUser(instance=asem_user)
     return render(request, 'asem_user/asem_user_form.html', {"form": form})
 
+def choices_dicts():
+    choices_dict = {
+    'sex_types': dict(SEX_TYPES),
+    'payment_method': dict(PAYMENT_METHOD),
+    'status': dict(STATUS),
+    'frequency': dict(FREQUENCY),
+    'condition': dict(CONDITION),
+    'member': dict(MEMBER),
+    'asemuser_type': dict(ASEMUSER_TYPE),
+    'correspondence': dict(CORRESPONDENCE),
+    'housing_type': dict(HOUSING_TYPE),
+    'volunteer_type': dict(VOLUNTEER_TYPE)
+    }
+    return choices_dict
+
+def asem_user_details(request, asem_user_id):
+    asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
+    
+    choices_dict = choices_dicts()
+    asem_user.condition = choices_dict['condition'][asem_user.condition]
+    asem_user.member = choices_dict['member'][asem_user.member]
+    asem_user.correspondence = choices_dict['correspondence'][asem_user.correspondence]
+    asem_user.user_type = choices_dict['asemuser_type'][asem_user.user_type]
+    asem_user.status = choices_dict['status'][asem_user.status]
+    asem_user.own_home = choices_dict['housing_type'][asem_user.own_home]
+
+    return render(request, 'asem_user/asem_user_details.html', {'asem_user': asem_user})
 
 
 def worker_create(request):
+    if request.user.is_anonymous:
+        form = CreateNewWorker()
+    else:
+        form = CreateNewWorker(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewWorker(request.POST)
         if form.is_valid():
-            form.save()
+            ong = request.user.ong
+            worker = form.save()
+            worker.ong = ong
+            worker.save()
+            
             return redirect('worker_list')
-
         else:
             messages.error(request, 'Formulario con errores')
 
-    form = CreateNewWorker()
-    return render(request, 'worker/worker_create_form.html', {"form": form, "title": "Añadir Trabajador"})
+    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador"})
 
 def worker_update(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
@@ -175,25 +227,67 @@ def user_list(request):
 
     return render(request, 'users/list.html', context)
 
-@login_required(login_url='/admin/login/?next=/user/godfather/create/')
-@videssur_required
-def godfather_create(request):
-    form = CreateNewGodFather(initial={'ong':request.user.ong})
 
+def godfather_create(request):
     if request.method == "POST":
         form = CreateNewGodFather(request.POST)
+        print(form.errors)
 
         if form.is_valid():
-            ong = request.user.ong
-            godfather = form.save(commit=False)
-            godfather.ong = ong
-            godfather.save()
-            return redirect('godfather_list')
+            try:
+                godfather=form.save(commit=False)
+                godfather.dni=request.POST["dni"]
+                godfather.bank_account_number=request.POST["bank_account_number"]
+                godfather.save()
+                return redirect('godfather_list')
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewGodFather()
-    return render(request, 'person/godfather/godfather_form.html', {"form": form, "title": "Añadir Padrino"})
+    return render(request, 'godfather_form.html', {"form": form, "title": "Añadir Padrino"})
+
+def godfather_update(request,godfather_slug):
+    godfather= get_object_or_404(GodFather, slug=godfather_slug)
+    data={'email': godfather.email,
+          'name': godfather.name,
+          'surname': godfather.surname,
+          'birth_date': godfather.birth_date,
+          'sex': godfather.sex,
+          'city': godfather.city,
+          'address': godfather.address,
+          'telephone': godfather.telephone,
+          'postal_code': godfather.postal_code,
+          'photo': godfather.photo,
+          'dni': godfather.dni,
+          'payment_method': godfather.payment_method,
+          'bank_account_number': godfather.bank_account_number,
+          'bank_account_holder': godfather.bank_account_holder,
+          'bank_account_reference': godfather.bank_account_reference,
+          'amount': godfather.amount,
+          'frequency': godfather.frequency,
+          'start_date': godfather.start_date,
+          'termination_date': godfather.termination_date,
+          'notes': godfather.notes,
+          'status': godfather.status,
+          'ong': godfather.ong}
+
+    form= CreateNewGodFather(instance=godfather,data=data)
+    if request.method == "POST":
+        form= CreateNewGodFather(request.POST or None,request.FILES or None ,instance=godfather)
+        if form.is_valid():
+            try:
+                form.save(commit=False)
+                godfather.dni=request.POST["dni"]
+                godfather.bank_account_number=request.POST["bank_account_number"]
+                godfather.save()
+                return redirect("godfather_list")
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'godfather_form.html', {"form": form})
 
 
 def godfather_details(request, godfather_id):
@@ -201,11 +295,17 @@ def godfather_details(request, godfather_id):
     return render(request, 'prueba_padrino_detalles.html', {'godfather': godfather})
 
 
+@login_required(login_url='/admin/login/?next=/user/child/create/')
+@videssur_required
 def child_create(request):
+    form = CreateNewVolunteer(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewChild(request.POST)
         if form.is_valid():
-            form.save()
+            ong = request.user.ong  # it is videssur basically
+            child = form.save(commit=False)
+            child.ong = ong
+            child.save()
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
@@ -213,9 +313,28 @@ def child_create(request):
         form = CreateNewChild()
     return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
 
+
+def child_update(request,child_slug):
+    child= get_object_or_404(Child, slug=child_slug)
+
+    form= CreateNewChild(instance=child)
+    if request.method == "POST":
+        form= CreateNewChild(request.POST or None,request.FILES or None ,instance=child)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect("child_list")
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'person/child/create_child.html', {"form": form})
+
+
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
     return render(request, 'child_details.html', {'child': child})
+
 
 def volunteer_list(request):
     objects = Volunteer.objects.all().values()
@@ -260,13 +379,11 @@ def volunteer_create(request):
             messages.error(request, 'Formulario con errores')
     return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
 
-@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_delete(request, volunteer_id):
     volunteer = Volunteer.objects.get(id=volunteer_id)
     volunteer.delete()
     return redirect('volunteer_list')
 
-@login_required(login_url='/admin/login/?next=/user/volunteer/create/')
 def volunteer_update(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if request.method == "POST":
