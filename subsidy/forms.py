@@ -11,14 +11,13 @@ class CreateNewSubsidy(forms.ModelForm):
                 visible.field.widget.attrs['class'] = 'form-control w-100 mb-3'
     class Meta:
         model = Subsidy
-        exclude = ['id']
+        exclude = ['id','ong']
         widgets = { 
             'presentation_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'payment_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'provisional_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'final_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
-            'ong':forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
         }
 
     def __init__(self, *args, **kwargs):

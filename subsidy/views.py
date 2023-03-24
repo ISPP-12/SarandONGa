@@ -19,10 +19,8 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 @login_required(login_url='/admin/login/?next=/user/subsidy/create/')
 def subsidy_create(request):
-    if request.user.is_anonymous:
-        form= CreateNewSubsidy()
-    else:
-        form = CreateNewSubsidy(initial={'ong': request.user.ong})
+  
+    form = CreateNewSubsidy(initial={'ong': request.user.ong})
     if request.method == "POST":
         form = CreateNewSubsidy(request.POST)
 
@@ -65,6 +63,7 @@ def subsidy_delete(request, subsidy_id):
     subsidy.delete()
     return redirect("/subsidy/list")
 
+@login_required(login_url='/admin/login/?next=/user/subsidy/create/')
 def subsidy_update(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
     
