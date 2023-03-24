@@ -5,9 +5,10 @@ from .models import Donation
 class CreateNewDonation(forms.ModelForm):
     class Meta:
         model = Donation
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'created_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'ong':forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
         }
 
     def __init__(self, *args, **kwargs):
