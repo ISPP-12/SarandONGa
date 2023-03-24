@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
 from django.utils.text import slugify
 from django.utils import timezone
+from xml.dom import ValidationErr
 
 PAYMENT_METHOD = (
     ('T', 'Transferencia'),
@@ -50,5 +51,15 @@ class Home(models.Model):
         return "{}, {}".format(self.name, self.province)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name + ' ' + self.province)
-        super(Home, self).save(*args, **kwargs)
+        
+        if self.start_date is not None:
+            if self.termination_date < self.start_date:
+                raise ValidationErr(
+                    "The termination date must be after the start date")
+
+            else:
+                self.slug = slugify(self.name + ' ' + self.province)
+                super(Home, self).save(*args, **kwargs)
+        else:
+            self.slug = slugify(self.name + ' ' + self.province)
+            super(Home, self).save(*args, **kwargs)

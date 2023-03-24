@@ -9,10 +9,10 @@ def home_create(request):
         form = CreateHomeForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('home_list')
         else:
             messages.error(request, 'El formulario presenta errores')
-    else:
-        form = CreateHomeForm()
+    form = CreateHomeForm()
     return render(request, 'home/home_form.html', {'form': form})
 
 
@@ -24,6 +24,20 @@ def home_list(request):
         'title': 'Lista de Casas'
     }
     return render(request, 'home/home_list.html', {"context": context})
+
+
+# Actualización de casa
+def home_update(request,slug):
+    home_to_update = Home.objects.get(slug=slug)
+    form = CreateHomeForm(instance=home_to_update)
+    if request.method == "POST":
+        form = CreateHomeForm(request.POST, instance=home_to_update)
+        if form.is_valid():
+            form.save()
+            return redirect('home_list')
+        else:
+            messages.error(request,"El formulario presenta errores")
+    return render(request,'home/home_form.html', {"form": form})
 
 
 def home_delete(request, slug=None):
