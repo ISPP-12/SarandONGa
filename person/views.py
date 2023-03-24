@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer, SEX_TYPES, PAYMENT_METHOD, STATUS, FREQUENCY, CONDITION, MEMBER, ASEMUSER_TYPE, CORRESPONDENCE, HOUSING_TYPE, VOLUNTEER_TYPE
 from django.contrib import messages
 import json
+from functools import wraps
 from datetime import datetime, date
 from decimal import Decimal
 
@@ -21,6 +22,14 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+def asem_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "asem":
+            return function(request, *args, **kwargs)
+        else:
+            return redirect("/")
+    return wrapper
 
 def godfather_list(request):
     objects = GodFather.objects.all().values()
@@ -43,14 +52,22 @@ def godfather_list(request):
     return render(request, 'users/list.html', context)
 
 
+
+@login_required(login_url='/admin/login/?next=/user/asem/create/')
+@asem_required
 def user_create(request):
+    form = CreateNewASEMUser(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewASEMUser(request.POST)
         if form.is_valid():
-
-            form.save()
+            ong = request.user.ong #basically, it is ASEM
+            user = form.save(commit=False)
+            user.ong = ong
+            user.save()
             return redirect('user_list')
-    form = CreateNewASEMUser()
+        else:
+            messages.error(request, 'Formulario con errores')
+
     return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
 
 def asem_user_delete(request, asem_user_id):
