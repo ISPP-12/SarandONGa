@@ -23,4 +23,10 @@ class Sponsorship(models.Model):
         if self.godfather.ong != self.child.ong :
             raise ValidationErr(
                 "The child and godfather cannot belong to diferent ONG")
+        
+
+        if self.sponsorship_date is not None:
+            if self.sponsorship_date < self.child.birth_date:
+                raise ValidationErr(
+                    "The sponsorship date cannot be before the child's birthday")
         super(Sponsorship, self).save(*args, **kwargs)
