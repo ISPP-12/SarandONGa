@@ -30,7 +30,7 @@ def donation_create(request):
             donation.ong=ong
             donation.save()
             form.save()
-            return redirect("/donation/list")
+            return redirect('/donation/list')
         else:
             messages.error(request, 'Formulario con errores')
 

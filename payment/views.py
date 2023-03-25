@@ -10,6 +10,7 @@ def payment_create(request):
         form = CreatePaymentForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('payment_list')
         else:
             messages.error(request, 'El formulario presenta errores')
     else:

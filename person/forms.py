@@ -134,6 +134,9 @@ class CreateNewChild(forms.ModelForm):
     correspondence = forms.ChoiceField(
         choices=CORRESPONDENCE, label="Correspondencia")
 
+    def __init__(self, *args, **kwargs):
+        self.fields['email'].required = False
+        
     class Meta:
         model = Child
         exclude = ['id', 'ong']
