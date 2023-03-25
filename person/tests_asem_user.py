@@ -360,7 +360,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-    '''
+    """
     def test_asem_user_create_telephone_incorrect(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -404,7 +404,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-    '''
+    """
     def test_asem_user_create_condition_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -1187,7 +1187,7 @@ class ASEMUserTestCase(TestCase):
         with self.assertRaises(Exception):
             self.asem_user_update.address = "A" * 201
             self.asem_user_update.save()
-    '''
+    """
     def test_asem_user_update_telephone_incorrect_value(self):
         with self.assertRaises(Exception):
             self.asem_user_update.telephone = "No es un teléfono"
@@ -1197,7 +1197,7 @@ class ASEMUserTestCase(TestCase):
         with self.assertRaises(Exception):
             self.asem_user_update.postal_code = "No es un código postal"
             self.asem_user_update.save()
-    '''
+    """
     def test_asem_user_update_condition_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.asem_user_update.condition = "C" * 21
