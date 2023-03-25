@@ -19,6 +19,8 @@ class Stock(models.Model):
         super(Stock, self).save(*args, **kwargs)
     def __str__(self):
         return self.name
+
+
     class Meta:
-        verbose_name = 'Suministro'
-        verbose_name_plural = 'Suministros'
+        verbose_name = 'Inventario'
+        verbose_name_plural = 'Inventario'

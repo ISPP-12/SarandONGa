@@ -34,8 +34,9 @@ class Donation(models.Model):
 
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title + ' ' + self.description)
+       # self.slug = slugify(self.title + ' ' + self.description)
         super(Donation, self).save(*args, **kwargs) 
     class Meta:
         verbose_name = 'Donacion'
         verbose_name_plural = 'Donaciones'
+

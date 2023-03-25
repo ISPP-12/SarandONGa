@@ -12,6 +12,7 @@ class PaymentTestCase(TestCase):
         Payment.objects.create(payday=datetime(2022,11,28), amount=105.56, project=project1)
         Payment.objects.create(payday=datetime(2010,6,9), amount=1000.1, project=project1)
          
+
     def test_payment_creation(self):
         payment = Payment.objects.get(amount=10)
         self.assertEqual(float(payment.amount), 10.)
@@ -41,3 +42,9 @@ class PaymentTestCase(TestCase):
     def  test_payment_negative_payday(self):
         with self.assertRaises(ValueError):
             Payment.objects.create(payday=datetime(2020,2,31), amount=-1)
+
+  
+    def  test_payment_null_ong(self):
+        with self.assertRaises(ValueError):
+            Payment.objects.create(payday=datetime(2020,2,31), amount=-1)
+

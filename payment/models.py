@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.core.validators import MinValueValidator
 from project.models import Project
 from django.utils.text import slugify
-
+from ong.models import Ong
 
 
 class Payment(models.Model):
@@ -15,6 +15,8 @@ class Payment(models.Model):
                                  MinValueValidator(0)], verbose_name="Importe")
     project = models.ForeignKey(
         Project, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Proyecto")
+    ong = models.ForeignKey(
+        Ong, on_delete=models.CASCADE, related_name='payment', verbose_name="ONG")
 
     # ACTUALMENTE ESTO FALLA PORQUE SERVICIO Y PADRINO NO EXISTEN
     # godfather = models.ForeignKey(Godfather, on_delete=models.CASCADE)
@@ -25,11 +27,11 @@ class Payment(models.Model):
     def __str__(self):
         return "{}: {}".format(self.payday, self.amount)
 
-
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.project.title + ' ' + str(self.amount))
+      #  self.slug = slugify(self.project.title + ' ' + str(self.amount))
         super(Payment, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Pago'
         verbose_name_plural = 'Pagos'
+

@@ -29,8 +29,7 @@ class Subsidy(models.Model):
     name = models.CharField(max_length=200, verbose_name="Nombre completo")
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='subvencion', verbose_name="ONG")
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
-    
+    #slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -49,5 +48,6 @@ class Subsidy(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Subvención'
-        verbose_name_plural = 'Subvencioness'
+        verbose_name = 'Suministro'
+        verbose_name_plural = 'Suministros'
+

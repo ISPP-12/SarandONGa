@@ -25,7 +25,6 @@ class Sponsorship(models.Model):
                 "The child and godfather cannot belong to diferent ONG")
         super(Sponsorship, self).save(*args, **kwargs)
 
-    
     class Meta:
         verbose_name = 'Apadrinamiento'
         verbose_name_plural = 'Apadrinamientos'

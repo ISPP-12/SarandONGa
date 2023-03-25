@@ -6,11 +6,10 @@ from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 
 
 class CreateNewGodFather(forms.ModelForm):
-    dni = ESIdentityCardNumberField(only_nif=True)
-    bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
+    
     class Meta:
         model = GodFather
-        exclude = ['id','dni','bank_account_number']
+        exclude = ['id', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -18,6 +17,8 @@ class CreateNewGodFather(forms.ModelForm):
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
             'sex': forms.Select(attrs={'step': "0.01"}),
         }
+        dni = ESIdentityCardNumberField(only_nif=True)
+        bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
 
     def __init__(self, *args, **kwargs):
         super(CreateNewGodFather, self).__init__(*args, **kwargs)
@@ -63,7 +64,7 @@ class CreateNewWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active','is_admin','password']
+        exclude = ['id', 'last_login', 'is_active','is_admin','password', 'ong']
         
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -104,7 +105,7 @@ class UpdateWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password']
+        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         }

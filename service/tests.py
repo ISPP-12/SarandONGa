@@ -157,6 +157,7 @@ class ServiceTestCase(TestCase):
         Payment.objects.create(project = self.project1, payday=datetime.datetime(2018, 3, 27, tzinfo=datetime.timezone.utc),
             amount=60)
 
+
         ServiceAmount.objects.create(service_type="Fisioterapia",
             user_type="SACC",
             amount=30,
