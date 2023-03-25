@@ -147,3 +147,6 @@ Pipfile
 
 # Delete migrations (gonmarfer2)
 delete_migrations.bat
+
+#Worker images
+static/img/worker/*
