@@ -10,7 +10,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 from ong.models import Ong
 
-
 SEX_TYPES = (
     ('F', 'Femenino'),
     ('M', 'Masculino'),
@@ -103,8 +102,7 @@ class Person(models.Model):
         verbose_name="Teléfono", null=True, blank=True)
     postal_code = models.CharField(max_length=50,
         verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
-   # slug = models.SlugField(max_length=200, unique=True, editable=False)
+    photo = models.ImageField(verbose_name="Foto", upload_to="person/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
        # self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)

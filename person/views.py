@@ -118,7 +118,7 @@ def asem_user_details(request, asem_user_id):
 def worker_create(request):
     form = CreateNewWorker(initial={'ong':request.user.ong})
     if request.method == "POST":
-        form = CreateNewWorker(request.POST)
+        form = CreateNewWorker(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong
             worker = form.save(commit=False)
