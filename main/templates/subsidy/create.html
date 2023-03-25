@@ -18,13 +18,13 @@
     {% csrf_token %}
       <div class="row my-4 mx-5">
         <div class="col-sm-12 col-lg-6">
-        {% include "components/inputs.html" with id=form.name.id_for_label label_text="Nombre" input=form.name %} 
+        {% include "components/inputs.html" with id=form.name.id_for_label label_text=field.label_tag|safe|add:'Nombre<span class="text-danger"> *</span>' input=form.name %} 
       
         {{ form.name.errors }}
 
         </div>
         <div class="col-sm-12 col-lg-6">
-          {% include "components/inputs.html" with id=form.organism.id_for_label label_text="Organismo" input=form.organism %} 
+          {% include "components/inputs.html" with id=form.organism.id_for_label label_text=field.label_tag|safe|add:'Organismo<span class="text-danger"> *</span>' input=form.organism %} 
           {{ form.organism.errors }}
     
         </div>
@@ -60,7 +60,7 @@
       </div>
       <div class="row my-4 mx-5">
           <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" input=form.amount %} 
+            {% include "components/inputs.html" with id=form.amount.id_for_label label_text=field.label_tag|safe|add:'Cantidad<span class="text-danger"> *</span>' input=form.amount %} 
             {{ form.amount.errors }}
           </div>
       
