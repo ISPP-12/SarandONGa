@@ -31,6 +31,6 @@ def home_delete(request, slug=None):
     home.delete()
     return redirect('home_list')
 
-def home_details(request, home_slug):
-    home = get_object_or_404(Home, slug=home_slug)
+def home_details(request, home_id):
+    home = get_object_or_404(Home, id=home_id)
     return render(request, 'home/home_details.html', {'home': home})
