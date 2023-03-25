@@ -1,15 +1,116 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %} 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}">
+{% endblock %}
+
 {% block content %}
-{% if messages %}
-{% for message in messages %}
-  <div class="alert alert-{{ message.tags }}">
-    {{ message }}
-  </div>
-{% endfor %}
-{% endif %}
-Registrar niño
-<form method="post"  >
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit", name="save">Registrar</button>
-</form>
+
+<div id="section-child">
+    {% if form.instance.id %}
+        {% include 'components/title.html' with title="Editar niño" %}
+    {% else %}
+        {% include 'components/title.html' with title="Añadir niño" %}
+    {% endif %}
+
+
+    {% if messages %}
+    <div class="row">
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="mt-3 row">{% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="col-md-6 col-12">
+                <div class="row my-3">
+                    {% if field.field.required %}
+                        {% with field.label_tag|add:" (obligatorio)" as label_tag_required %}
+                            {% include 'components/inputs.html' with id=field.id_for_label label_text=label_tag_required input=field %}
+                        {% endwith %}
+                    {% else %}
+                        {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+                    {% endif %}
+                </div>
+                <div class="row text-danger">
+                    {{ field.errors }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="form-section mt-3 mb-5 col-12 d-flex justify-content-center">
+            {% if form.instance.id %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Actualizar niño" id="id-submitForm" type="submit" %}
+            {% else %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Registrar niño" id="id-submitForm" type="submit" %}
+            {% endif %}
+
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    let birthDate = document.getElementById('id_birth_date')
+    let submitButton = document.getElementById('id-submitForm')
+    let startDate = document.getElementById('id_start_date')
+    let terminationDate = document.getElementById('id_termination_date')
+
+    
+    let birthDiv = document.createElement('div')
+    birthDiv.setAttribute('class', 'text-danger')
+    birthDate.parentElement.parentElement.appendChild(birthDiv)
+
+    let startDateDiv = document.createElement('div')
+    startDateDiv.setAttribute('class', 'text-danger')
+    startDate.parentElement.parentElement.appendChild(startDateDiv)
+
+    let terminationDiv = document.createElement('div')
+    terminationDiv.setAttribute('class', 'text-danger')
+    terminationDate.parentElement.parentElement.appendChild(terminationDiv)
+
+    
+    let compare = () => {
+        let birthDateValue = Date.parse(birthDate.value)
+        let startDateValue = Date.parse(startDate.value)
+        let terminationDateValue = Date.parse(terminationDate.value)
+        let currentDate = Date.now()
+        
+        submitButton.disabled = true
+        
+        if(birthDateValue > currentDate) {
+            birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha actual'
+        } else {
+            birthDiv.innerHTML = ''
+        }
+  
+        if (startDateValue < birthDateValue) {
+            startDateDiv.innerHTML = 'La fecha de alta debe ser igual o posterior a la fecha de nacimiento del niño.'
+        } else if (startDateValue > currentDate) {
+            startDateDiv.innerHTML = 'La fecha de alta debe ser anterior a la fecha actual.'
+        } else {
+            startDateDiv.innerHTML = ''
+        }
+
+        if(terminationDateValue < startDateValue) {
+            terminationDiv.innerHTML = 'La fecha de baja debe ser igual o posterior a la fecha de alta del niño.'
+        } else {
+            terminationDiv.innerHTML = ''
+        }
+        
+        if(birthDateValue < currentDate && startDateValue >= birthDateValue && terminationDateValue >= startDateValue) {
+            submitButton.disabled = false
+        }
+
+    }
+    birthDate.addEventListener('change', compare)
+    startDate.addEventListener('change', compare)
+    terminationDate.addEventListener('change', compare)
+
+  </script>
 {% endblock %}

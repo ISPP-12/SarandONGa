@@ -10,6 +10,9 @@ sara/**
 # Backup files #
 *.bak
 
+#Delete migrations .bat file
+delete_migrations.bat
+
 # If you are using PyCharm #
 # User-specific stuff
 .idea/**/workspace.xml
@@ -141,3 +144,6 @@ Pipfile
 
 # Virtual environment
 Pipfile
+
+# Delete migrations (gonmarfer2)
+delete_migrations.bat

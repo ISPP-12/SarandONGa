@@ -4,7 +4,8 @@
 <head>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }}</title>
+    <title>{{ title }}{% block title %}
+        {% endblock %}</title>
 
     <!-- Bootstrap -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,9 +27,12 @@
 
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'styles/card-list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/subsidies.css' %}">
+
     {% block extrahead %} {% endblock %}
+
+
     
 
 </head>
@@ -37,9 +41,12 @@
 
     {% include "components/navbar.html" %}
 
+
     <div class="container mt-5">
-        {% block contenido %}{% endblock %}
-    </div>
+        {% block content %}
+        {% endblock %}
+
+
 
 </body>
 

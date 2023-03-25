@@ -1,0 +1,14 @@
+<h2>Detalles de usuario de ASEM</h2>
+
+<p>Nombre: {{ asem_user.name }}</p>
+<p>Apellido: {{ asem_user.surname }}</p>
+<p>Condición médica: {{ asem_user.condition }}</p>
+<p>Socio: {{ asem_user.member }}</p>
+<p>Tipo de usuario ASEM: {{ asem_user.user_type }}</p>
+<p>Tipo de correspondencia: {{ asem_user.correspondence }}</p>
+<p>Estado civil: {{ asem_user.status }}</p>
+<p>Tamaño de la unidad familiar: {{ asem_user.family_unit_size }}</p>
+<p>Tipo de vivienda: {{ asem_user.own_home }}</p>
+<p>¿Tiene vehículo propio?: {% if asem_user.own_vehicle %} Sí {% else %} No {% endif %}</p>
+<p>Número de cuenta bancaria: {{ asem_user.bank_account_number }}</p>
+<p>ONG: {{ asem_user.ong.name }}</p>

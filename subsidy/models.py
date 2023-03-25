@@ -10,7 +10,7 @@ class Subsidy(models.Model):
 
     # Fecha en la que se presenta la subvención
     presentation_date = models.DateField(
-        verbose_name="Fecha", null=True, blank=True)
+        verbose_name="Fecha de presentación", null=True, blank=True)
     payment_date = models.DateField(
         verbose_name="Fecha de cobro", null=True, blank=True)
     # Organismo
@@ -30,6 +30,7 @@ class Subsidy(models.Model):
     
     
 
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.clean()
@@ -40,7 +41,6 @@ class Subsidy(models.Model):
                 raise ValidationError(
                     "La resolución definitiva no puede ser anterior a la provisional")
         super().save(force_insert, force_update, using, update_fields)
-
 
     def __str__(self):
         return self.name

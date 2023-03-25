@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Sponsorship
 from .forms import create_sponsorship_form
@@ -27,3 +27,7 @@ def sponsorship_delete(request, sponsorship_slug):
     sponsorship = Sponsorship.objects.get(slug=sponsorship_slug)
     sponsorship.delete()
     return redirect('sponsorship_list')
+
+def sponsorship_details(request, sponsorship_slug):
+    sponsorship = get_object_or_404(Sponsorship, slug=sponsorship_slug)
+    return render(request, 'sponsorship/sponsorship_details.html', {'sponsorship': sponsorship})
