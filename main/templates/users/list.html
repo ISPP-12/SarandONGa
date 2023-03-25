@@ -119,9 +119,11 @@
             <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
               {%if object_name == "usuario"%}
               <a href="service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
-              {% endif %}
-              {%if object_name == "padrino" or object_name == "donante"%}
+              {%elif object_name == "padrino" or object_name == "donante"%}
               <a href="payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
+              {% endif %}
+              {%if object_name == "padrino" or object_name == "niño"%}
+              <a href="sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
               {% endif %}
               <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
               <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
