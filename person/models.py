@@ -4,8 +4,6 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 from django.utils.text import slugify
-from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import BaseUserManager
 from localflavor.generic.models import IBANField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager

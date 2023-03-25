@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from django.test import TestCase
 from ong.models import Ong
 from person.models import GodFather
