@@ -8,7 +8,8 @@
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse px-md-5" id="navbarNav">
-        <ul class="navbar-nav d-flex justify-content-between w-100">
+        <ul class="navbar-nav d-flex {% if user.is_authenticated %}justify-content-between{% else %}justify-content-end{% endif %} w-100">
+            {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Inicio</a>
             </li>
@@ -20,20 +21,40 @@
                   Usuarios
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/user/volunteer/list">Voluntarios</a></li>
-                  <li><a class="dropdown-item" href="/user/asem/list">Usuarios ASEM</a></li>
-                  <li><a class="dropdown-item" href="/user/child/list">Niños</a></li>
-                  <li><a class="dropdown-item" href="/user/godfather/list">Padrinos</a></li>
-                  <li><a class="dropdown-item" href="/user/worker/list">Trabajadores</a></li>
-
+                    <li><a class="dropdown-item" href="/user/volunteer/list">Voluntarios</a></li>
+                    <li><a class="dropdown-item" href="/user/worker/list">Trabajadores</a></li>
+                    {% if request.user.ong.name == "ASEM" %}
+                    <li><a class="dropdown-item" href="/user/asem/list">Usuarios ASEM</a></li>
+                    {% elif request.user.ong.name == "VidesSur" %}
+                    <li><a class="dropdown-item" href="/user/child/list">Niños</a></li>
+                    <li><a class="dropdown-item" href="/user/godfather/list">Padrinos</a></li>
+                    {% endif %}
                 </ul>
-              </li>
+            </li>
+            {% if request.user.ong.name == "VidesSur" %}
+            <li class="nav-item">
+                <a class="nav-link {% if 'home' in request.path %}active{% endif %}"  href="/home/list">Casas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'home' in request.path %}active{% endif %}"  href="/project/list">Proyectos</a>
+            </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link {% if 'donation' in request.path %}active{% endif %}"  href="/donation/list">Donaciones</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% if 'subsidy' in request.path %}active{% endif %}"  href="/subsidy/list">Subvenciones</a>
             </li>
+
+            
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">Cerrar sesión</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Iniciar sesión</a>
+            </li>
+            {% endif %}
             
         </ul>
         </div>

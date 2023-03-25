@@ -1,0 +1,19 @@
+{% comment %} 
+ATTRIBUTES:
+- events (required): array of event objects
+
+{% endcomment %}
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/components/calendar.css' %}">
+
+<div id='calendar'></div>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js'></script>
+
+<script>
+    //Get json events from view
+    const events = JSON.parse('{{ events_json|escapejs }}');
+</script>
+
+<script src="{% static 'js/calendar.js' %}" type="text/javascript"></script>

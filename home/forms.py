@@ -1,6 +1,5 @@
 from django import forms
 from .models import Home
-from datetime import date
 
 
 class CreateHomeForm(forms.ModelForm):
@@ -8,7 +7,8 @@ class CreateHomeForm(forms.ModelForm):
         model = Home
         exclude = ['id']
         widgets = {
-            'seniority': forms.DateInput(attrs={'class': 'form-control','type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
+            'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
         }
 

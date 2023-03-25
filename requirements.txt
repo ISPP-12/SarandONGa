@@ -3,3 +3,4 @@ python-decouple==3.6
 mysqlclient==2.1.1
 coverage==7.2.1
 pillow==9.4.0
+django-localflavor==3.1
