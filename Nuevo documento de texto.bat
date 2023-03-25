@@ -1,0 +1,1 @@
+FOR /f "tokens=*" %%a in ('dir . /s /b /a-d ^| findstr /i "migrations\\" ^| findstr /iv "__init__.py"') DO del "%%a"  

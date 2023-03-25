@@ -5,6 +5,8 @@ from django.contrib import messages
 import json
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
+from django.http import JsonResponse
+from datetime import datetime
 
 @login_required
 def payment_create(request):
@@ -15,74 +17,31 @@ def payment_create(request):
             payment = form.save(commit=False)
             payment.ong = request.user.ong
             payment.save()
-            return redirect('payment_list')
+            return redirect('payment_create')
 
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
         form = CreatePaymentForm()
 
-        events = [
-        {
-        "title": '100 €',
-        "start": '2023-03-01',
-        "end": '2023-03-01',
-        "extendedProps": {
-            "type": 'payment',
-            "id": 1,
-            "amount": 100,
-            "observations": 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-            "paid": True,
-        },
-        },
-        {
-        "title": '10 €',
-        "start": '2023-03-01',
-        "end": '2023-03-01',
-        "extendedProps": {
-            "type": 'payment',
-            "id": 10,
-            "amount": 100,
-            "observations": 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-            "paid": False,
-        },
-        },
-        {
-        "title": 'Fisioterapia',
-        "start": '2023-03-04',
-        "end": '2023-03-012',
-        "extendedProps": {
-            "type": 'service',
-            "id": 10,
-            "amount": 100,
-            "observations": 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
-            "paid": False,
-        },
-        },
-        {
-        "title": 'Fisioterapia',
-        "start": '2023-03-08',
-        "end": '2023-03-08'
-        },
-        {
-        "title": '100€',
-        "start": '2023-03-09',
-        "end": '2023-03-09'
-        },
-        {
-        "title": '100€',
-        "start": '2023-03-10',
-        "end": '2023-03-10'
-        },
-        {
-        "title": 'Trabajo Social',
-        "start": '2023-03-11',
-        "end": '2023-03-11'
-        },
-    ]
-        events_json= json.dumps(events)
+        all_events = Payment.objects.all()
+        event_arr = []
+        for i in all_events:
+            event_sub_arr = {}
+            event_sub_arr['title'] = str(i.amount)
+            start_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            end_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            event_sub_arr['start'] = start_date
+            event_sub_arr['end'] = end_date
+            event_arr.append(event_sub_arr)
+        data = JsonResponse((event_arr), safe=False)
+        datatest = json.dumps(event_arr)
+            #return HttpResponse(json.dumps(event_arr))
+        print(data, type(data))
+        print(datatest, type(datatest))
+        #return HttpResponse(json.dumps(event_arr))
 
-    return render(request, 'payment/payment_form.html', {'form': form, 'title': 'Añadir Pago', 'events_json':events_json})
+    return render(request, 'payment/payment_form.html', {'form': form, 'title': 'Añadir Pago', 'events_json':datatest})
 
 @login_required
 def payment_update(request, payment_id):
