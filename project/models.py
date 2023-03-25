@@ -24,13 +24,13 @@ class Project(models.Model):
         null=True, blank=True, verbose_name="Fecha de convocatoria")
     ong = models.ForeignKey(
         Ong, on_delete=models.CASCADE, related_name='project')
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+    #slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
         return self.title
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title + ' ' + self.country + ' ' + str(self.amount))
+      #  self.slug = slugify(self.title + ' ' + self.country + ' ' + str(self.amount))
 
         if self.start_date and self.end_date:
             if self.end_date < self.start_date:

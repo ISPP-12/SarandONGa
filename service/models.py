@@ -37,7 +37,7 @@ class Service(models.Model):
     attendance = models.BooleanField(verbose_name="Asistencia")
     payment = models.ForeignKey(payment_models.Payment, verbose_name="Pago", on_delete=models.SET_NULL, null=True)
     asem_user = models.ForeignKey(person_models.ASEMUser, verbose_name="Usuario ASEM", on_delete=models.CASCADE)
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+   # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     @property
     def amount(self):

@@ -13,13 +13,13 @@ class Sponsorship(models.Model):
     child = models.ForeignKey(person_models.Child, verbose_name="Niños", on_delete=models.CASCADE)
     home = models.ForeignKey(home_models.Home, verbose_name="Casa", on_delete=models.SET_NULL, null=True)
 
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+   # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
         return "{}, {}, {}".format(self.home.name, self.godfather.name, self.child.name)
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.home.name + ' ' + self.godfather.name + ' ' + self.child.name)
+       # self.slug = slugify(self.home.name + ' ' + self.godfather.name + ' ' + self.child.name)
         if self.godfather.ong != self.child.ong :
             raise ValidationErr(
                 "The child and godfather cannot belong to diferent ONG")

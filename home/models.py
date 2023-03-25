@@ -44,7 +44,7 @@ class Home(models.Model):
     # status = models.CharField(
     #    max_length=20, choices=STATUS, verbose_name='Estado')
     # ¿CUAL ES EL ESTADO DE UNA CASA?¿EN RUINAS, EN OBRAS...?
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+    #slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
         return "{}, {}".format(self.name, self.province)

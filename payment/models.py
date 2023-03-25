@@ -22,7 +22,7 @@ class Payment(models.Model):
     # godfather = models.ForeignKey(Godfather, on_delete=models.CASCADE)
     # CUANDO SE CREE SERVICIO PONER LA LÍNEA DE ARRIBA PERO A PAGO <3
 
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+    #slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
         return "{}: {}".format(self.payday, self.amount)

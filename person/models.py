@@ -104,10 +104,10 @@ class Person(models.Model):
     postal_code = models.CharField(max_length=50,
         verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+   # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
+       # self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
         super(Person, self).save(*args, **kwargs)
 
 class WorkerManager(BaseUserManager):
