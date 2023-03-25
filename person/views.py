@@ -135,7 +135,7 @@ def worker_create(request):
 def worker_update(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if request.user.ong == worker.ong:
-        if request.method == "POST":       
+        if request.method == "POST":    
             form = UpdateWorker(request.POST, instance=worker)
             if form.is_valid():
                 form.save()

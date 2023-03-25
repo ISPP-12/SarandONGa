@@ -93,6 +93,7 @@ def asem_required(function):
             messages.error(request, "Necesitas pertenecer a ASEM para acceder a esos datos")
             return custom_403(request)
     return wrapper
+
     
 def videssur_required(function):
     @wraps(function)

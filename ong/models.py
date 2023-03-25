@@ -7,5 +7,3 @@ class Ong(models.Model):
     #RELACION A DONACION, SUBVENCION, STOCK, PERSONA HECHAS, SOLO REVISAR
     def __str__(self):
         return self.name
-
-    

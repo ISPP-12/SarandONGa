@@ -16,7 +16,6 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
-# Create your views here.
 @login_required()
 def donation_create(request):
     form = CreateNewDonation(initial={'ong': request.user.ong})
@@ -33,7 +32,7 @@ def donation_create(request):
             messages.error(request, 'Formulario con errores')
 
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
-    
+
 @login_required()
 def donation_list(request):
     # get donations from database
@@ -59,7 +58,6 @@ def donation_list(request):
         }
 
     return render(request, 'donation/list.html', context)
-
 
 @login_required()
 def donation_update(request, donation_id):
