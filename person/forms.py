@@ -1,11 +1,15 @@
 from django import forms
 from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENCE, Volunteer
+from localflavor.es.forms import ESIdentityCardNumberField
+from localflavor.generic.forms import IBANFormField
+from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 
 
 class CreateNewGodFather(forms.ModelForm):
+    
     class Meta:
         model = GodFather
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -13,6 +17,8 @@ class CreateNewGodFather(forms.ModelForm):
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
             'sex': forms.Select(attrs={'step': "0.01"}),
         }
+        dni = ESIdentityCardNumberField(only_nif=True)
+        bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
 
     def __init__(self, *args, **kwargs):
         super(CreateNewGodFather, self).__init__(*args, **kwargs)
@@ -31,7 +37,7 @@ class CreateNewGodFather(forms.ModelForm):
 class CreateNewASEMUser(forms.ModelForm):
     class Meta:
         model = ASEMUser
-        exclude = ['id']
+        exclude = ['id', 'ong'] #ong should be ASEM
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
@@ -58,23 +64,26 @@ class CreateNewWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password']
+        exclude = ['id', 'last_login', 'is_active','is_admin','password', 'ong']
+        
         widgets = {
-            'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
+            'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'ong': forms.Select(attrs={'disabled':True})
         }
 
     def __init__(self, *args, **kwargs):
         super(CreateNewWorker, self).__init__(*args, **kwargs)
+
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-select border-class'})
+                    {'class': 'form-select border-class mb-3'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-check-input border-class'})
+                    {'class': 'form-check-input border-class mb-3'})
             else:
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-control border-class'})
+                    {'class': 'form-control border-class mb-3'})
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -96,7 +105,7 @@ class UpdateWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password']
+        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         }
@@ -128,11 +137,12 @@ class CreateNewChild(forms.ModelForm):
 
     class Meta:
         model = Child
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'number_brothers_siblings': forms.NumberInput(attrs={'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):

@@ -5,7 +5,7 @@ from .models import Stock
 class CreateNewStock(forms.ModelForm):
     class Meta:
         model = Stock
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Nombre del producto', 'maxlength': '200', 'required': 'true'}),
             'quantity': forms.NumberInput(attrs={'placeholder': 'Cantidad', 'step': '1'}),
