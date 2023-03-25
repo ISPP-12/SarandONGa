@@ -102,9 +102,9 @@
   let compare = () => {
     let startValue = (new Date(startInput.value)).getTime();
     let endValue = (new Date(endInput.value)).getTime();
-    let presentationValue = (new Date(presentationInput.value));
-    let paymentValue = (new Date(paymentInput.value));
-    let provisionalValue = (new Date(provisionalInput.value));
+    let presentationValue = (new Date(presentationInput.value)).getTime();
+    let paymentValue = (new Date(paymentInput.value)).getTime();
+    let provisionalValue = (new Date(provisionalInput.value)).getTime();
 
     submitButton.disabled = true
 
@@ -115,21 +115,22 @@
     } else {
       messagePayDiv.innerHTML = '';
     }
-    if (endValue < startValue) {
+    if (endValue < presentationValue) {
       messageDiv.innerHTML = 'La fecha de resolución final debe ser posterior a la fecha de resolución provisional';
     } else {
       messageDiv.innerHTML = '';
     }
     if (provisionalValue < presentationValue || endValue < presentationValue) {
-      messageProvDiv.innerHTML = 'La fecha de reolución provisional y la final no pueden ser anteriores a la fecha de presentación ';
+      messageProvDiv.innerHTML = 'La fecha de resolución provisional y la final no pueden ser anteriores a la fecha de presentación ';
     } else {
       messageProvDiv.innerHTML = '';
     }
-    
 
-    if(endValue > startValue && paymentValue > presentationValue && provisionalValue > presentationValue && endValue > presentationValue ) {
+
+    if(((endValue > presentationValue) || !endInput.value) && ((paymentValue > presentationValue) || !paymentInput.value)  && ((provisionalValue > presentationInput) || !provisionalValue.value) &&(( endValue >  presentationValue) || !endInput.value) ) {
             submitButton.disabled = false
         }
+    
   }
 
   startInput.addEventListener('change', compare);
