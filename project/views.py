@@ -49,3 +49,9 @@ def project_update(request, project_id):
 
     form = CreateNewProject(instance=project)
     return render(request, 'project/register.html', {'form': form, 'title': 'Actualizar proyecto'})
+
+@login_required
+@videssur_required
+def project_details(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    return render(request, 'project/project_details.html', {'project': project})
