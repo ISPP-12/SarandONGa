@@ -1,5 +1,5 @@
 from django.test import TestCase
-from datetime import date, datetime
+from datetime import date
 from .models import Home    
 
 class HomeTestCase(TestCase):
