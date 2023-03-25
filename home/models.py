@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
-from django.utils.text import slugify
+#from django.utils.text import slugify
 from django.utils import timezone
 from xml.dom import ValidationErr
 
@@ -44,26 +44,25 @@ class Home(models.Model):
     # status = models.CharField(
     #    max_length=20, choices=STATUS, verbose_name='Estado')
     # ¿CUAL ES EL ESTADO DE UNA CASA?¿EN RUINAS, EN OBRAS...?
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+    #slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
         return "{}, {}".format(self.name, self.province)
 
     def save(self, *args, **kwargs):
-        
         if self.start_date and self.termination_date:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "La fecha de baja debe ser posterior a la fecha de alta.")
 
             else:
-                self.slug = slugify(self.name + ' ' + self.province)
+               # self.slug = slugify(self.name + ' ' + self.province)
                 super(Home, self).save(*args, **kwargs)
         else:
-            self.slug = slugify(self.name + ' ' + self.province)
+         #   self.slug = slugify(self.name + ' ' + self.province)
             super(Home, self).save(*args, **kwargs)
 
-    
+
     class Meta:
         verbose_name = 'Casa'
         verbose_name_plural = 'Casas'

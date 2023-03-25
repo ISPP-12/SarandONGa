@@ -15,6 +15,8 @@ def payment_create(request):
             payment = form.save(commit=False)
             payment.ong = request.user.ong
             payment.save()
+            return redirect('payment_list')
+
         else:
             messages.error(request, 'El formulario presenta errores')
     else:

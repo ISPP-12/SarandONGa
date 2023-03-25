@@ -360,51 +360,7 @@ class ASEMUserTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700832134418939683449",
             ong=self.ong)
-
-    def test_asem_user_create_telephone_incorrect(self):
-        with self.assertRaises(Exception):
-            ASEMUser.objects.create(email="tcamerob3@gmail.com",
-            name="Tomas2",
-            surname='Camero',
-            birth_date=datetime.datetime(2000, 1, 24, tzinfo=datetime.timezone.utc),
-            sex="M",
-            city="Sevilla",
-            address="Logroño 19",
-            telephone="No es un telefono",
-            postal_code=41730,
-            condition="ICTUS",
-            member="ELA",
-            user_type="OTROS",
-            correspondence="CC",
-            status="F",
-            family_unit_size=0,
-            own_home="VP",
-            own_vehicle=False,
-            bank_account_number="ES6700832134418939683449",
-            ong=self.ong)
-
-    def test_asem_user_create_postal_code_incorrect(self):
-        with self.assertRaises(Exception):
-            ASEMUser.objects.create(email="tcamerob3@gmail.com",
-            name="Tomas2",
-            surname='Camero',
-            birth_date=datetime.datetime(2000, 1, 24, tzinfo=datetime.timezone.utc),
-            sex="M",
-            city="Sevilla",
-            address="Logroño 19",
-            telephone=691644398,
-            postal_code="No es un código postal",
-            condition="ICTUS",
-            member="ELA",
-            user_type="OTROS",
-            correspondence="CC",
-            status="F",
-            family_unit_size=0,
-            own_home="VP",
-            own_vehicle=False,
-            bank_account_number="ES6700832134418939683449",
-            ong=self.ong)
-
+    
     def test_asem_user_create_condition_incorrect_max(self):
         with self.assertRaises(Exception):
             ASEMUser.objects.create(email="tcamerob3@gmail.com",
@@ -1187,17 +1143,7 @@ class ASEMUserTestCase(TestCase):
         with self.assertRaises(Exception):
             self.asem_user_update.address = "A" * 201
             self.asem_user_update.save()
-
-    def test_asem_user_update_telephone_incorrect_value(self):
-        with self.assertRaises(Exception):
-            self.asem_user_update.telephone = "No es un teléfono"
-            self.asem_user_update.save()
-
-    def test_asem_user_update_postal_code_incorrect_value(self):
-        with self.assertRaises(Exception):
-            self.asem_user_update.postal_code = "No es un código postal"
-            self.asem_user_update.save()
-
+    
     def test_asem_user_update_condition_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.asem_user_update.condition = "C" * 21

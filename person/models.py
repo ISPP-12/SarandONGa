@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
-from django.utils.text import slugify
+#from django.utils.text import slugify
 from localflavor.generic.models import IBANField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -86,8 +86,8 @@ DNI_VALIDATOR = RegexValidator(
 
 
 class Person(models.Model):
-
-    email = models.EmailField(unique=True, blank=True, verbose_name="E-Mail")
+    id = models.AutoField(primary_key=True)
+    email = models.EmailField( blank=True, verbose_name="E-Mail")
     name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
     surname = models.CharField(
         max_length=50, blank=True, verbose_name="Apellido")
@@ -99,12 +99,16 @@ class Person(models.Model):
         max_length=200, verbose_name="Ciudad", null=True, blank=True)
     address = models.CharField(
         max_length=200, verbose_name="Dirección", null=True, blank=True)
-    telephone = models.IntegerField(
+    telephone = models.CharField(max_length=50,
         verbose_name="Teléfono", null=True, blank=True)
-    postal_code = models.IntegerField(
+    postal_code = models.CharField(max_length=50,
         verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", null=True, blank=True)
+    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
+   # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
+    def save(self, *args, **kwargs):
+       # self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
+        super(Person, self).save(*args, **kwargs)
 
 class WorkerManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
@@ -161,7 +165,7 @@ class Worker(AbstractBaseUser):
         verbose_name="Teléfono", null=True, blank=True)
     postal_code = models.IntegerField(
         verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", null=True, blank=True)
+    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
     is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='trabajador', verbose_name="ONG", null=True, blank=True)
@@ -215,12 +219,12 @@ class GodFather(Person):
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+   # slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='padrino', verbose_name="ONG")
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
+       # self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         if self.termination_date and self.birth_date:
             if self.termination_date < self.birth_date:
                 raise ValidationErr(
@@ -333,18 +337,18 @@ class Child(Person):
     number_brothers_siblings = models.IntegerField(
         verbose_name="Número de hermanos", default=0)
     correspondence = models.CharField(
-        max_length=200, verbose_name="Correspondencia")
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+        max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
+    ##slug = models.SlugField(max_length=200, unique=True, editable=False)
+
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='niño', verbose_name="ONG")
 
+    
 
     def __str__(self):
         return self.surname + ', ' + self.name
 
     def save(self, *args, **kwargs):
-
-       
         if self.termination_date and self.start_date:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
@@ -353,7 +357,7 @@ class Child(Person):
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
                 "Un niño no puede tener menos de 0 hermanos")
-        self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
+        ##self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         super(Child, self).save(*args, **kwargs)
 
     class Meta:

@@ -43,4 +43,3 @@ class PaymentTestCase(TestCase):
     def  test_payment_null_ong(self):
         with self.assertRaises(ValueError):
             Payment.objects.create(payday=datetime(2020,2,31), amount=-1)
-
