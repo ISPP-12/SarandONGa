@@ -1,17 +1,75 @@
-{% extends 'layouts/master.html' %}
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}">
+{% endblock %}
+
+{% block title %}
+{% if form.instance.id %}
+Editar casa
+{% else %}
+Añadir casa
+{% endif %}
+{% endblock %}
 
 {% block content %}
-{% if messages %}
-{% for message in messages %}
-  <div class="alert alert-{{ message.tags }}">
-    {{ message }}
+
+<div id="section-volunteer">
+
+  {% if form.instance.id %}
+  {% include 'components/title.html' with title="Editar casa" %}
+  {% else %}
+  {% include 'components/title.html' with title="Añadir casa" %}
+  {% endif %}
+
+
+  {% if messages %}
+  <div class="row">
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
   </div>
-{% endfor %}
-{% endif %}
-<h1>Registrar Casa</h1>
-<form method="post"  >
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit", name="save">Registrar</button>
-</form>
+  {% endif %}
+
+  <form method="post" class="mt-3 row">{% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="col-md-6 col-12">
+      <div class="row my-3">
+        {% if field.field.required %}
+        {% with label_text=field.label_tag|safe|add:'<span class="text-danger"> *</span>' %}
+        {% include 'components/inputs.html' with id=field.id_for_label label_text=label_text input=field %}
+        {% endwith %}
+        {% else %}
+        {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+        {% endif %}
+      </div>
+      <div class="row text-danger">
+        {{ field.errors }}
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="col-12">
+      <p class="text-danger">* Campos obligatorios</p>
+    </div>
+
+    <div id="message-dates" style="color:red"></div>
+    <div class="form-section mt-5 mb-5 col-12 d-flex justify-content-center">
+
+      {% if form.instance.id %}
+      {% include 'components/button.html' with variation="SUBMIT" text="Actualizar voluntario" id="id-submitForm" type="submit" %}
+      {% else %}
+      {% include 'components/button.html' with variation="SUBMIT" text="Registrar voluntario" id="id-submitForm" type="submit" %}
+      {% endif %}
+
+
+    </div>
+  </form>
+</div>
+
 {% endblock %}
