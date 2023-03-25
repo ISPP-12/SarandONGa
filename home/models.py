@@ -1,7 +1,8 @@
+from xml.dom import ValidationErr
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
-from django.utils.text import slugify
+#from django.utils.text import slugify
 from django.utils import timezone
 from xml.dom import ValidationErr
 
@@ -21,7 +22,6 @@ FREQUENCY = (
 
 class Home(models.Model):
     id = models.AutoField(primary_key=True)
-
     name = models.CharField(default="", max_length=25, verbose_name="Nombre")
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
@@ -45,21 +45,28 @@ class Home(models.Model):
     # status = models.CharField(
     #    max_length=20, choices=STATUS, verbose_name='Estado')
     # ¿CUAL ES EL ESTADO DE UNA CASA?¿EN RUINAS, EN OBRAS...?
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+    #slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
         return "{}, {}".format(self.name, self.province)
 
     def save(self, *args, **kwargs):
-        
-        if self.start_date is not None:
+        if self.start_date and self.termination_date:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "La fecha de baja debe ser posterior a la fecha de alta.")
-
+            elif self.amount < 1:
+                raise ValidationErr(
+                    "La cantidad debe ser mayor a 1.")
             else:
-                self.slug = slugify(self.name + ' ' + self.province)
+               # self.slug = slugify(self.name + ' ' + self.province)
                 super(Home, self).save(*args, **kwargs)
         else:
-            self.slug = slugify(self.name + ' ' + self.province)
+         #   self.slug = slugify(self.name + ' ' + self.province)
             super(Home, self).save(*args, **kwargs)
+
+
+    class Meta:
+        verbose_name = 'Casa'
+        verbose_name_plural = 'Casas'
+
