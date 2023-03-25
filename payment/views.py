@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import CreatePaymentForm
 from .models import Payment
 from django.contrib import messages
-# import json
+import json
 
 
 def payment_create(request):
@@ -15,7 +15,67 @@ def payment_create(request):
     else:
         form = CreatePaymentForm()
 
-    return render(request, 'payment/payment_form.html', {'form': form, 'title': 'Añadir Pago'})
+        events = [
+        {
+        "title": '100 €',
+        "start": '2023-03-01',
+        "end": '2023-03-01',
+        "extendedProps": {
+            "type": 'payment',
+            "id": 1,
+            "amount": 100,
+            "observations": 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+            "paid": True,
+        },
+        },
+        {
+        "title": '10 €',
+        "start": '2023-03-01',
+        "end": '2023-03-01',
+        "extendedProps": {
+            "type": 'payment',
+            "id": 10,
+            "amount": 100,
+            "observations": 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+            "paid": False,
+        },
+        },
+        {
+        "title": 'Fisioterapia',
+        "start": '2023-03-04',
+        "end": '2023-03-012',
+        "extendedProps": {
+            "type": 'service',
+            "id": 10,
+            "amount": 100,
+            "observations": 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.',
+            "paid": False,
+        },
+        },
+        {
+        "title": 'Fisioterapia',
+        "start": '2023-03-08',
+        "end": '2023-03-08'
+        },
+        {
+        "title": '100€',
+        "start": '2023-03-09',
+        "end": '2023-03-09'
+        },
+        {
+        "title": '100€',
+        "start": '2023-03-10',
+        "end": '2023-03-10'
+        },
+        {
+        "title": 'Trabajo Social',
+        "start": '2023-03-11',
+        "end": '2023-03-11'
+        },
+    ]
+        events_json= json.dumps(events)
+
+    return render(request, 'payment/payment_form.html', {'form': form, 'title': 'Añadir Pago', 'events_json':events_json})
 
 
 def payment_update(request, payment_id):

@@ -1,0 +1,53 @@
+{% extends 'layouts/master.html' %}
+
+{% comment %} 
+ATTRIBUTES:
+- object_name: name of the object to be displayed in the preview text (e.g. "donación")
+- title: title of the page (e.g. "Gestión de donaciones")
+- text: text of the button (e.g. "Añadir donación")
+
+PS: the text inside the button is displayed exactly as it is written. You can either write the text directly or use the "add" filter to concatenate strings (e.g. "Añadir "|add:object_name|safe)
+
+BLOCKS IN THIS LAYOUT
+- head (inherited)
+- content (inherited)
+- filters: for all the filter buttons in the bar
+- objectFor: to show all the objects
+- scripts
+
+{% endcomment %}
+
+{% block head %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
+  {% block extrahead %}
+  {% endblock %}
+{% endblock %}
+
+{% block content %}
+
+<div class="" >
+
+  <div class="row complete">
+
+    <div class="pt-4 px-0 col-md-5 h-100 d-flex align-items-center">
+      <div class="w-100  fs-4 text-center d-flex flex-column ">
+        
+        {%block leftSide%}{%endblock%}
+
+      </div>
+
+    </div>
+
+    <div class="col-12 col-md-7 border-start border-dark border-1 p-4 " >
+
+        {%block rightSide%}{%endblock%}
+
+    </div>
+  </div>
+</div>
+
+{% block scripts %}
+{% endblock %}
+
+{% endblock %}
