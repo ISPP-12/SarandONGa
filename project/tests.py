@@ -75,7 +75,7 @@ class ProjectTestCase(TestCase):
 
     def test_project_create_title_incorrect_null(self):
         with self.assertRaises(Exception):
-            project = Project.objects.create(
+            Project.objects.create(
                 title=None,
                 country="España",
                 start_date=datetime.date(2023, 1, 3),
@@ -84,7 +84,6 @@ class ProjectTestCase(TestCase):
                 amount=15000,
                 announcement_date=datetime.date(2024, 1, 3),
                 ong=self.ong)
-            Project.full_clean()
 
     def test_project_create_title_incorrect_blank(self):
         with self.assertRaises(Exception):
