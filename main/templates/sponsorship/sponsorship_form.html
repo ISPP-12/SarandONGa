@@ -5,6 +5,14 @@
 <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}">
 {% endblock %}
 
+{% block title %} 
+{% if form.instance.id %}
+    Editar apadrinamiento
+{% else %}
+    Añadir apadrinamiento
+{% endif %}
+{% endblock %}
+
 {% block content %}
 
 <div id="section-volunteer">

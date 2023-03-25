@@ -336,7 +336,7 @@ class Child(Person):
     mother_profession = models.CharField(
         max_length=200, verbose_name="Profesion de la madre", default='Trabajo')
     number_brothers_siblings = models.IntegerField(
-        verbose_name="Número de hermanos", default=0)
+        verbose_name="Número de hermanos", default=0, validators=[MinValueValidator(0)])
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
     ##slug = models.SlugField(max_length=200, unique=True, editable=False)
