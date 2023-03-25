@@ -1,5 +1,5 @@
 from django.db import models
-
+#from django.utils.text import slugify
 from person import models as person_models
 from payment import models as payment_models
 from django.utils import timezone
@@ -24,7 +24,11 @@ class ServiceAmount(models.Model):
     amount = models.FloatField(verbose_name="Precio")
     date = models.DateTimeField(default=timezone.now, verbose_name="Fecha")
     def __str__(self):
-        return self.service_type
+        return self.service_type + str(self.date)
+
+    class Meta:
+        verbose_name = 'Cantidad de servicio'
+        verbose_name_plural = 'Cantidades de servicios'
 
 class Service(models.Model):
     id = models.AutoField(primary_key=True)
@@ -33,6 +37,8 @@ class Service(models.Model):
     attendance = models.BooleanField(verbose_name="Asistencia")
     payment = models.ForeignKey(payment_models.Payment, verbose_name="Pago", on_delete=models.SET_NULL, null=True)
     asem_user = models.ForeignKey(person_models.ASEMUser, verbose_name="Usuario ASEM", on_delete=models.CASCADE)
+   # slug = models.SlugField(max_length=200, unique=True, editable=False)
+
     @property
     def amount(self):
         try:
@@ -40,4 +46,11 @@ class Service(models.Model):
         except ServiceAmount.DoesNotExist:
             return 0
     def __str__(self):
-        return self.service_typeimage.png
+        return self.service_type + ' - ' + str(self.date) + ' - ' + self.asem_user.surname + ', ' + self.asem_user.name
+    
+    def save(self, *args, **kwargs):
+       ## self.slug = slugify(self.service_type + ' ' + str(self.id))
+        super(Service, self).save(*args, **kwargs)
+    class Meta:
+        verbose_name = 'Sevicio'
+        verbose_name_plural = 'Servicios'

@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('child/list', views.child_list, name='child_list'),
     path('child/create', views.child_create, name="child_create"),
-    path('child/<slug:child_slug>/update', views.child_update, name='child_update'),
+    path('child/<int:child_id>/update', views.child_update, name='child_update'),
     path('child/<int:child_id>', views.child_details, name="child_details"),
     path('asem/create', views.user_create, name="user_create"),
     path('asem/list', views.user_list, name='user_list'),
@@ -19,11 +19,12 @@ urlpatterns = [
         views.worker_delete, name="worker_delete"),
     path('godfather/list', views.godfather_list, name="godfather_list"),
     path('godfather/create', views.godfather_create, name="godfather_create"),
-    path('godfather/<slug:godfather_slug>/update', views.godfather_update, name='godfather_update'),
+    path('godfather/<int:godfather_id>/update', views.godfather_update, name='godfather_update'),
     path('godfather/<int:godfather_id>',
          views.godfather_details, name="godfather_details"),
     path('volunteer/list', views.volunteer_list, name='volunteer_list'),
     path('volunteer/<int:volunteer_id>', views.volunteer_details, name='volunteer_details'),
     path('volunteer/create', views.volunteer_create, name='volunteer_create'),
-    path('volunteer/<int:volunteer_id>/update', views.volunteer_update, name='volunteer_update')
+    path('volunteer/<int:volunteer_id>/update', views.volunteer_update, name='volunteer_update'),
+    path('volunteer/<int:volunteer_id>/delete', views.volunteer_delete, name='volunteer_delete')
 ]
