@@ -1,5 +1,13 @@
+{% extends "layouts/master.html" %}
 {% block content %}
 Registrar casa
+{% if messages %}
+{% for message in messages %}
+  <div class="alert alert-danger">
+    {{ message }}
+  </div>
+{% endfor %}
+{% endif %}
 <form method="post" action="">
     {% csrf_token %}
     {{form.as_p}}

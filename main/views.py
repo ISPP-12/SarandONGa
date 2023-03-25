@@ -1,5 +1,7 @@
 import json
 from django.shortcuts import render
+from functools import wraps
+from django.contrib import messages
 
 
 def index(request):
@@ -77,3 +79,27 @@ def components(request):
     }
 
     return render(request, 'components.html', context)
+
+
+def custom_403(request):
+    return render(request, 'error/403.html', {}, status=403)
+
+def asem_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "asem":
+            return function(request, *args, **kwargs)
+        else:
+            messages.error(request, "Necesitas pertenecer a ASEM para acceder a esos datos")
+            return custom_403(request)
+    return wrapper
+    
+def videssur_required(function):
+    @wraps(function)
+    def wrapper(request, *args, **kwargs):
+        if request.user.ong.name.lower() == "videssur":
+            return function(request, *args, **kwargs)
+        else:
+            return custom_403(request)
+    return wrapper
+
