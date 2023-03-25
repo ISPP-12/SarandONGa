@@ -20,7 +20,7 @@ def stock_create(request):
         if form.is_valid():
             name = form.cleaned_data["name"]
             quantity = form.cleaned_data["quantity"]
-            d = Stock(name = name, quantity = quantity)
+            d = Stock(name = name, quantity = quantity, ong = request.user.ong)
             d.save()
             return redirect('stock_list')
         else:
