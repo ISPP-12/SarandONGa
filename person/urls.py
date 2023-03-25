@@ -22,6 +22,7 @@ urlpatterns = [
     path('godfather/<int:godfather_id>/update', views.godfather_update, name='godfather_update'),
     path('godfather/<int:godfather_id>',
          views.godfather_details, name="godfather_details"),
+    path('godfather/<int:godfather_id>/delete', views.godfather_delete, name="godfather_delete"),
     path('volunteer/list', views.volunteer_list, name='volunteer_list'),
     path('volunteer/<int:volunteer_id>', views.volunteer_details, name='volunteer_details'),
     path('volunteer/create', views.volunteer_create, name='volunteer_create'),
