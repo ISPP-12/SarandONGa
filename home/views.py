@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Home
 from .forms import CreateHomeForm
-
+from xml.dom import ValidationErr
 
 def home_create(request):
     if request.method == 'POST':
         form = CreateHomeForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('home_list')
         else:
             messages.error(request, 'El formulario presenta errores')
-    else:
-        form = CreateHomeForm()
+    form = CreateHomeForm()
     return render(request, 'home/home_form.html', {'form': form})
 
 
@@ -24,6 +24,23 @@ def home_list(request):
         'title': 'Lista de Casas'
     }
     return render(request, 'home/home_list.html', {"context": context})
+
+
+# Actualización de casa
+def home_update(request,slug):
+    home_to_update = Home.objects.get(slug=slug)
+    form = CreateHomeForm(instance=home_to_update)
+    if request.method == "POST":
+        form = CreateHomeForm(request.POST, instance=home_to_update)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('home_list')
+            except ValidationErr as v:
+                    messages.error(request, str(v.args[0]))
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request,'home/home_form.html', {"form": form})
 
 
 def home_delete(request, slug=None):
