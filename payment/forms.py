@@ -1,4 +1,3 @@
-import datetime
 from django import forms
 
 from .models import Payment
@@ -7,7 +6,7 @@ from .models import Payment
 class CreatePaymentForm(forms.ModelForm):
     class Meta:
         model = Payment
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'payday': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d %H:%M'),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "placeholder": "Escriba una cantidad"}),

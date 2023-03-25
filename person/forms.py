@@ -6,11 +6,10 @@ from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 
 
 class CreateNewGodFather(forms.ModelForm):
-    dni = ESIdentityCardNumberField(only_nif=True)
-    bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
+    
     class Meta:
         model = GodFather
-        exclude = ['id', 'ong','dni','bank_account_number']
+        exclude = ['id', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -18,19 +17,21 @@ class CreateNewGodFather(forms.ModelForm):
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
             'sex': forms.Select(attrs={'step': "0.01"}),
         }
+        dni = ESIdentityCardNumberField(only_nif=True)
+        bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
 
     def __init__(self, *args, **kwargs):
         super(CreateNewGodFather, self).__init__(*args, **kwargs)
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-select border-class'})
+                    {'class': 'form-select'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-check-input border-class'})
+                    {'class': 'form-check-input'})
             else:
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-control border-class'})
+                    {'class': 'form-control'})
 
 
 class CreateNewASEMUser(forms.ModelForm):
@@ -60,10 +61,11 @@ class CreateNewWorker(forms.ModelForm):
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
+    photo=forms.ImageField(required=False)
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active','is_admin','password']
+        exclude = ['id', 'last_login', 'is_active','is_admin','password', 'ong']
         
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -104,7 +106,7 @@ class UpdateWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password']
+        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         }
@@ -134,6 +136,9 @@ class CreateNewChild(forms.ModelForm):
     correspondence = forms.ChoiceField(
         choices=CORRESPONDENCE, label="Correspondencia")
 
+    def __init__(self, *args, **kwargs):
+        self.fields['email'].required = False
+        
     class Meta:
         model = Child
         exclude = ['id', 'ong']

@@ -13,6 +13,9 @@ sara/**
 #Delete migrations .bat file
 delete_migrations.bat
 
+#Delete migrations .sh file
+delete_migrations.sh
+
 # If you are using PyCharm #
 # User-specific stuff
 .idea/**/workspace.xml
@@ -147,3 +150,6 @@ Pipfile
 
 # Delete migrations (gonmarfer2)
 delete_migrations.bat
+
+#Worker images
+static/img/worker/*
