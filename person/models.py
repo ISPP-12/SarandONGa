@@ -345,7 +345,7 @@ class Child(Person):
     def __str__(self):
         return self.name + ' ' + self.surname
 
-    def save(self, *args, **kwargs):       
+    def save(self, *args, **kwargs):
         if self.termination_date is not None:
             if self.termination_date < self.start_date:
                 raise ValidationErr(

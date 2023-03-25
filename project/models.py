@@ -24,7 +24,6 @@ class Project(models.Model):
         null=True, blank=True, verbose_name="Fecha de convocatoria")
     ong = models.ForeignKey(
         Ong, on_delete=models.CASCADE, related_name='project')
-    
     slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
