@@ -276,6 +276,12 @@ def godfather_details(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
     return render(request, 'prueba_padrino_detalles.html', {'godfather': godfather})
 
+@login_required
+@videssur_required
+def godfather_delete(request, godfather_id):
+    godfather = get_object_or_404(GodFather, id=godfather_id)
+    godfather.delete()
+    return redirect('godfather_list')
 
 @login_required
 @videssur_required
@@ -319,6 +325,13 @@ def child_update(request,child_id):
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
     return render(request, 'child_details.html', {'child': child})
+
+@login_required
+@videssur_required
+def child_delete(request, child_id):
+    child = get_object_or_404(Child, id=child_id)
+    child.delete()
+    return redirect('child_list')
 
 @login_required
 def volunteer_list(request):
