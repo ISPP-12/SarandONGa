@@ -296,7 +296,6 @@ def godfather_details(request, godfather_id):
 
 
 @login_required(login_url='/admin/login/?next=/user/child/create/')
-@videssur_required
 def child_create(request):
     form = CreateNewVolunteer(initial={'ong':request.user.ong})
     if request.method == "POST":
