@@ -148,10 +148,10 @@ class ServiceTestCase(TestCase):
             bank_account_number="ES6700567834215439610225",ong=self.ong)
 
         self.payment_1 = Payment.objects.create(payday=datetime.datetime(2018, 2, 27, tzinfo=datetime.timezone.utc),
-            amount=30)
+            amount=30, ong=self.ong)
 
         Payment.objects.create(payday=datetime.datetime(2018, 3, 27, tzinfo=datetime.timezone.utc),
-            amount=60)
+            amount=60, ong=self.ong)
 
         ServiceAmount.objects.create(service_type="Fisioterapia",
             user_type="SACC",

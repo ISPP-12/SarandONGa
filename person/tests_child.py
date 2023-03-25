@@ -9,19 +9,19 @@ class ChildTestCase(TestCase):
         self.ong = Ong.objects.create(name='Mi ONG')
         Child.objects.create(email='test1@test.com', name='Test_1',surname='Test1 Test1', birth_date=datetime(2001,6,18),
                             sex="Femenino", city="Test1", address="Test1", telephone=123456789, postal_code=12345, photo="test1.jpg",
-                            sponsorship_date=datetime(2006,2,23), termination_date=datetime(2020,9,12), study="Test1", expected_mission_time="2",
+                            start_date=datetime(2006,2,23), termination_date=datetime(2020,9,12), study="Test1", expected_mission_time="2",
                             mission_house="Test1", site="Test1", subsite="Test1", father_name="Dn. Test1", father_profession="Test1",
                             mother_name="Sra. Test1", mother_profession="Test1", number_brothers_siblings=3,correspondence="Test1",ong=self.ong)
         
         Child.objects.create(email='test2@test.com', name='Test_2',surname='Test2 Test2', birth_date=datetime(2003,4,8),
                             sex="Masculino", city="Test2", address="Test2", telephone=123456789, postal_code=12345, photo="test2.jpg",
-                            sponsorship_date=datetime(2008,11,12), termination_date=datetime(2021,2,1), study="Test2", expected_mission_time="2",
+                            start_date=datetime(2008,11,12), termination_date=datetime(2021,2,1), study="Test2", expected_mission_time="2",
                             mission_house="Test2", site="Test2", subsite="Test2", father_name="Dn. Test2", father_profession="Test2",
                             mother_name="Sra. Test2", mother_profession="Test2", number_brothers_siblings=3,correspondence="Test2",ong=self.ong)
         
         Child.objects.create(email='test3@test.com', name='Test_3',surname='Test3 Test3', birth_date=datetime(2010,5,29),
                             sex="Femenino", city="Test3", address="Test3", telephone=123456789, postal_code=12345, photo="test3.jpg",
-                            sponsorship_date=datetime(2013,11,23), termination_date=datetime(2022,9,2), study="Test3", expected_mission_time="2",
+                            start_date=datetime(2013,11,23), termination_date=datetime(2022,9,2), study="Test3", expected_mission_time="2",
                             mission_house="Test3", site="Test3", subsite="Test3", father_name="Dn. Test3", father_profession="Test3",
                             mother_name="Sra. Test3", mother_profession="Test3", number_brothers_siblings=3,correspondence="Test3",ong=self.ong)
         
@@ -36,10 +36,10 @@ class ChildTestCase(TestCase):
         self.assertEqual(child.sex, 'Femenino')
         self.assertEqual(child.city, 'Test1')
         self.assertEqual(child.address, 'Test1')
-        self.assertEqual(child.telephone, 123456789)
-        self.assertEqual(child.postal_code, 12345)
+        self.assertEqual(child.telephone, '123456789')
+        self.assertEqual(child.postal_code, '12345')
         self.assertEqual(child.photo, 'test1.jpg')
-        self.assertEqual(child.sponsorship_date.strftime(
+        self.assertEqual(child.start_date.strftime(
             '%d/%m/%Y'), datetime(2006, 2, 23).strftime('%d/%m/%Y'))
         self.assertEqual(child.termination_date.strftime(
             '%d/%m/%Y'), datetime(2020, 9, 12).strftime('%d/%m/%Y'))
@@ -64,10 +64,10 @@ class ChildTestCase(TestCase):
         self.assertEqual(child2.sex, 'Masculino')
         self.assertEqual(child2.city, 'Test2')
         self.assertEqual(child2.address, 'Test2')
-        self.assertEqual(child2.telephone, 123456789)
-        self.assertEqual(child2.postal_code, 12345)
+        self.assertEqual(child2.telephone, '123456789')
+        self.assertEqual(child2.postal_code, '12345')
         self.assertEqual(child2.photo, 'test2.jpg')
-        self.assertEqual(child2.sponsorship_date.strftime(
+        self.assertEqual(child2.start_date.strftime(
             '%d/%m/%Y'), datetime(2008, 11, 12).strftime('%d/%m/%Y'))
         self.assertEqual(child2.termination_date.strftime(
             '%d/%m/%Y'), datetime(2021, 2, 1).strftime('%d/%m/%Y'))
@@ -92,10 +92,10 @@ class ChildTestCase(TestCase):
         self.assertEqual(child3.sex, 'Femenino')
         self.assertEqual(child3.city, 'Test3')
         self.assertEqual(child3.address, 'Test3')
-        self.assertEqual(child3.telephone, 123456789)
-        self.assertEqual(child3.postal_code, 12345)
+        self.assertEqual(child3.telephone, '123456789')
+        self.assertEqual(child3.postal_code, '12345')
         self.assertEqual(child3.photo, 'test3.jpg')
-        self.assertEqual(child3.sponsorship_date.strftime(
+        self.assertEqual(child3.start_date.strftime(
             '%d/%m/%Y'), datetime(2013, 11, 23).strftime('%d/%m/%Y'))
         self.assertEqual(child3.termination_date.strftime(
             '%d/%m/%Y'), datetime(2022, 9, 2).strftime('%d/%m/%Y'))
@@ -123,7 +123,7 @@ class ChildTestCase(TestCase):
         child.telephone = 987654321
         child.postal_code = 54321
         child.photo = "newtest2.jpg"
-        child.sponsorship_date = datetime(2008, 12, 12)
+        child.start_date = datetime(2008, 12, 12)
         child.termination_date = datetime(2021, 6, 1)
         child.study = "newTest2"
         child.expected_mission_time = "3"
@@ -149,7 +149,7 @@ class ChildTestCase(TestCase):
         self.assertEqual(child.telephone, 987654321)
         self.assertEqual(child.postal_code, 54321)
         self.assertEqual(child.photo, 'newtest2.jpg')
-        self.assertEqual(child.sponsorship_date.strftime(
+        self.assertEqual(child.start_date.strftime(
             '%d/%m/%Y'), datetime(2008, 12, 12).strftime('%d/%m/%Y'))
         self.assertEqual(child.termination_date.strftime(
             '%d/%m/%Y'), datetime(2021, 6, 1).strftime('%d/%m/%Y'))
@@ -172,7 +172,7 @@ class ChildTestCase(TestCase):
 
     def test_child_incorrect_termination_date(self):
         child = Child.objects.get(name="Test_1")
-        child.sponsorship_date = datetime(2015, 12, 12)
+        child.start_date = datetime(2015, 12, 12)
         child.termination_date = datetime(2014, 12, 12)
         with self.assertRaises(Exception):
             child.save()
