@@ -276,6 +276,8 @@ def godfather_details(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
     return render(request, 'prueba_padrino_detalles.html', {'godfather': godfather})
 
+@login_required
+@videssur_required
 def godfather_delete(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
     godfather.delete()
