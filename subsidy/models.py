@@ -2,7 +2,7 @@ from django.db import models
 from ong.models import Ong
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
-from django.utils.text import slugify
+#from django.utils.text import slugify
 
 
 class Subsidy(models.Model):
@@ -29,13 +29,12 @@ class Subsidy(models.Model):
     name = models.CharField(max_length=200, verbose_name="Nombre completo")
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='subvencion', verbose_name="ONG")
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
-    
+    #slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.clean()
-        self.slug = slugify(self.organism + ' ' + str(self.id)+' '+ self.name)
+       # self.slug = slugify(self.organism + ' ' + str(self.id)+' '+ self.name)
 
         if self.amount < 0:
             raise ValidationError("El importe no puede ser negativo")
@@ -49,5 +48,6 @@ class Subsidy(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Subvención'
-        verbose_name_plural = 'Subvencioness'
+        verbose_name = 'Suministro'
+        verbose_name_plural = 'Suministros'
+

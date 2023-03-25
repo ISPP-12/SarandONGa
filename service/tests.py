@@ -3,7 +3,6 @@ from ong.models import Ong
 from service.models import Service, ServiceAmount
 from person.models import ASEMUser
 from payment.models import Payment
-from project.models import Project
 import datetime
 
 class ServiceAmountTestCase(TestCase):
@@ -148,14 +147,11 @@ class ServiceTestCase(TestCase):
             own_vehicle=False,
             bank_account_number="ES6700567834215439610225",ong=self.ong)
 
-        self.project1 = Project.objects.create(ong = self.ong, title = 'proyecto', country = 'Esapaña', amount = 2)
+        self.payment_1 = Payment.objects.create(payday=datetime.datetime(2018, 2, 27, tzinfo=datetime.timezone.utc),
+            amount=30, ong=self.ong)
 
-        
-        self.payment_1 = Payment.objects.create(project = self.project1 ,payday=datetime.datetime(2018, 2, 27, tzinfo=datetime.timezone.utc),
-            amount=30)
-
-        Payment.objects.create(project = self.project1, payday=datetime.datetime(2018, 3, 27, tzinfo=datetime.timezone.utc),
-            amount=60)
+        Payment.objects.create(payday=datetime.datetime(2018, 3, 27, tzinfo=datetime.timezone.utc),
+            amount=60, ong=self.ong)
 
         ServiceAmount.objects.create(service_type="Fisioterapia",
             user_type="SACC",

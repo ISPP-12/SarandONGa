@@ -3,15 +3,12 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
-from django.utils.text import slugify
-from django.contrib.auth.models import AbstractBaseUser
-from django.contrib.auth.models import BaseUserManager
+#from django.utils.text import slugify
 from localflavor.generic.models import IBANField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 from ong.models import Ong
-
 
 SEX_TYPES = (
     ('F', 'Femenino'),
@@ -105,11 +102,10 @@ class Person(models.Model):
         verbose_name="Teléfono", null=True, blank=True)
     postal_code = models.CharField(max_length=50,
         verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
-    slug = models.SlugField(max_length=200, unique=True, editable=False)
+    photo = models.ImageField(verbose_name="Foto", upload_to="person/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
+       # self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
         super(Person, self).save(*args, **kwargs)
 
 class WorkerManager(BaseUserManager):
@@ -182,7 +178,7 @@ class Worker(AbstractBaseUser):
         verbose_name_plural = 'Trabajadores'
 
     def __str__(self):
-        return self.email
+        return self.surname + ', ' + self.name
 
     @classmethod
     def has_perm(self, perm, obj=None):
@@ -206,7 +202,7 @@ class GodFather(Person):
     )
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
-    bank_account_number = IBANField(include_countries=IBAN_SEPA_COUNTRIES)
+    bank_account_number = IBANField(include_countries=IBAN_SEPA_COUNTRIES, verbose_name='Número de cuenta bancaria')
     bank_account_holder = models.CharField(
         max_length=100, verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(
@@ -226,11 +222,15 @@ class GodFather(Person):
                             related_name='padrino', verbose_name="ONG")
 
     def save(self, *args, **kwargs):
-        #self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
-        if self.termination_date < self.birth_date:
-            raise ValidationErr(
-                "la fecha de terminación no puede ser menor que la fecha de nacimiento")
+       # self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
+        if self.termination_date and self.birth_date:
+            if self.termination_date < self.birth_date:
+                raise ValidationErr(
+                    "la fecha de terminación no puede ser menor que la fecha de nacimiento")
         super(GodFather, self).save(*args, **kwargs)
+    
+    def __str__(self):
+        return self.surname + ', ' + self.name
 
     class Meta:
         ordering = ['name']
@@ -337,16 +337,17 @@ class Child(Person):
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
     ##slug = models.SlugField(max_length=200, unique=True, editable=False)
+
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='niño', verbose_name="ONG")
 
     
 
     def __str__(self):
-        return self.name + ' ' + self.surname
+        return self.surname + ', ' + self.name
 
     def save(self, *args, **kwargs):
-        if self.termination_date is not None:
+        if self.termination_date and self.start_date:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "The termination date must be after the start date")
