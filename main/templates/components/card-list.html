@@ -4,11 +4,11 @@
    
       
     <div class="row">
-      <div class="col-md-5 col-lg-3 col-sm-6 ">
+      <div class="col-md-6 col-lg-4 col-sm-6 ">
         <strong><h5>{{object.surname}}, {{object.name}}</h5></strong>
       
       </div>
-      <div class="col-md-2 col-lg-2 col-sm-1">
+      <div class="col-md-2 col-lg-2 col-sm-2">
         <span>{{object.city}}</span>
 
       </div>  
@@ -19,9 +19,7 @@
       <div class="col-md-2 col-sm-1 col-lg-2 col-sm-1 col-email ">
         <span>{{object.email}}</span>
       </div> 
-    <div class="col-md-1 col-lg-1  col-sm-1 text-end">
-      <a class="pe-2 text-end" href="{{ object.id }}/update">Editar</a>
-    </div>
+
 
         
         
@@ -41,6 +39,19 @@
       <span class="object-postalcode"><strong>Código postal: </strong>{{ object.postal_code  }}</span>
       <span class="object-telephone"><strong>Teléfono: </strong>{{ object.telephone  }}</span>
 
-      
+      <div class="container mt-2 border-dark border-top border-1  p-0">
+        <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          {%if object_name == "usuario"%}
+          <a href="service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
+          {%elif object_name == "padrino" or object_name == "donante"%}
+          <a href="payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
+          {% endif %}
+          {%if object_name == "padrino" or object_name == "niño"%}
+          <a href="sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
+          {% endif %}
+          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+        </div>
+      </div>
     </div>
 </div>
