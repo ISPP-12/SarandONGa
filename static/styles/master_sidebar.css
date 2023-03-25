@@ -76,6 +76,11 @@
     padding-left: 0 !important;
   }
 
+  #lateralButtons > a {
+    font-size: 15px;
+    margin: 1px 0;
+  }
+
   #filterContainer {
     width: 100% !important;
     margin-bottom: 1em;
