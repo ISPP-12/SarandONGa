@@ -5,7 +5,7 @@ from project.models import Project
 class CreateNewProject(forms.ModelForm):
     class Meta:
         model = Project
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),

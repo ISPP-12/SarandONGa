@@ -1,6 +1,5 @@
 from django import forms
 from .models import Home
-from datetime import date
 
 
 class CreateHomeForm(forms.ModelForm):

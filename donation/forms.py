@@ -7,7 +7,7 @@ class CreateNewDonation(forms.ModelForm):
         model = Donation
         exclude = ['id', 'ong']
         widgets = {
-            'created_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'created_date': forms.DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d %H:%M'),
             'ong':forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
         }
 
