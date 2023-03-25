@@ -4,7 +4,7 @@
    
       
     <div class="row">
-      <div class="col-md-5 col-lg-4 col-sm-6 ">
+      <div class="col-md-5 col-lg-3 col-sm-6 ">
         <strong><h5>{{object.surname}}, {{object.name}}</h5></strong>
       
       </div>
@@ -16,20 +16,21 @@
         <span>{{object.telephone}}</span>
 
       </div> 
-      <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
+      <div class="col-md-2 col-sm-1 col-lg-2 col-sm-1 col-email ">
         <span>{{object.email}}</span>
-
       </div> 
-        
-        
+    <div class="col-md-1 col-lg-1  col-sm-1 text-end">
+      <a class="pe-2 text-end" href="{{ object.id }}/update">Editar</a>
     </div>
+
+        
+        
+  
     
     
 
-    <div class="col-2 text-end">
-      <a class="pe-2" href="{{ object.id }}/update">Editar</a>
-    </div>
 
+  </div>
 
     <div class="d-none d-flex flex-column" id="moreInfo">
       <span class="object-description"><strong>Teléfono: </strong>{{ object.telephone }}</span>

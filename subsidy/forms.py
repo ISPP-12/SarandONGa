@@ -5,8 +5,8 @@ from .models import Subsidy
 class CreateNewSubsidy(forms.ModelForm):
     class Meta:
         model = Subsidy
-        exclude = ['id']
-        widgets = {
+        exclude = ['id','ong']
+        widgets = { 
             'presentation_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'payment_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'provisional_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
