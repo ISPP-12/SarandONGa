@@ -1,6 +1,15 @@
+{% extends 'layouts/master.html' %}
+
 {% block content %}
-Registrar casa
-<form method="post" action="">
+{% if messages %}
+{% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">
+    {{ message }}
+  </div>
+{% endfor %}
+{% endif %}
+<h1>Registrar Casa</h1>
+<form method="post"  >
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit", name="save">Registrar</button>

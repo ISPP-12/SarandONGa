@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 import json
 from .models import Home
@@ -7,6 +7,9 @@ from .models import FREQUENCY
 from .forms import CreateHomeForm
 from decimal import Decimal
 from datetime import date
+from django.contrib.auth.decorators import login_required
+from main.views import videssur_required
+from xml.dom import ValidationErr
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -18,18 +21,24 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
+@login_required
+@videssur_required
 def home_create(request):
+    form = CreateHomeForm()
     if request.method == 'POST':
         form = CreateHomeForm(request.POST)
         if form.is_valid():
-            form.save()
+            try:
+                form.save()
+                return redirect('home_list')
+            except ValidationErr as v:
+                messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'El formulario presenta errores')
-    else:
-        form = CreateHomeForm()
     return render(request, 'home/home_form.html', {'form': form})
 
-
+@login_required
+@videssur_required
 def home_list(request):
     # get donations dict from database
     homes = Home.objects.all()
@@ -57,7 +66,27 @@ def home_list(request):
     return render(request, 'home/list.html', context)
 
 
-def home_delete(request, slug=None):
-    home = Home.objects.get(slug=slug)
+@login_required
+@videssur_required
+def home_delete(request, home_id):
+    home = get_object_or_404(Home, id=home_id)
     home.delete()
     return redirect('home_list')
+
+
+@login_required
+@videssur_required
+def home_update(request,home_id):
+    home_to_update = Home.objects.get(id=home_id)
+    form = CreateHomeForm(instance=home_to_update)
+    if request.method == "POST":
+        form = CreateHomeForm(request.POST, instance=home_to_update)
+        if form.is_valid():
+            try:
+                form.save()
+                return redirect('home_list')
+            except ValidationErr as v:
+                    messages.error(request, str(v.args[0]))
+        else:
+            messages.error(request, 'Formulario con errores')
+    return render(request, 'home/home_form.html', {"form": form})

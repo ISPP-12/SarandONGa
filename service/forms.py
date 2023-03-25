@@ -5,7 +5,7 @@ from .models import Service
 class CreateNewService(forms.ModelForm):
     class Meta:
         model = Service
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'date': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d %H:%M')
         }

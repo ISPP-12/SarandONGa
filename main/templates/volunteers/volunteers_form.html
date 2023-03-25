@@ -78,14 +78,10 @@
         let startValue = Date.parse(startContractDate.value)
         let endValue = Date.parse(endContractDate.value)
         let currentDate = Date.now()
-        
-        console.log("fecha de nacimiento", birthDateValue)
-        console.log("fecha inicio contrato", startValue)
-        console.log("fecha fin contrato", endValue)
+
 
         submitButton.disabled = true
 
-        
         if(birthDateValue >= startValue) {
             birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha de inicio del contrato'
 
