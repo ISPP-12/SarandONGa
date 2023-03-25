@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.text import slugify
+#from django.utils.text import slugify
 from person import models as person_models
 from payment import models as payment_models
 from django.utils import timezone

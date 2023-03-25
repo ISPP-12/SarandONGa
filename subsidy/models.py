@@ -2,7 +2,7 @@ from django.db import models
 from ong.models import Ong
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
-from django.utils.text import slugify
+#from django.utils.text import slugify
 
 
 class Subsidy(models.Model):

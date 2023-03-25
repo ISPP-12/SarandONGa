@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 from project.models import Project
-from django.utils.text import slugify
+#from django.utils.text import slugify
 from ong.models import Ong
 
 
