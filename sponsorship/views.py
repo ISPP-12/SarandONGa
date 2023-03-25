@@ -7,14 +7,6 @@ from .forms import create_sponsorship_form
 from main.views import videssur_required
 from django.contrib.auth.decorators import login_required
 
-def videssur_required(function):
-    @wraps(function)
-    def wrapper(request, *args, **kwargs):
-        if request.user.ong.name.lower() == "videssur":
-            return function(request, *args, **kwargs)
-        else:
-            return redirect("/")
-    return wrapper
 
 
 @login_required
