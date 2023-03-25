@@ -8,6 +8,6 @@ class create_sponsorship_form(forms.ModelForm):
         model = Sponsorship
         exclude = ['id']
         widgets = {
-            'sponsorship_date': forms.DateInput(attrs={'class': 'form-control', 'value': datetime.today()}, format='%Y-%m-%d'),
-            'termination_date': forms.DateInput(attrs={'class': 'form-control', 'value': datetime.today()}, format='%Y-%m-%d'),
+            'sponsorship_date': forms.DateInput(attrs={'class': 'form-control', 'value': datetime.today().date}, format='%Y-%m-%d'),
+            'termination_date': forms.DateInput(attrs={'class': 'form-control', 'value': datetime.today().date}, format='%Y-%m-%d'),
         }
