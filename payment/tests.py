@@ -1,13 +1,19 @@
 from django.test import TestCase
 from datetime import datetime
 from payment.models import Payment
+from project.models import Project
+from ong.models import Ong
 
 class PaymentTestCase(TestCase):
     def setUp(self):
-        Payment.objects.create(payday=datetime(2023,3,11), amount=10)
-        Payment.objects.create(payday=datetime(2022,11,28), amount=105.56)
-        Payment.objects.create(payday=datetime(2010,6,9), amount=1000.1)
-
+        ong1 = Ong.objects.create(name = 'Ong')
+        project1 = Project.objects.create(ong = ong1, title = 'proyecto', country = 'Esapaña', amount = 2)
+        Payment.objects.create(payday=datetime(2023,3,11), amount=10, project=project1)
+        Payment.objects.create(payday=datetime(2022,11,28), amount=105.56, project=project1)
+        Payment.objects.create(payday=datetime(2010,6,9), amount=1000.1, project=project1)
+        
+        
+        
     def test_payment_creation(self):
         payment = Payment.objects.get(amount=10)
         self.assertEqual(float(payment.amount), 10.)

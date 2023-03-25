@@ -46,7 +46,7 @@ class Service(models.Model):
         return self.service_typeimage.png
     
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.service_type + ' ' + self.id)
+        self.slug = slugify(self.service_type + ' ' + str(self.id))
         super(Service, self).save(*args, **kwargs)
     class Meta:
         verbose_name = 'Sevicio'

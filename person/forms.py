@@ -1,14 +1,20 @@
 from django import forms
 from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENCE, Volunteer
+from localflavor.es.forms import ESIdentityCardNumberField
+from localflavor.generic.forms import IBANFormField
+from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 
 
 class CreateNewGodFather(forms.ModelForm):
+    dni = ESIdentityCardNumberField(only_nif=True)
+    bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
     class Meta:
         model = GodFather
-        exclude = ['id']
+        exclude = ['id','dni','bank_account_number']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'seniority': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
             'sex': forms.Select(attrs={'step': "0.01"}),
         }
@@ -30,7 +36,7 @@ class CreateNewGodFather(forms.ModelForm):
 class CreateNewASEMUser(forms.ModelForm):
     class Meta:
         model = ASEMUser
-        exclude = ['id']
+        exclude = ['id', 'ong'] #ong should be ASEM
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
@@ -53,8 +59,48 @@ class CreateNewWorker(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(
-        label='Confirmar contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
+
+    class Meta:
+        model = Worker
+        exclude = ['id', 'last_login', 'is_active','is_admin','password']
+        
+        widgets = {
+            'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'ong': forms.Select(attrs={'disabled':True})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(CreateNewWorker, self).__init__(*args, **kwargs)
+
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select border-class mb-3'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input border-class mb-3'})
+            else:
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control border-class mb-3'})
+
+    def clean_password2(self):
+        # Check that the two password entries match
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Las contraseñas no coinciden")
+        return password2
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super(CreateNewWorker, self).save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+    
+class UpdateWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
@@ -64,7 +110,7 @@ class CreateNewWorker(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(CreateNewWorker, self).__init__(*args, **kwargs)
+        super(UpdateWorker, self).__init__(*args, **kwargs)
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
@@ -76,35 +122,29 @@ class CreateNewWorker(forms.ModelForm):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control border-class'})
 
-    def clean_password2(self):
-        # Check that the two password entries match
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
-        return password2
-
     def save(self, commit=True):
         # Save the provided password in hashed format
-        user = super(CreateNewWorker, self).save(commit=False)
-        user.set_password(self.cleaned_data["password1"])
+        user = super(UpdateWorker, self).save(commit=False)
         if commit:
             user.save()
         return user
-
 
 class CreateNewChild(forms.ModelForm):
     sex = forms.ChoiceField(choices=SEX_TYPES, label="Género")
     correspondence = forms.ChoiceField(
         choices=CORRESPONDENCE, label="Correspondencia")
 
+    def __init__(self, *args, **kwargs):
+        super(self.__class__, self).__init__(*args, **kwargs)
+        self.fields['email'].required = False
     class Meta:
         model = Child
-        exclude = ['id']
+        exclude = ['id', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'sponsorship_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'number_brothers_siblings': forms.NumberInput(attrs={'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -124,7 +164,7 @@ class CreateNewChild(forms.ModelForm):
 class CreateNewVolunteer(forms.ModelForm):
     class Meta:
         model = Volunteer
-        exclude = ['id']
+        exclude = ['id', 'ong'] # ong is added in the view
         widgets = {
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),

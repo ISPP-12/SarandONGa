@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
-from proyect.models import Proyect
+from project.models import Project
 from django.utils.text import slugify
 
 
@@ -13,7 +13,8 @@ class Payment(models.Model):
         default=timezone.now, verbose_name="Día de cobro")
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
                                  MinValueValidator(0)], verbose_name="Importe")
-    proyect = models.ForeignKey(Proyect, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Proyecto")
+    project = models.ForeignKey(
+        Project, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Proyecto")
 
     # ACTUALMENTE ESTO FALLA PORQUE SERVICIO Y PADRINO NO EXISTEN
     # godfather = models.ForeignKey(Godfather, on_delete=models.CASCADE)
@@ -26,7 +27,7 @@ class Payment(models.Model):
 
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.proyect.title + ' ' + self.amount)
+        self.slug = slugify(self.project.title + ' ' + str(self.amount))
         super(Payment, self).save(*args, **kwargs)
 
     class Meta:

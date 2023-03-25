@@ -48,3 +48,7 @@ def payment_delete(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
     payment.delete()
     return redirect('payment_list')
+
+def payment_details(request, payment_id):
+    payment = get_object_or_404(Payment, id=payment_id)
+    return render(request, 'payment/payment_details.html', {'payment': payment})

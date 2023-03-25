@@ -15,7 +15,7 @@ class Stock(models.Model):
     photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/stock/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name + ' ' + self.id)
+        self.slug = slugify(self.name + ' ' + str(self.id))
         super(Stock, self).save(*args, **kwargs)
     
     def __str__(self):

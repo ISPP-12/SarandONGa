@@ -35,7 +35,7 @@ class Subsidy(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         self.clean()
-        self.slug = slugify(self.organism + ' ' + self.id+' '+ self.name)
+        self.slug = slugify(self.organism + ' ' + str(self.id)+' '+ self.name)
 
         if self.amount < 0:
             raise ValidationError("El importe no puede ser negativo")

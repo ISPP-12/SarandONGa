@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
 from django.utils.text import slugify
+from django.utils import timezone
 
 PAYMENT_METHOD = (
     ('T', 'Transferencia'),
@@ -34,7 +35,9 @@ class Home(models.Model):
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
-    seniority = models.DateField(verbose_name='Antigüedad de la casa')
+    start_date = models.DateField(
+        default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
+    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
     province = models.CharField(
         default="Sevilla", verbose_name='Provincia', max_length=25)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
