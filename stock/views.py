@@ -40,3 +40,7 @@ def stock_update(request, stock_id):
 
     form = CreateNewStock(instance=stock)
     return render(request, 'stock/register.html', {'form': form, 'title': 'Actualizar artículo'})
+def stock_delete(request, stock_id):
+    stock = get_object_or_404(Stock, id=stock_id)
+    stock.delete()
+    return redirect('stock_list')
