@@ -21,7 +21,6 @@ FREQUENCY = (
 
 class Home(models.Model):
     id = models.AutoField(primary_key=True)
-
     name = models.CharField(default="", max_length=25, verbose_name="Nombre")
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
@@ -52,7 +51,7 @@ class Home(models.Model):
 
     def save(self, *args, **kwargs):
         
-        if self.start_date is not None:
+        if self.start_date and self.termination_date:
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "La fecha de baja debe ser posterior a la fecha de alta.")
@@ -63,3 +62,8 @@ class Home(models.Model):
         else:
             self.slug = slugify(self.name + ' ' + self.province)
             super(Home, self).save(*args, **kwargs)
+
+    
+    class Meta:
+        verbose_name = 'Casa'
+        verbose_name_plural = 'Casas'

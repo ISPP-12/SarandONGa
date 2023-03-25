@@ -29,3 +29,7 @@ class Donation(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'Donación'
+        verbose_name_plural = 'Donaciones'
