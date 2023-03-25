@@ -36,8 +36,8 @@ class ChildTestCase(TestCase):
         self.assertEqual(child.sex, 'Femenino')
         self.assertEqual(child.city, 'Test1')
         self.assertEqual(child.address, 'Test1')
-        self.assertEqual(child.telephone, 123456789)
-        self.assertEqual(child.postal_code, 12345)
+        self.assertEqual(child.telephone, '123456789')
+        self.assertEqual(child.postal_code, '12345')
         self.assertEqual(child.photo, 'test1.jpg')
         self.assertEqual(child.start_date.strftime(
             '%d/%m/%Y'), datetime(2006, 2, 23).strftime('%d/%m/%Y'))
@@ -64,8 +64,8 @@ class ChildTestCase(TestCase):
         self.assertEqual(child2.sex, 'Masculino')
         self.assertEqual(child2.city, 'Test2')
         self.assertEqual(child2.address, 'Test2')
-        self.assertEqual(child2.telephone, 123456789)
-        self.assertEqual(child2.postal_code, 12345)
+        self.assertEqual(child2.telephone, '123456789')
+        self.assertEqual(child2.postal_code, '12345')
         self.assertEqual(child2.photo, 'test2.jpg')
         self.assertEqual(child2.start_date.strftime(
             '%d/%m/%Y'), datetime(2008, 11, 12).strftime('%d/%m/%Y'))
@@ -92,8 +92,8 @@ class ChildTestCase(TestCase):
         self.assertEqual(child3.sex, 'Femenino')
         self.assertEqual(child3.city, 'Test3')
         self.assertEqual(child3.address, 'Test3')
-        self.assertEqual(child3.telephone, 123456789)
-        self.assertEqual(child3.postal_code, 12345)
+        self.assertEqual(child3.telephone, '123456789')
+        self.assertEqual(child3.postal_code, '12345')
         self.assertEqual(child3.photo, 'test3.jpg')
         self.assertEqual(child3.start_date.strftime(
             '%d/%m/%Y'), datetime(2013, 11, 23).strftime('%d/%m/%Y'))

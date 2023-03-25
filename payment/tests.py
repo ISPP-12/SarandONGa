@@ -1,12 +1,14 @@
 from django.test import TestCase
 from datetime import datetime
 from payment.models import Payment
+from ong.models import Ong
 
 class PaymentTestCase(TestCase):
     def setUp(self):
-        Payment.objects.create(payday=datetime(2023,3,11), amount=10)
-        Payment.objects.create(payday=datetime(2022,11,28), amount=105.56)
-        Payment.objects.create(payday=datetime(2010,6,9), amount=1000.1)
+        self.ong = Ong.objects.create(name="ONG")
+        Payment.objects.create(payday=datetime(2023,3,11), amount=10, ong=self.ong)
+        Payment.objects.create(payday=datetime(2022,11,28), amount=105.56, ong=self.ong)
+        Payment.objects.create(payday=datetime(2010,6,9), amount=1000.1, ong=self.ong)
 
     def test_payment_creation(self):
         payment = Payment.objects.get(amount=10)
@@ -36,5 +38,8 @@ class PaymentTestCase(TestCase):
 
     def  test_payment_negative_payday(self):
         with self.assertRaises(ValueError):
+            Payment.objects.create(payday=datetime(2020,2,31), amount=-1, ong=self.ong)
+  
+    def  test_payment_null_ong(self):
+        with self.assertRaises(ValueError):
             Payment.objects.create(payday=datetime(2020,2,31), amount=-1)
-

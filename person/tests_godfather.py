@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from django.test import TestCase
 from ong.models import Ong
 from person.models import GodFather
@@ -114,6 +114,7 @@ class GodFatherTestCase(TestCase):
         godfather.bank_account_holder = 'John Doe 2'
         godfather.bank_account_reference = '1465 0100 72 2030876299'
         godfather.frequency = 'Y'
+        godfather.birth_date = datetime(1990, 1, 24, tzinfo=timezone.utc)
         godfather.start_date = datetime(2000, 1, 24, tzinfo=timezone.utc)
         godfather.termination_date = datetime(2010, 1, 24, tzinfo=timezone.utc)
         godfather.notes = 'Some notes 2'
@@ -139,13 +140,16 @@ class GodFatherTestCase(TestCase):
 
     def test_godfather_bank_account_number_incorrect_max(self):
         with self.assertRaises(Exception):
-            GodFather.objects.create(email="tcamerob2@gmail.com",
+            godfather = GodFather.objects.create(email="tcamerob2@gmail.com",
             name="Tomas2",
             surname='Camero',
             amount = 100,
             frequency = 'M',
             payment_method = 'T',
-            bank_account_number="ES11111111111111111111111",ong=self.ong)
+            bank_account_number="ES" + "1" * 23,
+            ong=self.ong)
+            godfather.full_clean()
+
         
     def test_gf_incorrect_bank_number(self):
         
