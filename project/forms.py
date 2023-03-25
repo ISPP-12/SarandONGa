@@ -1,10 +1,11 @@
 from django import forms
-from proyect.models import Proyect
+from project.models import Project
 
-class CreateNewProyect(forms.ModelForm):
+
+class CreateNewProject(forms.ModelForm):
     class Meta:
-        model = Proyect
-        exclude = ['id']
+        model = Project
+        exclude = ['id', 'ong']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -12,7 +13,7 @@ class CreateNewProyect(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(CreateNewProyect, self).__init__(*args, **kwargs)
+        super(CreateNewProject, self).__init__(*args, **kwargs)
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
@@ -23,8 +24,7 @@ class CreateNewProyect(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control border-class'})
-    
-                
+
     def clean(self):
         cleaned_data = super().clean()
         fecha_inicio = cleaned_data.get('start_date')
@@ -32,4 +32,5 @@ class CreateNewProyect(forms.ModelForm):
 
         if fecha_inicio and fecha_fin:
             if fecha_fin < fecha_inicio:
-                self.add_error('end_date', "La fecha de finalización debe ser posterior a la fecha de inicio")
+                self.add_error(
+                    'end_date', "La fecha de finalización debe ser posterior a la fecha de inicio")

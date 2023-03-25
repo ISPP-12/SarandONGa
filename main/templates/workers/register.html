@@ -1,0 +1,58 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %} 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div id="section-worker">
+
+{% if form.instance.id %}
+    {% include 'components/title.html' with title="Editar trabajador" %}
+{% else %}
+    {% include 'components/title.html' with title="Añadir trabajador" %}
+{% endif %}
+
+
+{% if messages %}
+<div class="row">
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data" class="mt-3 row">{% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+        <div class="col-md-6 col-12">
+            <div class="row">
+                {% if field.field.required %}
+                    {% with field.label_tag|add:" (obligatorio)" as label_tag_required %}
+                        {% include 'components/inputs.html' with id=field.id_for_label label_text=label_tag_required input=field %}
+                    {% endwith %}
+                {% else %}
+                    {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+                {% endif %}
+            </div>
+            <div class="row text-danger">
+                {{ field.errors }}
+            </div>
+        </div>
+    {% endfor %}
+    <div class="form-section mt-3 mb-5 col-12 d-flex justify-content-center">
+        {% if form.instance.id %}
+            {% include 'components/button.html' with variation="SUBMIT" text="Actualizar trabajador" id="id-submitForm" type="submit" %}
+        {% else %}
+            {% include 'components/button.html' with variation="SUBMIT" text="Registrar trabajador" id="id-submitForm" type="submit" %}
+        {% endif %}
+    </div>
+</form>
+
+</div>
+{% endblock %}
