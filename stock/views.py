@@ -16,6 +16,7 @@ def stock_list(request):
 
 def stock_create(request):
     if request.method == "POST":
+        print(request.POST)
         form = CreateNewStock(request.POST)
         if form.is_valid():
             name = form.cleaned_data["name"]
@@ -25,6 +26,7 @@ def stock_create(request):
             return redirect('stock_list')
         else:
             messages.error(request, 'Formulario con errores')
+            print(form.errors)
     form = CreateNewStock()
     return render(request, 'stock/register.html', {'form': form, 'title': 'Registrar artículo'})
 
