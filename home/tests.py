@@ -74,12 +74,13 @@ class HomeTestCase(TestCase):
             
     def test_home_create_incorrect_amount(self):
         with self.assertRaises(Exception):
-            Home.objects.create(name='Casa', payment_method='Transferencia',
+            home = Home.objects.create(name='Casa', payment_method='Transferencia',
                             bank_account_number= 'ES9021002220115629603391',
                             bank_account_holder='Marta', 
                             bank_account_reference='AS121',
                             amount=0, frequency='Anual',
                             province='Sevilla', notes='Nada')     
+            home.full_clean()
             
     def test_home_create_incorrect_frequency(self):
         with self.assertRaises(Exception):

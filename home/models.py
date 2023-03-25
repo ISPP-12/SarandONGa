@@ -55,7 +55,9 @@ class Home(models.Model):
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "La fecha de baja debe ser posterior a la fecha de alta.")
-
+            elif self.amount < 1:
+                raise ValidationErr(
+                    "La cantidad debe ser mayor a 1.")
             else:
                # self.slug = slugify(self.name + ' ' + self.province)
                 super(Home, self).save(*args, **kwargs)
