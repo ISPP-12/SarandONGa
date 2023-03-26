@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extrahead %}
-<link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/homes.css' %}">
 {% endblock %}
 
 {% block title %}
@@ -15,7 +15,7 @@ Añadir casa
 
 {% block content %}
 
-<div id="section-child">
+<div id="section-home">
 
   {% if form.instance.id %}
   {% include 'components/title.html' with title="Editar casa" %}

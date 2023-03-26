@@ -1,8 +1,78 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %} 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}">
+{% endblock %}
+
+{% block title %} 
+{% if form.instance.id %}
+    Editar apadrinamiento
+{% else %}
+    Añadir apadrinamiento
+{% endif %}
+{% endblock %}
+
 {% block content %}
-Registrar apadrinamiento
-<form method="post" action="/sponsorship/create">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit", name="save">Registrar</button>
-</form>
+
+<div id="section-volunteer">
+
+    {% if form.instance.id %}
+        {% include 'components/title.html' with title="Editar apadrinamiento" %}
+    {% else %}
+        {% include 'components/title.html' with title="Añadir apadrinamiento" %}
+    {% endif %}
+   
+
+    {% if messages %}
+    <div class="row">
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <form method="post" class="mt-3 row">{% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="col-md-6 col-12">
+                <div class="row my-3">
+                    {% if field.field.required %}
+                        {% with label_text=field.label_tag|safe|add:'<span class="text-danger"> *</span>' %}
+                            {% include 'components/inputs.html' with id=field.id_for_label label_text=label_text input=field %}
+                        {% endwith %}
+                    {% else %}
+                        {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+                    {% endif %}
+                </div>
+                <div class="row text-danger">
+                    {{ field.errors }}
+                </div>
+            </div>
+        {% endfor %}
+
+        <div class="col-12">
+            <p class="text-danger">* Campos obligatorios</p>
+        </div>
+
+        <div class="form-section mt-5 mb-5 col-12 d-flex justify-content-center">
+        
+            {% if form.instance.id %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Actualizar apadrinamiento" id="id-submitForm" type="submit" %}
+            {% else %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Registrar apadrinamiento" id="id-submitForm" type="submit" %}
+            {% endif %}
+
+            
+        </div>
+    </form>
+</div>
+
+{% comment %}
+//TODO: Add a script to disable home input when a godfather is entered and viceversa
+{% endcomment %}
+
 {% endblock %}

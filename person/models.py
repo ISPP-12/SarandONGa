@@ -220,6 +220,9 @@ class GodFather(Person):
    # slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='padrino', verbose_name="ONG")
+    
+    def __str__(self):
+        return self.name + ' ' + self.surname + ' (' + self.dni + ')'
 
     def save(self, *args, **kwargs):
        # self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
@@ -333,7 +336,7 @@ class Child(Person):
     mother_profession = models.CharField(
         max_length=200, verbose_name="Profesion de la madre", default='Trabajo')
     number_brothers_siblings = models.IntegerField(
-        verbose_name="Número de hermanos", default=0)
+        verbose_name="Número de hermanos", default=0, validators=[MinValueValidator(0)])
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
     ##slug = models.SlugField(max_length=200, unique=True, editable=False)
