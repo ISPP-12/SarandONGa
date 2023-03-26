@@ -18,10 +18,10 @@ nav a {
 .dropdown-toggle::after {
   content: "\F282";
   display: inline;
-  margin-left: 0px;
+  margin-left: 0;
   vertical-align: bottom;
   border: 0;
-  font-family: bootstrap-icons;
+  font-family: bootstrap-icons, sans-serif;
   font-style: normal;
 }
 
