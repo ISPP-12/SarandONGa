@@ -3,33 +3,35 @@ from django.test import TestCase
 from datetime import datetime
 from ong.models import Ong
 from payment.models import Payment
-from proyect.models import Proyect
+from project.models import Project
 
 class PaymentTestCase(TestCase):
     def setUp(self):
-        Ong.objects.create(name="VidesSur")
-        Proyect.objects.create(title="Proyecto", country="Spain", start_date = datetime(2023,3,11), end_date= datetime(2024,11,28), number_of_beneficiaries=2, amount=7, announcement_date=datetime(2022,11,28), ong=Ong.objects.get(name="VidesSur"))
-        proyect = Proyect.objects.get(title="Proyecto")
-        Payment.objects.create(payday=datetime(2023,3,11), amount=10, paid=True)
-        Payment.objects.create(payday=datetime(2022,11,28), amount=105.56, paid=True)
-        Payment.objects.create(payday=datetime(2010,6,9), amount=1000.1, paid=False, proyect=proyect)
+        self.ong= Ong.objects.create(name="VidesSur")
+        self.project = Project.objects.create(title="projecto", country="Spain", start_date = datetime(2023,3,11), end_date= datetime(2024,11,28), number_of_beneficiaries=2, amount=7, announcement_date=datetime(2022,11,28), ong=Ong.objects.get(name="VidesSur"))
+        Payment.objects.create(payday=datetime(2023,3,11), amount=10, ong=self.ong, paid=True)
+        Payment.objects.create(payday=datetime(2022,11,28), amount=105.56, ong=self.ong, paid=True)
+        Payment.objects.create(payday=datetime(2010,6,9), amount=1000.1, ong=self.ong, paid=False, project=self.project)
 
     def test_payment_creation(self):
         payment = Payment.objects.get(amount=10)
         self.assertEqual(float(payment.amount), 10.)
         self.assertEqual(payment.payday.strftime('%d/%m/%Y'), datetime(2023,3,11).strftime('%d/%m/%Y'))
         self.assertEqual(payment.paid, True)
+        self.assertEqual(payment.ong, self.ong)
 
         payment2 = Payment.objects.get(amount=105.56)
         self.assertEqual(float(payment2.amount), 105.56)
         self.assertEqual(payment2.payday.strftime('%d/%m/%Y'), datetime(2022,11,28).strftime('%d/%m/%Y'))
         self.assertEqual(payment2.paid, True)
+        self.assertEqual(payment2.ong, self.ong)
 
         payment3 = Payment.objects.get(amount=1000.1)
         self.assertEqual(float(payment3.amount), 1000.1)
         self.assertEqual(payment3.payday.strftime('%d/%m/%Y'), datetime(2010,6,9).strftime('%d/%m/%Y'))
         self.assertEqual(payment3.paid, False)
-        self.assertEqual(payment3.proyect.title, "Proyecto")
+        self.assertEqual(payment3.ong, self.ong)
+        self.assertEqual(payment3.project.title, "projecto")
 
     def test_payment_update(self):
         payment = Payment.objects.get(amount=105.56)
@@ -48,23 +50,27 @@ class PaymentTestCase(TestCase):
 
     def  test_payment_create_negative_amount(self):
         with self.assertRaises(ValueError):
+            Payment.objects.create(payday=datetime(2020,2,31), amount=-1, ong=self.ong)
+
+    def  test_payment_create_null_ong(self):
+        with self.assertRaises(ValueError):
             Payment.objects.create(payday=datetime(2020,2,31), amount=-1)
 
     def test_payment_create_max_digits_amount(self):
         with self.assertRaises(ValueError):
-            Payment.objects.create(payday=datetime(2020,2,31), amount=10000000000)
+            Payment.objects.create(payday=datetime(2020,2,31), amount=10000000000, ong=self.ong)
 
     def test_payment_create_amount_not_decimal(self):
         with self.assertRaises(ValueError):
-            Payment.objects.create(payday=datetime(2020,2,31), amount="1.111")
+            Payment.objects.create(payday=datetime(2020,2,31), amount="1.111", ong=self.ong)
     
     def test_payment_create_payday_not_datetime(self):
         with self.assertRaises(ValidationError):
-            Payment.objects.create(payday="2020-02-31", amount=1.11)
+            Payment.objects.create(payday="2020-02-31", amount=1.11, ong=self.ong)
 
     def test_payment_create_paid_not_boolean(self):
         with self.assertRaises(ValueError):
-            Payment.objects.create(payday=datetime(2020,2,31), amount=1.11, paid="True")
+            Payment.objects.create(payday=datetime(2020,2,31), amount=1.11, paid="True", ong=self.ong)
 
     def test_payment_update_negative_amount(self):
         payment = Payment.objects.get(amount=105.56)
@@ -96,6 +102,3 @@ class PaymentTestCase(TestCase):
             payment.paid = "True"
             payment.save()
     
-
-
-

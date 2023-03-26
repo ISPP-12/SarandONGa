@@ -1,0 +1,45 @@
+:root {
+    --homes-main-color: var(--clr-accent-3);
+    --homes-main-color-hover: var(--clr-accent-3-dark);
+    --homes-main-color-light: var(--clr-accent-3-light);
+  }
+  
+  /* Button */
+  #section-home .section-btn {
+    background-color: var(--homes-main-color);
+    color: var(--clr-black);
+  }
+  
+  #section-home .section-btn:hover {
+    color: var(--clr-black);
+  }
+  
+  /* override bootstrap */
+  #section-home .section-btn:active {
+    background-color: var(--homes-main-color-hover) !important;
+    color: var(--clr-black);
+  }
+  
+  /* Title */
+  #section-home .title {
+    border-color: var(--homes-main-color);
+  }
+  
+  @media (min-width: 768px) {
+    #chevron {
+      display: none !important;
+    }
+  }
+  
+  /* cards hover */
+  
+  .card-list:hover {
+    cursor: pointer;
+    background-color: var(--homes-main-color-light);
+    transition: background-color 0.5s ease-in-out;
+  }
+  
+  .card-list:focus {
+    background-color: var(--homes-main-color-light);
+  }
+  
