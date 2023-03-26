@@ -1,6 +1,13 @@
 {% block content %}
 Registrar apadrinamiento
-<form method="post" action="/sponsorship/create">
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-danger">
+        {{ message }}
+    </div>
+    {% endfor %}
+{% endif %}
+<form method="post">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit", name="save">Registrar</button>

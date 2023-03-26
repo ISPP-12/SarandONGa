@@ -1,7 +1,7 @@
 from django import forms
 from .models import Sponsorship
 from datetime import date
-
+from django.views.generic import UpdateView
 
 class create_sponsorship_form(forms.ModelForm):
     class Meta:
@@ -11,3 +11,9 @@ class create_sponsorship_form(forms.ModelForm):
             'sponsorship_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
         }
+
+class SponsorshipUpdateView(UpdateView):
+    model = Sponsorship
+    form_class = create_sponsorship_form
+    template_name = 'sponsorship_form.html'
+    success_url = 'sponsorship_list'
