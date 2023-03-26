@@ -1,3 +1,4 @@
+from xml.dom import ValidationErr
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
@@ -54,7 +55,9 @@ class Home(models.Model):
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "La fecha de baja debe ser posterior a la fecha de alta.")
-
+            elif self.amount < 1:
+                raise ValidationErr(
+                    "La cantidad debe ser mayor a 1.")
             else:
                # self.slug = slugify(self.name + ' ' + self.province)
                 super(Home, self).save(*args, **kwargs)
@@ -66,3 +69,4 @@ class Home(models.Model):
     class Meta:
         verbose_name = 'Casa'
         verbose_name_plural = 'Casas'
+

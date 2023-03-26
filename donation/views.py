@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CreateNewDonation
 from main.views import custom_403
 
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
@@ -74,3 +75,9 @@ def donation_update(request, donation_id):
     else:
         return custom_403(request)
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
+
+@login_required()
+def donation_delete(request, donation_id):
+    donation = get_object_or_404(Donation, id=donation_id)
+    donation.delete()
+    return redirect('donation_list')
