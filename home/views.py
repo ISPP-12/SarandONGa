@@ -76,6 +76,12 @@ def home_delete(request, home_id):
 
 @login_required
 @videssur_required
+def home_details(request, home_id):
+    home = get_object_or_404(Home, id=home_id)
+    return render(request, 'home/home_details.html', {'home': home})
+
+@login_required
+@videssur_required
 def home_update(request,home_id):
     home_to_update = Home.objects.get(id=home_id)
     form = CreateHomeForm(instance=home_to_update)
