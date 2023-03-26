@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Sponsorship
-from .forms import create_sponsorship_form, SponsorshipUpdateView
+from .forms import create_sponsorship_form
 from xml.dom import ValidationErr
 
 def sponsorship_create(request):
