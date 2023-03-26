@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CreateNewDonation
 from main.views import custom_403
 
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
