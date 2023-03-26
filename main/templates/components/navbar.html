@@ -23,11 +23,13 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/user/volunteer/list">Voluntarios</a></li>
                     <li><a class="dropdown-item" href="/user/worker/list">Trabajadores</a></li>
+
                     {% if request.user.ong.name == "ASEM" %}
-                    <li><a class="dropdown-item" href="/user/asem/list">Usuarios ASEM</a></li>
+                        <li><a class="dropdown-item" href="/user/asem/list">Usuarios ASEM</a></li>
                     {% elif request.user.ong.name == "VidesSur" %}
-                    <li><a class="dropdown-item" href="/user/child/list">Niños</a></li>
-                    <li><a class="dropdown-item" href="/user/godfather/list">Padrinos</a></li>
+                        <li><a class="dropdown-item" href="/user/child/list">Niños</a></li>
+                        <li><a class="dropdown-item" href="/user/godfather/list">Padrinos</a></li>
+                        <li><a class="dropdown-item" href="/home/list">Casas</a></li>
                     {% endif %}
                 </ul>
             </li>
