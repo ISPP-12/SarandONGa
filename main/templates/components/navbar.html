@@ -28,7 +28,6 @@
                     {% elif request.user.ong.name|lower == "videssur" %}
                     <li><a class="dropdown-item" href="/user/child/list">Niños</a></li>
                     <li><a class="dropdown-item" href="/user/godfather/list">Padrinos</a></li>
-                    <li><a class="dropdown-item" href="/home/list">Casas</a></li>
                     {% endif %}
                 </ul>
             </li>
@@ -37,7 +36,7 @@
                 <a class="nav-link {% if 'home' in request.path %}active{% endif %}"  href="/home/list">Casas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if 'home' in request.path %}active{% endif %}"  href="/project/list">Proyectos</a>
+                <a class="nav-link {% if 'project' in request.path %}active{% endif %}"  href="/project/list">Proyectos</a>
             </li>
             {% endif %}
             <li class="nav-item">

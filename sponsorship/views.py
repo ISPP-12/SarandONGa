@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from functools import wraps
 from .models import Sponsorship
 from .forms import create_sponsorship_form
 from main.views import videssur_required
