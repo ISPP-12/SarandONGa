@@ -97,12 +97,12 @@ class Person(models.Model):
     city = models.CharField(
         max_length=200, verbose_name="Ciudad", null=True, blank=True)
     address = models.CharField(
-        max_length=200, verbose_name="Dirección", null=True, blank=True)
+        max_length=200, verbose_name="Dirección", null=True, blank=True, default='Sin dirección')
     telephone = models.CharField(max_length=50,
-        verbose_name="Teléfono", null=True, blank=True)
+        verbose_name="Teléfono", null=True, blank=True, default='Sin teléfono')
     postal_code = models.CharField(max_length=50,
-        verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", upload_to="person/", null=True, blank=True)
+        verbose_name="Código postal", null=True, blank=True, default='Sin código postal')
+    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
        # self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)

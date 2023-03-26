@@ -72,12 +72,12 @@
           <div class="row">
             <div class="col justify-content-center">
               <div class=" row justify-content-center ">
-                {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if object.photo %}
+                {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if objectData.photo %}
 
-                  <img class="profile-img-big rounded" src=" {{object.photo}} " />
-                  {% else %}
+                  <img class="profile-img-big rounded" src=${"../../" + objectData.photo} />
+                {% else %}
 
-                  <img class="profile-img-big rounded" src={ static 'img/person-icon.svg' %} />
+                  <img class="profile-img-big rounded" src={% static 'img/person-icon.svg' %} />
 
                   {% endif %} 
 

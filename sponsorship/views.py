@@ -15,6 +15,8 @@ def sponsorship_create(request):
         form = create_sponsorship_form(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('sponsorship_list')
+
         else:
             messages.error(request, 'El formulario presenta errores')
     else:

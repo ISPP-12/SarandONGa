@@ -21,7 +21,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 def project_delete(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     project.delete()
-    return redirect('/')
+    return redirect('project_list')
 
 @login_required
 @videssur_required
@@ -36,7 +36,7 @@ def project_create(request):
             project = form.save(commit=False)
             project.ong = request.user.ong
             project.save()
-            return redirect('/')
+            return redirect('project_list')
         else:
             for field, errors in form.errors.items():
                 for error in errors:
@@ -52,7 +52,7 @@ def project_update(request, project_id):
         form = CreateNewProject(request.POST, instance=project)
         if form.is_valid():
             form.save()
-            return redirect('/')
+            return redirect('project_list')
         else:
            for field, errors in form.errors.items():
                 for error in errors:
