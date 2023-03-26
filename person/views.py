@@ -250,7 +250,7 @@ def godfather_create(request):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewGodFather()
-    return render(request, 'person/godfather/godfather_form.html', {"form": form, "title": "Añadir Padrino"})
+    return render(request, 'person/godfather/form.html', {"form": form, "title": "Añadir Padrino"})
 
 @login_required
 @videssur_required
