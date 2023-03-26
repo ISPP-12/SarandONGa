@@ -124,6 +124,7 @@ def worker_create(request):
             worker = form.save(commit=False)
             worker.ong = ong
             worker.save()
+            form.save()
             
             return redirect('worker_list')
         else:
@@ -147,7 +148,7 @@ def worker_update(request, worker_id):
         context = {"form": form, "title": "Actualizar Trabajador"}
     else:
         return custom_403(request)
-    return render(request, 'worker/worker_update_form.html', context)
+    return render(request, 'workers/register.html', context)
 
 @login_required
 def worker_list(request):
@@ -174,7 +175,7 @@ def worker_list(request):
 def worker_details(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if worker.ong == request.user.ong:
-        return render(request, 'worker/details.html', {'worker': worker})
+        return render(request, 'workers/details.html', {'worker': worker})
     else:
         return custom_403(request)
 
