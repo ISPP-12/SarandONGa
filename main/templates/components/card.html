@@ -1,6 +1,5 @@
 {% comment %}
 ATTRIBUTES
-- id: for the card div, just in case
 - class_card: class for the card. It is CRUCIAL for the display switch component
 - item: the item to be shown. Should be stock, otherwise, it needs to have these three attributes:
     - name
@@ -10,7 +9,7 @@ ATTRIBUTES
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/components/cards.css' %}">
 
-<div id="{{id}}" class="productDiv">
+<div id="id-productDiv-{{item.id}}" class="productDiv">
     <div class="card {{class_card}}">
         <div class="row g-0">
             <div class="card-img-col col-12">
