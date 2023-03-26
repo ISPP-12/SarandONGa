@@ -1,6 +1,67 @@
-<h2>Log In</h2>
-<form method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %} 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}">
+{% endblock %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+<div id="section-child" style="height: 100vh;">
+
+
+  {% if messages %}
+  <div class="row">
+      {% for message in messages %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+  </div>
+  {% endif %}
+
+
+  <div class="d-flex flex-column justify-content-center align-items-center" style="height: 80%;">
+    {% include 'components/title.html' with title="Iniciar sesión" %}
+    <form method="post" class="form">{% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ form.non_field_errors }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endif %}
+  
+
+      {% for field in form %}
+            <div class="col-12 ">
+                <div class="row my-3 ">
+                  {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+                </div>
+                <div class="row text-danger">
+                    {{ field.errors }}
+                </div>
+            </div>
+        {% endfor %}
+
+      
+      <div class="form-section mt-5 mb-5 col-12 d-flex justify-content-center">
+        {% include 'components/button.html' with variation="SUBMIT" text="Iniciar sesión" id="id-submitForm" type="submit" %}  
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+  let usernameInput = document.getElementById("id_username")
+  let passwordInput = document.getElementById("id_password")
+  usernameInput.classList.add("form-control")
+  passwordInput.classList.add("form-control")
+
+  // add placeholder to inputs
+  usernameInput.setAttribute("placeholder", "Escribe tu nombre de usuario ...")
+  passwordInput.setAttribute("placeholder", "Escribe tu contraseña ...")
+</script>
+
+{% endblock %}
