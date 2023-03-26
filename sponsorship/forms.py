@@ -1,7 +1,7 @@
 from django import forms
 from .models import Sponsorship
 from datetime import date
-from django.views.generic import UpdateView
+
 
 class create_sponsorship_form(forms.ModelForm):
     class Meta:
