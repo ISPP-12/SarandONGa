@@ -26,6 +26,10 @@ def project_delete(request, project_id):
 @login_required
 @videssur_required
 def project_create(request):
+    if request.user.is_anonymous:
+        form = CreateNewProject()
+    else:
+        form = CreateNewProject(initial={'ong':request.user.ong})
     if request.method == "POST":
         form = CreateNewProject(request.POST, initial={'ong':request.user.ong})
         if form.is_valid():
@@ -38,8 +42,7 @@ def project_create(request):
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
 
-    form = CreateNewProject()
-    return render(request, 'project/project_form.html', {"form": form, "title": "Crear Proyecto"})
+    return render(request, 'project/register.html', {"form": form, "title": "Crear Proyecto"})
 
 @login_required
 @videssur_required
@@ -56,7 +59,7 @@ def project_update(request, project_id):
                     messages.error(request, f"{field}: {error}")
 
     form = CreateNewProject(instance=project)
-    return render(request, 'project/project_form.html', {'form': form, 'title': 'Actualizar proyecto'})
+    return render(request, 'project/register.html', {'form': form, 'title': 'Actualizar proyecto'})
 
 @login_required
 @videssur_required

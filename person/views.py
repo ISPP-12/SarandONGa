@@ -124,6 +124,7 @@ def worker_create(request):
             worker = form.save(commit=False)
             worker.ong = ong
             worker.save()
+            form.save()
             
             return redirect('worker_list')
         else:

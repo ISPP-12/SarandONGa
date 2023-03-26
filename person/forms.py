@@ -65,11 +65,10 @@ class CreateNewWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active','is_admin','password', 'ong']
+        exclude = ['id', 'last_login', 'is_active','is_admin','password','ong']
         
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'ong': forms.Select(attrs={'disabled':True})
         }
 
     def __init__(self, *args, **kwargs):
