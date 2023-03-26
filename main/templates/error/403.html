@@ -1,0 +1,10 @@
+{% extends "layouts/master.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <h1>Error 403: No tienes acceso a este sitio</h1>
+        <p>Lo sentimos, no tienes permiso para acceder a esta página. Si crees que esto es un error, por favor contacta al administrador del sitio.</p>
+        <a href="{% url 'home' %}">Volver a la página principal</a>
+    </div>
+{% endblock %}
