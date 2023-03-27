@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CreateNewDonation
 from main.views import custom_403
 
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
@@ -16,7 +17,7 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
-@login_required()
+@login_required
 def donation_create(request):
     form = CreateNewDonation(initial={'ong': request.user.ong})
     if request.method == "POST":
@@ -33,7 +34,7 @@ def donation_create(request):
 
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
 
-@login_required()
+@login_required
 def donation_list(request):
     # get donations from database
     donations = Donation.objects.filter(ong=request.user.ong).values()
@@ -59,26 +60,23 @@ def donation_list(request):
 
     return render(request, 'donation/list.html', context)
 
-@login_required()
+@login_required
 def donation_update(request, donation_id):
     donation = get_object_or_404(Donation, id=donation_id)
-    form = CreateNewDonation(instance=donation)
-    if request.method == "POST":
-        form = CreateNewDonation(request.POST, instance=donation)
-        if form.is_valid():
-            ong=request.user.ong
-            donation=form.save(commit=False)
-            donation.ong=ong
-            donation.save()
-            form.save()
-            return redirect("/donation/list")
-        else:
-            messages.error(request, 'Formulario con errores')
+    if request.user.ong == donation.ong:
+        form = CreateNewDonation(instance=donation)
+        if request.method == "POST":
+            form = CreateNewDonation(request.POST, instance=donation)
+            if form.is_valid():
+                form.save()
+                return redirect("/donation/list")
+            else:
+                messages.error(request, 'Formulario con errores')
+    else:
+        return custom_403(request)
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
 
-            return redirect('/donation/list')
-
-    return render(request, 'donation_update_form.html', {"form": form})
-
+@login_required()
 def donation_delete(request, donation_id):
     donation = get_object_or_404(Donation, id=donation_id)
     donation.delete()

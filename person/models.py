@@ -97,12 +97,12 @@ class Person(models.Model):
     city = models.CharField(
         max_length=200, verbose_name="Ciudad", null=True, blank=True)
     address = models.CharField(
-        max_length=200, verbose_name="Dirección", null=True, blank=True)
+        max_length=200, verbose_name="Dirección", null=True, blank=True, default='Sin dirección')
     telephone = models.CharField(max_length=50,
-        verbose_name="Teléfono", null=True, blank=True)
+        verbose_name="Teléfono", null=True, blank=True, default='Sin teléfono')
     postal_code = models.CharField(max_length=50,
-        verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", upload_to="person/", null=True, blank=True)
+        verbose_name="Código postal", null=True, blank=True, default='Sin código postal')
+    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
        # self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
@@ -206,7 +206,7 @@ class GodFather(Person):
     bank_account_holder = models.CharField(
         max_length=100, verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(
-        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')]) #for example, 1234567890
     amount = models.DecimalField(max_digits=10, decimal_places=2,
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
@@ -220,6 +220,9 @@ class GodFather(Person):
    # slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='padrino', verbose_name="ONG")
+    
+    def __str__(self):
+        return self.name + ' ' + self.surname + ' (' + self.dni + ')'
 
     def save(self, *args, **kwargs):
        # self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
@@ -333,7 +336,7 @@ class Child(Person):
     mother_profession = models.CharField(
         max_length=200, verbose_name="Profesion de la madre", default='Trabajo')
     number_brothers_siblings = models.IntegerField(
-        verbose_name="Número de hermanos", default=0)
+        verbose_name="Número de hermanos", default=0, validators=[MinValueValidator(0)])
     correspondence = models.CharField(
         max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
     ##slug = models.SlugField(max_length=200, unique=True, editable=False)

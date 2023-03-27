@@ -5,7 +5,7 @@ from project.models import Project
 class CreateNewProject(forms.ModelForm):
     class Meta:
         model = Project
-        exclude = ['id', 'ong']
+        exclude = ['id','ong']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
@@ -17,13 +17,13 @@ class CreateNewProject(forms.ModelForm):
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-select border-class'})
+                    {'class': 'form-select'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-check-input border-class'})
+                    {'class': 'form-check-input'})
             else:
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-control border-class'})
+                    {'class': 'form-control'})
 
     def clean(self):
         cleaned_data = super().clean()

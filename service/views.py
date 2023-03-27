@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateNewService
 from .models import Service
 from django.contrib.auth.decorators import login_required
@@ -11,7 +11,7 @@ def service_create(request):
         form = CreateNewService(request.POST)
         if form.is_valid():
             form.save()
-            return service_list(request)
+            return redirect('service_list')
 
     form = CreateNewService()
     return render(request, 'service/service_form_backend.html', {"form": form, "title": "Crear Servicio"})
@@ -29,6 +29,13 @@ def service_list(request):
     }
 
     return render(request, 'service_list.html', context)
+
+@login_required
+@asem_required
+def service_delete(request, service_id):
+    service = get_object_or_404(Service, id=service_id)
+    service.delete()
+    return redirect('service_list')
 
 @login_required
 @asem_required

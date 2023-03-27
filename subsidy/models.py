@@ -48,6 +48,6 @@ class Subsidy(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Suministro'
-        verbose_name_plural = 'Suministros'
+        verbose_name = 'Subvenciones'
+        verbose_name_plural = 'Subvenciones'
 

@@ -1,0 +1,9 @@
+#calendar {
+  padding: 3rem;
+}
+
+@media (max-width: 767px) {
+  #calendar {
+    padding: 0;
+  }
+}

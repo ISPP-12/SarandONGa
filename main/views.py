@@ -101,6 +101,7 @@ def videssur_required(function):
         if request.user.ong.name.lower() == "videssur":
             return function(request, *args, **kwargs)
         else:
+            messages.error(request, "Necesitas pertenecer a VidesSur para acceder a esos datos")
             return custom_403(request)
     return wrapper
 
