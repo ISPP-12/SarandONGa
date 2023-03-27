@@ -10,11 +10,11 @@ class Sponsorship(models.Model):
     sponsorship_date = models.DateField(verbose_name='Fecha de apadrinamiento')
     termination_date = models.DateField(verbose_name='Fecha de baja')
     godfather = models.ManyToManyField(
-        person_models.GodFather, verbose_name="Padrinos")
+        person_models.GodFather, verbose_name="Padrinos", blank=True)
     child = models.ForeignKey(
         person_models.Child, verbose_name="Niños", on_delete=models.CASCADE)
     home = models.ForeignKey(
-        home_models.Home, verbose_name="Casa", on_delete=models.SET_NULL, null=True)
+        home_models.Home, verbose_name="Casa", on_delete=models.SET_NULL, null=True, blank=True)
 
     slug = models.SlugField(max_length=200, unique=True, editable=False)
 
