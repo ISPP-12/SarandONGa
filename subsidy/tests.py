@@ -100,3 +100,13 @@ class SubsidyTestCase(TestCase):
         with self.assertRaises(Exception):
             Subsidy.objects.create(presentation_date="2021-01-01", payment_date="2021-01-02", organism="ONG1",
                                    provisional_resolution="2017-07-18", final_resolution="2017-07-19", amount=1000, name="Juan"*1000, ong=self.ong, status="P"*51)
+
+    def test_subsidy_create_status_null(self):
+        with self.assertRaises(Exception):
+            Subsidy.objects.create(presentation_date="2021-01-01", payment_date="2021-01-02", organism="ONG1",
+                                   provisional_resolution="2017-07-18", final_resolution="2017-07-19", amount=1000, name="Juan"*1000, ong=self.ong, status=None)
+
+    def test_subsidy_create_status_blank(self):
+        with self.assertRaises(Exception):
+            Subsidy.objects.create(presentation_date="2021-01-01", payment_date="2021-01-02", organism="ONG1",
+                                   provisional_resolution="2017-07-18", final_resolution="2017-07-19", amount=1000, name="Juan"*1000, ong=self.ong, status="")

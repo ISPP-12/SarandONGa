@@ -23,21 +23,22 @@ def payment_create(request):
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
-        form = CreatePaymentForm()
 
         all_events = Payment.objects.all()
         event_arr = []
         for i in all_events:
             event_sub_arr = {}
-            event_sub_arr['title'] = str(i.amount)
-            start_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
-            end_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
+            # start_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            # end_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            start_date = i.payday
+            end_date = i.payday
             event_sub_arr['start'] = start_date
             event_sub_arr['end'] = end_date
             event_arr.append(event_sub_arr)
-        datatest = json.dumps(event_arr)
+        datatest = json.dumps(event_arr, default=str)
 
-    context = {'form': form, 'title': 'Añadir pago', 'events_json':datatest}
+    context = {'form': form, 'title': 'Añadir pago', 'events_json': datatest}
 
     return render(request, 'payment/payment_form.html', context)
 
@@ -59,14 +60,17 @@ def payment_update(request, payment_id):
             for i in all_events:
                 event_sub_arr = {}
                 event_sub_arr['title'] = str(i.amount)
-                start_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
-                end_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+                start_date = datetime.strptime(
+                    str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+                end_date = datetime.strptime(
+                    str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
                 event_sub_arr['start'] = start_date
                 event_sub_arr['end'] = end_date
                 event_arr.append(event_sub_arr)
             datatest = json.dumps(event_arr)
 
-        context = {'form': form, 'title': 'Actualizar pago', 'events_json':datatest}
+        context = {'form': form, 'title': 'Actualizar pago',
+                   'events_json': datatest}
     else:
         return custom_403(request)
     return render(request, 'payment/payment_form.html', context)
