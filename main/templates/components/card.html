@@ -13,7 +13,8 @@ ATTRIBUTES
     <div class="card {{class_card}}">
         <div class="row g-0">
             <div class="card-img-col col-12">
-                <img src="{% if item.picture %}{% static item.picture %}{% else %}{% static 'img/img-not-found.svg' %}{% endif %}" class="card-img-top" alt="{{item.name}}">
+               
+                <img src="{% if item.photo %}  ../../{{item.photo}}{% else %}{% static 'img/img-not-found.svg' %}{% endif %}" class="card-img-top" alt="{{item.name}}">
             </div>
             <div class="card-body-col col-12">
                 <div class="card-body row h-100">

@@ -12,6 +12,7 @@ class create_sponsorship_form(forms.ModelForm):
             'termination_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
         }
 
+
     def __init__(self, *args, **kwargs):
         super(create_sponsorship_form, self).__init__(*args, **kwargs)
         for field in self.fields:
@@ -24,3 +25,4 @@ class create_sponsorship_form(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
+

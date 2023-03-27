@@ -44,7 +44,6 @@
     const moreInfo = object.querySelector('#moreInfo')
     object.addEventListener('click', () => {
       const isMobile = window.matchMedia("(max-width: 768px)").matches
-      console.log(moreInfo)
       const isExpanded = !moreInfo.classList.contains('d-none')
       const objectId = object.querySelector('.object-id').innerText
       
@@ -72,7 +71,7 @@
           <div class="row">
             <div class="col justify-content-center">
               <div class=" row justify-content-center ">
-                {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if objectData.photo %}
+                {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if "objectData.photo" %}
 
                   <img class="profile-img-big rounded" src=${"../../" + objectData.photo} />
                 {% else %}

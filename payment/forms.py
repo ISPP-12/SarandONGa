@@ -8,8 +8,9 @@ class CreatePaymentForm(forms.ModelForm):
         model = Payment
         exclude = ['id', 'ong']
         widgets = {
-            'payday': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d %H:%M'),
+            'payday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "placeholder": "Escriba una cantidad"}),
+            
         }
 
     def __init__(self, *args, **kwargs):
