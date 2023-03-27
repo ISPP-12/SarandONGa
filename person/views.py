@@ -50,7 +50,7 @@ def godfather_list(request):
 def user_create(request):
     form = CreateNewASEMUser(initial={'ong':request.user.ong})
     if request.method == "POST":
-        form = CreateNewASEMUser(request.POST)
+        form = CreateNewASEMUser(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong #basically, it is ASEM
             user = form.save(commit=False)
@@ -74,7 +74,7 @@ def asem_user_delete(request, asem_user_id):
 def user_update(request, asem_user_id):
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
     if request.method == "POST":
-        form = CreateNewASEMUser(request.POST, instance=asem_user)
+        form = CreateNewASEMUser(request.POST, request.FILES, instance=asem_user)
         if form.is_valid():
             form.save()
             return redirect('user_list')
@@ -137,7 +137,7 @@ def worker_update(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if request.user.ong == worker.ong:
         if request.method == "POST":    
-            form = UpdateWorker(request.POST, instance=worker)
+            form = UpdateWorker(request.POST, request.FILES, instance=worker)
             if form.is_valid():
                 form.save()
                 return redirect('worker_list')
@@ -237,7 +237,7 @@ def user_list(request):
 def godfather_create(request):
     form = CreateNewGodFather(initial={'ong':request.user.ong})
     if request.method == "POST":
-        form = CreateNewGodFather(request.POST)
+        form = CreateNewGodFather(request.POST, request.FILES)
         if form.is_valid():
             try:
                 ong = request.user.ong
@@ -290,7 +290,7 @@ def godfather_delete(request, godfather_id):
 def child_create(request):
     form = CreateNewChild(initial={'ong':request.user.ong})
     if request.method == "POST":
-        form = CreateNewChild(request.POST)
+        form = CreateNewChild(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong  # it is videssur basically
             child = form.save(commit=False)
@@ -369,7 +369,7 @@ def volunteer_details(request, volunteer_id):
 def volunteer_create(request):
     form = CreateNewVolunteer(initial={'ong':request.user.ong})
     if request.method == "POST":
-        form = CreateNewVolunteer(request.POST)
+        form = CreateNewVolunteer(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong
             # if the user is anonymous, the ong is not set yet. Actually, it won't be possible to create a volunteer unless the user is logged in
@@ -396,8 +396,10 @@ def volunteer_update(request, volunteer_id):
     if volunteer.ong == request.user.ong:
         form = CreateNewVolunteer(instance=volunteer)
         if request.method == "POST":
-            form = CreateNewVolunteer(request.POST, instance=volunteer)
+            form = CreateNewVolunteer(request.POST,request.FILES,instance=volunteer)
+
             if form.is_valid():
+                print("============================",form.cleaned_data)
                 form.save()
                 return redirect('volunteer_list')
             else:

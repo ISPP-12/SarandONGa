@@ -163,6 +163,7 @@ class CreateNewChild(forms.ModelForm):
 
 
 class CreateNewVolunteer(forms.ModelForm):
+
     class Meta:
         model = Volunteer
         exclude = ['id', 'ong'] # ong is added in the view
