@@ -14,7 +14,7 @@
     {% include 'components/title.html' with title="Añadir suministro" %}
 {% endif %}
 
-    <form method="post" action="">
+    <form method="post"   enctype="multipart/form-data">
     {% csrf_token %}
         <div class="row justify-content-between mx-4">
             <div class="col-12 col-sm-4  mx-2 ">
@@ -30,19 +30,20 @@
             <div class="col-12 col-sm-6 ">
                 <div>
                     <div class=" row mb-4 d-flex justify-content-center">
-                        <img id="vista" {% if es.producto_4.imagen %}src={{ es.producto_4.imagen.url }}{%else %}src={% static "img\no_image.png" %}{% endif %}
+                        <img id="vista" src={% static 'img/img-not-found.svg' %}
                         class="img-fluid" style="width: 300px;" />
                     </div>
                     <div class=" row d-flex justify-content-center  ">
                         <div class="col-8">
-                            {% include "components/inputs.html" with id=form.file.id_for_label input=form.file  %}
+                            {% include "components/inputs.html" with id=form.photo.id_for_label input=form.photo  %}
                         </div>
                     </div>
                 </div>
             </div>
             </div>
+            <div class="photo" style="display:none">{{form.photo.value}}</div>
         </div>
-        <div class="form-section my-5 mx-5 text-center ">  
+        <div class="form-section my-5 mx-5 text-center " >  
             {% if form.instance.id %}
                 {% with button_text="Actualizar" %}
                     {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
@@ -56,10 +57,10 @@
         </div> 
     </form>
 
+</div>  
 
 <script>
-    //TODO: modify this script to work with the new file input id
-    const inputFoto = document.querySelector('#file-up');
+    const inputFoto = document.querySelector('#' + '{{form.photo.id_for_label}}');
     const vistaPrevia = document.querySelector('#vista');
 
     inputFoto.addEventListener('change', () => {
@@ -71,11 +72,23 @@
         });
         lector.readAsDataURL(archivo);
     } else {
-        vistaPrevia.src = '#';
+        
+        vistaPrevia.src = "{% static 'img/img-not-found.svg' %}";
     }
+    });
+
+
+
+    window.addEventListener("load", (event) => {
+        let value= document.querySelector('.photo').innerHTML;
+        if (value == None){
+            value = "{% static 'img/img-not-found.svg' %}";
+        }
+        vistaPrevia.src = '../../'+value;
     });
   </script>
 
-</div>  
+
+   
 {% endblock %}
 

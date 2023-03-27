@@ -3,12 +3,6 @@ from .models import Subsidy
 
 
 class CreateNewSubsidy(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(CreateNewSubsidy, self).__init__(*args, **kwargs)
-
-        for visible in self.visible_fields():
-            if not visible.field.widget.attrs.get('class'):
-                visible.field.widget.attrs['class'] = 'form-control w-100 mb-3'
     class Meta:
         model = Subsidy
         exclude = ['id','ong']
@@ -25,10 +19,10 @@ class CreateNewSubsidy(forms.ModelForm):
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-select border-class'})
+                    {'class': 'form-select'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-check-input border-class'})
+                    {'class': 'form-check-input'})
             else:
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-control border-class'})
+                    {'class': 'form-control'})
