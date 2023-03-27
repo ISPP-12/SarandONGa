@@ -1,4 +1,8 @@
 {% extends 'layouts/master_clean_sidebar.html' %} {% block titulo %} Añadir pago {% endblock %} 
+{% block extrahead %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/payment_form.css' %}">
+{% endblock %}
 {% block leftSide %}
 
 {% include 'components/title2.html' with title=title %}
@@ -30,7 +34,7 @@
 {% endblock %}
 
 {% block rightSide %}
-<div class="p-5">
+<div id="calendar">
   {% include 'components/calendar.html' %}
 </div>
 {% endblock %}
