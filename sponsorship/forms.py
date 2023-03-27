@@ -12,6 +12,7 @@ class CreateSponsorshipForm(forms.ModelForm):
             'termination_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
         }
 
+
     def __init__(self, *args, **kwargs):
         super(CreateSponsorshipForm, self).__init__(*args, **kwargs)
         for field in self.fields:
