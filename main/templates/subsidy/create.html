@@ -18,13 +18,13 @@
     {% csrf_token %}
       <div class="row my-4 mx-5">
         <div class="col-sm-12 col-lg-6">
-        {% include "components/inputs.html" with id=form.name.id_for_label label_text="Nombre" input=form.name %} 
+        {% include "components/inputs.html" with id=form.name.id_for_label label_text=field.label_tag|safe|add:'Nombre<span class="text-danger"> *</span>' input=form.name %} 
       
         {{ form.name.errors }}
 
         </div>
         <div class="col-sm-12 col-lg-6">
-          {% include "components/inputs.html" with id=form.organism.id_for_label label_text="Organismo" input=form.organism %} 
+          {% include "components/inputs.html" with id=form.organism.id_for_label label_text=field.label_tag|safe|add:'Organismo<span class="text-danger"> *</span>' input=form.organism %} 
           {{ form.organism.errors }}
     
         </div>
@@ -54,15 +54,23 @@
             {% include "components/inputs.html" with id=form.final_resolution.id_for_label label_text="Fecha de resolución final" input=form.final_resolution %} 
             {{ form.final_resolution.errors }}
             <div id="message-dates"></div>
+            <div id="message-dates-2"></div>
+            <div id="message-dates-3"></div>
+
+
 
     
           </div>
       </div>
       <div class="row my-4 mx-5">
           <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" input=form.amount %} 
+            {% include "components/inputs.html" with id=form.amount.id_for_label label_text=field.label_tag|safe|add:'Cantidad<span class="text-danger"> *</span>' input=form.amount %} 
             {{ form.amount.errors }}
           </div>
+
+          <div class="col-12 pt-1">
+            <p class="text-danger">* Campos obligatorios</p>
+        </div>  
       
          
         </div>
@@ -89,12 +97,17 @@
   let provisionalInput = document.getElementById('id_provisional_resolution');
 
   let messageDiv = document.getElementById('message-dates');
+  let messageDiv2 = document.getElementById('message-dates-2');
+  let messageDiv3 = document.getElementById('message-dates-3');
+
   let messagePayDiv = document.getElementById('message-dates-pay');
   let messageProvDiv = document.getElementById('message-dates-prov');
 
   messageDiv.setAttribute('class', 'text-danger')
   messagePayDiv.setAttribute('class', 'text-danger')
   messageProvDiv.setAttribute('class', 'text-danger')
+  messageDiv2.setAttribute('class', 'text-danger')
+  messageDiv3.setAttribute('class', 'text-danger')
 
   let submitButton = document.getElementById('id-submitForm');
   console.log(submitButton)
@@ -102,9 +115,9 @@
   let compare = () => {
     let startValue = (new Date(startInput.value)).getTime();
     let endValue = (new Date(endInput.value)).getTime();
-    let presentationValue = (new Date(presentationInput.value));
-    let paymentValue = (new Date(paymentInput.value));
-    let provisionalValue = (new Date(provisionalInput.value));
+    let presentationValue = (new Date(presentationInput.value)).getTime();
+    let paymentValue = (new Date(paymentInput.value)).getTime();
+    let provisionalValue = (new Date(provisionalInput.value)).getTime();
 
     submitButton.disabled = true
 
@@ -115,21 +128,28 @@
     } else {
       messagePayDiv.innerHTML = '';
     }
-    if (endValue < startValue) {
-      messageDiv.innerHTML = 'La fecha de resolución final debe ser posterior a la fecha de resolución provisional';
+    if (endValue < presentationValue) {
+      messageDiv.innerHTML = 'La fecha de resolución final debe ser posterior a la fecha de presentación';
     } else {
       messageDiv.innerHTML = '';
     }
-    if (provisionalValue < presentationValue || endValue < presentationValue) {
-      messageProvDiv.innerHTML = 'La fecha de reolución provisional y la final no pueden ser anteriores a la fecha de presentación ';
+    if (provisionalValue < presentationValue ) {
+      messageProvDiv.innerHTML = 'La fecha de resolución provisional no puede ser anterior a la fecha de presentación ';
     } else {
       messageProvDiv.innerHTML = '';
     }
-    
+   
+    if (provisionalValue > endValue) {
+      messageDiv2.innerHTML = 'La fecha de resolución final debe ser posterior a la fecha de resolución provisional';
+    }else{
+      messageDiv2.innerHTML = '';
+    }
 
-    if(endValue > startValue && paymentValue > presentationValue && provisionalValue > presentationValue && endValue > presentationValue ) {
+
+    if(((endValue > presentationValue) || !endInput.value) && ((paymentValue > presentationValue) || !paymentInput.value)  && ((provisionalValue > presentationInput) || !provisionalValue.value) &&(( endValue >  presentationValue) || !endInput.value) ) {
             submitButton.disabled = false
         }
+    
   }
 
   startInput.addEventListener('change', compare);
