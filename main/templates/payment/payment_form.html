@@ -1,23 +1,21 @@
-{% extends 'layouts/master.html' %} {% block titulo %} Añadir pago {% endblock %} 
-{% block content %}
-<h1 class="mx-5 my-5">
-  {% if form.instance.id %}
-  Editar pago
-  {% else %}
-  Añadir pago
-  {% endif %}
+{% extends 'layouts/master_clean_sidebar.html' %} {% block titulo %} Añadir pago {% endblock %} 
+{% block extrahead %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/payment_form.css' %}">
+{% endblock %}
+{% block leftSide %}
 
-</h1>
+{% include 'components/title2.html' with title=title %}
+
 <form method="post" action="">
   {% csrf_token %}
-    <div class="row my-4 mx-5">
-      <div class="col">
+    <div class="my-4 mx-5 d-flex flex-column text-start">
+
       {% include "components/inputs.html" with id=form.amount.id_for_label label_text=form.amount.label_tag input=form.amount %} 
       {{ form.amount.errors }}
       
-      </div>
-      <div class="col">
-      {% include "components/inputs.html" with id=form.payday.id_for_label label_text=form.amount.label_tag input=form.payday  %}
+      <div class="mt-3">
+      {% include "components/inputs.html" with id=form.payday.id_for_label label_text=form.payday.label_tag input=form.payday  %}
       {{ form.payday.errors }}
       </div>
     </div>
@@ -33,4 +31,10 @@
       {% endif %}
     </div>
 </form>
+{% endblock %}
+
+{% block rightSide %}
+<div id="calendar">
+  {% include 'components/calendar.html' %}
+</div>
 {% endblock %}

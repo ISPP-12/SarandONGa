@@ -7,3 +7,12 @@
   border-bottom: solid 7px;
   color: var(--clr-black);
 }
+
+.title2 {
+  width: 100%;
+  text-align: center;
+  font-size: 2.5em;
+  font-family: var(--font-header);
+  font-weight: bold;
+  color: var(--clr-black);
+}
