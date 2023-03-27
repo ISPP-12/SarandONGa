@@ -10,7 +10,7 @@ from project.models import Project
 class Payment(models.Model):
     id = models.AutoField(primary_key=True)
     # Fecha y cantidad de la operación
-    payday = models.DateTimeField(
+    payday = models.DateField(
         default=timezone.now, verbose_name="Día de cobro")
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
                                  MinValueValidator(0)], verbose_name="Importe")

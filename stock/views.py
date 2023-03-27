@@ -19,7 +19,7 @@ def stock_list(request):
 def stock_create(request):
     form = CreateNewStock(initial={'ong': request.user.ong})
     if request.method == "POST":
-        form = CreateNewStock(request.POST)
+        form = CreateNewStock(request.POST, request.FILES)
         if form.is_valid():
             stock = form.save(commit=False)
             stock.ong = request.user.ong
@@ -40,7 +40,7 @@ def stock_update(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
     if stock.ong == request.user.ong:
         if request.method == "POST":
-            form = CreateNewStock(request.POST, instance=stock)
+            form = CreateNewStock(request.POST, request.FILES, instance=stock)
             if form.is_valid():
                 form.save()
                 return redirect('stock_list')
@@ -51,5 +51,4 @@ def stock_update(request, stock_id):
         context = {'form': form, 'title': 'Actualizar artículo'}
     else:
         return custom_403(request)
-
     return render(request, 'stock/register.html', context)
