@@ -3,7 +3,7 @@ from .models import Sponsorship
 from datetime import date
 
 
-class create_sponsorship_form(forms.ModelForm):
+class CreateSponsorshipForm(forms.ModelForm):
     class Meta:
         model = Sponsorship
         exclude = ['id', 'ong']
@@ -13,7 +13,7 @@ class create_sponsorship_form(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(create_sponsorship_form, self).__init__(*args, **kwargs)
+        super(CreateSponsorshipForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(

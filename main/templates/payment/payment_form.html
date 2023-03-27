@@ -12,13 +12,24 @@
   {% csrf_token %}
     <div class="row my-4 mx-5">
       <div class="col">
-      {% include "components/inputs.html" with id=form.amount.id_for_label label_text=form.amount.label_tag input=form.amount %} 
-      {{ form.amount.errors }}
+      {% include "components/inputs.html" with id=form.concept.id_for_label label_text=form.concept.label_tag input=form.concept %} 
+      {{ form.concept.errors }}
       
       </div>
       <div class="col">
-      {% include "components/inputs.html" with id=form.payday.id_for_label label_text=form.amount.label_tag input=form.payday  %}
+      {% include "components/inputs.html" with id=form.amount.id_for_label label_text=form.amount.label_tag input=form.amount  %}
+      {{ form.amount.errors }}
+      </div>
+    </div>
+    <div class="row my-4 mx-5">
+      <div class="col">
+      {% include "components/inputs.html" with id=form.payday.id_for_label label_text=form.payday.label_tag input=form.payday %} 
       {{ form.payday.errors }}
+      
+      </div>
+      <div class="col">
+      {% include "components/inputs.html" with id=form.paid.id_for_label label_text=form.paid.label_tag input=form.paid  %}
+      {{ form.paid.errors }}
       </div>
     </div>
     <div class="form-section mt-5 mx-5 text-center">

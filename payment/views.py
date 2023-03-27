@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 # import json
 
+
+# Hay que asignar el padrino
 @login_required
 def payment_create(request):
     form = CreatePaymentForm(initial={'ong': request.user.ong})
@@ -24,6 +26,7 @@ def payment_create(request):
 
     return render(request, 'payment/payment_form.html', {'form': form, 'title': 'Añadir Pago'})
 
+
 @login_required
 def payment_update(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
@@ -41,6 +44,7 @@ def payment_update(request, payment_id):
         return custom_403(request)
     return render(request, 'payment/payment_form.html', context)
 
+
 @login_required
 def payment_list(request):
     context = {
@@ -52,6 +56,7 @@ def payment_list(request):
 
     return render(request, 'payment/payment_list.html', context)
 
+
 @login_required
 def payment_delete(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
@@ -60,6 +65,7 @@ def payment_delete(request, payment_id):
     else:
         return custom_403(request)
     return redirect('payment_list')
+
 
 @login_required
 def payment_details(request, payment_id):

@@ -67,6 +67,10 @@
             {% include "components/inputs.html" with id=form.amount.id_for_label label_text=field.label_tag|safe|add:'Cantidad<span class="text-danger"> *</span>' input=form.amount %} 
             {{ form.amount.errors }}
           </div>
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.status.id_for_label label_text=field.label_tag|safe|add:'Estado<span class="text-danger"> *</span>' input=form.status %} 
+            {{ form.status.errors }}
+          </div>
 
           <div class="col-12 pt-1">
             <p class="text-danger">* Campos obligatorios</p>
