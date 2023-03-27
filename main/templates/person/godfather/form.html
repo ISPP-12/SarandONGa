@@ -49,7 +49,7 @@
             <p class="text-danger">* Campos obligatorios</p>
         </div>
 
-        <div id="message-dates" style="color:red"></div>
+        <div id="message" class="text-danger"></div>
         <div class="form-section mt-5 mb-5 col-12 d-flex justify-content-center">
         
             {% if form.instance.id %}
@@ -66,7 +66,7 @@
 <script type="text/javascript">
     let birthDate = document.getElementById('id_birth_date')
     let startDate = document.getElementById('id_start_date')
-    
+    let terminationDate = document.getElementById('id_termination_date')
     let submitButton = document.getElementById('id-submitForm')
     
     let birthDiv = document.createElement('div')
@@ -76,10 +76,16 @@
     let startDiv = document.createElement('div')
     startDiv.setAttribute('class', 'text-danger')
     startDate.parentElement.parentElement.appendChild(startDiv)
+
+    let terminationDiv = document.createElement('div')
+    terminationDiv.setAttribute('class', 'text-danger')
+    terminationDate.parentElement.parentElement.appendChild(terminationDiv)
     
     let compare = () => {
+        
         let birthDateValue = Date.parse(birthDate.value)
         let startDateValue = Date.parse(startDate.value)
+        let terminationDateValue = Date.parse(terminationDate.value)
         let currentDate = Date.now()
 
         submitButton.disabled = true
@@ -96,13 +102,23 @@
         } else {
             startDiv.innerHTML = ''
         }
+
+        console.log(terminationDateValue)
+        if (terminationDateValue && terminationDateValue < startDateValue) {
+            terminationDiv.innerHTML = 'La fecha de baja debe ser posterior a la fecha de alta'
+        } else {
+            terminationDiv.innerHTML = ''
+        }
         
-        if(birthDateValue <= currentDate && startDateValue <= currentDate) {
+        
+        if(birthDateValue <= currentDate && startDateValue <= currentDate && (terminationDateValue > startDateValue || !terminationDateValue)) {
             submitButton.disabled = false
         }
 
     }
     birthDate.addEventListener('change', compare)
     startDate.addEventListener('change', compare)
+    terminationDate.addEventListener('change', compare)
+
   </script>
 {% endblock %}
