@@ -5,7 +5,6 @@ from django.contrib import messages
 import json
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
-from django.http import JsonResponse
 from datetime import datetime
 
 @login_required
