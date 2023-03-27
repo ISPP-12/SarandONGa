@@ -1102,12 +1102,12 @@ class VolunteerTestCase(TestCase):
     def test_update_volunteer_telephone_incorrect_value(self):
         with self.assertRaises(Exception):
             self.volunteer_update.telephone = "No es un teléfono"
-            self.volunteer_update.save()
+            self.volunteer_update.cleaned_data()
 
     def test_update_volunteer_postal_code_incorrect_value(self):
         with self.assertRaises(Exception):
             self.volunteer_update.postal_code = "No es un código postal"
-            self.volunteer_update.save()
+            self.volunteer_update.cleaned_data()
 
     def test_update_volunteer_ong_incorrect_value(self):
         with self.assertRaises(Exception):
