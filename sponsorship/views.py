@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Sponsorship
 from .forms import create_sponsorship_form
 from main.views import videssur_required
 from django.contrib.auth.decorators import login_required
+
+
 
 @login_required
 @videssur_required
@@ -12,6 +15,8 @@ def sponsorship_create(request):
         form = create_sponsorship_form(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('sponsorship_list')
+
         else:
             messages.error(request, 'El formulario presenta errores')
     else:

@@ -11,7 +11,7 @@ def service_create(request):
         form = CreateNewService(request.POST)
         if form.is_valid():
             form.save()
-            return service_list(request)
+            return redirect('service_list')
 
     form = CreateNewService()
     return render(request, 'service/service_form_backend.html', {"form": form, "title": "Crear Servicio"})

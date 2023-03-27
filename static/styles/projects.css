@@ -31,3 +31,15 @@
 .selected {
   background-color: var(--projects-main-color-light);
 }
+
+/* cards hover */
+
+.card-list:hover {
+  cursor: pointer;
+  background-color: var(--projects-main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.card-list:focus {
+  background-color: var(--projects-main-color-light);
+}
