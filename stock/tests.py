@@ -210,5 +210,21 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         super().tearDown()
 
     def test_access_stock_view(self):
+        # Check access
         self.driver.get(f'{self.live_server_url}/stock/list')
         self.assertTrue(self.driver.find_element(By.ID,"section-stock"))
+
+        # Check the test item appears
+        test_stock_div = self.driver.find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+        test_stock_text = test_stock_div.find_element(By.CSS_SELECTOR,"h5.card-title span").text
+        self.assertTrue(test_stock_text == self.test_stock_1.name)
+
+        # Check the display change
+        self.driver.find_element(By.ID,"id-toList").click()
+        self.assertTrue(self.driver
+                        .find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+                        .find_element(By.CLASS_NAME,"card-stock-list"))
+        self.driver.find_element(By.ID,"id-toGrid").click()
+        self.assertTrue(self.driver
+                        .find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+                        .find_element(By.CLASS_NAME,"card-stock"))
