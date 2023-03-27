@@ -72,4 +72,39 @@ Añadir casa
   </form>
 </div>
 
+<script type="text/javascript">
+  let startDate = document.getElementById('id_start_date')
+  let terminationDate = document.getElementById('id_termination_date')
+  let submitButton = document.getElementById('id-submitForm')
+  let startDiv = document.createElement('div')
+  startDiv.setAttribute('class', 'text-danger')
+  startDate.parentElement.parentElement.appendChild(startDiv)
+
+  let terminationDiv = document.createElement('div')
+  terminationDiv.setAttribute('class', 'text-danger')
+  terminationDate.parentElement.parentElement.appendChild(terminationDiv)
+
+  let compare = () => {
+    let startDateValue = new Date(startDate.value)
+    let terminationDateValue = new Date(terminationDate.value)
+
+    submitButton.disabled = true
+
+    if (terminationDateValue && terminationDateValue < startDateValue) {
+            terminationDiv.innerHTML = 'La fecha de baja debe ser posterior a la fecha de alta'
+    } else {
+            terminationDiv.innerHTML = ''
+    }
+
+
+    if((terminationDateValue > startDateValue || !terminationDateValue)) {
+            submitButton.disabled = false
+        }
+  }
+
+  startDate.addEventListener('change', compare)
+  terminationDate.addEventListener('change', compare)
+
+</script>
+
 {% endblock %}

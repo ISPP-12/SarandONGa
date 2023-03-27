@@ -206,7 +206,7 @@ class GodFather(Person):
     bank_account_holder = models.CharField(
         max_length=100, verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(
-        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')]) #for example, 1234567890
     amount = models.DecimalField(max_digits=10, decimal_places=2,
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
