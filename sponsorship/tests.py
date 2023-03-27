@@ -49,8 +49,7 @@ class SponsorshipTestCase(TestCase):
         child_test = Child.objects.get(email="test1@test.com")
         home_test = Home.objects.get(name='Casa Paco')
 
-        sponsorship = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), godfather=god_test, 
-                    child = child_test, home=home_test)
+        sponsorship = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), godfather=god_test, child = child_test, home=home_test)
         sponsorship.save()
         num_test = Sponsorship.objects.all().count()
         self.assertEqual(num_test, 1)
@@ -60,46 +59,37 @@ class SponsorshipTestCase(TestCase):
         child_test = Child.objects.get(email="test1@test.com")
         home_test = Home.objects.get(name='Casa Paco')
         try:
-            sponsorship = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), 
-                        child = child_test, home=home_test)
+            sponsorship = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), child = child_test, home=home_test)
             sponsorship.save()
         except:
             pass
         try:
-            sponsorship2 = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), 
-                    godfather = god_test, home=home_test)
+            sponsorship2 = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), godfather = god_test, home=home_test)
             sponsorship2.save()
         except:
             pass
         try:
-            sponsorship3 = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), 
-                        godfather = god_test, child = child_test)
+            sponsorship3 = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), godfather = god_test, child = child_test)
             sponsorship3.save()
         except:
             pass
         num_test = Sponsorship.objects.all().count()
         self.assertEqual(num_test, 0)
 
-    def test_sponsorship_fail_attributes(self):
+    def test_sponsorship_fail_attributes_dateStart(self):
         god_test = GodFather.objects.get(email = 'emailja@gmail.com')
         child_test = Child.objects.get(email="test1@test.com")
         home_test = Home.objects.get(name='Casa Paco')
 
         with self.assertRaises(Exception):
-            sponsorship = Sponsorship(sponsorship_date = "prueba", termination_date = date.today(), 
-                        child = child_test, home=home_test, godfather = god_test)
+            sponsorship = Sponsorship(sponsorship_date = "prueba", termination_date = date.today(), child = child_test, home=home_test, godfather = god_test)
             sponsorship.save()
 
-    def test_sponsorship_fail_attributes(self):
+    def test_sponsorship_fail_attributes_dateEnd(self):
         god_test = GodFather.objects.get(email = 'emailja@gmail.com')
         child_test = Child.objects.get(email="test1@test.com")
         home_test = Home.objects.get(name='Casa Paco')
 
         with self.assertRaises(Exception):
-            sponsorship = Sponsorship(sponsorship_date = date.today(), termination_date = "prueba", 
-                        child = child_test, home=home_test, godfather = god_test)
+            sponsorship = Sponsorship(sponsorship_date = date.today(), termination_date = "prueba", child = child_test, home=home_test, godfather = god_test)
             sponsorship.save()
-        
-
-        
-
