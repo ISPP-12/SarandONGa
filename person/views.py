@@ -328,6 +328,7 @@ def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
     return render(request, 'child_details.html', {'child': child})
 
+
 @login_required
 @videssur_required
 def child_delete(request, child_id):

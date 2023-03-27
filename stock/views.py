@@ -51,5 +51,4 @@ def stock_update(request, stock_id):
         context = {'form': form, 'title': 'Actualizar artículo'}
     else:
         return custom_403(request)
-
     return render(request, 'stock/register.html', context)
