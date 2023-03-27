@@ -147,7 +147,7 @@ class PaymentTestCase(TestCase):
             payment.full_clean()
             payment.save()
 
-    def test_payment_create_max_length_concept(self):
+    def test_payment_update_max_length_concept(self):
         payment = Payment.objects.get(amount=105.56)
         with self.assertRaises(Exception):
             payment.concept = "C"*151
