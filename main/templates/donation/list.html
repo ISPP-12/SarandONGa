@@ -40,12 +40,14 @@ displayed in the preview text (e.g. "donación")
         <span>{{object.donor_email}}</span>
 
       </div> 
-
+        
       <div class="col-md-1 col-lg-1  col-sm-1 text-end">
         <a class="pe-2 text-end" href="{{ object.id }}/update">Editar</a>
       </div>
-        
-        
+      <div class="col-md-1 col-lg-1  col-sm-1 text-end">
+        <a class="pe-2 text-end" href="{{ object.id }}/delete">Eliminar</a>
+      </div> 
+      
     </div>
     
     
@@ -83,7 +85,6 @@ displayed in the preview text (e.g. "donación")
     const moreInfo = object.querySelector('#moreInfo')
     object.addEventListener('click', () => {
       const isMobile = window.matchMedia("(max-width: 768px)").matches
-      console.log(moreInfo)
       const isExpanded = !moreInfo.classList.contains('d-none')
       const objectId = object.querySelector('.object-id').innerText
       

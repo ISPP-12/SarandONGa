@@ -1,8 +1,110 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/homes.css' %}">
+{% endblock %}
+
+{% block title %}
+{% if form.instance.id %}
+Editar casa
+{% else %}
+Añadir casa
+{% endif %}
+{% endblock %}
+
 {% block content %}
-Registrar casa
-<form method="post" action="">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit", name="save">Registrar</button>
-</form>
+
+<div id="section-home">
+
+  {% if form.instance.id %}
+  {% include 'components/title.html' with title="Editar casa" %}
+  {% else %}
+  {% include 'components/title.html' with title="Añadir casa" %}
+  {% endif %}
+
+
+  {% if messages %}
+  <div class="row">
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <form method="post" class="mt-3 row">{% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+    <div class="col-md-6 col-12">
+      <div class="row my-3">
+        {% if field.field.required %}
+        {% with label_text=field.label_tag|safe|add:'<span class="text-danger"> *</span>' %}
+        {% include 'components/inputs.html' with id=field.id_for_label label_text=label_text input=field %}
+        {% endwith %}
+        {% else %}
+        {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+        {% endif %}
+      </div>
+      <div class="row text-danger">
+        {{ field.errors }}
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="col-12">
+      <p class="text-danger">* Campos obligatorios</p>
+    </div>
+
+    <div id="message-dates" style="color:red"></div>
+    <div class="form-section mt-5 mb-5 col-12 d-flex justify-content-center">
+
+      {% if form.instance.id %}
+      {% include 'components/button.html' with variation="SUBMIT" text="Actualizar voluntario" id="id-submitForm" type="submit" %}
+      {% else %}
+      {% include 'components/button.html' with variation="SUBMIT" text="Registrar voluntario" id="id-submitForm" type="submit" %}
+      {% endif %}
+
+
+    </div>
+  </form>
+</div>
+
+<script type="text/javascript">
+  let startDate = document.getElementById('id_start_date')
+  let terminationDate = document.getElementById('id_termination_date')
+  let submitButton = document.getElementById('id-submitForm')
+  let startDiv = document.createElement('div')
+  startDiv.setAttribute('class', 'text-danger')
+  startDate.parentElement.parentElement.appendChild(startDiv)
+
+  let terminationDiv = document.createElement('div')
+  terminationDiv.setAttribute('class', 'text-danger')
+  terminationDate.parentElement.parentElement.appendChild(terminationDiv)
+
+  let compare = () => {
+    let startDateValue = new Date(startDate.value)
+    let terminationDateValue = new Date(terminationDate.value)
+
+    submitButton.disabled = true
+
+    if (terminationDateValue && terminationDateValue < startDateValue) {
+            terminationDiv.innerHTML = 'La fecha de baja debe ser posterior a la fecha de alta'
+    } else {
+            terminationDiv.innerHTML = ''
+    }
+
+
+    if((terminationDateValue > startDateValue || !terminationDateValue)) {
+            submitButton.disabled = false
+        }
+  }
+
+  startDate.addEventListener('change', compare)
+  terminationDate.addEventListener('change', compare)
+
+</script>
+
 {% endblock %}

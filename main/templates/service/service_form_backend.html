@@ -1,0 +1,9 @@
+{% extends 'layouts/master.html' %}
+{% block content %}
+<h1>Registrar Servicio</h1>
+<form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit", name="save">Registrar</button>
+</form>
+{% endblock %}

@@ -44,6 +44,14 @@ class WorkerTestCase(TestCase):
         self.assertEqual(worker.surname, "Worker1")
         self.assertEqual(worker.birth_date.strftime('%Y-%m-%d'), "1998-03-12")
         self.assertEqual(worker.sex, "Masculino")
+        self.assertEqual(worker.city, "Sevilla")
+        self.assertEqual(worker.address, "Reina Mercedes 11")
+        self.assertEqual(worker.telephone, 666666666)
+        self.assertEqual(worker.postal_code, 41013)
+        self.assertEqual(worker.photo, "")
+        self.assertEqual(worker.is_active, True)
+        self.assertEqual(worker.is_admin, True)
+        self.assertEqual(worker.ong, self.ong)
 
     def test_worker_delete(self):
         worker = Worker.objects.get(name="Worker1")
@@ -182,7 +190,7 @@ class WorkerTestCase(TestCase):
         with self.assertRaises(Exception):
             worker = Worker.objects.create(email="worker2@gmail.com",
                                            name="Worker2",
-                                           surname="Worker2"*50,
+                                           surname="Worker2",
                                            birth_date="bad_date",
                                            sex="Masculino",
                                            city="Sevilla",
@@ -198,7 +206,7 @@ class WorkerTestCase(TestCase):
         with self.assertRaises(Exception):
             worker = Worker.objects.create(email="worker2@gmail.com",
                                            name="Worker2",
-                                           surname="Worker2"*50,
+                                           surname="Worker2",
                                            birth_date=datetime.datetime(
                                                1998, 3, 12, tzinfo=datetime.timezone.utc),
                                            sex="Masculino"*50,
@@ -215,7 +223,7 @@ class WorkerTestCase(TestCase):
         with self.assertRaises(Exception):
             worker = Worker.objects.create(email="worker2@gmail.com",
                                            name="Worker2",
-                                           surname="Worker2"*50,
+                                           surname="Worker2",
                                            birth_date=datetime.datetime(
                                                1998, 3, 12, tzinfo=datetime.timezone.utc),
                                            sex="bad_sex",
@@ -232,7 +240,7 @@ class WorkerTestCase(TestCase):
         with self.assertRaises(Exception):
             worker = Worker.objects.create(email="worker2@gmail.com",
                                            name="Worker2",
-                                           surname="Worker2"*50,
+                                           surname="Worker2",
                                            birth_date=datetime.datetime(
                                                1998, 3, 12, tzinfo=datetime.timezone.utc),
                                            sex="Masculino",
@@ -249,7 +257,7 @@ class WorkerTestCase(TestCase):
         with self.assertRaises(Exception):
             worker = Worker.objects.create(email="worker2@gmail.com",
                                            name="Worker2",
-                                           surname="Worker2"*50,
+                                           surname="Worker2",
                                            birth_date=datetime.datetime(
                                                1998, 3, 12, tzinfo=datetime.timezone.utc),
                                            sex="Masculino",
@@ -266,7 +274,7 @@ class WorkerTestCase(TestCase):
         with self.assertRaises(Exception):
             worker = Worker.objects.create(email="worker2@gmail.com",
                                            name="Worker2",
-                                           surname="Worker2"*50,
+                                           surname="Worker2",
                                            birth_date=datetime.datetime(
                                                1998, 3, 12, tzinfo=datetime.timezone.utc),
                                            sex="Masculino",
@@ -283,7 +291,7 @@ class WorkerTestCase(TestCase):
         with self.assertRaises(Exception):
             worker = Worker.objects.create(email="worker2@gmail.com",
                                            name="Worker2",
-                                           surname="Worker2"*50,
+                                           surname="Worker2",
                                            birth_date=datetime.datetime(
                                                1998, 3, 12, tzinfo=datetime.timezone.utc),
                                            sex="Masculino",
@@ -294,4 +302,82 @@ class WorkerTestCase(TestCase):
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
+            worker.full_clean()
+
+    def test_worker_update_name_incorrect_max(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.name = "Worker"*50
+            worker.full_clean()
+
+    def test_worker_update_name_incorrect_null(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.name = None
+            worker.full_clean()
+
+    def test_worker_update_email_incorrect(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.email = "bad_email"
+            worker.full_clean()
+
+    def test_worker_update_email_incorrect_null(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.email = None
+            worker.full_clean()
+
+    def test_worker_update_surname_incorrect_max(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.surname = "Worker"*50
+            worker.full_clean()
+
+    def test_worker_update_surname_incorrect_null(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.surname = None
+            worker.full_clean()
+
+    def test_worker_update_birth_date_incorrect(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.birth_date = "bad_date"
+            worker.full_clean()
+
+    def test_worker_update_sex_incorrect_max(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.sex ="Masculino"*50
+            worker.full_clean()
+
+    def test_worker_update_sex_incorrect(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.sex ="bad_sex"
+            worker.full_clean()
+
+    def test_worker_update_city_incorrect_max(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.city = "Sevilla"*200
+            worker.full_clean()
+
+    def test_worker_update_address_incorrect(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.address = "Triana 16"*200
+            worker.full_clean()
+
+    def test_worker_update_telephone_incorrect(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.telephone = "bad_telephone"
+            worker.full_clean()
+
+    def test_worker_update_postal_code_incorrect(self):
+        worker = Worker.objects.get(name="Worker2")
+        with self.assertRaises(Exception):
+            worker.postal_code = "bad_postal_code"
             worker.full_clean()
