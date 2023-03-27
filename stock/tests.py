@@ -196,6 +196,7 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         options = webdriver.ChromeOptions()
         options.headless = True
         self.driver = webdriver.Chrome(options=options)
+        self.driver.set_window_size(1920,1080)
 
         self.driver.get(f'{self.live_server_url}/login/')
         self.driver.find_element(By.ID,"id_username").send_keys('test@email.com')
@@ -228,3 +229,20 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         self.assertTrue(self.driver
                         .find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
                         .find_element(By.CLASS_NAME,"card-stock"))
+        
+    def test_delete_stock_view(self):
+        # Check access
+        self.driver.get(f'{self.live_server_url}/stock/list')
+        self.assertTrue(self.driver.find_element(By.ID,"section-stock"))
+
+        # Check the test item appears
+        test_stock_div = self.driver.find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+        test_stock_text = test_stock_div.find_element(By.CSS_SELECTOR,"h5.card-title span").text
+        self.assertTrue(test_stock_text == self.test_stock_1.name)
+
+        # Check the item is removed
+        before_count = Stock.objects.count()
+        test_stock_div.find_element(By.ID,f"id-delete-{self.test_stock_1.id}").click()
+        after_count = Stock.objects.count()
+
+        self.assertTrue(before_count == after_count+1 )
