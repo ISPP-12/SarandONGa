@@ -41,8 +41,9 @@
                 </div>
             </div>
             </div>
+            <div class="photo" style="display:none">{{form.photo.value}}</div>
         </div>
-        <div class="form-section my-5 mx-5 text-center ">  
+        <div class="form-section my-5 mx-5 text-center " >  
             {% if form.instance.id %}
                 {% with button_text="Actualizar" %}
                     {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
@@ -71,8 +72,17 @@
         });
         lector.readAsDataURL(archivo);
     } else {
+        
         vistaPrevia.src = "{% static 'img/img-not-found.svg' %}";
     }
+    });
+
+
+
+    window.addEventListener("load", (event) => {
+        let value= document.querySelector('.photo').innerHTML;
+        console.log(value)
+        vistaPrevia.src = '../../'+value;
     });
   </script>
 
