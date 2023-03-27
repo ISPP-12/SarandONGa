@@ -81,7 +81,9 @@
 
     window.addEventListener("load", (event) => {
         let value= document.querySelector('.photo').innerHTML;
-        console.log(value)
+        if (value == None){
+            value = "{% static 'img/img-not-found.svg' %}";
+        }
         vistaPrevia.src = '../../'+value;
     });
   </script>
