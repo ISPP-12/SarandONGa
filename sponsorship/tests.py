@@ -65,7 +65,6 @@ class SponsorshipTestCase(TestCase):
                 sponsorship2 = Sponsorship(sponsorship_date=date.today(
                 ), termination_date=date.today(), home=home_test)
                 sponsorship2.save()
-
         except:
             pass
         try:
