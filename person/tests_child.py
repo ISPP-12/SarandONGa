@@ -7,7 +7,7 @@ from person.models import Child
 class ChildTestCase(TestCase):
     def setUp(self):
         self.ong = Ong.objects.create(name='Mi ONG')
-        Child.objects.create(email='test1@test.com', name='Test_1',surname='Test1 Test1', birth_date=datetime(2001,6,18),
+        self.child_update = Child.objects.create(email='test1@test.com', name='Test_1',surname='Test1 Test1', birth_date=datetime(2001,6,18),
                             sex="Femenino", city="Test1", address="Test1", telephone=123456789, postal_code=12345, photo="test1.jpg",
                             start_date=datetime(2006,2,23), termination_date=datetime(2020,9,12), study="Test1", expected_mission_time="2",
                             mission_house="Test1", site="Test1", subsite="Test1", father_name="Dn. Test1", father_profession="Test1",
@@ -240,5 +240,256 @@ class ChildTestCase(TestCase):
     def test_child_incorrect_correspondence(self):
         child = Child.objects.get(name="Test_1")
         child.correspondence = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+
+    # TESTS UPDATE CHILD 
+
+    def test_child_update_incorrect_name_max_lenght(self):
+        child = Child.objects.get(name="Test_1")
+        child.name = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_update_incorrect_name_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.name = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_name_int(self):
+        with self.assertRaises(Exception):
+                self.child_update.name = 123
+                self.child_update.save()
+                self.child_update.full_clean()
+
+    def test_child_update_incorrect_surname_max_lenght(self):
+        child = Child.objects.get(name="Test_1")
+        child.surname = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_update_incorrect_surname_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.surname = None
+        with self.assertRaises(Exception):
+            child.save()
+            self.child_update.full_clean()
+
+    def test_child_incorrect_surname_int(self):
+        with self.assertRaises(Exception):
+                self.child_update.surname = 123
+                self.child_update.save()
+                self.child_update.full_clean()
+    
+    def test_child_incorrect_email(self):
+        with self.assertRaises(Exception):
+                self.child_update.email = "emailfalso"
+                self.child_update.save()
+                self.child_update.full_clean()
+    
+    def test_child_incorrect_birth_date(self):
+            with self.assertRaises(Exception):
+                self.child_update.birth_date = "23-12-23"
+                self.child_update.save()
+                self.child_update.full_clean()
+    
+    def test_child_incorrect_sex(self):
+            with self.assertRaises(Exception):
+                self.child_update.sex = "J"
+                self.child_update.save()
+                self.child_update.full_clean()
+    
+    def test_incorrect_city(self):
+            with self.assertRaises(Exception):
+                self.child_update.city = 1111
+                self.child_update.save()
+                self.child_update.full_clean()
+
+    def test_incorrect_city_max_length(self):
+        child = Child.objects.get(name="Test_1")
+        child.city = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+            
+            
+    
+    def test_incorrect_addres_max_length(self):
+        child = Child.objects.get(name="Test_1")
+        child.address = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_telephone(self):
+        child = Child.objects.get(name="Test_1")
+        child.telephone = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_cellphone(self):
+            with self.assertRaises(Exception):
+                self.child_update.telephone = "11111111111111111111111111111111111111111111111111111111111"
+                self.child_update.save()
+                self.child_update.full_clean()
+    
+    def test_incorrect_postal_code(self):
+        child = Child.objects.get(name="Test_1")
+        child.postal_code = "a"*52
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_postal_code(self):
+            with self.assertRaises(Exception):
+                self.child_update.posta_code = "J"
+                self.child_update.save()
+                self.child_update.full_clean()
+
+    def test_incorrect_expected_mission_time(self):
+        child = Child.objects.get(name="Test_1")
+        child.expected_mission_time = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_expected_mission_time_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.expected_mission_time = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_start_date(self):
+        child = Child.objects.get(name="Test_1")
+        child.start_date = "2040-01-01"
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_termination_date(self):
+        child = Child.objects.get(name="Test_1")
+        child.termination_date = "2040-01-01"
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_study_level(self):
+        child = Child.objects.get(name="Test_1")
+        child.study = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_study_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.study = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_mission_house_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.mission_house = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_mission_house_max_length(self):
+        child = Child.objects.get(name="Test_1")
+        child.mission_house = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_site_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.site = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_incorrect_subssite_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.subsite = None
+        with self.assertRaises(Exception):
+            child.save()    
+    
+    def test_child_incorrect_father_name_max_lenght(self):
+        child = Child.objects.get(name="Test_1")
+        child.father_name = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_father_name_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.father_name = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_father_profession_max_lenght(self):
+        child = Child.objects.get(name="Test_1")
+        child.father_profession = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_father_profession_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.father_profession = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_mother_name(self):
+        child = Child.objects.get(name="Test_1")
+        child.mother_name = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_mother_name_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.mother_name = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_mother_profession(self):
+        child = Child.objects.get(name="Test_1")
+        child.mother_profession = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_mother_profession_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.mother_profession = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_number_brothers_siblings(self):
+        child = Child.objects.get(name="Test_1")
+        child.number_brothers_siblings = "a"
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_number_brothers_siblings_negative(self):
+        child = Child.objects.get(name="Test_1")
+        child.number_brothers_siblings = -1
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_correspondence(self):
+        child = Child.objects.get(name="Test_1")
+        child.correspondence = "a"*201
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_correspondence_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.correspondence = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_number_brothers_siblings_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.number_brothers_siblings = None
+        with self.assertRaises(Exception):
+            child.save()
+    
+    def test_child_incorrect_ong(self):
+            with self.assertRaises(Exception):
+                self.subsidy.payment_date = "23-12-23"
+                self.subsidy.save()
+                self.child_update.full_clean()
+    
+    def test_child_incorrect_ong_null(self):
+        child = Child.objects.get(name="Test_1")
+        child.ong = None
         with self.assertRaises(Exception):
             child.save()

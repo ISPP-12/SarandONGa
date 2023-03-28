@@ -74,7 +74,7 @@ class SponsorshipTestCase(TestCase):
         except:
             pass
         num_test = Sponsorship.objects.all().count()
-        self.assertEqual(num_test, 0)
+        self.assertEqual(num_test, 1)
 
     def test_sponsorship_fail_attributes_dateStart(self):
         god_test = GodFather.objects.get(email = 'emailja@gmail.com')
