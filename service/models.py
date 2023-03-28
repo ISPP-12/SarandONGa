@@ -44,7 +44,6 @@ class Service(models.Model):
         try:
             return ServiceAmount.objects.filter(service_type=self.service_type, user_type=self.asem_user.user_type, date__lte=self.date).latest('date').amount
         except ServiceAmount.DoesNotExist:
-
             return 0
     def __str__(self):
         return self.service_type + ' - ' + str(self.date) + ' - ' + self.asem_user.surname + ', ' + self.asem_user.name
