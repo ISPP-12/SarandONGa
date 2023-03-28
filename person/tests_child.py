@@ -225,11 +225,6 @@ class ChildTestCase(TestCase):
         with self.assertRaises(Exception):
             child.save()
 
-    def test_child_incorrect_mother_profession(self):
-        child = Child.objects.get(name="Test_1")
-        child.mother_profession = "a"*201
-        with self.assertRaises(Exception):
-            child.save()
 
     def test_child_incorrect_number_brothers_siblings(self):
         child = Child.objects.get(name="Test_1")
@@ -332,7 +327,7 @@ class ChildTestCase(TestCase):
                 self.child_update.save()
                 self.child_update.full_clean()
     
-    def test_incorrect_postal_code(self):
+    def test_incorrect_postal_code_max_lenght(self):
         child = Child.objects.get(name="Test_1")
         child.postal_code = "a"*52
         with self.assertRaises(Exception):
@@ -428,7 +423,7 @@ class ChildTestCase(TestCase):
         with self.assertRaises(Exception):
             child.save()
     
-    def test_child_incorrect_mother_name(self):
+    def test_child_incorrect_mother_name_max_lenght(self):
         child = Child.objects.get(name="Test_1")
         child.mother_name = "a"*201
         with self.assertRaises(Exception):
@@ -440,7 +435,7 @@ class ChildTestCase(TestCase):
         with self.assertRaises(Exception):
             child.save()
     
-    def test_child_incorrect_mother_profession(self):
+    def test_child_incorrect_mother_profession_max_lenght(self):
         child = Child.objects.get(name="Test_1")
         child.mother_profession = "a"*201
         with self.assertRaises(Exception):
@@ -452,21 +447,10 @@ class ChildTestCase(TestCase):
         with self.assertRaises(Exception):
             child.save()
     
-    def test_child_incorrect_number_brothers_siblings(self):
-        child = Child.objects.get(name="Test_1")
-        child.number_brothers_siblings = "a"
-        with self.assertRaises(Exception):
-            child.save()
     
     def test_child_incorrect_number_brothers_siblings_negative(self):
         child = Child.objects.get(name="Test_1")
         child.number_brothers_siblings = -1
-        with self.assertRaises(Exception):
-            child.save()
-    
-    def test_child_incorrect_correspondence(self):
-        child = Child.objects.get(name="Test_1")
-        child.correspondence = "a"*201
         with self.assertRaises(Exception):
             child.save()
     
