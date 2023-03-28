@@ -3,18 +3,19 @@ from .models import Sponsorship
 from datetime import date
 
 
-class create_sponsorship_form(forms.ModelForm):
+class CreateSponsorshipForm(forms.ModelForm):
     class Meta:
         model = Sponsorship
         exclude = ['id', 'ong']
         widgets = {
-            'sponsorship_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
-            'termination_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
+            'sponsorship_date': forms.DateInput(attrs={'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
+            'termination_date': forms.DateInput(attrs={'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
+            'home': forms.Select(attrs={'required': True}),
+            'godfather': forms.SelectMultiple(attrs={'required': True}),
         }
 
-
     def __init__(self, *args, **kwargs):
-        super(create_sponsorship_form, self).__init__(*args, **kwargs)
+        super(CreateSponsorshipForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
@@ -25,4 +26,3 @@ class create_sponsorship_form(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
-

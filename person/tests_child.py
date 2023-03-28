@@ -7,6 +7,7 @@ from person.models import Child
 class ChildTestCase(TestCase):
     def setUp(self):
         self.ong = Ong.objects.create(name='Mi ONG')
+
         self.child_update = Child.objects.create(email='test1@test.com', name='Test_1',surname='Test1 Test1', birth_date=datetime(2001,6,18),
                             sex="Femenino", city="Test1", address="Test1", telephone=123456789, postal_code=12345, photo="test1.jpg",
                             start_date=datetime(2006,2,23), termination_date=datetime(2020,9,12), study="Test1", expected_mission_time="2",
@@ -26,6 +27,7 @@ class ChildTestCase(TestCase):
                             mother_name="Sra. Test3", mother_profession="Test3", number_brothers_siblings=3,correspondence="Test3",ong=self.ong)
         
 
+
     def test_child_create(self):
         child = Child.objects.get(name="Test_1")
         self.assertEqual(child.email, 'test1@test.com')
@@ -43,7 +45,7 @@ class ChildTestCase(TestCase):
             '%d/%m/%Y'), datetime(2006, 2, 23).strftime('%d/%m/%Y'))
         self.assertEqual(child.termination_date.strftime(
             '%d/%m/%Y'), datetime(2020, 9, 12).strftime('%d/%m/%Y'))
-        self.assertEqual(child.study, 'Test1')
+        self.assertEqual(child.educational_level, 'Test1')
         self.assertEqual(child.expected_mission_time, '2')
         self.assertEqual(child.mission_house, 'Test1')
         self.assertEqual(child.site, 'Test1')
@@ -71,7 +73,7 @@ class ChildTestCase(TestCase):
             '%d/%m/%Y'), datetime(2008, 11, 12).strftime('%d/%m/%Y'))
         self.assertEqual(child2.termination_date.strftime(
             '%d/%m/%Y'), datetime(2021, 2, 1).strftime('%d/%m/%Y'))
-        self.assertEqual(child2.study, 'Test2')
+        self.assertEqual(child2.educational_level, 'Test2')
         self.assertEqual(child2.expected_mission_time, '2')
         self.assertEqual(child2.mission_house, 'Test2')
         self.assertEqual(child2.site, 'Test2')
@@ -99,7 +101,7 @@ class ChildTestCase(TestCase):
             '%d/%m/%Y'), datetime(2013, 11, 23).strftime('%d/%m/%Y'))
         self.assertEqual(child3.termination_date.strftime(
             '%d/%m/%Y'), datetime(2022, 9, 2).strftime('%d/%m/%Y'))
-        self.assertEqual(child3.study, 'Test3')
+        self.assertEqual(child3.educational_level, 'Test3')
         self.assertEqual(child3.expected_mission_time, '2')
         self.assertEqual(child3.mission_house, 'Test3')
         self.assertEqual(child3.site, 'Test3')
@@ -125,7 +127,7 @@ class ChildTestCase(TestCase):
         child.photo = "newtest2.jpg"
         child.start_date = datetime(2008, 12, 12)
         child.termination_date = datetime(2021, 6, 1)
-        child.study = "newTest2"
+        child.educational_level = "newTest2"
         child.expected_mission_time = "3"
         child.mission_house = "newTest2"
         child.site = "newTest2"
@@ -153,7 +155,7 @@ class ChildTestCase(TestCase):
             '%d/%m/%Y'), datetime(2008, 12, 12).strftime('%d/%m/%Y'))
         self.assertEqual(child.termination_date.strftime(
             '%d/%m/%Y'), datetime(2021, 6, 1).strftime('%d/%m/%Y'))
-        self.assertEqual(child.study, 'newTest2')
+        self.assertEqual(child.educational_level, 'newTest2')
         self.assertEqual(child.expected_mission_time, '3')
         self.assertEqual(child.mission_house, 'newTest2')
         self.assertEqual(child.site, 'newTest2')
@@ -177,9 +179,9 @@ class ChildTestCase(TestCase):
         with self.assertRaises(Exception):
             child.save()
 
-    def test_child_incorrect_study(self):
+    def test_child_incorrect_educational_level(self):
         child = Child.objects.get(name="Test_1")
-        child.study = "a"*201
+        child.educational_level = "a"*201
         with self.assertRaises(Exception):
             child.save()
 
