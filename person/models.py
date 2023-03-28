@@ -3,7 +3,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
-#from django.utils.text import slugify
+# from django.utils.text import slugify
 from localflavor.generic.models import IBANField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
@@ -77,7 +77,7 @@ VOLUNTEER_TYPE = (
 )
 
 DNI_REGEX = r'^\d{8}[A-Z]$'
-    
+
 DNI_VALIDATOR = RegexValidator(
     regex=DNI_REGEX,
     message='Introduce un DNI válido (8 números y 1 letra).'
@@ -86,10 +86,10 @@ DNI_VALIDATOR = RegexValidator(
 
 class Person(models.Model):
     id = models.AutoField(primary_key=True)
-    email = models.EmailField( blank=True, verbose_name="E-Mail")
-    name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
+    email = models.EmailField(blank=True, verbose_name="E-Mail")
+    name = models.CharField(max_length=50, verbose_name="Nombre")
     surname = models.CharField(
-        max_length=50, blank=True, verbose_name="Apellido")
+        max_length=50, verbose_name="Apellido")
     birth_date = models.DateField(
         default=timezone.now, verbose_name="Fecha de nacimiento", null=True, blank=True)
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
@@ -99,14 +99,16 @@ class Person(models.Model):
     address = models.CharField(
         max_length=200, verbose_name="Dirección", null=True, blank=True, default='Sin dirección')
     telephone = models.CharField(max_length=50,
-        verbose_name="Teléfono", null=True, blank=True, default='Sin teléfono')
+                                 verbose_name="Teléfono", null=True, blank=True, default='Sin teléfono')
     postal_code = models.CharField(max_length=50,
-        verbose_name="Código postal", null=True, blank=True, default='Sin código postal')
-    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
+                                   verbose_name="Código postal", null=True, blank=True, default='Sin código postal')
+    photo = models.ImageField(
+        verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
        # self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
         super(Person, self).save(*args, **kwargs)
+
 
 class WorkerManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
@@ -163,11 +165,13 @@ class Worker(AbstractBaseUser):
         verbose_name="Teléfono", null=True, blank=True)
     postal_code = models.IntegerField(
         verbose_name="Código postal", null=True, blank=True)
-    photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)
+    photo = models.ImageField(
+        verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
     is_admin = models.BooleanField(default=True, verbose_name="¿Es admin?")
-    ong = models.ForeignKey(Ong, on_delete=models.CASCADE, related_name='trabajador', verbose_name="ONG", null=True, blank=True)
-    
+    ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
+                            related_name='trabajador', verbose_name="ONG", null=True, blank=True)
+
     USERNAME_FIELD = 'email'
 
     objects = WorkerManager()
@@ -202,25 +206,27 @@ class GodFather(Person):
     )
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
-    bank_account_number = IBANField(include_countries=IBAN_SEPA_COUNTRIES, verbose_name='Número de cuenta bancaria')
+    bank_account_number = IBANField(
+        include_countries=IBAN_SEPA_COUNTRIES, verbose_name='Número de cuenta bancaria')
     bank_account_holder = models.CharField(
         max_length=100, verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(
-        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')]) #for example, 1234567890
+        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])  # for example, 1234567890
     amount = models.DecimalField(max_digits=10, decimal_places=2,
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
         max_length=20, choices=FREQUENCY, verbose_name='Frecuencia de pago')
     start_date = models.DateField(
         default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
-    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
+    termination_date = models.DateField(
+        verbose_name="Fecha de baja", null=True, blank=True)
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
    # slug = models.SlugField(max_length=200, unique=True, editable=False)
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='padrino', verbose_name="ONG")
-    
+
     def __str__(self):
         return self.name + ' ' + self.surname + ' (' + self.dni + ')'
 
@@ -231,7 +237,7 @@ class GodFather(Person):
                 raise ValidationErr(
                     "la fecha de terminación no puede ser menor que la fecha de nacimiento")
         super(GodFather, self).save(*args, **kwargs)
-    
+
     def __str__(self):
         return self.surname + ', ' + self.name
 
@@ -286,17 +292,25 @@ class Volunteer(Person):
     job = models.CharField(max_length=50, verbose_name="Trabajo")
     # Tiempo de dedicación en horas
     dedication_time = models.FloatField(verbose_name="Tiempo de dedicación")
-    contract_start_date = models.DateField(verbose_name="Fecha de inicio del contrato")
-    contract_end_date = models.DateField(verbose_name="Fecha de finalización del contrato")
-    raffle = models.BooleanField(default=False, verbose_name="¿Participa en la rifa?")
-    lottery = models.BooleanField(default=False, verbose_name="¿Participa en la lotería?")
+    contract_start_date = models.DateField(
+        verbose_name="Fecha de inicio del contrato")
+    contract_end_date = models.DateField(
+        verbose_name="Fecha de finalización del contrato")
+    raffle = models.BooleanField(
+        default=False, verbose_name="¿Participa en la rifa?")
+    lottery = models.BooleanField(
+        default=False, verbose_name="¿Participa en la lotería?")
     is_member = models.BooleanField(default=False, verbose_name="¿Es socio?")
-    pres_table = models.BooleanField(default=False, verbose_name="¿Preside la mesa?")
-    is_contributor = models.BooleanField(default=False, verbose_name="¿Es colaborador?")
+    pres_table = models.BooleanField(
+        default=False, verbose_name="¿Preside la mesa?")
+    is_contributor = models.BooleanField(
+        default=False, verbose_name="¿Es colaborador?")
     notes = models.TextField(blank=True, verbose_name='Observaciones')
-    entity = models.CharField(max_length=50, blank=True, verbose_name="Entidad")
+    entity = models.CharField(
+        max_length=50, blank=True, verbose_name="Entidad")
     table = models.CharField(max_length=50, blank=True, verbose_name="Mesa")
-    volunteer_type = models.CharField(max_length=20, choices = VOLUNTEER_TYPE, verbose_name="Tipo de voluntario")
+    volunteer_type = models.CharField(
+        max_length=20, choices=VOLUNTEER_TYPE, verbose_name="Tipo de voluntario")
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='voluntario', verbose_name="ONG")
 
@@ -313,38 +327,38 @@ class Volunteer(Person):
             raise ValidationError(
                 'La fecha de inicio del contrato debe ser anterior a la fecha de finalización del contrato')
 
+
 class Child(Person):
     start_date = models.DateField(
         default=timezone.now, verbose_name="Fecha de alta", null=True, blank=True)
-    termination_date = models.DateField(verbose_name="Fecha de baja", null=True, blank=True)
-    study = models.CharField(
-        max_length=200, verbose_name="Estudio", default='Apadrinamiento en curso')
+    termination_date = models.DateField(
+        verbose_name="Fecha de baja", null=True, blank=True)
+    educational_level = models.CharField(
+        max_length=200, verbose_name="Nivel de estudios")
     expected_mission_time = models.CharField(
-        max_length=200, verbose_name="Tiempo previsto de mision", default='1 mes')
+        max_length=200, verbose_name="Tiempo previsto de mision")
     mission_house = models.CharField(
-        max_length=200, verbose_name="Casa de la mision", default='Casa')
+        max_length=200, verbose_name="Casa de la mision")
     site = models.CharField(
-        max_length=200, verbose_name="Sede", default='Sevilla, España')
+        max_length=200, verbose_name="Sede")
     subsite = models.CharField(
-        max_length=200, verbose_name="Subsede", default='Sevilla, España')
+        max_length=200, verbose_name="Subsede")
     father_name = models.CharField(
-        max_length=200, verbose_name="Nombre del padre", default='Padre')
+        max_length=200, verbose_name="Nombre del padre")
     father_profession = models.CharField(
-        max_length=200, verbose_name="Profesion del padre", default='Trabajo')
+        max_length=200, verbose_name="Profesion del padre")
     mother_name = models.CharField(
-        max_length=200, verbose_name="Nombre de la madre", default='Madre')
+        max_length=200, verbose_name="Nombre de la madre")
     mother_profession = models.CharField(
-        max_length=200, verbose_name="Profesion de la madre", default='Trabajo')
+        max_length=200, verbose_name="Profesion de la madre")
     number_brothers_siblings = models.IntegerField(
         verbose_name="Número de hermanos", default=0, validators=[MinValueValidator(0)])
     correspondence = models.CharField(
-        max_length=200, verbose_name="Correspondencia", default='Sevilla, España')
-    ##slug = models.SlugField(max_length=200, unique=True, editable=False)
+        max_length=20, verbose_name="Tipo de correspondencia", choices=CORRESPONDENCE)
+    # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='niño', verbose_name="ONG")
-
-    
 
     def __str__(self):
         return self.surname + ', ' + self.name
@@ -354,11 +368,11 @@ class Child(Person):
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "The termination date must be after the start date")
-                
+
         if self.number_brothers_siblings < 0:
             raise ValidationErr(
                 "Un niño no puede tener menos de 0 hermanos")
-        ##self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
+        # self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         super(Child, self).save(*args, **kwargs)
 
     class Meta:
