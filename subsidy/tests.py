@@ -82,3 +82,77 @@ class SubsidyTestCase(TestCase):
     def test_subsidy_create_final_resolution_before_provisional(self):
         with self.assertRaises(Exception):
             Subsidy.objects.create(presentation_date="2021-01-01", payment_date="2021-01-02", organism="ONG2",provisional_resolution="2017-07-19", final_resolution="2017-07-18", amount=1000, name="Pedro",ong=self.ong)
+
+
+# TESTS UPDATE SUBSIDY
+
+    def test_incorrect_amount_null(self):
+            with self.assertRaises(Exception):
+                self.subsidy.amount = None
+                self.subsidy.save()
+
+    def test_incorrect_amount_negative(self):
+            with self.assertRaises(Exception):
+                self.subsidy.amount = -1000
+                self.subsidy.save()
+    
+    def test_incorrect_amount_string(self):
+            with self.assertRaises(Exception):
+                self.subsidy.amount = "Juan"
+                self.subsidy.save()
+
+    def test_incorrect_amount_bool(self):
+            with self.assertRaises(Exception):
+                self.subsidy.amount = True
+                self.subsidy.save()
+    
+    def test_incorrect_payment_date_value_string_format(self):
+            with self.assertRaises(Exception):
+                self.subsidy.payment_date = "2010-23-12"
+                self.subsidy.save()
+
+    def test_incorrect_payment_date_value_string_format2(self):
+            with self.assertRaises(Exception):
+                self.subsidy.payment_date = "23/12/23"
+                self.subsidy.save()
+
+    def test_incorrect_payment_date_value_string_format3(self):
+            with self.assertRaises(Exception):
+                self.subsidy.payment_date = "23-12-23"
+                self.subsidy.save()
+    
+    def test_incorrect_organism_null(self):
+            with self.assertRaises(Exception):
+                self.subsidy.organism = None
+                self.subsidy.save()
+
+    def test_incorrect_organism_max_length(self):
+            with self.assertRaises(Exception):
+                self.subsidy.organism = "ONG2"*100
+                self.subsidy.save()
+
+    def test_incorrect_name_null(self):
+            with self.assertRaises(Exception):
+                self.subsidy.name = None
+                self.subsidy.save()
+
+    def test_incorrect_name_max_length(self):
+            with self.assertRaises(Exception):
+                self.subsidy.name = "Juan"*1000
+                self.subsidy.save()
+
+    def test_incorrect_final_resolution_before_provisional(self):
+            with self.assertRaises(Exception):
+                self.subsidy.provisional_resolution = "2017-07-17"
+                self.subsidy.final_resolution = "2017-07-18"
+                self.subsidy.save()
+
+    def test_incorrect_ong_null(self):
+            with self.assertRaises(Exception):
+                self.subsidy.ong = None
+                self.subsidy.save()
+    
+    def test_incorrect_ong_value(self):
+            with self.assertRaises(Exception):
+                self.subsidy.ong = "ONG1"
+                self.subsidy.save()
