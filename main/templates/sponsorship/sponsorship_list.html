@@ -5,7 +5,10 @@
 {% for o in context.objects %}
     <p>{{o.slug}}</p>
     <p>Casa: {{o.home.name}}</p>
-    <p>Padrino: {{o.godfather.name}}</p>
+    <p>Padrinos:</p>
+    {% for g in o.godfather.all %}
+        <p> - {{g.name}}</p>
+    {% endfor %}
     <p>Niño: {{o.child.name}}</p>
 {% endfor %}
 {% endblock %}
