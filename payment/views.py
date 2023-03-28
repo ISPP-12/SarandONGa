@@ -2,10 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import CreatePaymentForm
 from .models import Payment
 from django.contrib import messages
+import json
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
-# import json
+from datetime import datetime
 
+
+# Hay que asignar el padrino
 @login_required
 def payment_create(request):
     form = CreatePaymentForm(initial={'ong': request.user.ong})
@@ -15,14 +18,30 @@ def payment_create(request):
             payment = form.save(commit=False)
             payment.ong = request.user.ong
             payment.save()
-            return redirect('payment_list')
+            return redirect('payment_create')
 
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
-        form = CreatePaymentForm()
 
-    return render(request, 'payment/payment_form.html', {'form': form, 'title': 'Añadir Pago'})
+        all_events = Payment.objects.all()
+        event_arr = []
+        for i in all_events:
+            event_sub_arr = {}
+            event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
+            # start_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            # end_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+            start_date = i.payday
+            end_date = i.payday
+            event_sub_arr['start'] = start_date
+            event_sub_arr['end'] = end_date
+            event_arr.append(event_sub_arr)
+        datatest = json.dumps(event_arr, default=str)
+
+    context = {'form': form, 'title': 'Añadir pago', 'events_json': datatest}
+
+    return render(request, 'payment/payment_form.html', context)
+
 
 @login_required
 def payment_update(request, payment_id):
@@ -34,12 +53,28 @@ def payment_update(request, payment_id):
                 request.POST, request.FILES, instance=payment)
             if form.is_valid():
                 form.save()
-                return redirect('/payment/list')
+                return redirect('/payment/create')
+        else:
+            all_events = Payment.objects.all()
+            event_arr = []
+            for i in all_events:
+                event_sub_arr = {}
+                event_sub_arr['title'] = str(i.amount)
+                start_date = datetime.strptime(
+                    str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+                end_date = datetime.strptime(
+                    str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+                event_sub_arr['start'] = start_date
+                event_sub_arr['end'] = end_date
+                event_arr.append(event_sub_arr)
+            datatest = json.dumps(event_arr)
 
-        context = {'form': form, 'title': 'Actualizar pago'}
+        context = {'form': form, 'title': 'Actualizar pago',
+                   'events_json': datatest}
     else:
         return custom_403(request)
     return render(request, 'payment/payment_form.html', context)
+
 
 @login_required
 def payment_list(request):
@@ -52,6 +87,7 @@ def payment_list(request):
 
     return render(request, 'payment/payment_list.html', context)
 
+
 @login_required
 def payment_delete(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
@@ -60,6 +96,7 @@ def payment_delete(request, payment_id):
     else:
         return custom_403(request)
     return redirect('payment_list')
+
 
 @login_required
 def payment_details(request, payment_id):

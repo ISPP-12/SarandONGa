@@ -6,7 +6,7 @@ from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 
 
 class CreateNewGodFather(forms.ModelForm):
-    
+
     class Meta:
         model = GodFather
         exclude = ['id', 'ong']
@@ -18,7 +18,8 @@ class CreateNewGodFather(forms.ModelForm):
             'sex': forms.Select(attrs={'step': "0.01"}),
         }
         dni = ESIdentityCardNumberField(only_nif=True)
-        bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
+        bank_account_number = IBANFormField(
+            include_countries=IBAN_SEPA_COUNTRIES)
 
     def __init__(self, *args, **kwargs):
         super(CreateNewGodFather, self).__init__(*args, **kwargs)
@@ -37,7 +38,7 @@ class CreateNewGodFather(forms.ModelForm):
 class CreateNewASEMUser(forms.ModelForm):
     class Meta:
         model = ASEMUser
-        exclude = ['id', 'ong'] #ong should be ASEM
+        exclude = ['id', 'ong']  # ong should be ASEM
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
@@ -60,13 +61,15 @@ class CreateNewWorker(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
-    photo=forms.ImageField(required=False)
+    password2 = forms.CharField(
+        label='Confirmar contraseña', widget=forms.PasswordInput)
+    photo = forms.ImageField(required=False)
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active','is_admin','password','ong']
-        
+        exclude = ['id', 'last_login', 'is_active',
+                   'is_admin', 'password', 'ong']
+
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
@@ -100,12 +103,14 @@ class CreateNewWorker(forms.ModelForm):
         if commit:
             user.save()
         return user
-    
+
+
 class UpdateWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password', 'ong']
+        exclude = ['id', 'last_login', 'is_active',
+                   'is_admin', 'password', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         }
@@ -130,14 +135,11 @@ class UpdateWorker(forms.ModelForm):
             user.save()
         return user
 
-class CreateNewChild(forms.ModelForm):
-    sex = forms.ChoiceField(choices=SEX_TYPES, label="Género")
-    correspondence = forms.ChoiceField(
-        choices=CORRESPONDENCE, label="Correspondencia")
 
+class CreateNewChild(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.fields['email'].required = False
-        
+
     class Meta:
         model = Child
         exclude = ['id', 'ong']
@@ -163,9 +165,10 @@ class CreateNewChild(forms.ModelForm):
 
 
 class CreateNewVolunteer(forms.ModelForm):
+
     class Meta:
         model = Volunteer
-        exclude = ['id', 'ong'] # ong is added in the view
+        exclude = ['id', 'ong']  # ong is added in the view
         widgets = {
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
