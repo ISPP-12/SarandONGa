@@ -59,15 +59,13 @@ def payment_update(request, payment_id):
             event_arr = []
             for i in all_events:
                 event_sub_arr = {}
-                event_sub_arr['title'] = str(i.amount)
-                start_date = datetime.strptime(
-                    str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
-                end_date = datetime.strptime(
-                    str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+                event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
+                start_date = i.payday
+                end_date = i.payday
                 event_sub_arr['start'] = start_date
                 event_sub_arr['end'] = end_date
                 event_arr.append(event_sub_arr)
-            datatest = json.dumps(event_arr)
+            datatest = json.dumps(event_arr, default=str)
 
         context = {'form': form, 'title': 'Actualizar pago',
                    'events_json': datatest}
@@ -82,7 +80,7 @@ def payment_list(request):
         'objects': Payment.objects.filter(ong=request.user.ong).values(),
         # 'objects_json': json.dumps(list(Payment.objects.all().values())),
         'objects_name': 'Payment',
-        'title': 'Lista de Pagos'
+        'title': 'Gestión de Pagos'
     }
 
     return render(request, 'payment/payment_list.html', context)

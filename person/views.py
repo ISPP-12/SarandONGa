@@ -153,7 +153,7 @@ def worker_update(request, worker_id):
 @login_required
 def worker_list(request):
     objects = Worker.objects.filter(ong=request.user.ong).values()
-    title = "Gestion de Trabajadores"
+    title = "Gestión de Trabajadores"
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -192,7 +192,7 @@ def worker_delete(request, worker_id):
 @videssur_required
 def child_list(request):
     objects = Child.objects.filter(ong=request.user.ong).values()
-    title = "Gestion de Niños"
+    title = "Gestión de Niños"
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -214,7 +214,7 @@ def child_list(request):
 @asem_required
 def user_list(request):
     objects = ASEMUser.objects.filter(ong=request.user.ong).values()
-    title = "Gestion de Usuarios ASEM"
+    title = "Gestión de Usuarios ASEM"
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -339,7 +339,7 @@ def child_delete(request, child_id):
 @login_required
 def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
-    title = "Gestion de Voluntarios"
+    title = "Gestión de Voluntarios"
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:

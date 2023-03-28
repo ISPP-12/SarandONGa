@@ -9,7 +9,7 @@ class CreatePaymentForm(forms.ModelForm):
         exclude = ['id', 'ong', 'godfather', 'project']
         widgets = {
             'payday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "placeholder": "Escriba una cantidad"}),
+            'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "min": 0, "placeholder": "Escriba una cantidad"}),
             'concept': forms.TextInput(attrs={"placeholder": "Introduzca un concepto"}),
         }
 

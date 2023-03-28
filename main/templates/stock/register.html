@@ -9,9 +9,9 @@
 <div id="section-stock">
 
 {% if form.instance.id %}
-    {% include 'components/title.html' with title="Editar suministro" %}
+    {% include 'components/title.html' with title="Editar producto" %}
 {% else %}
-    {% include 'components/title.html' with title="Añadir suministro" %}
+    {% include 'components/title.html' with title="Añadir producto" %}
 {% endif %}
 
     <form method="post"   enctype="multipart/form-data">
@@ -30,7 +30,7 @@
             <div class="col-12 col-sm-6 ">
                 <div>
                     <div class=" row mb-4 d-flex justify-content-center">
-                        <img id="vista" src={% static 'img/img-not-found.svg' %}
+                        <img id="vista" src="{% static 'img/img-not-found.svg' %}"
                         class="img-fluid" style="width: 300px;" />
                     </div>
                     <div class=" row d-flex justify-content-center  ">
@@ -81,7 +81,8 @@
 
     window.addEventListener("load", (event) => {
         let value= document.querySelector('.photo').innerHTML;
-        if (value == None){
+        console.log(value.toString());
+        if (value == null || value == "None" || value == ""){
             value = "{% static 'img/img-not-found.svg' %}";
         }
         vistaPrevia.src = '../../'+value;
