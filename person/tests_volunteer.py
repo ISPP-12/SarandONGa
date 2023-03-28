@@ -1098,6 +1098,16 @@ class VolunteerTestCase(TestCase):
             self.volunteer_update.address = "A" * 201
             self.volunteer_update.save()
 
+    def test_update_volunteer_telephone_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.telephone = "No es un teléfono"
+            self.volunteer_update.clean_fields()
+
+    def test_update_volunteer_postal_code_incorrect_value(self):
+        with self.assertRaises(Exception):
+            self.volunteer_update.postal_code = "No es un código postal"
+            self.volunteer_update.clean_fields()
+
     def test_update_volunteer_ong_incorrect_value(self):
         with self.assertRaises(Exception):
             self.volunteer_update.ong = "No es una ong"

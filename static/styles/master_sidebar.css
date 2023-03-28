@@ -24,6 +24,15 @@
   color: #000;
 }
 
+#lateralButtons > a {
+  font-size: 18px;
+  margin: 3px 0;
+}
+
+#lateralButtons > a > i {
+  margin-right: 5px;
+}
+
 .object {
   display: flex;
   flex-direction: column;
@@ -45,6 +54,10 @@
   font-size: medium;
 }
 
+#rightSectionContainer {
+  height: calc(100vh - 55px);
+}
+
 #previewContainerButtons {
   height: 200px;
 }
@@ -56,10 +69,16 @@
 
   #rightSectionContainer {
     border: 0 !important;
+    height: auto;
   }
 
   #rightSection {
     padding-left: 0 !important;
+  }
+
+  #lateralButtons > a {
+    font-size: 15px;
+    margin: 1px 0;
   }
 
   #filterContainer {

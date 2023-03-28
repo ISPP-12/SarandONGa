@@ -39,13 +39,6 @@ displayed in the preview text (e.g. "donación")
         <span>{{object.frequency}}</span>
       </div>
 
-      <div class="col-md-1 col-lg-1  col-sm-1 text-end">
-        <a class="pe-2 text-end" href="{{ object.id }}/update">Editar</a>
-      </div>
-      <div class="col-md-1 col-lg-1  col-sm-1 text-end">
-        <a class="pe-2 text-end" href="{{ object.id }}/delete">Eliminar</a>
-      </div>
-
     </div>
     
     <div class="d-none d-flex flex-column " id="moreInfo">
@@ -54,6 +47,13 @@ displayed in the preview text (e.g. "donación")
       <span class="object-donor-dni pt-1"><strong>Referencia de la cuenta bancaria: </strong>{{ object.bank_account_reference  }}</span>
       <span class="object-donor-address pt-1"><strong>Antigüedad: </strong> {{ object.seniority  }}</span>
       <span class="object-donor-email pt-1"><strong>Observaciones: </strong> {{ object.notes  }}</span>
+
+      <div class="container mt-2 border-dark border-top border-1  p-0">
+        <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+        </div>
+      </div>
     </div>
 </div>
 {% endfor %}
@@ -101,7 +101,7 @@ displayed in the preview text (e.g. "donación")
         preview.classList.remove('text-center')
           preview.innerHTML = `
         <div class="row ">
-          <div class="col-12 ">
+          <div class="col-12 px-4 ">
             <h2>${objectData.name}</h2>
             <h5>{{object_name}}</h5>
             <p>${objectData.province}</p>
@@ -112,6 +112,13 @@ displayed in the preview text (e.g. "donación")
             <p><strong>Titular de cuenta bancaria: </strong>${objectData.bank_account_holder}</p>
             <p><strong>Antigüedad:  </strong>${objectData.seniority}</p>
             <p><strong>Observaciones:  </strong>${objectData.notes}</p>
+          </div>
+        </div>
+
+        <div class="container mt-auto border-dark border-top border-1  p-0">
+          <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+            <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
           </div>
         </div>
       `
