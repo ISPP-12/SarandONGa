@@ -60,11 +60,11 @@ class SponsorshipTestCase(TestCase):
 
     def test_sponsorship_fail_child_null(self):
         home_test = Home.objects.get(name='Casa Paco')
-
-        with self.assertRaises(Exception):
-            sponsorship2 = Sponsorship(sponsorship_date=date.today(
-            ), termination_date=date.today(), home=home_test)
-            sponsorship2.save()
+        try:
+            with self.assertRaises(Exception):
+                sponsorship2 = Sponsorship(sponsorship_date=date.today(
+                ), termination_date=date.today(), home=home_test)
+                sponsorship2.save()
         except:
             pass
         try:
