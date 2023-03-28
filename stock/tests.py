@@ -4,6 +4,14 @@ from django.test import TestCase
 from ong.models import Ong
 from .models import Stock
 from decimal import Decimal
+from person.models import Worker
+
+from datetime import datetime
+
+# SELENIUM IMPORTS
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 class StockTestCase(TestCase):
     def setUp(self):
@@ -154,4 +162,82 @@ class StockTestCase(TestCase):
             stock.quantity = -1
             stock.full_clean()
 
+class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
+    def setUp(self):
+        super().setUp()
+        
+        self.ong = Ong(name='VidesSur')
+        self.test_stock_1 = Stock(name="Test stock 1", ong=self.ong, quantity=150)
 
+        self.ong.save()
+        self.test_stock_1.save()
+
+        self.usersuper = Worker(
+            email="test@email.com",
+            name="Test Person",
+            surname="Test Apellido",
+            birth_date=datetime(2001,3,14),
+            sex='M',
+            city='Test Ciudad',
+            address='Test Calle',
+            telephone='123456789',
+            postal_code='41010',
+        )
+        self.usersuper.ong = self.ong
+        self.usersuper.set_password('adminTest')
+        self.usersuper.is_admin = True
+        self.usersuper.save()
+
+        options = webdriver.ChromeOptions()
+        options.headless = True
+        self.driver = webdriver.Chrome(options=options)
+        self.driver.set_window_size(1920,1080)
+
+        self.driver.get(f'{self.live_server_url}/login/')
+        self.driver.find_element(By.ID,"id_username").send_keys('test@email.com')
+        self.driver.find_element(By.ID,"id_password").send_keys('adminTest')
+        self.driver.find_element(By.ID,"id-submitForm").click()
+
+
+    def tearDown(self):
+        self.driver.quit()
+        self.ong = None
+        self.test_stock_1 = None
+        super().tearDown()
+
+    def test_access_stock_view(self):
+        # Check access
+        self.driver.get(f'{self.live_server_url}/stock/list')
+        self.assertTrue(self.driver.find_element(By.ID,"section-stock"))
+
+        # Check the test item appears
+        test_stock_div = self.driver.find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+        test_stock_text = test_stock_div.find_element(By.CSS_SELECTOR,"h5.card-title span").text
+        self.assertTrue(test_stock_text == self.test_stock_1.name)
+
+        # Check the display change
+        self.driver.find_element(By.ID,"id-toList").click()
+        self.assertTrue(self.driver
+                        .find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+                        .find_element(By.CLASS_NAME,"card-stock-list"))
+        self.driver.find_element(By.ID,"id-toGrid").click()
+        self.assertTrue(self.driver
+                        .find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+                        .find_element(By.CLASS_NAME,"card-stock"))
+        
+    def test_delete_stock_view(self):
+        # Check access
+        self.driver.get(f'{self.live_server_url}/stock/list')
+        self.assertTrue(self.driver.find_element(By.ID,"section-stock"))
+
+        # Check the test item appears
+        test_stock_div = self.driver.find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+        test_stock_text = test_stock_div.find_element(By.CSS_SELECTOR,"h5.card-title span").text
+        self.assertTrue(test_stock_text == self.test_stock_1.name)
+
+        # Check the item is removed
+        before_count = Stock.objects.count()
+        test_stock_div.find_element(By.ID,f"id-delete-{self.test_stock_1.id}").click()
+        after_count = Stock.objects.count()
+
+        self.assertTrue(before_count == after_count+1 )
