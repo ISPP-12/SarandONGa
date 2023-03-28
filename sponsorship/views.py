@@ -29,7 +29,7 @@ def sponsorship_list(request):
         'objects': Sponsorship.objects.all(),
         # 'objects_json': json.dumps(list(Payment.objects.all().values())),
         'objects_name': 'Sponsorship',
-        'title': 'Lista de Apadrinamientos'
+        'title': 'Gestión de Apadrinamientos'
     }
     return render(request, 'sponsorship/sponsorship_list.html', {"context": context})
 

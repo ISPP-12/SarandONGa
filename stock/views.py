@@ -4,14 +4,30 @@ from django.contrib import messages
 from .forms import CreateNewStock
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
+import json
+from decimal import Decimal
 
+class CustomJSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, Decimal):
+            return float(obj)
+        return super().default(obj)
+
+@login_required
 def stock_list(request):
 
+    stock = Stock.objects.filter(ong=request.user.ong).values()
+    stock_dict = [obj for obj in stock]
+    for d in stock_dict:
+        d.pop('_state', None)
+
+    stock_json = json.dumps(stock_dict, cls=CustomJSONEncoder)
+
     context = {
-        'objects': Stock.objects.filter(ong=request.user.ong).values(),
-        #'objects_json' : json.dumps(list(Stock.objects.all().values())),
+        'objects': stock,
+        'objects_json' : stock_json,
         'object_name': 'stock',
-        'title': 'Lista de stock',
+        'title': 'Gestión de Inventario',
     }
     return render(request, 'stock/list.html', context)
 

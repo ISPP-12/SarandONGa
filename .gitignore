@@ -10,6 +10,10 @@ sara/**
 # Backup files #
 *.bak
 
+#Images
+
+./static/img
+
 #Delete migrations .bat file
 delete_migrations.bat
 
