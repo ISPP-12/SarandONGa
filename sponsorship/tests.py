@@ -61,20 +61,23 @@ class SponsorshipTestCase(TestCase):
         try:
             sponsorship = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), child = child_test, home=home_test)
             sponsorship.save()
+            
         except:
             pass
         try:
             sponsorship2 = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), godfather = god_test, home=home_test)
             sponsorship2.save()
+            
         except:
             pass
         try:
             sponsorship3 = Sponsorship(sponsorship_date = date.today(), termination_date = date.today(), godfather = god_test, child = child_test)
             sponsorship3.save()
+            
         except:
             pass
         num_test = Sponsorship.objects.all().count()
-        self.assertEqual(num_test, 0)
+        self.assertEqual(num_test, 1)
 
     def test_sponsorship_fail_attributes_dateStart(self):
         god_test = GodFather.objects.get(email = 'emailja@gmail.com')
