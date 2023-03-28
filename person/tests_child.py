@@ -7,6 +7,7 @@ from person.models import Child
 class ChildTestCase(TestCase):
     def setUp(self):
         self.ong = Ong.objects.create(name='Mi ONG')
+
         self.child_update = Child.objects.create(email='test1@test.com', name='Test_1',surname='Test1 Test1', birth_date=datetime(2001,6,18),
                             sex="Femenino", city="Test1", address="Test1", telephone=123456789, postal_code=12345, photo="test1.jpg",
                             start_date=datetime(2006,2,23), termination_date=datetime(2020,9,12), expected_mission_time="2",
@@ -25,6 +26,7 @@ class ChildTestCase(TestCase):
                             mission_house="Test3", site="Test3", subsite="Test3", father_name="Dn. Test3", father_profession="Test3",
                             mother_name="Sra. Test3", mother_profession="Test3", number_brothers_siblings=3,correspondence="Test3",ong=self.ong)
         
+
 
     def test_child_create(self):
         child = Child.objects.get(name="Test_1")
@@ -153,7 +155,6 @@ class ChildTestCase(TestCase):
             '%d/%m/%Y'), datetime(2008, 12, 12).strftime('%d/%m/%Y'))
         self.assertEqual(child.termination_date.strftime(
             '%d/%m/%Y'), datetime(2021, 6, 1).strftime('%d/%m/%Y'))
-        
         self.assertEqual(child.expected_mission_time, '3')
         self.assertEqual(child.mission_house, 'newTest2')
         self.assertEqual(child.site, 'newTest2')
