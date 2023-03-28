@@ -2,7 +2,7 @@ from django.db import models
 from person import models as person_models
 from home import models as home_models
 from xml.dom import ValidationErr
-from django.utils.text import slugify
+# from django.utils.text import slugify
 
 
 class Sponsorship(models.Model):
