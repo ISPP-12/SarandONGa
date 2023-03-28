@@ -8,10 +8,11 @@ class CreateSponsorshipForm(forms.ModelForm):
         model = Sponsorship
         exclude = ['id', 'ong']
         widgets = {
-            'sponsorship_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
-            'termination_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
+            'sponsorship_date': forms.DateInput(attrs={'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
+            'termination_date': forms.DateInput(attrs={'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
+            'home': forms.Select(attrs={'required': True}),
+            'godfather': forms.SelectMultiple(attrs={'required': True}),
         }
-
 
     def __init__(self, *args, **kwargs):
         super(CreateSponsorshipForm, self).__init__(*args, **kwargs)
