@@ -3,7 +3,7 @@ from .forms import CreateNewProject
 from django.contrib import messages
 from .models import Project
 from django.contrib.auth.decorators import login_required
-from main.views import videssur_required
+from main.views import  videssur_required
 import json
 from datetime import date
 from decimal import Decimal
@@ -18,6 +18,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 @login_required
 @videssur_required
+ 
 def project_delete(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     project.delete()
@@ -25,6 +26,7 @@ def project_delete(request, project_id):
 
 @login_required
 @videssur_required
+ 
 def project_create(request):
     if request.user.is_anonymous:
         form = CreateNewProject()
@@ -46,6 +48,7 @@ def project_create(request):
 
 @login_required
 @videssur_required
+ 
 def project_update(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == "POST":
@@ -63,12 +66,14 @@ def project_update(request, project_id):
 
 @login_required
 @videssur_required
+ 
 def project_details(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     return render(request, 'project/project_details.html', {'project': project})
 
 @login_required
 @videssur_required
+ 
 def project_list(request):
     context = {
         'objects': Project.objects.filter(ong=request.user.ong).values(),

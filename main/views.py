@@ -2,6 +2,9 @@ import json
 from django.shortcuts import render
 from functools import wraps
 from django.contrib import messages
+from django.test.signals import template_rendered
+
+from ong.models import Ong
 
 
 def index(request):
@@ -104,4 +107,5 @@ def videssur_required(function):
             messages.error(request, "Necesitas pertenecer a VidesSur para acceder a esos datos")
             return custom_403(request)
     return wrapper
+
 

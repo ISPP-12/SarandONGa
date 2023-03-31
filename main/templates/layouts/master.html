@@ -45,6 +45,71 @@
         {% endblock %}
     </div>
 
+    <div id="user-data"
+        data-usuario-logeado="{{ usuario_logeado }}"
+        data-perteneciente-a-vides-sur="{{ perteneciente_a_VidesSur|yesno:'true,false' }}"
+        style="display: none;">
+    </div>
+
+
+    <script>
+        var userDataElement = document.getElementById("user-data");
+
+        var usuarioLogeado = userDataElement.dataset.usuarioLogeado === "True";
+        var pertenecienteAVidesSur = userDataElement.dataset.pertenecienteAVidesSur === "true";
+        console.log(usuarioLogeado)
+        console.log(pertenecienteAVidesSur)
+        function calcularEdad(fechaDeNacimiento) {
+          const hoy = new Date();
+          const nacimiento = new Date(fechaDeNacimiento);
+          let edad = hoy.getFullYear() - nacimiento.getFullYear();
+          const diferenciaMeses = hoy.getMonth() - nacimiento.getMonth();
+    
+          if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < nacimiento.getDate())) {
+            edad--;
+          }
+    
+          return edad;
+        }
+    
+        async function verificarNinos() {
+          try {
+            const response = await fetch('/user/api/child_age/');
+            const ninos = await response.json();
+    
+            for (const nino of ninos) {
+              const edad = calcularEdad(nino.birth_date);
+    
+              if (edad >= 18) {
+                mostrarNotificacion(nino.name);
+              }
+            }
+          } catch (error) {
+            console.error('Error al obtener la lista de niños:', error);
+          }
+        }
+    
+        function mostrarNotificacion(nombre) {
+          if (!('Notification' in window)) {
+            console.error('Este navegador no soporta notificaciones.');
+            return;
+          }
+    
+          if (Notification.permission === 'granted') {
+            new Notification(`El niño ${nombre} ha cumplido la mayoría de edad.`);
+          } else if (Notification.permission !== 'denied') {
+            Notification.requestPermission().then(permission => {
+              if (permission === 'granted') {
+                new Notification(`El niño ${nombre} ha cumplido la mayoría de edad.`);
+              }
+            });
+          }
+        }
+        if (usuarioLogeado && pertenecienteAVidesSur) {
+          setInterval(verificarNinos, 24 * 60 * 60 * 1000);
+        }
+    </script>
+
 </body>
 
 </html>
