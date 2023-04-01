@@ -1,13 +1,7 @@
-from django.db import transaction
-from django.test import TestCase
-
 from datetime import date
 import datetime
-
 from ong.models import Ong
-from decimal import Decimal
 from .models import Volunteer,Worker
-
 # SELENIUM IMPORTS
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
@@ -114,7 +108,6 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
         self.assertTrue(volunteer_div)
 
         # Check the test item appears
-        volunteer_div_cont_cards = self.driver.find_element(By.CLASS_NAME,"container-fluid")
         
         test_volunteers_div=self.driver.find_element(By.CLASS_NAME,"us-cont")
         test_volunteer_email = test_volunteers_div.find_element(By.CSS_SELECTOR,"div.col-email").text
