@@ -275,7 +275,6 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         self.assertTrue(test_stock_text == self.test_stock_1.name)
 
         #Update item
-        before_count = Stock.objects.count()
         test_stock_div.find_element(By.ID,f"id-update-{self.test_stock_1.id}").click()
         self.driver.find_element(By.ID,"id_name").clear()
         self.driver.find_element(By.ID,"id_name").send_keys("Lápiz bic rojo")
