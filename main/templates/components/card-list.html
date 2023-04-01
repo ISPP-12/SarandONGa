@@ -1,6 +1,6 @@
 {% load static %}
-<div class=" container-fluid card-list mw-100 px-2 card-list rounded py-1" tabindex="1">
-  <span class="object-id d-none">{{ object.id }}</span>
+<div class=" container-fluid us-cont card-list mw-100 px-2 card-list rounded py-1" id="volunteer-{{ object.id }}" tabindex="1">
+  <span class="object-id  d-none">{{ object.id }}</span>
    
       
     <div class="row">
@@ -8,15 +8,15 @@
         <strong><h5>{{object.surname}}, {{object.name}}</h5></strong>
       
       </div>
-      <div class="col-md-2 col-lg-2 col-sm-2">
+      <div class="col-city col-md-2 col-lg-2 col-sm-2">
         <span>{{object.city}}</span>
 
       </div>  
-      <div class="col-md-3 col-lg-2  col-sm-1">
+      <div class="col-telephone col-md-3 col-lg-2  col-sm-1">
         <span>{{object.telephone}}</span>
 
       </div> 
-      <div class="col-md-2 col-sm-1 col-lg-2 col-sm-1 col-email ">
+      <div class="col-email col-md-2 col-sm-1 col-lg-2 col-sm-1 col-email ">
         <span>{{object.email}}</span>
       </div> 
 

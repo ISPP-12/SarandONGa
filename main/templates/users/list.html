@@ -115,7 +115,7 @@
           </div>
         </div>
           <div class="container mt-auto border-dark border-top border-1  p-0">
-            <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <div class="buttons row d-flex flex-column text-center p-3" id="lateralButtons">
               {%if object_name == "usuario"%}
               <a href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
               {%elif object_name == "padrino" or object_name == "donante"%}
@@ -125,7 +125,7 @@
               <a href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
               {% endif %}
               <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-              <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+              <a id="deleteBtn" href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
             </div>
           </div>
 
