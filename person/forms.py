@@ -6,8 +6,9 @@ from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.forms.widgets import SelectDateWidget
 
 class FilterAsemUserForm(forms.Form):
-    min_date = forms.DateField(required=False, widget=SelectDateWidget())
-    max_date = forms.DateField(required=False, widget=SelectDateWidget())
+    qsearch = forms.CharField(max_length=100, required=False)
+    min_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
+    max_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}))
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False)
     condition = forms.ChoiceField(choices=[('', '--Seleccione--'), ('EM', 'Esclerosis múltiple'), ('ICTUS', 'Ictus'), ('ELA', 'Esclerosis lateral amiotrófica'), ('OTROS', 'Otros')], required=False)
     member = forms.ChoiceField(choices=[('', '--Seleccione--'), ('EM', 'Esclerosis múltiple'), ('ICTUS', 'Ictus'), ('ELA', 'Esclerosis lateral amiotrófica'), ('OTROS', 'Otros'), ('UNA', 'Usuario no asociado')], required=False)

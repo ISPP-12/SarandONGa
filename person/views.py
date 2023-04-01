@@ -217,10 +217,9 @@ def user_list(request):
     objects = ASEMUser.objects.filter(ong=request.user.ong).values()
     title = "Gestión de Usuarios ASEM"
     form = FilterAsemUserForm()
+    
     if request.method == 'GET':
-        objects = asemuser_filter(objects, request)
-    #if request.method == 'GET':
-    #    objects = get_queryset(objects, request.GET.get('q'))
+        objects = asemuser_filter(objects, FilterAsemUserForm(request.GET))
 
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
@@ -240,25 +239,12 @@ def user_list(request):
 
     return render(request, 'users/list.html', context)
 
-def asemuser_filter_query(queryset, q):
-        
-        if is_valid_queryparam(q):
-            queryset = queryset.filter(
-                Q(name__icontains=q) |
-                Q(surname__icontains=q) |
-                Q(address__icontains=q) |
-                Q(city__icontains=q) |
-                Q(postal_code__icontains=q)
-            )
-        return queryset
-
 def is_valid_queryparam(param):
     return param != "" and param is not None
 
-def asemuser_filter(queryset, form_request):
-    form = FilterAsemUserForm(form_request.GET)
-    q = form_request.GET.get('q')
+def asemuser_filter(queryset, form):
 
+    q = form['qsearch'].value()
     min_date = form['min_date'].value()
     max_date = form['max_date'].value()
     sex = form['sex'].value()
@@ -281,9 +267,6 @@ def asemuser_filter(queryset, form_request):
                     Q(postal_code__iexact=q)
                 )
 
-    #if is_valid_queryparam(min_date) and is_valid_queryparam(max_date):
-    #    queryset = queryset.filter(birth_date__gte=min_date, birth_date__lte=max_date)
-
     if is_valid_queryparam(min_date):
         queryset = queryset.filter(birth_date__gte=min_date)
     
@@ -292,9 +275,6 @@ def asemuser_filter(queryset, form_request):
     
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
-    
-    #if is_valid_queryparam(postal_code):
-    #    queryset = queryset.filter(postal_code__icontains=postal_code)
        
     if is_valid_queryparam(condition):
         queryset = queryset.filter(condition=condition)
