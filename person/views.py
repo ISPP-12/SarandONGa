@@ -305,10 +305,6 @@ def asemuser_filter(queryset, form):
         queryset = queryset.filter(own_home=own_home)
     
     if is_valid_queryparam(own_vehicle):
-        if own_vehicle=="true":
-            own_vehicle = True
-        else:
-            own_vehicle = False
         queryset = queryset.filter(own_vehicle=own_vehicle)
 
     return queryset
