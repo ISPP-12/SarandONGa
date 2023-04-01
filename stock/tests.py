@@ -241,3 +241,54 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         after_count = Stock.objects.count()
 
         self.assertTrue(before_count == after_count+1 )
+    def test_stock_register_view(self):
+        # Check access
+        before_count = Stock.objects.count()
+       
+        self.driver.get(f'{self.live_server_url}/stock/list')
+        self.driver.find_element(By.ID,"create-button").click()
+        self.driver.find_element(By.ID,"id_name").send_keys("Lápiz bic azul")
+        self.driver.find_element(By.ID,"id_quantity").send_keys("100")
+        self.driver.find_element(By.ID,"submit").click()
+        after_count = Stock.objects.count()
+        self.assertTrue(before_count == after_count-1 )
+
+    def test_stock_register_view_error(self):
+        # Check access
+        before_count = Stock.objects.count()
+       
+        self.driver.get(f'{self.live_server_url}/stock/list')
+        self.driver.find_element(By.ID,"create-button").click()
+        self.driver.find_element(By.ID,"id_name").send_keys("Lápiz bic azul")
+        self.driver.find_element(By.ID,"id_quantity").send_keys("-100")
+        self.driver.find_element(By.ID,"submit").click()
+        after_count = Stock.objects.count()
+        self.assertTrue(before_count == after_count )
+
+    def test_stock_register_view_update(self):
+        self.driver.get(f'{self.live_server_url}/stock/list')
+        self.assertTrue(self.driver.find_element(By.ID,"section-stock"))
+
+        # Check the test item appears
+        test_stock_div = self.driver.find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+        test_stock_text = test_stock_div.find_element(By.CSS_SELECTOR,"h5.card-title span").text
+        self.assertTrue(test_stock_text == self.test_stock_1.name)
+
+        #Update item
+        before_count = Stock.objects.count()
+        test_stock_div.find_element(By.ID,f"id-update-{self.test_stock_1.id}").click()
+        self.driver.find_element(By.ID,"id_name").clear()
+        self.driver.find_element(By.ID,"id_name").send_keys("Lápiz bic rojo")
+        self.driver.find_element(By.ID,"submit").click()
+
+        # Check the test item appears
+        test_stock_div = self.driver.find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
+        test_stock_text = test_stock_div.find_element(By.CSS_SELECTOR,"h5.card-title span").text
+        self.assertTrue(test_stock_text == "Lápiz bic rojo")
+
+
+
+
+
+
+        
