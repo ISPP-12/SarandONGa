@@ -6,8 +6,9 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm
 from xml.dom import ValidationErr
+from django.db.models import Q
 
 
 
@@ -215,8 +216,12 @@ def child_list(request):
 def user_list(request):
     objects = ASEMUser.objects.filter(ong=request.user.ong).values()
     title = "Gestión de Usuarios ASEM"
+    form = FilterAsemUserForm()
     if request.method == 'GET':
-        objects = asemuser_filter(objects, request.GET)
+        objects = asemuser_filter(objects, request)
+    #if request.method == 'GET':
+    #    objects = get_queryset(objects, request.GET.get('q'))
+
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -230,52 +235,66 @@ def user_list(request):
         'object_name_en': 'user',
         'title': title,
         'objects_json': persons_json,
+        'form' : form,
     }
 
-    return render(request, 'users/filtro.html', context)
+    return render(request, 'users/list.html', context)
+
+def asemuser_filter_query(queryset, q):
+        
+        if is_valid_queryparam(q):
+            queryset = queryset.filter(
+                Q(name__icontains=q) |
+                Q(surname__icontains=q) |
+                Q(address__icontains=q) |
+                Q(city__icontains=q) |
+                Q(postal_code__icontains=q)
+            )
+        return queryset
 
 def is_valid_queryparam(param):
     return param != "" and param is not None
 
-def asemuser_filter(queryset, form):
+def asemuser_filter(queryset, form_request):
+    form = FilterAsemUserForm(form_request.GET)
+    q = form_request.GET.get('q')
 
-    name = form.get('name')
-    surname = form.get('surname')
-    min_date = form.get('min_date')
-    max_date = form.get('max_date')
-    sex = form.get('sex')
-    address = form.get('address')
-    city = form.get('city')
-    postal_code = form.get('postal_code')
-    condition = form.get('condition')
-    member = form.get('member')
-    user_type = form.get('user_type')
-    correspondence = form.get('correspondence')
-    status = form.get('status')
-    family_unit_size = form.get('family_unit_size')
-    own_home = form.get('own_home')
-    own_vehicle = form.get('own_vehicle')
-
-    if is_valid_queryparam(name):
-        queryset = queryset.filter(name__icontains=name)
+    min_date = form['min_date'].value()
+    max_date = form['max_date'].value()
+    sex = form['sex'].value()
+    condition = form['condition'].value()
+    member = form['member'].value()
+    user_type = form['user_type'].value()
+    correspondence = form['correspondence'].value()
+    status = form['status'].value()
+    family_unit_size = form['family_unit_size'].value()
+    own_home = form['own_home'].value()
+    own_vehicle = form['own_vehicle'].value()
     
-    if is_valid_queryparam(surname):
-        queryset = queryset.filter(surname__icontains=surname)
-  
-    if is_valid_queryparam(min_date) and is_valid_queryparam(max_date):
-        queryset = queryset.filter(birth_date__gte=min_date, birth_date__lt=max_date)
+    if q is not None:
+            if q.strip() != "":
+                queryset = queryset.filter(
+                    Q(name__icontains=q) |
+                    Q(surname__icontains=q) |
+                    Q(address__icontains=q) |
+                    Q(city__icontains=q) |
+                    Q(postal_code__iexact=q)
+                )
+
+    #if is_valid_queryparam(min_date) and is_valid_queryparam(max_date):
+    #    queryset = queryset.filter(birth_date__gte=min_date, birth_date__lte=max_date)
+
+    if is_valid_queryparam(min_date):
+        queryset = queryset.filter(birth_date__gte=min_date)
+    
+    if is_valid_queryparam(max_date):
+        queryset = queryset.filter(birth_date__lte=max_date)
     
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
     
-    if is_valid_queryparam(address):
-        queryset = queryset.filter(address__icontains=address)
-    
-    if is_valid_queryparam(city):
-        queryset = queryset.filter(city__icontains=city)
-    
-    if is_valid_queryparam(postal_code):
-        queryset = queryset.filter(postal_code__icontains=postal_code)
+    #if is_valid_queryparam(postal_code):
+    #    queryset = queryset.filter(postal_code__icontains=postal_code)
        
     if is_valid_queryparam(condition):
         queryset = queryset.filter(condition=condition)
@@ -305,9 +324,6 @@ def asemuser_filter(queryset, form):
             own_vehicle = False
         queryset = queryset.filter(own_vehicle=own_vehicle)
 
-    print("HELLOOO")
-    print(queryset)
-    print("HOLAAAAAA")
     return queryset
 
 @login_required
