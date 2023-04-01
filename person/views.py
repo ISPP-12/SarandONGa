@@ -253,7 +253,8 @@ def asemuser_filter(queryset, form):
     user_type = form['user_type'].value()
     correspondence = form['correspondence'].value()
     status = form['status'].value()
-    family_unit_size = form['family_unit_size'].value()
+    fam_size_min = form['fam_size_min'].value()
+    fam_size_max = form['fam_size_max'].value()
     own_home = form['own_home'].value()
     own_vehicle = form['own_vehicle'].value()
     
@@ -264,7 +265,10 @@ def asemuser_filter(queryset, form):
                     Q(surname__icontains=q) |
                     Q(address__icontains=q) |
                     Q(city__icontains=q) |
-                    Q(postal_code__iexact=q)
+                    Q(postal_code__icontains=q) |
+                    Q(email__icontains=q) |
+                    Q(telephone__icontains=q) |
+                    Q(bank_account_number__icontains=q)
                 )
 
     if is_valid_queryparam(min_date):
@@ -291,8 +295,11 @@ def asemuser_filter(queryset, form):
     if is_valid_queryparam(status):
         queryset = queryset.filter(status=status)
 
-    if is_valid_queryparam(family_unit_size):
-        queryset = queryset.filter(family_unit_size=family_unit_size)
+    if is_valid_queryparam(fam_size_min):
+        queryset = queryset.filter(family_unit_size__gte=fam_size_min)
+
+    if is_valid_queryparam(fam_size_max):
+        queryset = queryset.filter(family_unit_size__lte=fam_size_max)
     
     if is_valid_queryparam(own_home):
         queryset = queryset.filter(own_home=own_home)

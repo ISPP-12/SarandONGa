@@ -3,7 +3,6 @@ from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENC
 from localflavor.es.forms import ESIdentityCardNumberField
 from localflavor.generic.forms import IBANFormField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
-from django.forms.widgets import SelectDateWidget
 
 class FilterAsemUserForm(forms.Form):
     qsearch = forms.CharField(max_length=100, required=False)
@@ -15,7 +14,8 @@ class FilterAsemUserForm(forms.Form):
     user_type = forms.ChoiceField(choices=[('', '--Seleccione--'), ('SACC', 'Socio ASEM con cuota de socio'), ('UCC', 'Usuario con cuota de socio'), ('USC', 'Usuario sin cuota de socio')], required=False)
     correspondence = forms.ChoiceField(choices=[('', '--Seleccione--'), ('E', 'Email'), ('CC', 'Carta con logo'), ('CS', 'Carta sin logo'), ('SR', 'Solo revista'), ('N', 'Ninguna')], required=False)
     status = forms.ChoiceField(choices=[('', '--Seleccione--'), ('C', 'Casado/a'), ('F', 'Fallecido/a'), ('V', 'Viudo/a'), ('S', 'Soltero/a'), ('D', 'Divorciado/a')], required=False)
-    family_unit_size = forms.IntegerField(required=False)
+    fam_size_min = forms.IntegerField(required=False)
+    fam_size_max = forms.IntegerField(required=False)
     own_home = forms.ChoiceField(choices=[('', '--Seleccione--'), ('VC', 'Vivienda compartida'), ('VP', 'Vivienda propia')], required=False)
     own_vehicle = forms.ChoiceField(choices=[('', '--Seleccione--'), ('true', 'Si'), ('false', 'No')], required=False)
 
