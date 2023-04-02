@@ -21,7 +21,7 @@ displayed in the preview text (e.g. "donación")
 {% for object in objects %}
 
 
-<div class="container-fluid mw-100 px-2 card-list rounded py-1" id="donation-{{ forloop.counter }}" tabindex="1">
+<div class="container-fluid mw-100 px-2 card-list rounded py-1" id="donation-{{ object.id }}" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
        
   <div class="row">
@@ -50,11 +50,6 @@ displayed in the preview text (e.g. "donación")
     </div> 
     
   </div>
-    
-    
-
-   
-
     <div class="d-none d-flex flex-column " id="moreInfo">
       <span class="object-description pt-1"><strong>Descripción: </strong>{{ object.description }}</span>
 

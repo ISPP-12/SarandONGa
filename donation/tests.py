@@ -7,12 +7,8 @@ from person.models import Worker
 # SELENIUM IMPORTS
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 
-from time import sleep
 
 
 class DonationTestCase(TestCase):
@@ -439,7 +435,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.driver.get(f'{self.live_server_url}/donation/list')
         self.assertTrue(self.driver.find_element(By.ID,"section-donation"))
 
-        # Check the test item appears
+    #     # Check the test item appears
         test_donation_div = self.driver.find_element(By.ID,f"donation-{self.test_donation_1.id}")
         test_donation_text = test_donation_div.find_element(By.CSS_SELECTOR,"h5").text
         spans = test_donation_div.find_element(By.CLASS_NAME, "row").find_elements(By.TAG_NAME, "span")
@@ -448,7 +444,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.assertIn(str(self.test_donation_1.amount), spans[1].text)
         self.assertTrue(spans[2].text == self.test_donation_1.donor_email)
 
-        #Check the left section is still empty
+        #     #Check the left section is still empty
         left_section_div = self.driver.find_element(By.ID,"preview")
         self.assertTrue(left_section_div.find_element(By.ID,"prev-info").text == "Pulsa sobre una donación para la vista previa")
 
@@ -471,10 +467,14 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.driver.get(f'{self.live_server_url}/donation/list')
         self.assertTrue(self.driver.find_element(By.ID,"section-donation"))
 
-        # Check the test item appears
+    #     # Check the test item appears
         test_donation_div = self.driver.find_element(By.ID,f"donation-{self.test_donation_1.id}")
         test_donation_text = test_donation_div.find_element(By.CSS_SELECTOR,"h5").text
+        spans = test_donation_div.find_element(By.CLASS_NAME, "row").find_elements(By.TAG_NAME, "span")
         self.assertTrue(test_donation_text == self.test_donation_1.title)
+        self.assertTrue(spans[0].text == self.test_donation_1.created_date.strftime("%d/%m/%Y %H:%M"))
+        self.assertIn(str(self.test_donation_1.amount), spans[1].text)
+        self.assertTrue(spans[2].text == self.test_donation_1.donor_email)
 
         # Check the item is removed
         before_count = Donation.objects.count()
