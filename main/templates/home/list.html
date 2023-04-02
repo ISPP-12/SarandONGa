@@ -18,6 +18,11 @@ displayed in the preview text (e.g. "donación")
 {% endblock %}
 
 {% block objectFor %}
+<form method="GET">
+  {% csrf_token %}
+  {{form}}
+  <input type="submit" value="Filtrar">
+</form>
 {% for object in objects %}
 <div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
     <span class="object-id d-none">{{ object.id }}</span>
