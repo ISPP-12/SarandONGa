@@ -75,6 +75,6 @@ def project_list(request):
         'objects_json' : json.dumps(list(Project.objects.filter(ong=request.user.ong).values()), cls=CustomJSONEncoder),
         'object_name': 'proyecto',
         'object_name_en': 'project',
-        'title': 'Gestión de proyectos',
+        'title': 'Gestión de Proyectos',
     }
     return render(request, 'project/list.html', context)

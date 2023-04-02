@@ -60,7 +60,7 @@ def home_list(request):
         'objects_json': homes_json,
         'object_name': 'casa',
         'object_name_en': 'home',
-        'title': 'Lista de Casas',
+        'title': 'Gestión de Casas',
     }
 
     return render(request, 'home/list.html', context)

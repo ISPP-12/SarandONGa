@@ -11,11 +11,22 @@ nav a {
   text-decoration: underline;
 }
 
+.navbar {
+  height: 55px;
+}
+
 .dropdown-toggle::after {
-  content: "\25BC";
-  display: inline-block;
-  margin-left: 0.255em;
-  vertical-align: 0;
+  content: "\F282";
+  display: inline;
+  margin-left: 0;
+  vertical-align: bottom;
   border: 0;
-  font-weight: bold;
+  font-family: bootstrap-icons, sans-serif;
+  font-style: normal;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    height: auto;
+  }
 }

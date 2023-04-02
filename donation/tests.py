@@ -423,7 +423,6 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.driver.find_element(By.ID,"id_password").send_keys('root')
         self.driver.find_element(By.ID,"id-submitForm").click()
 
-
     def tearDown(self):
         self.driver.quit()
         self.ong = None
@@ -461,7 +460,6 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.assertTrue(children[5].text == "Dirección donante: " + self.test_donation_1.donor_address)
         self.assertTrue(children[6].text == "Correo donante: " + self.test_donation_1.donor_email)
 
-
     def test_delete_donation_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/donation/list')
@@ -476,9 +474,18 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.assertIn(str(self.test_donation_1.amount), spans[1].text)
         self.assertTrue(spans[2].text == self.test_donation_1.donor_email)
 
+        #     #Check the left section is still empty
+        left_section_div = self.driver.find_element(By.ID,"preview")
+        self.assertTrue(left_section_div.find_element(By.ID,"prev-info").text == "Pulsa sobre una donación para la vista previa")
+
+        # Check the item div is clickable
+        test_donation_div.click()
+
         # Check the item is removed
         before_count = Donation.objects.count()
-        self.driver.find_element(By.ID,"deleteBtn").click()
+        lateral_btns = self.driver.find_element(By.ID,"lateralButtons")
+        delete_btn = lateral_btns.find_elements(By.TAG_NAME,"a")[1]
+        delete_btn.click()
         after_count = Donation.objects.count()
 
         self.assertTrue(before_count == after_count+1 )

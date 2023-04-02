@@ -28,13 +28,6 @@
         <span>{{object.organism}}</span>
 
       </div> 
-     
-      <div class="col-md-1 col-lg-1  col-sm-1 text-end">
-        <a class="pe-2 text-end" href="{{ object.id }}/update">Editar</a>
-      </div>
-      <div class="col-md-1 col-lg-1  col-sm-1 text-end">
-        <a class="pe-2 text-end" href="{{ object.id }}/delete">Eliminar</a>
-      </div> 
         
     </div>
     
@@ -49,6 +42,12 @@
       <span class="object-prov"><strong>Resolucion provisional: </strong>{{ object.provisional_resolution  }}</span>
       <span class="object-final"><strong>Resolución final: </strong>{{ object.final_resolution  }}</span>
 
+      <div class="container mt-2 border-dark border-top border-1  p-0">
+        <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+        </div>
+      </div>
       
     </div>
 </div>
@@ -93,8 +92,8 @@
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
           preview.innerHTML = `
-        <div class="row ">
-          <div class="col-12 ">
+        <div class="row">
+          <div class="col-12 px-4 ">
             
             <h2>${objectData.name}</h2>
             <h5>{{object_name}}</h5>
@@ -104,6 +103,14 @@
             <p><strong>Pago: </strong>${objectData.payment_date}</p>
             <p><strong>Resolución provisional: </strong>${objectData.provisional_resolution}</p>
             <p><strong>Resolución final: </strong>${objectData.provisional_resolution}</p>
+          </div>
+        </div>
+
+        
+        <div class="container mt-auto border-dark border-top border-1  p-0">
+          <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+            <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
           </div>
         </div>
       `
