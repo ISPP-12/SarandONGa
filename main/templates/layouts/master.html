@@ -57,6 +57,8 @@
 
         var usuarioLogeado = userDataElement.dataset.usuarioLogeado === "True";
         var pertenecienteAVidesSur = userDataElement.dataset.pertenecienteAVidesSur === "true";
+        const INTERVALO = 24 * 60 * 60 * 1000; // 1 día
+        const INTERVALO_DESADO = 182.62 * 24 * 60 * 60 * 1000; //6 meses
         console.log(usuarioLogeado)
         console.log(pertenecienteAVidesSur)
         function calcularEdad(fechaDeNacimiento) {
@@ -64,22 +66,22 @@
           const nacimiento = new Date(fechaDeNacimiento);
           let edad = hoy.getFullYear() - nacimiento.getFullYear();
           const diferenciaMeses = hoy.getMonth() - nacimiento.getMonth();
-    
+
           if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < nacimiento.getDate())) {
             edad--;
           }
-    
+
           return edad;
         }
-    
+
         async function verificarNinos() {
           try {
             const response = await fetch('/user/api/child_age/');
             const ninos = await response.json();
-    
+
             for (const nino of ninos) {
               const edad = calcularEdad(nino.birth_date);
-    
+
               if (edad >= 18) {
                 mostrarNotificacion(nino.name);
               }
@@ -88,13 +90,13 @@
             console.error('Error al obtener la lista de niños:', error);
           }
         }
-    
+
         function mostrarNotificacion(nombre) {
           if (!('Notification' in window)) {
             console.error('Este navegador no soporta notificaciones.');
             return;
           }
-    
+
           if (Notification.permission === 'granted') {
             new Notification(`El niño ${nombre} ha cumplido la mayoría de edad.`);
           } else if (Notification.permission !== 'denied') {
@@ -106,8 +108,17 @@
           }
         }
         if (usuarioLogeado && pertenecienteAVidesSur) {
-          setInterval(verificarNinos, 15778476000);
+          setInterval(checarTiempo, INTERVALO);
         }
+
+        function checarTiempo() {
+          tiempoPasado += INTERVALO;
+
+          if (tiempoPasado >= INTERVALO_DESADO) {
+            verificarNinos();
+            tiempoPasado = 0;
+  }
+}
     </script>
 
 </body>
