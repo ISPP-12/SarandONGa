@@ -5,6 +5,7 @@ from datetime import date
 import json
 from decimal import Decimal
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 
@@ -41,14 +42,18 @@ def subsidy_create(request):
 def subsidy_list(request):
     subsidies = Subsidy.objects.filter(ong=request.user.ong).values()
 
-    subsidies_dict = [obj for obj in subsidies]
+    paginator = Paginator(subsidies, 12)
+    page_number = request.GET.get('page')
+    subsidy_page = paginator.get_page(page_number)
+
+    subsidies_dict = [obj for obj in subsidy_page]
     for s in subsidies_dict:
         s.pop('_state', None)
 
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': subsidies,
+        'objects': subsidy_page,
         'objects_json': subsidies_json,
         'object_name': 'subvención',
         'object_name_en': 'subsidy',

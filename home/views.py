@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 import json
+from django.core.paginator import Paginator
 from .models import Home
 from .models import PAYMENT_METHOD
 from .models import FREQUENCY
@@ -41,7 +42,11 @@ def home_list(request):
     # get donations dict from database
     homes = Home.objects.all()
 
-    homes_dict = [obj.__dict__ for obj in homes]
+    paginator = Paginator(homes, 12)
+    page_number = request.GET.get('page')
+    home_page = paginator.get_page(page_number)
+
+    homes_dict = [obj.__dict__ for obj in home_page]
     for d in homes_dict:
         d.pop('_state', None)
 
@@ -54,7 +59,7 @@ def home_list(request):
     homes_json = json.dumps(homes_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': homes_dict,
+        'objects': home_page,
         'objects_json': homes_json,
         'object_name': 'casa',
         'object_name_en': 'home',
