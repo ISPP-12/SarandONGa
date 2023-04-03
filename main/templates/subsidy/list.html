@@ -9,6 +9,11 @@
 {% endblock %}
 
 {% block objectFor %}
+<form method="GET">
+  {% csrf_token %}
+  {{form}}
+  <input type="submit" value="Filtrar">
+</form>
 {% for object in objects %}
 
 <div class="container-fluid mw-100  card-list rounded px-2 py-1" tabindex="1">
