@@ -17,8 +17,8 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+
 @login_required
- 
 def donation_create(request):
     form = CreateNewDonation(initial={'ong': request.user.ong})
     if request.method == "POST":
@@ -35,8 +35,8 @@ def donation_create(request):
 
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
 
+
 @login_required
- 
 def donation_list(request):
     # get donations from database
     donations = Donation.objects.filter(ong=request.user.ong).values()
@@ -62,8 +62,8 @@ def donation_list(request):
 
     return render(request, 'donation/list.html', context)
 
+
 @login_required
- 
 def donation_update(request, donation_id):
     donation = get_object_or_404(Donation, id=donation_id)
     if request.user.ong == donation.ong:
@@ -79,8 +79,8 @@ def donation_update(request, donation_id):
         return custom_403(request)
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
 
+
 @login_required
- 
 def donation_delete(request, donation_id):
     donation = get_object_or_404(Donation, id=donation_id)
     donation.delete()

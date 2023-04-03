@@ -10,7 +10,6 @@ from datetime import datetime
 
 # Hay que asignar el padrino
 @login_required
- 
 def payment_create(request):
     form = CreatePaymentForm(initial={'ong': request.user.ong})
     if request.method == 'POST':
@@ -45,7 +44,6 @@ def payment_create(request):
 
 
 @login_required
- 
 def payment_update(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
     form = CreatePaymentForm(instance=payment)
@@ -77,7 +75,6 @@ def payment_update(request, payment_id):
 
 
 @login_required
- 
 def payment_list(request):
     context = {
         'objects': Payment.objects.filter(ong=request.user.ong).values(),
@@ -90,7 +87,6 @@ def payment_list(request):
 
 
 @login_required
- 
 def payment_delete(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
     if request.user.ong == payment.ong:
@@ -101,7 +97,6 @@ def payment_delete(request, payment_id):
 
 
 @login_required
- 
 def payment_details(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
     if request.user.ong == payment.ong:
