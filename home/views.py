@@ -43,11 +43,11 @@ def home_create(request):
 def home_list(request):
     # get donations dict from database
     
-    form = FilterHomeForm()
+    form = FilterHomeForm(request.GET or None)
     homes = Home.objects.all()
 
     if request.method == 'GET':
-        homes = home_filter(homes, FilterHomeForm(request.GET))
+        homes = home_filter(homes, form)
 
     homes_dict = [obj.__dict__ for obj in homes]
     for d in homes_dict:
