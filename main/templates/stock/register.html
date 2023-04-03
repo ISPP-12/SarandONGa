@@ -46,11 +46,11 @@
         <div class="form-section my-5 mx-5 text-center " >  
             {% if form.instance.id %}
                 {% with button_text="Actualizar" %}
-                    {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+                    {% include 'components/button.html' with text=button_text variation="SUBMIT" id="submit" %}
                 {% endwith %}
             {% else %}
                 {% with button_text="Registrar artículo" %}
-                    {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+                    {% include 'components/button.html' with text=button_text variation="SUBMIT" id="submit" %}
                 {% endwith %}
             {% endif %}
 
