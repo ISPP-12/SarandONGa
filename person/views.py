@@ -444,16 +444,21 @@ def child_delete(request, child_id):
 @login_required
 def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
+    
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    user_page = paginator.get_page(page_number)
+
     title = "Gestión de Voluntarios"
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [user for user in user_page]
     for d in persons_dict:
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': user_page,
         'object_name': 'voluntario',
         'object_name_en': 'volunteer',
         'title': title,
