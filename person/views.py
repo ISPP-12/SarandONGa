@@ -6,9 +6,10 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm
 from xml.dom import ValidationErr
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -232,6 +233,11 @@ def user_list(request):
     user_page = paginator.get_page(page_number)
 
     title = "Gestión de Usuarios ASEM"
+    form = FilterAsemUserForm()
+    
+    if request.method == 'GET':
+        objects = asemuser_filter(objects, FilterAsemUserForm(request.GET))
+
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
     for d in persons_dict:
@@ -245,9 +251,81 @@ def user_list(request):
         'object_name_en': 'user',
         'title': title,
         'objects_json': persons_json,
+        'form' : form,
     }
 
     return render(request, 'users/list.html', context)
+
+
+def is_valid_queryparam(param):
+    return param != "" and param is not None
+
+def asemuser_filter(queryset, form):
+
+    q = form['qsearch'].value()
+    min_date = form['min_date'].value()
+    max_date = form['max_date'].value()
+    sex = form['sex'].value()
+    condition = form['condition'].value()
+    member = form['member'].value()
+    user_type = form['user_type'].value()
+    correspondence = form['correspondence'].value()
+    status = form['status'].value()
+    fam_size_min = form['fam_size_min'].value()
+    fam_size_max = form['fam_size_max'].value()
+    own_home = form['own_home'].value()
+    own_vehicle = form['own_vehicle'].value()
+    
+    if q is not None:
+            if q.strip() != "":
+                queryset = queryset.filter(
+                    Q(name__icontains=q) |
+                    Q(surname__icontains=q) |
+                    Q(address__icontains=q) |
+                    Q(city__icontains=q) |
+                    Q(postal_code__icontains=q) |
+                    Q(email__icontains=q) |
+                    Q(telephone__icontains=q) |
+                    Q(bank_account_number__icontains=q)
+                )
+
+    if is_valid_queryparam(min_date):
+        queryset = queryset.filter(birth_date__gte=min_date)
+    
+    if is_valid_queryparam(max_date):
+        queryset = queryset.filter(birth_date__lte=max_date)
+    
+    if is_valid_queryparam(sex):
+        queryset = queryset.filter(sex=sex)
+       
+    if is_valid_queryparam(condition):
+        queryset = queryset.filter(condition=condition)
+    
+    if is_valid_queryparam(member):
+        queryset = queryset.filter(member=member)
+    
+    if is_valid_queryparam(user_type):
+        queryset = queryset.filter(user_type=user_type)
+    
+    if is_valid_queryparam(correspondence):
+        queryset = queryset.filter(correspondence=correspondence)
+    
+    if is_valid_queryparam(status):
+        queryset = queryset.filter(status=status)
+
+    if is_valid_queryparam(fam_size_min):
+        queryset = queryset.filter(family_unit_size__gte=fam_size_min)
+
+    if is_valid_queryparam(fam_size_max):
+        queryset = queryset.filter(family_unit_size__lte=fam_size_max)
+    
+    if is_valid_queryparam(own_home):
+        queryset = queryset.filter(own_home=own_home)
+    
+    if is_valid_queryparam(own_vehicle):
+        queryset = queryset.filter(own_vehicle=own_vehicle)
+
+    return queryset
 
 
 @login_required
