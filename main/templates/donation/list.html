@@ -19,25 +19,26 @@ displayed in the preview text (e.g. "donación")
 
 {% block objectFor %}
 {% for object in objects %}
-<div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
+
+
+<div class="container-fluid mw-100 px-2 card-list rounded py-1" id="donation-{{ object.id }}" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
-   
-      
-    <div class="row">
-      <div class="col-md-4 col-lg-3 col-sm-5 ">
-        <strong><h5>{{object.title}}</h5></strong>
-      
-      </div>
-      <div class="col-md-2 col-lg-2 col-sm-1">
-        <span>{{object.created_date}}</span>
+       
+  <div class="row">
+    <div class="col-md-4 col-lg-3 col-sm-5 ">
+      <strong><h5>{{object.title}}</h5></strong>
 
-      </div>  
-      <div class="col-md-3 col-lg-2  col-sm-1">
-        <span>{{object.amount}} €</span>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-1">
+      <span>{{object.created_date}}</span>
 
-      </div> 
-      <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
-        <span>{{object.donor_email}}</span>
+    </div>  
+    <div class="col-md-3 col-lg-2  col-sm-1">
+      <span>{{object.amount}} €</span>
+
+    </div> 
+    <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
+      <span>{{object.donor_email}}</span>
 
       </div> 
 
@@ -114,7 +115,7 @@ displayed in the preview text (e.g. "donación")
             <p>${objectData.description}</p>
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
             <p><strong>Nombre donante: </strong>${objectData.donor_name + ' ' + objectData.donor_surname}</p>
-            <p><strong>DNI donate:  </strong>${objectData.donor_dni}</p>
+            <p><strong>DNI donante:  </strong>${objectData.donor_dni}</p>
             <p><strong>Dirección donante:  </strong>${objectData.donor_address}</p>
             <p><strong>Correo donante:  </strong>${objectData.donor_email}</p>
           </div>
