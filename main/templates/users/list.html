@@ -24,12 +24,34 @@
 
 
 {% block objectFor %}
+<form method="GET">
+  {% csrf_token %}
+  {{form}}
+  <input type="submit" value="Filtrar">
+</form>
 {% for object in objects %}
 
 {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
 <span class="object-id d-none">{{ object.id }}</span>
 
 {% endfor %}
+<div class="pagination">
+  <span class="step-links">
+      {% if objects.has_previous %}
+          <a href="?page=1">&laquo; Primera</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+      {% endif %}
+
+      <span class="current">
+          Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
+      </span>
+
+      {% if objects.has_next %}
+          <a href="?page={{ objects.next_page_number }}">Siguiente</a>
+          <a href="?page={{ objects.paginator.num_pages }}">Última &raquo;</a>
+      {% endif %}
+  </span>
+</div>
 {% endblock %}
 
 {% block scripts %}
@@ -67,8 +89,8 @@
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
           preview.innerHTML = `
-        <div class="container">
-          <div class="row">
+        <div class="container p-0">
+          <div class="row px-4">
             <div class="col justify-content-center">
               <div class=" row justify-content-center ">
                 {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if "objectData.photo" %}
@@ -114,6 +136,21 @@
             </div>
           </div>
         </div>
+          <div class="container mt-auto border-dark border-top border-1  p-0">
+            <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+              {%if object_name == "usuario"%}
+              <a href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
+              {%elif object_name == "padrino" or object_name == "donante"%}
+              <a href="../../../payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
+              {% endif %}
+              {%if object_name == "padrino" or object_name == "niño"%}
+              <a href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
+              {% endif %}
+              <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+              <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+            </div>
+          </div>
+
       `
       }
 

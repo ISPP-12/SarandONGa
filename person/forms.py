@@ -4,9 +4,28 @@ from localflavor.es.forms import ESIdentityCardNumberField
 from localflavor.generic.forms import IBANFormField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 
+class FilterAsemUserForm(forms.Form):
+    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
+    min_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
+    max_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
+    condition = forms.ChoiceField(choices=[('', '--Seleccione--'), ('EM', 'Esclerosis múltiple'), ('ICTUS', 'Ictus'), ('ELA', 'Esclerosis lateral amiotrófica'), ('OTROS', 'Otros')], required=False, label="Condición")
+    member = forms.ChoiceField(choices=[('', '--Seleccione--'), ('EM', 'Esclerosis múltiple'), ('ICTUS', 'Ictus'), ('ELA', 'Esclerosis lateral amiotrófica'), ('OTROS', 'Otros'), ('UNA', 'Usuario no asociado')], required=False, label="Miembro")
+    user_type = forms.ChoiceField(choices=[('', '--Seleccione--'), ('SACC', 'Socio ASEM con cuota de socio'), ('UCC', 'Usuario con cuota de socio'), ('USC', 'Usuario sin cuota de socio')], required=False, label="Tipo de usuario")
+    correspondence = forms.ChoiceField(choices=[('', '--Seleccione--'), ('E', 'Email'), ('CC', 'Carta con logo'), ('CS', 'Carta sin logo'), ('SR', 'Solo revista'), ('N', 'Ninguna')], required=False, label="Correspondencia")
+    status = forms.ChoiceField(choices=[('', '--Seleccione--'), ('C', 'Casado/a'), ('F', 'Fallecido/a'), ('V', 'Viudo/a'), ('S', 'Soltero/a'), ('D', 'Divorciado/a')], required=False, label="Estado civil")
+    fam_size_min = forms.IntegerField(required=False, label="Tamaño mínimo de unidad familiar")
+    fam_size_max = forms.IntegerField(required=False, label="Tamaño máximo de unidad familiar")
+    own_home = forms.ChoiceField(choices=[('', '--Seleccione--'), ('VC', 'Vivienda compartida'), ('VP', 'Vivienda propia')], required=False, label="Tipo de vivienda")
+    own_vehicle = forms.ChoiceField(choices=[('', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False,label= "Posee vehículo")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.method = "get"
+
 
 class CreateNewGodFather(forms.ModelForm):
-    
+
     class Meta:
         model = GodFather
         exclude = ['id', 'ong']
@@ -18,7 +37,8 @@ class CreateNewGodFather(forms.ModelForm):
             'sex': forms.Select(attrs={'step': "0.01"}),
         }
         dni = ESIdentityCardNumberField(only_nif=True)
-        bank_account_number = IBANFormField(include_countries=IBAN_SEPA_COUNTRIES)
+        bank_account_number = IBANFormField(
+            include_countries=IBAN_SEPA_COUNTRIES)
 
     def __init__(self, *args, **kwargs):
         super(CreateNewGodFather, self).__init__(*args, **kwargs)
@@ -37,7 +57,7 @@ class CreateNewGodFather(forms.ModelForm):
 class CreateNewASEMUser(forms.ModelForm):
     class Meta:
         model = ASEMUser
-        exclude = ['id', 'ong'] #ong should be ASEM
+        exclude = ['id', 'ong']  # ong should be ASEM
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
@@ -60,13 +80,15 @@ class CreateNewWorker(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
-    photo=forms.ImageField(required=False)
+    password2 = forms.CharField(
+        label='Confirmar contraseña', widget=forms.PasswordInput)
+    photo = forms.ImageField(required=False)
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active','is_admin','password','ong']
-        
+        exclude = ['id', 'last_login', 'is_active',
+                   'is_admin', 'password', 'ong']
+
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
         }
@@ -100,12 +122,14 @@ class CreateNewWorker(forms.ModelForm):
         if commit:
             user.save()
         return user
-    
+
+
 class UpdateWorker(forms.ModelForm):
 
     class Meta:
         model = Worker
-        exclude = ['id', 'last_login', 'is_active', 'is_admin', 'password', 'ong']
+        exclude = ['id', 'last_login', 'is_active',
+                   'is_admin', 'password', 'ong']
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d')
         }
@@ -130,14 +154,11 @@ class UpdateWorker(forms.ModelForm):
             user.save()
         return user
 
-class CreateNewChild(forms.ModelForm):
-    sex = forms.ChoiceField(choices=SEX_TYPES, label="Género")
-    correspondence = forms.ChoiceField(
-        choices=CORRESPONDENCE, label="Correspondencia")
 
+class CreateNewChild(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.fields['email'].required = False
-        
+
     class Meta:
         model = Child
         exclude = ['id', 'ong']
@@ -166,7 +187,7 @@ class CreateNewVolunteer(forms.ModelForm):
 
     class Meta:
         model = Volunteer
-        exclude = ['id', 'ong'] # ong is added in the view
+        exclude = ['id', 'ong']  # ong is added in the view
         widgets = {
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),

@@ -52,7 +52,7 @@ def subsidy_list(request):
         'objects_json': subsidies_json,
         'object_name': 'subvención',
         'object_name_en': 'subsidy',
-        'title': 'Listado de Subvenciones',
+        'title': 'Gestión de Subvenciones',
     }
 
     return render(request, 'subsidy/list.html', context)

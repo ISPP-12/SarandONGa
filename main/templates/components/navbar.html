@@ -14,7 +14,7 @@
                 <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if 'stock' in request.path %}active{% endif %}" href="/stock/list">Stock</a>
+                <a class="nav-link {% if 'stock' in request.path %}active{% endif %}" href="/stock/list">Inventario</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle {% if 'user' in request.path %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -39,11 +39,18 @@
                 <a class="nav-link {% if 'project' in request.path %}active{% endif %}"  href="/project/list">Proyectos</a>
             </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link {% if 'donation' in request.path %}active{% endif %}"  href="/donation/list">Donaciones</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {% if 'subsidy' in request.path %}active{% endif %}"  href="/subsidy/list">Subvenciones</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle {% if 'donation' in request.path or 'subsidy' in request.path %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Apoyo financiero
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'donation' in request.path %}active{% endif %}"  href="/donation/list">Donaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'subsidy' in request.path %}active{% endif %}"  href="/subsidy/list">Subvenciones</a>
+                    </li>
+                </ul>
             </li>
 
             <li class="nav-item">

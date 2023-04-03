@@ -55,7 +55,7 @@ def donation_list(request):
         'objects_json': donations_json,
         'object_name': 'donación',
         'object_name_en': 'donation',
-        'title': 'Gestión de donaciones',
+        'title': 'Gestión de Donaciones',
         }
 
     return render(request, 'donation/list.html', context)

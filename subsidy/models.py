@@ -2,7 +2,14 @@ from django.db import models
 from ong.models import Ong
 from django.core.validators import MinValueValidator
 from django.forms import ValidationError
-#from django.utils.text import slugify
+# from django.utils.text import slugify
+
+SUBSIDY_STATUS = (
+    ('Por presentar', 'Por presentar'),
+    ('Presentada', 'Presentada'),
+    ('Concedida', 'Concedida'),
+    ('Denegada', 'Denegada'),
+)
 
 
 class Subsidy(models.Model):
@@ -27,9 +34,11 @@ class Subsidy(models.Model):
 
     # Nombre completo (con apellidos) de la persona o entidad que dona
     name = models.CharField(max_length=200, verbose_name="Nombre completo")
+    status = models.CharField(
+        max_length=50, choices=SUBSIDY_STATUS, verbose_name="Estado")
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='subvencion', verbose_name="ONG")
-    #slug = models.SlugField(max_length=200, unique=True, editable=False)
+    # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -50,4 +59,3 @@ class Subsidy(models.Model):
     class Meta:
         verbose_name = 'Subvenciones'
         verbose_name_plural = 'Subvenciones'
-
