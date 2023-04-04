@@ -22,6 +22,7 @@ displayed in the preview text (e.g. "donación")
   {% csrf_token %}
   {{form}}
   <input type="submit" value="Filtrar">
+  <button type="reset" class="btn btn-secondary">Borrar filtros</button>
 </form>
 {% for object in objects %}
 
@@ -134,4 +135,11 @@ displayed in the preview text (e.g. "donación")
   })
 
 </script>
+
+<script>
+        document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = window.location.pathname;
+        });
+    </script>
 {% endblock %}
