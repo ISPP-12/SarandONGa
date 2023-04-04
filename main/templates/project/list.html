@@ -18,6 +18,12 @@ displayed in the preview text (e.g. "donación")
 {% endblock %}
 
 {% block objectFor %}
+<form method="GET">
+  {% csrf_token %}
+  {{form}}
+  <input type="submit" value="Filtrar">
+  <button type="reset" class="btn btn-secondary">Borrar filtros</button>
+</form>
 {% for object in objects %}
 
 <div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
@@ -94,14 +100,14 @@ displayed in the preview text (e.g. "donación")
         <div class="row ">
           <div class="col-12  px-4">
             
-            <h2>${objectData.title}</h2>
+            <h2>${objectData.title ? objectData.title : 'No especificado' }</h2>
             <h5>{{object_name}}</h5>
-            <p><strong>Pa&iacute;s:&nbsp;</strong>${objectData.country}</p>
-            <p><strong>Fecha de inicio:&nbsp;</strong>{{ object.start_date  }}</p>
-            <p><strong>Fecha de fin:&nbsp;</strong>{{ object.end_date  }}</p>
-            <p><strong>N&uacute;mero de beneficiarios:&nbsp;</strong>{{ object.number_of_beneficiaries  }}</p>
-            <p><strong>Cantidad:&nbsp;</strong>${objectData.amount}&euro;</p>
-            <p><strong>Fecha de anuncio:&nbsp;</strong>{{ object.announcement_date  }}</p>
+            <p><strong>Pa&iacute;s:&nbsp;</strong>${objectData.country ? objectData.country : 'No especificado' }</p>
+            <p><strong>Fecha de inicio:&nbsp;</strong>${objectData.start_date ? objectData.start_date : 'No especificado'}</p>
+            <p><strong>Fecha de fin:&nbsp;</strong>${objectData.end_date ? objectData.end_date : 'No especificado'}</p>
+            <p><strong>N&uacute;mero de beneficiarios:&nbsp;</strong>${objectData.number_of_beneficiaries ? objectData.number_of_beneficiaries : 'No especificado'}</p>
+            <p><strong>Cantidad:&nbsp;</strong>${objectData.amount ? objectData.amount + '€' : 'No especificado'};</p>
+            <p><strong>Fecha de anuncio:&nbsp;</strong>${objectData.announcement_date ? objectData.announcement_date : 'No especificado'}</p>
           </div>
         </div>
 
@@ -129,4 +135,11 @@ displayed in the preview text (e.g. "donación")
   })
 
 </script>
+
+<script>
+        document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.location.href = window.location.pathname;
+        });
+    </script>
 {% endblock %}
