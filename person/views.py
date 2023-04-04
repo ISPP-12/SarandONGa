@@ -10,7 +10,7 @@ from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, Cr
 from xml.dom import ValidationErr
 from django.core.paginator import Paginator
 from django.db.models import Q
-
+from dateutil.relativedelta import relativedelta
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -253,6 +253,7 @@ def child_filter(queryset, form):
     mother_profession = form['mother_profession'].value()
     number_brothers_siblings = form['number_brothers_siblings'].value()
     correspondence = form['correspondence'].value()
+    is_older = form['is_older'].value()
 
     if email is not None:
         if email.strip() != '':
@@ -339,6 +340,13 @@ def child_filter(queryset, form):
     if is_valid_queryparam(correspondence):
         queryset = queryset.filter(correspondence=correspondence)
 
+    if is_valid_queryparam(is_older):
+        if is_older == 'S':
+            queryset = queryset.filter(birth_date__lte=date.today() - relativedelta(years=18))
+        elif is_older == 'N':
+            queryset = queryset.filter(birth_date__gt=date.today() - relativedelta(years=18))
+        
+    
     return queryset
 
 @login_required
