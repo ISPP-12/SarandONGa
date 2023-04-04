@@ -156,8 +156,8 @@ class UpdateWorker(forms.ModelForm):
 
 class FilterWorkerForm(forms.Form):
     email = forms.CharField(max_length=100, required=False , label="Búsqueda por email")
-    name = forms.CharField(max_length=100, required=False , label="Búsqueda por nombre")
-    surname = forms.CharField(max_length=100, required=False , label="Búsqueda por apellido")
+    name = forms.CharField(max_length=50, required=False , label="Búsqueda por nombre")
+    surname = forms.CharField(max_length=50, required=False , label="Búsqueda por apellido")
     birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
     birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
