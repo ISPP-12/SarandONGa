@@ -18,12 +18,23 @@ displayed in the preview text (e.g. "donación")
 {% endblock %}
 
 {% block objectFor %}
-<form method="GET">
+<form method="GET" class="mb-4">
   {% csrf_token %}
   {{form}}
   <input type="submit" value="Filtrar">
   <button type="reset" class="btn btn-secondary">Borrar filtros</button>
 </form>
+
+<!-- TABLE HEADER -->
+<div id="id-tableHeader" class="container-fluid">
+  <div class="row">
+    <div class="col-6"><strong>T&iacute;tulo</strong></div>
+    <div class="col-3"><strong>Pa&iacute;s</strong></div>
+    <div class="col-3"><strong>Fecha de inicio</strong></div>
+  </div>
+  <hr class="my-1">
+</div>
+
 {% for object in objects %}
 
 <div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
@@ -31,7 +42,7 @@ displayed in the preview text (e.g. "donación")
     <div class="row">
 
       <div class="col-6">
-        <strong><h5>{{object.title}}</h5></strong>
+        <strong><h5 title="{{object.title}}">{{object.title}}</h5></strong>
       </div>
 
       <div class="col-3">
@@ -100,7 +111,7 @@ displayed in the preview text (e.g. "donación")
         <div class="row ">
           <div class="col-12  px-4">
             
-            <h2>${objectData.title ? objectData.title : 'No especificado' }</h2>
+            <h2 title="${objectData.title ? objectData.title : 'No especificado' }">${objectData.title ? objectData.title : 'No especificado' }</h2>
             <h5>{{object_name}}</h5>
             <p><strong>Pa&iacute;s:&nbsp;</strong>${objectData.country ? objectData.country : 'No especificado' }</p>
             <p><strong>Fecha de inicio:&nbsp;</strong>${objectData.start_date ? objectData.start_date : 'No especificado'}</p>

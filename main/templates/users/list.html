@@ -24,19 +24,31 @@
 
 
 {% block objectFor %}
-<form method="GET">
+<form method="GET" class="my-3">
   {% csrf_token %}
   {{form}}
   <input type="submit" value="Filtrar">
   <button type="reset" class="btn btn-secondary">Borrar filtros</button>
 </form>
+
+<!-- TABLE HEADER -->
+<div id="id-tableHeader" class="container-fluid">
+  <div class="row">
+    <div class="col-lg-4 col-6"><strong>Nombre</strong></div>
+    <div class="col-lg-3 col-6"><strong>Ciudad</strong></div>
+    <div class="col-lg-2 col-6"><strong>Tel&eacute;fono</strong></div>
+    <div class="col-lg-3 col-6"><strong>E-mail</strong></div>
+  </div>
+  <hr class="my-1">
+</div>
+
 {% for object in objects %}
 
 {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
 <span class="object-id d-none">{{ object.id }}</span>
 
 {% endfor %}
-<div class="pagination">
+<div class="pagination my-4">
   <span class="step-links">
       {% if objects.has_previous %}
           <a href="?page=1">&laquo; Primera</a>
@@ -107,7 +119,7 @@
                 {%endif%}
               </div>
               <div class="row">
-                <h1 class="text-center object-title">${objectData.name+ ' '+ objectData.surname}</h1>
+                <h2 class="text-center object-title" title="${objectData.name+ ' '+ objectData.surname}">${objectData.name+ ' '+ objectData.surname}</h1>
               </div>
               
               <div class="row">

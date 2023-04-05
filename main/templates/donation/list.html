@@ -18,27 +18,38 @@ displayed in the preview text (e.g. "donación")
 {% endblock %}
 
 {% block objectFor %}
-{% for object in objects %}
 
+<!-- TABLE HEADER -->
+<div id="id-tableHeader" class="container-fluid">
+  <div class="row">
+    <div class="col-lg-5 col-6"><strong>Título</strong></div>
+    <div class="col-lg-3 col-6"><strong>Fecha de presentación</strong></div>
+    <div class="col-lg-2 col-6"><strong>Cantidad</strong></div>
+    <div class="col-lg-2 col-6"><strong>E-mail</strong></div>
+  </div>
+  <hr class="my-1">
+</div>
+
+{% for object in objects %}
 
 <div class="container-fluid mw-100 px-2 card-list rounded py-1" id="donation-{{ object.id }}" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
        
   <div class="row">
-    <div class="col-md-4 col-lg-3 col-sm-5 ">
-      <strong><h5>{{object.title}}</h5></strong>
+    <div class="col-lg-5 col-6">
+      <strong><h5 title="{{object.title}}">{{object.title}}</h5></strong>
 
     </div>
-    <div class="col-md-2 col-lg-2 col-sm-1">
+    <div class="col-lg-3 col-6">
       <span>{{object.created_date}}</span>
 
     </div>  
-    <div class="col-md-3 col-lg-2  col-sm-1">
+    <div class="col-lg-2 col-6">
       <span>{{object.amount}} €</span>
 
     </div> 
-    <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
-      <span>{{object.donor_email}}</span>
+    <div class="col-lg-2 col-6">
+      <span class="text-break text-wrap">{{object.donor_email}}</span>
 
       </div> 
 
@@ -110,7 +121,7 @@ displayed in the preview text (e.g. "donación")
         <div class="row ">
           <div class="col-12 px-4">
             
-            <h2>${objectData.title}</h2>
+            <h2 title="${objectData.title}">${objectData.title}</h2>
             <h5>{{object_name}}</h5>
             <p>${objectData.description}</p>
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
