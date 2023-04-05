@@ -1,31 +1,23 @@
 {% load static %}
 <div class=" container-fluid card-list mw-100 px-2 card-list rounded py-1" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
-   
       
     <div class="row">
-      <div class="col-md-6 col-lg-4 col-sm-6 ">
-        <strong><h5>{{object.surname}}, {{object.name}}</h5></strong>
+      <div class="col-lg-4 col-6">
+        <strong><h5 title="{{object.surname}}, {{object.name}}">{{object.surname}}, {{object.name}}</h5></strong>
       
       </div>
-      <div class="col-md-2 col-lg-2 col-sm-2">
+      <div class="col-lg-3 col-6">
         <span>{{object.city}}</span>
 
       </div>  
-      <div class="col-md-3 col-lg-2  col-sm-1">
+      <div class="col-lg-2 col-6">
         <span>{{object.telephone}}</span>
 
       </div> 
-      <div class="col-md-2 col-sm-1 col-lg-2 col-sm-1 col-email ">
+      <div class="col-lg-3 col-6">
         <span>{{object.email}}</span>
       </div> 
-
-        
-        
-  
-    
-    
-
 
   </div>
 
