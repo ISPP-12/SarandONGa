@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import CreateNewDonation
 from main.views import custom_403
+from django.core.paginator import Paginator
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -37,21 +38,25 @@ def donation_create(request):
 @login_required
 def donation_list(request):
     # get donations from database
-    donations = Donation.objects.filter(ong=request.user.ong).values()
+    objects = Donation.objects.filter(ong=request.user.ong).values()
 
-    donations_dict = [obj for obj in donations]
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    donation_page = paginator.get_page(page_number)
+
+    donations_dict = [donation for donation in donation_page]
     for d in donations_dict:
         d.pop('_state', None)
 
     donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
 
-    for donation in donations:
+    for donation in objects:
         created_date = donation["created_date"]
         modified_date = created_date.strftime('%d/%m/%Y %H:%M')
         donation["created_date"] = modified_date
 
     context = {
-        'objects': donations,
+        'objects': donation_page,
         'objects_json': donations_json,
         'object_name': 'donación',
         'object_name_en': 'donation',
