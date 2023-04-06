@@ -26,7 +26,7 @@ class Donation(models.Model):
         Ong, on_delete=models.CASCADE, related_name='donacion', verbose_name="ONG")
     # slug = models.SlugField(max_length=200, unique=True, editable=False)
     document = models.FileField(
-        verbose_name="Documento", upload_to="./media/docs/donation/", null=True, blank=True)
+        verbose_name="Documento", upload_to="docs/donation/", null=True, blank=True)
     # documents = models.JSONField(
     #     verbose_name="Documentos", null=True, blank=True)
 

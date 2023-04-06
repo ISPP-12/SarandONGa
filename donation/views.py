@@ -40,7 +40,8 @@ def donation_create(request):
 @login_required
 def donation_list(request):
     # get donations from database
-    objects = Donation.objects.filter(ong=request.user.ong).values()
+    objects = Donation.objects.filter(
+        ong=request.user.ong).order_by('-created_date').values()
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -74,7 +75,8 @@ def donation_update(request, donation_id):
     if request.user.ong == donation.ong:
         form = CreateNewDonation(instance=donation)
         if request.method == "POST":
-            form = CreateNewDonation(request.POST, instance=donation)
+            form = CreateNewDonation(
+                request.POST,  request.FILES, instance=donation)
             if form.is_valid():
                 form.save()
                 return redirect("/donation/list")
