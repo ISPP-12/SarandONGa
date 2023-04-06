@@ -133,10 +133,9 @@ displayed in the preview text (e.g. "donación")
         }
 
   } else {
-
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
-          preview.innerHTML = `
+        preview.innerHTML = `
         <div class="row ">
           <div class="col-12 px-4">
             
@@ -148,7 +147,14 @@ displayed in the preview text (e.g. "donación")
             <p><strong>DNI donante:  </strong>${objectData.donor_dni}</p>
             <p><strong>Dirección donante:  </strong>${objectData.donor_address}</p>
             <p><strong>Correo donante:  </strong>${objectData.donor_email}</p>
-            <p><strong>Documento:  </strong><a href="/${objectData.document}">${objectData.document?.split("donation/")[1] }</a></p>
+            <p><strong>Documento: </strong>
+              ${
+                objectData.document && objectData.document.includes("donation/")
+                  ? `<a href="/${objectData.document}" target="_blank">${objectData.document.split("donation/")[1]}</a>`
+                  : "Sin documento asociado"
+              }
+            </p>
+          </p>
           </div>
         </div>
 
