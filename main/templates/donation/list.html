@@ -66,6 +66,7 @@ displayed in the preview text (e.g. "donación")
       <span class="object-donor-dni pt-1"><strong>DNI donante: </strong>{{ object.donor_dni  }}</span>
       <span class="object-donor-address pt-1"><strong>Dirección donante: </strong> {{ object.donor_address  }}</span>
       <span class="object-donor-email pt-1"><strong>Correo donante: </strong> {{ object.donor_email  }}</span>
+      <span class="object-document pt-1"><strong>Documento: </strong> {{ object.document.path  }}</span>
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
@@ -129,6 +130,7 @@ displayed in the preview text (e.g. "donación")
             <p><strong>DNI donante:  </strong>${objectData.donor_dni}</p>
             <p><strong>Dirección donante:  </strong>${objectData.donor_address}</p>
             <p><strong>Correo donante:  </strong>${objectData.donor_email}</p>
+            <p><strong>Documento:  </strong><a href="/${objectData.document}">${objectData.document?.split("donation/")[1] }</a></p>
           </div>
         </div>
 
