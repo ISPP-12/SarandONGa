@@ -118,7 +118,7 @@ def asem_user_details(request, asem_user_id):
     asem_user.status = choices_dict['status'][asem_user.status]
     asem_user.own_home = choices_dict['housing_type'][asem_user.own_home]
 
-    return render(request, 'asem_user/asem_user_details.html', {'asem_user': asem_user})
+    return render(request, 'users/details.html', {'asem_user': asem_user})
 
 
 @login_required
@@ -485,7 +485,7 @@ def child_update(request, child_id):
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
-    return render(request, 'child_details.html', {'child': child})
+    return render(request, 'user/details.html', {'child': child})
 
 
 @login_required

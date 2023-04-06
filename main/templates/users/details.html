@@ -1,0 +1,52 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block title %} {{ asem_user.name }} {{ asem_user.surname }} {% endblock %}
+{% block extrahead %} 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> 
+<link rel="stylesheet" type="text/css" href="{% static 'styles/card-list.css' %}"> 
+
+{% endblock %}
+
+
+{% block content %}
+
+<div id="section-user">
+<div class="d-flex flex-row justify-content-start align-items-center gap-4">
+  <img class="profile-img-big rounded" src="{{ '../../' }}{{ asem_user.photo }}" />
+  <div>
+    {% include 'components/title.html' with title=asem_user.name|add:" "|add:asem_user.surname %}
+    <p>
+      {% if asem_user %}
+        Usuario
+      {% elif worker %}
+        Trabajador
+      {% elif volunteer %}
+        Voluntario
+      {% elif godfather %}
+        Padrino
+      {% elif child %}
+        Niño
+      {% else  %}
+        Usuario no identificado
+      {% endif %}
+    </p>
+  </div>
+
+</div>
+
+<p>Nombre: {{ asem_user.name }}</p>
+<p>Apellido: {{ asem_user.surname }}</p>
+<p>Condición médica: {{ asem_user.condition }}</p>
+<p>Socio: {{ asem_user.member }}</p>
+<p>Tipo de usuario ASEM: {{ asem_user.user_type }}</p>
+<p>Tipo de correspondencia: {{ asem_user.correspondence }}</p>
+<p>Estado civil: {{ asem_user.status }}</p>
+<p>Tamaño de la unidad familiar: {{ asem_user.family_unit_size }}</p>
+<p>Tipo de vivienda: {{ asem_user.own_home }}</p>
+<p>¿Tiene vehículo propio?: {% if asem_user.own_vehicle %} Sí {% else %} No {% endif %}</p>
+<p>Número de cuenta bancaria: {{ asem_user.bank_account_number }}</p>
+<p>ONG: {{ asem_user.ong.name }}</p>
+
+</div>
+{% endblock %}
