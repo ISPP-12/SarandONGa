@@ -6,19 +6,19 @@
 
 {% block botonPrimario %}
 {% if object_name_en == "user" %}
-  {% include 'components/button.html' with href='/user/asem/create' variation='PLUS' text='Añadir '|add:object_name|safe%}
+  {% include 'components/button.html' with href='/user/asem/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
 
 {% elif object_name_en == "volunteer" %}
-  {% include 'components/button.html' with href='/user/volunteer/create' variation='PLUS' text='Añadir '|add:object_name|safe%}
+  {% include 'components/button.html' with href='/user/volunteer/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
 
 {% elif object_name_en == "worker" %}
-  {% include 'components/button.html' with href='/user/worker/create' variation='PLUS' text='Añadir '|add:object_name|safe%}
+  {% include 'components/button.html' with href='/user/worker/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
 
 {% elif object_name_en == "child" %}
-  {% include 'components/button.html' with href='/user/child/create' variation='PLUS' text='Añadir '|add:object_name|safe%}
+  {% include 'components/button.html' with href='/user/child/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
 
 {% elif object_name_en == "godfather" %}
-  {% include 'components/button.html' with href='/user/godfather/create' variation='PLUS' text='Añadir '|add:object_name|safe%}
+  {% include 'components/button.html' with href='/user/godfather/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
 
 {% endif %}
 
@@ -47,7 +47,6 @@
 {% for object in objects %}
 
 {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
-<span class="object-id d-none">{{ object.id }}</span>
 
 {% endfor %}
 <div class="pagination my-4">
@@ -154,15 +153,15 @@
           <div class="container mt-auto border-dark border-top border-1  p-0">
             <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
               {%if object_name == "usuario"%}
-              <a href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
+              <a id="add-service" href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
               {%elif object_name == "padrino" or object_name == "donante"%}
-              <a href="../../../payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
+              <a id="add-payment" href="../../../payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
               {% endif %}
               {%if object_name == "padrino" or object_name == "niño"%}
-              <a href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
+              <a id="add-godfather" href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
               {% endif %}
-              <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-              <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+              <a id="update-button" href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+              <a id="delete-button" href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
             </div>
           </div>
 
