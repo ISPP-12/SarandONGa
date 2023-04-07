@@ -4,6 +4,7 @@
   font-size: 2.5em;
   font-family: var(--font-header);
   font-weight: bold;
+  border-bottom: solid 7px;
   color: var(--clr-black);
 }
 

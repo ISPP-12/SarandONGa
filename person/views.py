@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from sponsorship.models import Sponsorship
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer, SEX_TYPES, PAYMENT_METHOD, STATUS, FREQUENCY, CONDITION, MEMBER, ASEMUSER_TYPE, CORRESPONDENCE, HOUSING_TYPE, VOLUNTEER_TYPE
 from django.contrib import messages
 import json
@@ -10,6 +12,7 @@ from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, Cr
 from xml.dom import ValidationErr
 from django.core.paginator import Paginator
 from django.db.models import Q
+import math
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -118,7 +121,32 @@ def asem_user_details(request, asem_user_id):
     asem_user.status = choices_dict['status'][asem_user.status]
     asem_user.own_home = choices_dict['housing_type'][asem_user.own_home]
 
-    return render(request, 'users/details.html', {'asem_user': asem_user})
+    fields = [f for f in ASEMUser._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "service", "ong", "person_ptr"]]
+    info = [getattr(asem_user, f.name) for f in fields]
+
+    fields_info = dict(zip([f.verbose_name for f in fields], info))
+    
+    items = list(fields_info.items())
+
+    for item in items:
+        if(item[1] == True):
+            items[items.index(item)] = (item[0], "Sí")
+        elif(item[1] == False):
+            items[items.index(item)] = (item[0], "No")
+        elif(item[0] == "Género" and item[1] != None):
+            choices = Volunteer._meta.get_field('sex').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == "Tiempo de dedicación"):
+            items[items.index(item)] = (item[0], str(item[1]) + " horas")
+
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+    mid = math.ceil(len(items) / 2)
+    
+    context = {'asem_user': asem_user, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+    return render(request, 'users/details.html', context)
 
 
 @login_required
@@ -240,7 +268,32 @@ def worker_filter(queryset, form):
 def worker_details(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if worker.ong == request.user.ong:
-        return render(request, 'workers/details.html', {'worker': worker})
+        fields = [f for f in Worker._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "service", "ong", "person_ptr", "logentry", "last_login", "is_active", "is_admin"]]
+        
+        info = [getattr(worker, f.name) for f in fields]
+
+        fields_info = dict(zip([f.verbose_name for f in fields], info))
+        
+        items = list(fields_info.items())
+
+        for item in items:
+            if(item[1] == True):
+                items[items.index(item)] = (item[0], "Sí")
+            elif(item[1] == False):
+                items[items.index(item)] = (item[0], "No")
+            elif(item[0] == "Género" and item[1] != None):
+                choices = Volunteer._meta.get_field('sex').choices
+                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                items[items.index(item)] = (item[0], value)
+
+        items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+
+        mid = math.ceil(len(items) / 2)
+        
+        context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+        return render(request, 'users/details.html', context)
     else:
         return custom_403(request)
 
@@ -430,7 +483,55 @@ def godfather_update(request, godfather_id):
 @videssur_required
 def godfather_details(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
-    return render(request, 'prueba_padrino_detalles.html', {'godfather': godfather})
+
+    fields = [f for f in GodFather._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "payment", "sponsorship", "person_ptr", "ong" ]]
+    
+    info = [getattr(godfather, f.name) for f in fields]
+
+    fields_info = dict(zip([f.verbose_name for f in fields], info))
+    
+    items = list(fields_info.items())
+
+    for item in items:
+        if(item[1] == True):
+            items[items.index(item)] = (item[0], "Sí")
+        elif(item[1] == False):
+            items[items.index(item)] = (item[0], "No")
+        elif(item[0] == "Género" and item[1] != None):
+            choices = GodFather._meta.get_field('sex').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == "Método de pago"):
+            choices = GodFather._meta.get_field('payment_method').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == "Cantidad"):
+            items[items.index(item)] = (item[0], str(item[1]) + "€")
+        elif(item[0] == "Frecuencia de pago"):
+            choices = GodFather._meta.get_field('frequency').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == "Estado"):
+            choices = GodFather._meta.get_field('status').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+
+    sponsorships = Sponsorship.objects.filter(godfather=godfather)
+    if sponsorships:
+        children = [sponsorship.child for sponsorship in sponsorships]
+        items.append(("Niños apadrinados", children))
+
+
+
+
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+
+    mid = math.ceil(len(items) / 2)
+    
+    context = {'godfather': godfather, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+    return render(request, 'users/details.html', context)
 
 
 @login_required
@@ -485,7 +586,39 @@ def child_update(request, child_id):
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
-    return render(request, 'user/details.html', {'child': child})
+    fields = [f for f in Child._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "service", "ong", "person_ptr", "sponsorship"]]
+        
+    info = [getattr(child, f.name) for f in fields]
+
+    fields_info = dict(zip([f.verbose_name for f in fields], info))
+    
+    items = list(fields_info.items())
+
+    for item in items:
+        if(item[1] == True):
+            items[items.index(item)] = (item[0], "Sí")
+        elif(item[1] == False):
+            items[items.index(item)] = (item[0], "No")
+        elif(item[0] == "Género" and item[1] != None):
+            choices = Child._meta.get_field('sex').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == "Tipo de correspondencia"):
+            choices = Child._meta.get_field('correspondence').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+    
+
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+
+
+    mid = math.ceil(len(items) / 2)
+    
+    context = {'child': child, 
+               'info_left': items[:mid], 'info_right': items[mid:]
+               }
+    return render(request, 'users/details.html', context)
 
 
 @login_required
@@ -528,7 +661,39 @@ def volunteer_list(request):
 def volunteer_details(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if volunteer.ong == request.user.ong:
-        return render(request, 'volunteer_details.html', {'volunteer': volunteer})
+        fields = [f for f in Volunteer._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "service", "ong", "person_ptr"]]
+        
+        info = [getattr(volunteer, f.name) for f in fields]
+
+        fields_info = dict(zip([f.verbose_name for f in fields], info))        
+        
+        items = list(fields_info.items())
+        
+
+        for item in items:
+            if(item[1] == True):
+                items[items.index(item)] = (item[0], "Sí")
+            elif(item[1] == False):
+                items[items.index(item)] = (item[0], "No")
+            elif(item[0] == "Género" and item[1] != None):
+                choices = Volunteer._meta.get_field('sex').choices
+                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                items[items.index(item)] = (item[0], value)
+            elif(item[0] == "Tiempo de dedicación"):
+                items[items.index(item)] = (item[0], str(item[1]) + " horas")
+            elif(item[0] == "Tipo de voluntario"): # why is this not working?
+                choices = Volunteer._meta.get_field('volunteer_type').choices
+                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                items[items.index(item)] = (item[0], value)
+
+            
+        items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+        mid = math.ceil(len(items) / 2)
+        
+        context = {'volunteer': volunteer, 'info_left': items[:mid], 'info_right': items[mid:]}
+        
+        return render(request, 'users/details.html', context)
     else:
         return custom_403(request)
 
