@@ -11,7 +11,7 @@
   {% else %}
       {% include 'components/title.html' with title="Añadir donación" %}
   {% endif %}
-  <form method="post"  action="">
+  <form method="post" enctype='multipart/form-data' action="">
     {% csrf_token %}
       <div class="row my-4 mx-5">
         <div class="col-sm-12 col-lg-6">
@@ -61,11 +61,15 @@
         </div>
 
         <div class="row my-4 mx-5">
-            <div class="col-sm-12 col-lg-6">
-              {% include "components/inputs.html" with id=form.donor_address.id_for_label label_text="Dirección" input=form.donor_address %} 
-              {{ form.donor_address.errors }}
-            </div>
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.donor_address.id_for_label label_text="Dirección" input=form.donor_address %} 
+            {{ form.donor_address.errors }}
           </div>
+          <div class="col-sm-12 col-lg-6">
+            {% include "components/inputs.html" with id=form.document.id_for_label label_text="Documento" input=form.document %} 
+            {{ form.document.errors }}
+          </div>
+        </div>
       <div class="form-section mt-5 mx-5 mb-5 text-center">
         {% if form.instance.id %}
         {% with button_text="Actualizar" %}
