@@ -8,15 +8,27 @@
       
       </div>
       <div class="col-lg-3 col-6">
+        {% if object.city %}
         <span>{{object.city}}</span>
+        {% else %}
+        <span>No especificado</span>
+        {% endif %}
 
       </div>  
       <div class="col-lg-2 col-6">
+        {% if object.telephone %}
         <span>{{object.telephone}}</span>
+        {% else %}
+        <span>No especificado</span>
+        {% endif %}
 
       </div> 
       <div class="col-lg-3 col-6">
+        {% if object.email %}
         <span>{{object.email}}</span>
+        {% else %}
+        <span>No especificado</span>
+        {% endif %}
       </div> 
 
   </div>
