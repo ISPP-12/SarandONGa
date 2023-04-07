@@ -18,15 +18,16 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+
 @login_required
 def donation_create(request):
     form = CreateNewDonation(initial={'ong': request.user.ong})
     if request.method == "POST":
-        form = CreateNewDonation(request.POST)
+        form = CreateNewDonation(request.POST, request.FILES)
         if form.is_valid():
-            ong=request.user.ong
-            donation=form.save(commit=False)
-            donation.ong=ong
+            ong = request.user.ong
+            donation = form.save(commit=False)
+            donation.ong = ong
             donation.save()
             form.save()
             return redirect('/donation/list')
@@ -35,10 +36,12 @@ def donation_create(request):
 
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
 
+
 @login_required
 def donation_list(request):
     # get donations from database
-    objects = Donation.objects.filter(ong=request.user.ong).values()
+    objects = Donation.objects.filter(
+        ong=request.user.ong).order_by('-created_date').values()
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -61,9 +64,10 @@ def donation_list(request):
         'object_name': 'donación',
         'object_name_en': 'donation',
         'title': 'Gestión de Donaciones',
-        }
+    }
 
     return render(request, 'donation/list.html', context)
+
 
 @login_required
 def donation_update(request, donation_id):
@@ -71,7 +75,8 @@ def donation_update(request, donation_id):
     if request.user.ong == donation.ong:
         form = CreateNewDonation(instance=donation)
         if request.method == "POST":
-            form = CreateNewDonation(request.POST, instance=donation)
+            form = CreateNewDonation(
+                request.POST,  request.FILES, instance=donation)
             if form.is_valid():
                 form.save()
                 return redirect("/donation/list")
@@ -80,6 +85,7 @@ def donation_update(request, donation_id):
     else:
         return custom_403(request)
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
+
 
 @login_required()
 def donation_delete(request, donation_id):
