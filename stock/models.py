@@ -1,6 +1,7 @@
 from django.db import models
 from ong.models import Ong
 from django.core.validators import MinValueValidator
+from django.core.mail import send_mail
 #from django.utils.text import slugify
 
 
@@ -15,7 +16,15 @@ class Stock(models.Model):
     photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/stock/", null=True, blank=True)
 
     def save(self, *args, **kwargs):
-       # self.slug = slugify(self.name + ' ' + str(self.id))
+        # self.slug = slugify(self.name + ' ' + str(self.id))
+        if(self.quantity < 3):
+            subject = f'STOCK DE PRODUCTO {self.name} DEMASIADO BAJO'
+            message = f'Querido {self.ong},\n\n' \
+                    f'Le informamos que el número de existencias del producto {self.name} es demasiado reducido.\n' \
+                    f"Atentamente, \n¿Dónde están las gatas que no hablan y tiran pa'lante?"
+            send_mail(subject, message, 'sarandonga.contact@gmail.com', ['sarandonga.contact@gmail.com'])
+            sent = True
+
         super(Stock, self).save(*args, **kwargs)
     def __str__(self):
         return self.name
