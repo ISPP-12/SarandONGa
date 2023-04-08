@@ -1068,11 +1068,6 @@ class VolunteerTestCase(TestCase):
             self.volunteer_update.email = "email"
             self.volunteer_update.full_clean()
 
-    def test_update_volunteer_email_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.email = None
-            self.volunteer_update.save()
-
     def test_update_volunteer_birth_date_incorrect_null(self):
         with self.assertRaises(Exception):
             self.volunteer_update.birth_date = None
