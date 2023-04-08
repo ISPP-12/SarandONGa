@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from main import views as main_views
 from subsidy import urls as subsidy_urls
 from stock import urls as stock_urls
@@ -27,7 +27,7 @@ from sponsorship import urls as sponsorship_urls
 from project import urls as project_urls
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -48,7 +48,7 @@ urlpatterns = [
     path("", include("django.contrib.auth.urls")),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
+if settings.DEBUG:     
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
+    ]
