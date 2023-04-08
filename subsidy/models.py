@@ -7,6 +7,7 @@ from django.forms import ValidationError
 SUBSIDY_STATUS = (
     ('Por presentar', 'Por presentar'),
     ('Presentada', 'Presentada'),
+    ('Justificada', 'Justificada'),
     ('Concedida', 'Concedida'),
     ('Denegada', 'Denegada'),
 )

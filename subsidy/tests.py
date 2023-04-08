@@ -56,6 +56,11 @@ class SubsidyTestCase(TestCase):
             Subsidy.objects.create(presentation_date="This is a date incorrect", payment_date="2021-01-02", organism="ONG2",
                                    provisional_resolution="2017-07-18", final_resolution="2017-07-19", amount=1000, name="Pedro", ong=self.ong)
 
+    def test_subsidy_create_presentation_justification_date_incorrect(self):
+        with self.assertRaises(Exception):
+            Subsidy.objects.create(presentation_date="2021-01-01",presentation_justification_date="This is a date incorrect", payment_date="2021-01-02", organism="ONG2",
+                                   provisional_resolution="2017-07-18", final_resolution="2017-07-19", amount=1000, name="Pedro", ong=self.ong)
+
     def test_subsidy_create_payment_date_incorrect(self):
         with self.assertRaises(Exception):
             Subsidy.objects.create(presentation_date="2021-01-01", payment_date="This is a date incorrect", organism="ONG2",
@@ -172,6 +177,12 @@ class SubsidyTestCase(TestCase):
                 self.subsidy.provisional_resolution = "2017-07-17"
                 self.subsidy.final_resolution = "2017-07-18"
                 self.subsidy.save()
+
+    def test_incorrect_presentation_justification_date_before_presentation_date(self):
+        with self.assertRaises(Exception):
+            self.subsidy.presentation_justification_date = "2017-07-17"
+            self.subsidy.presentation_date = "2017-07-18"
+            self.subsidy.save()
 
     def test_incorrect_ong_null(self):
             with self.assertRaises(Exception):
