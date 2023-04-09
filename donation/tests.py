@@ -2,6 +2,12 @@ from django.test import TestCase
 from donation.models import Donation
 import datetime
 from ong.models import Ong
+from person.models import Worker
+
+# SELENIUM IMPORTS
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium import webdriver
+from selenium.webdriver.common.by import By
 
 
 class DonationTestCase(TestCase):
@@ -18,6 +24,7 @@ class DonationTestCase(TestCase):
             donor_dni="12345678A",
             donor_address="Sevilla",
             donor_email="email@email.com",
+            document="",
             ong=self.ong
         )
 
@@ -376,3 +383,127 @@ class DonationTestCase(TestCase):
         with self.assertRaises(Exception):
             donation.full_clean()
             donation.save()
+
+
+# SELENIUM TESTS
+class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
+    def setUp(self):
+        super().setUp()
+
+        self.ong = Ong(name='ASEM')
+        self.test_donation_1 = Donation(title="donation", description='some description here', amount=100, donor_name="Pedro",
+                                        donor_surname="Perez", donor_dni="12345678A", donor_address="Calle 1", donor_email="pedroperez@donor.com", ong=self.ong)
+
+        self.ong.save()
+        self.test_donation_1.save()
+
+        self.superuser = Worker(
+            email="test@email.com",
+            name="Test Person",
+            surname="Test Apellido",
+            birth_date=datetime.datetime(
+                2001, 3, 14, tzinfo=datetime.timezone.utc),
+            sex='M',
+            city='Test City',
+            address='Test Street',
+            telephone='123456789',
+            postal_code='41012',
+        )
+        self.superuser.ong = self.ong
+        self.superuser.set_password('root')
+        self.superuser.is_admin = True
+        self.superuser.save()
+
+        options = webdriver.ChromeOptions()
+        options.headless = True
+        self.driver = webdriver.Chrome(options=options)
+        self.driver.set_window_size(1920, 1080)
+
+        self.driver.get(f'{self.live_server_url}/login/')
+        self.driver.find_element(
+            By.ID, "id_username").send_keys('test@email.com')
+        self.driver.find_element(By.ID, "id_password").send_keys('root')
+        self.driver.find_element(By.ID, "id-submitForm").click()
+
+    def tearDown(self):
+        self.driver.quit()
+        self.ong = None
+        self.test_donation_1 = None
+        super().tearDown()
+
+    def test_access_donation_view(self):
+        # Check access
+        self.driver.get(f'{self.live_server_url}/donation/list')
+        self.assertTrue(self.driver.find_element(By.ID, "section-donation"))
+
+    #     # Check the test item appears
+        test_donation_div = self.driver.find_element(
+            By.ID, f"donation-{self.test_donation_1.id}")
+        test_donation_text = test_donation_div.find_element(
+            By.CSS_SELECTOR, "h5").text
+        spans = test_donation_div.find_element(
+            By.CLASS_NAME, "row").find_elements(By.TAG_NAME, "span")
+        self.assertTrue(test_donation_text == self.test_donation_1.title)
+        # Comento este test porque el navegador devuelve la fecha usando el locale y cambia para cada equipo
+        # self.assertTrue(spans[0].text == self.test_donation_1.created_date.strftime("%d/%m/%Y %H:%M"))
+        self.assertIn(str(self.test_donation_1.amount), spans[1].text)
+        self.assertTrue(spans[2].text == self.test_donation_1.donor_email)
+
+        #     #Check the left section is still empty
+        left_section_div = self.driver.find_element(By.ID, "preview")
+        self.assertTrue(left_section_div.find_element(
+            By.ID, "prev-info").text == "Pulsa sobre una donación para la vista previa")
+
+        # Check the item div is clickable
+        test_donation_div.click()
+
+        # Now the preview section should be filled with the test item data
+        children = left_section_div.find_elements(By.CSS_SELECTOR, "h2, p")
+        self.assertTrue(children[0].text == self.test_donation_1.title)
+        self.assertTrue(children[1].text == self.test_donation_1.description)
+        # 100 € is the text in the html
+        self.assertTrue(children[2].text == "Cantidad: " +
+                        str(self.test_donation_1.amount) + " €")
+        self.assertTrue(children[3].text == "Nombre donante: " +
+                        self.test_donation_1.donor_name + " " + self.test_donation_1.donor_surname)
+        self.assertTrue(
+            children[4].text == "DNI donante: " + self.test_donation_1.donor_dni)
+        self.assertTrue(
+            children[5].text == "Dirección donante: " + self.test_donation_1.donor_address)
+        self.assertTrue(
+            children[6].text == "Correo donante: " + self.test_donation_1.donor_email)
+
+    def test_delete_donation_view(self):
+        # Check access
+        self.driver.get(f'{self.live_server_url}/donation/list')
+        self.assertTrue(self.driver.find_element(By.ID, "section-donation"))
+
+    #     # Check the test item appears
+        test_donation_div = self.driver.find_element(
+            By.ID, f"donation-{self.test_donation_1.id}")
+        test_donation_text = test_donation_div.find_element(
+            By.CSS_SELECTOR, "h5").text
+        spans = test_donation_div.find_element(
+            By.CLASS_NAME, "row").find_elements(By.TAG_NAME, "span")
+        self.assertTrue(test_donation_text == self.test_donation_1.title)
+        # Comento este test porque el navegador devuelve la fecha usando el locale y cambia para cada equipo
+        # self.assertTrue(spans[0].text == self.test_donation_1.created_date.strftime("%d/%m/%Y %H:%M"))
+        self.assertIn(str(self.test_donation_1.amount), spans[1].text)
+        self.assertTrue(spans[2].text == self.test_donation_1.donor_email)
+
+        #     #Check the left section is still empty
+        left_section_div = self.driver.find_element(By.ID, "preview")
+        self.assertTrue(left_section_div.find_element(
+            By.ID, "prev-info").text == "Pulsa sobre una donación para la vista previa")
+
+        # Check the item div is clickable
+        test_donation_div.click()
+
+        # Check the item is removed
+        before_count = Donation.objects.count()
+        lateral_btns = self.driver.find_element(By.ID, "lateralButtons")
+        delete_btn = lateral_btns.find_elements(By.TAG_NAME, "a")[1]
+        delete_btn.click()
+        after_count = Donation.objects.count()
+
+        self.assertTrue(before_count == after_count+1)

@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from main import views as main_views
 from subsidy import urls as subsidy_urls
 from stock import urls as stock_urls
@@ -25,7 +25,9 @@ from person import urls as person_urls
 from home import urls as home_urls
 from sponsorship import urls as sponsorship_urls
 from project import urls as project_urls
-
+from django.conf import settings
+from django.conf.urls.static import static
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,13 +38,17 @@ urlpatterns = [
     path('stock/', include(stock_urls), name="stock"),
     path('donation/', include(donation_urls), name='donation'),
     path('user/', include(person_urls), name='user'),
-    path('service/', include(service_urls),name="service"),
-    path('home/',include(home_urls), name="home"),
-    path('payment/',include(payment_urls), name="payment"),
+    path('service/', include(service_urls), name="service"),
+    path('home/', include(home_urls), name="home"),
+    path('payment/', include(payment_urls), name="payment"),
     path('', main_views.index, name="index"),
-    path('sponsorship/',include(sponsorship_urls), name="sponsorship"),
-    path('project/',include(project_urls),name = "project"),
+    path('sponsorship/', include(sponsorship_urls), name="sponsorship"),
+    path('project/', include(project_urls), name="project"),
     # path('login/', views.login_view, name='login'),
     path("", include("django.contrib.auth.urls")),
 ]
 
+if settings.DEBUG:     
+    urlpatterns += [
+        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
+    ]

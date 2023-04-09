@@ -18,34 +18,40 @@ displayed in the preview text (e.g. "donación")
 {% endblock %}
 
 {% block objectFor %}
+
+<!-- TABLE HEADER -->
+<div id="id-tableHeader" class="container-fluid">
+  <div class="row">
+    <div class="col-lg-5 col-6"><strong>Título</strong></div>
+    <div class="col-lg-3 col-6"><strong>Fecha de presentación</strong></div>
+    <div class="col-lg-2 col-6"><strong>Cantidad</strong></div>
+    <div class="col-lg-2 col-6"><strong>E-mail</strong></div>
+  </div>
+  <hr class="my-1">
+</div>
+
 {% for object in objects %}
-<div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
+
+<div class="container-fluid mw-100 px-2 card-list rounded py-1" id="donation-{{ object.id }}" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
-   
-      
-    <div class="row">
-      <div class="col-md-4 col-lg-3 col-sm-5 ">
-        <strong><h5>{{object.title}}</h5></strong>
-      
-      </div>
-      <div class="col-md-2 col-lg-2 col-sm-1">
-        <span>{{object.created_date}}</span>
-
-      </div>  
-      <div class="col-md-3 col-lg-2  col-sm-1">
-        <span>{{object.amount}} €</span>
-
-      </div> 
-      <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
-        <span>{{object.donor_email}}</span>
-
-      </div> 
+       
+  <div class="row">
+    <div class="col-lg-5 col-6">
+      <strong><h5 title="{{object.title}}">{{object.title}}</h5></strong>
 
     </div>
-    
-    
+    <div class="col-lg-3 col-6">
+      <span>{{object.created_date}}</span>
 
-   
+    </div>  
+    <div class="col-lg-2 col-6">
+      <span>{{object.amount}} €</span>
+
+    </div> 
+    <div class="col-lg-2 col-6">
+      <span class="text-break text-wrap">{{object.donor_email}}</span>
+      </div>
+    </div>
 
     <div class="d-none d-flex flex-column " id="moreInfo">
       <span class="object-description pt-1"><strong>Descripción: </strong>{{ object.description }}</span>
@@ -54,6 +60,7 @@ displayed in the preview text (e.g. "donación")
       <span class="object-donor-dni pt-1"><strong>DNI donante: </strong>{{ object.donor_dni  }}</span>
       <span class="object-donor-address pt-1"><strong>Dirección donante: </strong> {{ object.donor_address  }}</span>
       <span class="object-donor-email pt-1"><strong>Correo donante: </strong> {{ object.donor_email  }}</span>
+      <span class="object-document pt-1"><strong>Documento: </strong> {{ object.document.path  }}</span>
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
@@ -67,6 +74,24 @@ displayed in the preview text (e.g. "donación")
 
 <div id="data" data-json='{{ objects_json|safe }}'></div>
 <div id="object-name" data-name='{{ object_name }}'></div>
+
+<div class="pagination">
+  <span class="step-links">
+      {% if objects.has_previous %}
+          <a href="?page=1">&laquo; Primera</a>
+          <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+      {% endif %}
+
+      <span class="current">
+          Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
+      </span>
+
+      {% if objects.has_next %}
+          <a href="?page={{ objects.next_page_number }}">Siguiente</a>
+          <a href="?page={{ objects.paginator.num_pages }}">Última &raquo;</a>
+      {% endif %}
+  </span>
+</div>
 
 {% endblock %}
 
@@ -102,21 +127,28 @@ displayed in the preview text (e.g. "donación")
         }
 
   } else {
-
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
-          preview.innerHTML = `
+        preview.innerHTML = `
         <div class="row ">
           <div class="col-12 px-4">
             
-            <h2>${objectData.title}</h2>
+            <h2 title="${objectData.title}">${objectData.title}</h2>
             <h5>{{object_name}}</h5>
             <p>${objectData.description}</p>
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
             <p><strong>Nombre donante: </strong>${objectData.donor_name + ' ' + objectData.donor_surname}</p>
-            <p><strong>DNI donate:  </strong>${objectData.donor_dni}</p>
+            <p><strong>DNI donante:  </strong>${objectData.donor_dni}</p>
             <p><strong>Dirección donante:  </strong>${objectData.donor_address}</p>
             <p><strong>Correo donante:  </strong>${objectData.donor_email}</p>
+            <p><strong>Documento: </strong>
+              ${
+                objectData.document && objectData.document.includes("donation/")
+                  ? `<a href="/media/${objectData.document}" target="_blank">${objectData.document.split("donation/")[1]}</a>`
+                  : "Sin documento asociado"
+              }
+            </p>
+          </p>
           </div>
         </div>
 

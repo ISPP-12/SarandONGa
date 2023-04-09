@@ -6,7 +6,7 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm
 from xml.dom import ValidationErr
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -164,6 +164,11 @@ def worker_update(request, worker_id):
 def worker_list(request):
     objects = Worker.objects.filter(ong=request.user.ong).values()
     title = "Gestión de Trabajadores"
+    form = FilterWorkerForm(request.GET or None)
+
+    if request.method == "GET":
+        objects = worker_filter(objects, form)
+
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -177,10 +182,60 @@ def worker_list(request):
         'object_name_en': 'worker',
         'title': title,
         'objects_json': persons_json,
+        'form': form
     }
 
     return render(request, 'users/list.html', context)
 
+def worker_filter(queryset, form):
+
+    email = form['email'].value()
+    name = form['name'].value()
+    surname = form['surname'].value()
+    birth_date_min = form['birth_date_min'].value()
+    birth_date_max = form['birth_date_max'].value()
+    sex = form['sex'].value()
+    city = form['city'].value()
+    address = form['address'].value()
+    telephone = form['telephone'].value()
+    postal_code = form['postal_code'].value()
+
+    if email is not None:
+        if email.strip() != '':
+            queryset = queryset.filter(Q(email__icontains=email))
+
+    if name is not None:
+        if name.strip() != '':
+            queryset = queryset.filter(Q(name__icontains=name))
+
+    if surname is not None:
+        if surname.strip() != '':
+            queryset = queryset.filter(Q(surname__icontains=surname))
+
+    if is_valid_queryparam(birth_date_min):
+        queryset = queryset.filter(birth_date__gte=birth_date_min)
+
+    if is_valid_queryparam(birth_date_max):
+        queryset = queryset.filter(birth_date__lte=birth_date_max)
+
+    if is_valid_queryparam(sex):
+        queryset = queryset.filter(sex=sex)
+
+    if city is not None:
+        if city.strip() != '':
+            queryset = queryset.filter(Q(city__icontains=city))
+
+    if address is not None:
+        if address.strip() != '':
+            queryset = queryset.filter(Q(address__icontains=address))
+
+    if is_valid_queryparam(telephone):
+        queryset = queryset.filter(telephone=telephone)
+
+    if is_valid_queryparam(postal_code):
+        queryset = queryset.filter(postal_code=postal_code)
+
+    return queryset
 
 @login_required
 def worker_details(request, worker_id):
