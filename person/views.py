@@ -10,7 +10,14 @@ from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, Cr
 from xml.dom import ValidationErr
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
 
+class UpdatePasswordView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('worker_list')
+    template_name = 'update_password.html'
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):

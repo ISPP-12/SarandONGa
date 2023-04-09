@@ -19,6 +19,7 @@ urlpatterns = [
     path('worker/<int:worker_id>/update', views.worker_update, name='worker_update'),
     path('worker/<int:worker_id>/delete',
         views.worker_delete, name="worker_delete"),
+    path('update_password/', views.UpdatePasswordView.as_view(), name='update_password'),
     path('godfather/list', views.godfather_list, name="godfather_list"),
     path('godfather/create', views.godfather_create, name="godfather_create"),
     path('godfather/<int:godfather_id>/update', views.godfather_update, name='godfather_update'),
