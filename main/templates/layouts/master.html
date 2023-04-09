@@ -53,73 +53,63 @@
 
 
     <script>
-        var userDataElement = document.getElementById("user-data");
+      var userDataElement = document.getElementById("user-data");
 
-        var usuarioLogeado = userDataElement.dataset.usuarioLogeado === "True";
-        var pertenecienteAVidesSur = userDataElement.dataset.pertenecienteAVidesSur === "true";
-        const INTERVALO = 24 * 60 * 60 * 1000; // 1 día
-        const INTERVALO_DESADO = 182.62 * 24 * 60 * 60 * 1000; //6 meses
-        console.log(usuarioLogeado)
-        console.log(pertenecienteAVidesSur)
-        function calcularEdad(fechaDeNacimiento) {
-          const hoy = new Date();
-          const nacimiento = new Date(fechaDeNacimiento);
-          let edad = hoy.getFullYear() - nacimiento.getFullYear();
-          const diferenciaMeses = hoy.getMonth() - nacimiento.getMonth();
+      var usuarioLogeado = userDataElement.dataset.usuarioLogeado === "True";
+      var pertenecienteAVidesSur = userDataElement.dataset.pertenecienteAVidesSur === "true";
+      console.log(usuarioLogeado)
+      console.log(pertenecienteAVidesSur)
+      function calcularEdad(fechaDeNacimiento) {
+        const hoy = new Date();
+        const nacimiento = new Date(fechaDeNacimiento);
+        let edad = hoy.getFullYear() - nacimiento.getFullYear();
+        const diferenciaMeses = hoy.getMonth() - nacimiento.getMonth();
 
-          if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < nacimiento.getDate())) {
-            edad--;
-          }
-
-          return edad;
+        if (diferenciaMeses < 0 || (diferenciaMeses === 0 && hoy.getDate() < nacimiento.getDate())) {
+          edad--;
         }
 
-        async function verificarNinos() {
-          try {
-            const response = await fetch('/user/api/child_age/');
-            const ninos = await response.json();
+        return edad;
+      }
 
-            for (const nino of ninos) {
-              const edad = calcularEdad(nino.birth_date);
+      async function verificarNinos() {
+        try {
+          const response = await fetch('/user/api/child_age/');
+          const ninos = await response.json();
 
-              if (edad >= 18) {
-                mostrarNotificacion(nino.name);
-              }
+          for (const nino of ninos) {
+            const edad = calcularEdad(nino.birth_date);
+
+            if (edad >= 18) {
+              mostrarNotificacion(nino.name);
             }
-          } catch (error) {
-            console.error('Error al obtener la lista de niños:', error);
           }
+        } catch (error) {
+          console.error('Error al obtener la lista de niños:', error);
+        }
+      }
+
+      function mostrarNotificacion(nombre) {
+        if (!('Notification' in window)) {
+          console.error('Este navegador no soporta notificaciones.');
+          return;
         }
 
-        function mostrarNotificacion(nombre) {
-          if (!('Notification' in window)) {
-            console.error('Este navegador no soporta notificaciones.');
-            return;
-          }
-
-          if (Notification.permission === 'granted') {
-            new Notification(`El niño ${nombre} ha cumplido la mayoría de edad.`);
-          } else if (Notification.permission !== 'denied') {
-            Notification.requestPermission().then(permission => {
-              if (permission === 'granted') {
-                new Notification(`El niño ${nombre} ha cumplido la mayoría de edad.`);
-              }
-            });
-          }
+        if (Notification.permission === 'granted') {
+          console.log('Notificación permitida')
+          new Notification(`El niño ${nombre} ha cumplido la mayoría de edad.`);
+        } else if (Notification.permission !== 'denied') {
+          Notification.requestPermission().then(permission => {
+            if (permission === 'granted') {
+              new Notification(`El niño ${nombre} ha cumplido la mayoría de edad.`);
+            }
+          });
         }
-        if (usuarioLogeado && pertenecienteAVidesSur) {
-          setInterval(checarTiempo, INTERVALO);
-        }
-
-        function checarTiempo() {
-          tiempoPasado += INTERVALO;
-
-          if (tiempoPasado >= INTERVALO_DESADO) {
-            verificarNinos();
-            tiempoPasado = 0;
-  }
-}
-    </script>
+      }
+      if (usuarioLogeado && pertenecienteAVidesSur) {
+        setInterval(verificarNinos, 10*100);
+      }
+  </script>
 
 </body>
 
