@@ -8,6 +8,7 @@ from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
 from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm
 from xml.dom import ValidationErr
+from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -24,7 +25,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 
 @login_required
-@videssur_required
+@videssur_required 
 def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
     title = "Gestión de Padrinos"
@@ -581,3 +582,9 @@ def volunteer_update(request, volunteer_id):
     else:
         return custom_403(request)
     return render(request, 'volunteers/volunteers_form.html', {"form": form})
+
+
+def child_age(request):
+    ninos = Child.objects.values('name', 'birth_date')
+    return JsonResponse(list(ninos), safe=False)
+
