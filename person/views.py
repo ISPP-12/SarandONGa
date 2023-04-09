@@ -288,9 +288,8 @@ def child_list(request):
 def user_list(request):
     objects = ASEMUser.objects.filter(ong=request.user.ong).values()
 
-    form = FilterAsemUserForm(request.GET)  
-    if request.method == 'GET':
-        objects = asemuser_filter(objects, FilterAsemUserForm(request.GET))
+    form = FilterAsemUserForm(request.GET or None)  
+    objects = asemuser_filter(objects, form)
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -505,9 +504,8 @@ def child_delete(request, child_id):
 def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
 
-    form = FilterVolunteerForm(request.GET)  
-    if request.method == 'GET':
-        objects = volunteer_filter(objects, FilterVolunteerForm(request.GET))
+    form = FilterVolunteerForm(request.GET or None)  
+    objects = volunteer_filter(objects, form)
     
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
