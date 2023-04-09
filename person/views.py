@@ -265,7 +265,7 @@ def child_list(request):
 
     title = "Gestión de Niños"
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [child for child in child_page]
     for d in persons_dict:
         d.pop('_state', None)
 
