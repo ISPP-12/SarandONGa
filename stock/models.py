@@ -18,7 +18,7 @@ class Stock(models.Model):
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='suministro', verbose_name="ONG")
     #Cantidad de suministros
-    quantity = models.DecimalField(max_digits=10, decimal_places=2, validators=[
+    quantity = models.IntegerField(validators=[
                                    MinValueValidator(1)], verbose_name="Cantidad")
     
     #Precio del suministro

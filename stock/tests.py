@@ -47,16 +47,6 @@ class StockTestCase(TestCase):
         updated_stock = Stock.objects.get(pk=stock.id)
         self.assertEqual(updated_stock.name, "Mandarinas")
         self.assertEqual(updated_stock.quantity, 10)
-    
-    def test_quantity_decimal_numbers(self):
-        stock = Stock.objects.get(name="Manzanas")
-        self.assertEqual(stock.quantity, 4.00)
-
-        stock.quantity = 4.199999
-        stock.save()
-
-        updated_stock = Stock.objects.get(name="Manzanas")
-        self.assertEqual(updated_stock.quantity, Decimal('4.20'))
 
     def test_amount_decimal_numbers(self):
         stock = Stock.objects.get(name="Manzanas")
