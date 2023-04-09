@@ -16,8 +16,8 @@ class WorkerTestCase(TestCase):
                               sex="Masculino",
                               city="Sevilla",
                               address="Reina Mercedes 11",
-                              telephone=666666666,
-                              postal_code=41013,
+                              telephone="666666666",
+                              postal_code="41013",
                               photo="",
                               is_active=True,
                               is_admin=True,
@@ -31,8 +31,8 @@ class WorkerTestCase(TestCase):
                               sex="Masculino",
                               city="Sevilla",
                               address="Triana 16",
-                              telephone=666666666,
-                              postal_code=41015,
+                              telephone="666666666",
+                              postal_code="41015",
                               photo="",
                               is_active=True,
                               is_admin=True,
@@ -46,8 +46,8 @@ class WorkerTestCase(TestCase):
         self.assertEqual(worker.sex, "Masculino")
         self.assertEqual(worker.city, "Sevilla")
         self.assertEqual(worker.address, "Reina Mercedes 11")
-        self.assertEqual(worker.telephone, 666666666)
-        self.assertEqual(worker.postal_code, 41013)
+        self.assertEqual(worker.telephone, "666666666")
+        self.assertEqual(worker.postal_code, "41013")
         self.assertEqual(worker.photo, "")
         self.assertEqual(worker.is_active, True)
         self.assertEqual(worker.is_admin, True)
@@ -68,8 +68,8 @@ class WorkerTestCase(TestCase):
         worker.address = "Menachos"
         worker.birth_date = datetime.datetime(
             2003, 6, 14, tzinfo=datetime.timezone.utc)
-        worker.telephone = 654654654
-        worker.postal_code = 41004
+        worker.telephone = "654654654"
+        worker.postal_code = "41004"
         worker.photo = ""
         worker.is_active = False
         worker.is_admin = False
@@ -81,8 +81,8 @@ class WorkerTestCase(TestCase):
         self.assertEqual(worker.sex, "Femenino")
         self.assertEqual(worker.city, "Badajoz")
         self.assertEqual(worker.address, "Menachos")
-        self.assertEqual(worker.telephone, 654654654)
-        self.assertEqual(worker.postal_code, 41004)
+        self.assertEqual(worker.telephone, "654654654")
+        self.assertEqual(worker.postal_code, "41004")
         self.assertEqual(worker.photo, "")
         self.assertEqual(worker.is_active, False)
         self.assertEqual(worker.is_admin, False)
@@ -97,8 +97,8 @@ class WorkerTestCase(TestCase):
                                   sex="Masculino",
                                   city="Sevilla",
                                   address="Triana 16",
-                                  telephone=666666666,
-                                  postal_code=41015,
+                                  telephone="666666666",
+                                  postal_code="41015",
                                   photo="",
                                   is_active=True,
                                   is_admin=True,ong=self.ong)
@@ -113,8 +113,8 @@ class WorkerTestCase(TestCase):
                                   sex="Masculino",
                                   city="Sevilla",
                                   address="Triana 16",
-                                  telephone=666666666,
-                                  postal_code=41015,
+                                  telephone="666666666",
+                                  postal_code="41015",
                                   photo="",
                                   is_active=True,
                                   is_admin=True,ong=self.ong)
@@ -129,8 +129,8 @@ class WorkerTestCase(TestCase):
                                            sex="Masculino",
                                            city="Sevilla",
                                            address="Triana 16",
-                                           telephone=666666666,
-                                           postal_code=41015,
+                                           telephone="666666666",
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -146,8 +146,8 @@ class WorkerTestCase(TestCase):
                                   sex="Masculino",
                                   city="Sevilla",
                                   address="Triana 16",
-                                  telephone=666666666,
-                                  postal_code=41015,
+                                  telephone="666666666",
+                                  postal_code="41015",
                                   photo="",
                                   is_active=True,
                                   is_admin=True,ong=self.ong)
@@ -162,8 +162,8 @@ class WorkerTestCase(TestCase):
                                            sex="Masculino",
                                            city="Sevilla",
                                            address="Triana 16",
-                                           telephone=666666666,
-                                           postal_code=41015,
+                                           telephone="666666666",
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -179,8 +179,8 @@ class WorkerTestCase(TestCase):
                                            sex="Masculino",
                                            city="Sevilla",
                                            address="Triana 16",
-                                           telephone=666666666,
-                                           postal_code=41015,
+                                           telephone="666666666",
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -195,8 +195,8 @@ class WorkerTestCase(TestCase):
                                            sex="Masculino",
                                            city="Sevilla",
                                            address="Triana 16",
-                                           telephone=666666666,
-                                           postal_code=41015,
+                                           telephone="666666666",
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -212,8 +212,8 @@ class WorkerTestCase(TestCase):
                                            sex="Masculino"*50,
                                            city="Sevilla",
                                            address="Triana 16",
-                                           telephone=666666666,
-                                           postal_code=41015,
+                                           telephone="666666666",
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -229,8 +229,8 @@ class WorkerTestCase(TestCase):
                                            sex="bad_sex",
                                            city="Sevilla",
                                            address="Triana 16",
-                                           telephone=666666666,
-                                           postal_code=41015,
+                                           telephone="666666666",
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -246,8 +246,8 @@ class WorkerTestCase(TestCase):
                                            sex="Masculino",
                                            city="Sevilla"*200,
                                            address="Triana 16",
-                                           telephone=666666666,
-                                           postal_code=41015,
+                                           telephone="666666666",
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -263,8 +263,8 @@ class WorkerTestCase(TestCase):
                                            sex="Masculino",
                                            city="Sevilla",
                                            address="Triana 16"*200,
-                                           telephone=666666666,
-                                           postal_code=41015,
+                                           telephone="666666666",
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -281,7 +281,7 @@ class WorkerTestCase(TestCase):
                                            city="Sevilla",
                                            address="Triana 16",
                                            telephone="bad_telephone",
-                                           postal_code=41015,
+                                           postal_code="41015",
                                            photo="",
                                            is_active=True,
                                            is_admin=True,ong=self.ong)
@@ -297,7 +297,7 @@ class WorkerTestCase(TestCase):
                                            sex="Masculino",
                                            city="Sevilla",
                                            address="Triana 16",
-                                           telephone=666666666,
+                                           telephone="666666666",
                                            postal_code="bad_postal_code",
                                            photo="",
                                            is_active=True,
