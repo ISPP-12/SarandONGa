@@ -9,39 +9,33 @@
 {% endblock %}
 
 {% block objectFor %}
-<div class="pagination">
-  <span class="step-links">
-      {% if objects.has_previous %}
-          <a href="?page=1">&laquo; Primera</a>
-          <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-      {% endif %}
 
-      <span class="current">
-          Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
-      </span>
-
-      {% if objects.has_next %}
-          <a href="?page={{ objects.next_page_number }}">Siguiente</a>
-          <a href="?page={{ objects.paginator.num_pages }}">Última &raquo;</a>
-      {% endif %}
-  </span>
+<!-- TABLE HEADER -->
+<div id="id-tableHeader" class="container-fluid">
+  <div class="row">
+    <div class="col-lg-5 col-6"><strong>Nombre</strong></div>
+    <div class="col-lg-3 col-3"><strong>Cantidad</strong></div>
+    <div class="col-lg-4 col-3"><strong>Organismo</strong></div>
+  </div>
+  <hr class="my-1">
 </div>
+
 {% for object in objects %}
 
-<div class="container-fluid mw-100  card-list rounded px-2 py-1" tabindex="1">
+<div class="container-fluid mw-100  card-list rounded px-2 py-1" id="subsidy-{{ object.id }}" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
    
       
     <div class="row">
-      <div class="col-md-5 col-lg-5 col-sm-6 ">
+      <div class="col-lg-5 col-6 ">
         <strong><h5>{{object.name}}</h5></strong>
       
       </div>
-      <div class="col-md-2 col-lg-3 col-sm-1">
+      <div class="col-lg-3 col-3">
         <span>{{object.amount}} €</span>
 
       </div>  
-      <div class="col-md-3 col-lg-4 col-email col-sm-1">
+      <div class="col-lg-4 col-3">
         <span>{{object.organism}}</span>
 
       </div> 

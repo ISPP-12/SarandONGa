@@ -8,7 +8,8 @@ class CreateNewDonation(forms.ModelForm):
         exclude = ['id', 'ong']
         widgets = {
             'created_date': forms.DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d %H:%M'),
-            'ong':forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
+            'ong': forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
+            'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "min": 0.1, "placeholder": "Escriba una cantidad"}),
         }
 
     def __init__(self, *args, **kwargs):

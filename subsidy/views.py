@@ -20,6 +20,7 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 @login_required
+ 
 def subsidy_create(request):
     form = CreateNewSubsidy(initial={'ong': request.user.ong})
     if request.method == "POST":
@@ -39,6 +40,7 @@ def subsidy_create(request):
     return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" ,  "title": "Añadir Subvención"})
 
 @login_required
+ 
 def subsidy_list(request):
     subsidies = Subsidy.objects.filter(ong=request.user.ong).values()
 
@@ -63,6 +65,7 @@ def subsidy_list(request):
     return render(request, 'subsidy/list.html', context)
 
 @login_required
+ 
 def subsidy_delete(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
     if subsidy.ong == request.user.ong:
@@ -72,6 +75,7 @@ def subsidy_delete(request, subsidy_id):
     return redirect("/subsidy/list")
 
 @login_required
+ 
 def subsidy_update(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
     
