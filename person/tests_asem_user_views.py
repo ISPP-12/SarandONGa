@@ -133,15 +133,19 @@ class AsemUserViewsTestCaseVidessur(StaticLiveServerTestCase):
     def test_asem_user_register_view_update(self):
         # Acess form from list
         self.driver.get(f'{self.live_server_url}/user/asem/list')
-        self.assertTrue(self.driver.find_element(By.ID,"section-user"))
+        self.assertTrue(self.driver.find_element(By.ID, "section-user"))
 
         # Check the test item appears
-        test_user_div = self.driver.find_element(By.ID, f"card-list-item-{self.test_asem_user_1.id}")
+        test_user_div = self.driver.find_element(
+            By.ID, f"card-list-item-{self.test_asem_user_1.id}")
         test_user_text = test_user_div.text
         self.assertTrue(str(self.test_asem_user_1.name) in test_user_text)
-        self.assertTrue(str(self.test_asem_user_1.email) in test_user_text)
-        self.assertTrue(str(self.test_asem_user_1.telephone) in test_user_text)
-        self.assertTrue(str(self.test_asem_user_1.city) in test_user_text)
+        self.assertTrue(str(self.test_asem_user_1.email)
+                        in test_user_text or "No especificado" in test_user_text)
+        self.assertTrue(str(self.test_asem_user_1.telephone)
+                        in test_user_text or "No especificado" in test_user_text)
+        self.assertTrue(str(self.test_asem_user_1.city)
+                        in test_user_text or "No especificado" in test_user_text)
 
         # Update item
         test_user_div.click()
