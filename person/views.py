@@ -260,16 +260,20 @@ def worker_delete(request, worker_id):
 @videssur_required
 def child_list(request):
     objects = Child.objects.filter(ong=request.user.ong).values()
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    child_page = paginator.get_page(page_number)
+
     title = "Gestión de Niños"
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [child for child in child_page]
     for d in persons_dict:
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': child_page,
         'object_name': 'niño',
         'object_name_en': 'child',
         'title': title,

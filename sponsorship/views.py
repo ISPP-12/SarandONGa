@@ -14,13 +14,17 @@ def sponsorship_create(request):
     if request.method == 'POST':
         form = CreateSponsorshipForm(request.POST)
         if form.is_valid():
-            form.save()
+            sponsorship = form.save(commit=False)
+            sponsorship.save()
+            form.save_m2m()
             return redirect('sponsorship_list')
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
         form = CreateSponsorshipForm()
+
     return render(request, 'sponsorship/sponsorship_form.html', {'form': form})
+
 
 
 @login_required

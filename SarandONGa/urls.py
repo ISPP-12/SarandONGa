@@ -29,6 +29,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
@@ -48,7 +49,9 @@ urlpatterns = [
     path("", include("django.contrib.auth.urls")),
 ]
 
+
 if settings.DEBUG:     
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
     ]
+
