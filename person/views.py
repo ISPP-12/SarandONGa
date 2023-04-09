@@ -29,15 +29,20 @@ class CustomJSONEncoder(json.JSONEncoder):
 def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
     title = "Gestión de Padrinos"
+
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    godfather_page = paginator.get_page(page_number)
+
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [obj for obj in godfather_page]
     for d in persons_dict:
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': godfather_page,
         'object_name': 'padrino',
         'object_name_en': 'godfather',
         'title': title,
