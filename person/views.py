@@ -166,22 +166,27 @@ def worker_list(request):
     title = "Gestión de Trabajadores"
     form = FilterWorkerForm(request.GET or None)
 
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    worker_page = paginator.get_page(page_number)
+
+    workers_dict = [obj for obj in worker_page]
+
+    for w in workers_dict:
+        w.pop('_state', None)
+    
+    workers_json = json.dumps(workers_dict, cls=CustomJSONEncoder)
+
     if request.method == "GET":
         objects = worker_filter(objects, form)
 
-    # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
-    for d in persons_dict:
-        d.pop('_state', None)
-
-    persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': worker_page,
         'object_name': 'trabajador',
         'object_name_en': 'worker',
         'title': title,
-        'objects_json': persons_json,
+        'objects_json': workers_json,
         'form': form
     }
 
