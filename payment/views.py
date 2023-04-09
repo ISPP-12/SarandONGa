@@ -37,7 +37,6 @@ def payment_create(request):
             event_sub_arr['end'] = end_date
             event_sub_arr['url'] = "./"+str(i.id)+"/update"
             event_sub_arr['id'] = str(i.id)
-            event_sub_arr['classNames'] = "payment_"+str(i.id)
             event_arr.append(event_sub_arr)
         datatest = json.dumps(event_arr, default=str)
 
@@ -68,7 +67,6 @@ def payment_update(request, payment_id):
                 event_sub_arr['start'] = start_date
                 event_sub_arr['end'] = end_date
                 event_sub_arr['id'] = str(i.id)
-                event_sub_arr['classNames'] = "[payment_"+str(i.id)+"]"
                 event_arr.append(event_sub_arr)
             datatest = json.dumps(event_arr, default=str)
 
