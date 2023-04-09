@@ -23,7 +23,7 @@ class Stock(models.Model):
     
     #Precio del suministro
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
-                                 MinValueValidator(0)], verbose_name="Precio")
+                                 MinValueValidator(0)], verbose_name="Precio",null=True, blank=True)
 
     #Foto del suministro
     photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/stock/", null=True, blank=True)
@@ -35,8 +35,9 @@ class Stock(models.Model):
 
     def save(self, *args, **kwargs):
        # self.slug = slugify(self.name + ' ' + str(self.id))
-        if self.amount < 0:
-            raise ValidationError("El importe no puede ser negativo")
+        if self.amount:
+            if self.amount < 0:
+                raise ValidationError("El importe no puede ser negativo")
         
         if self.quantity < 1:
             raise ValidationError("La cantidad no puede ser menor que 1")

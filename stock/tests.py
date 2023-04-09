@@ -200,13 +200,6 @@ class StockTestCase(TestCase):
             stock = Stock.objects.get(name="Naranjas")
             stock.quantity = -1
             stock.full_clean()
-
-    @transaction.atomic         
-    def test_update_amount_null(self):
-        with self.assertRaises(Exception):
-            stock = Stock.objects.get(name="Naranjas")
-            stock.amount = None
-            stock.full_clean()
     
     @transaction.atomic         
     def test_update_amount_max(self):
