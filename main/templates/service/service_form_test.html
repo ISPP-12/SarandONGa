@@ -1,0 +1,17 @@
+{% extends 'layouts/master.html' %}
+
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+  <div class="alert alert-{{ message.tags }}">
+    {{ message }}
+  </div>
+{% endfor %}
+{% endif %}
+<h1>Registrar Servicio</h1>
+<form method="post"  >
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit", name="save">Registrar</button>
+</form>
+{% endblock %}

@@ -83,25 +83,34 @@ DNI_VALIDATOR = RegexValidator(
     message='Introduce un DNI válido (8 números y 1 letra).'
 )
 
+TELEPHONE_VALIDATOR = RegexValidator(
+    regex=r'^\+?1?\d{9,15}$',
+    message="El número de teléfono debe estar en el formato: '+999999999'. Se permiten de 9 a 15 dígitos."
+)
+
+POSTAL_CODE_VALIDATOR = RegexValidator(
+    regex=r'^\d{5}$',
+    message="El código postal debe estar en el formato de cinco dígitos."
+)
 
 class Person(models.Model):
     id = models.AutoField(primary_key=True)
-    email = models.EmailField(blank=True, verbose_name="E-Mail")
+    email = models.EmailField(null=True, blank=True, verbose_name="E-Mail")
     name = models.CharField(max_length=50, verbose_name="Nombre")
     surname = models.CharField(
         max_length=50, verbose_name="Apellido")
     birth_date = models.DateField(
-        default=timezone.now, verbose_name="Fecha de nacimiento", null=True, blank=True)
+        verbose_name="Fecha de nacimiento", null=True, blank=True)
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
                            verbose_name="Género", null=True, blank=True)
     city = models.CharField(
         max_length=200, verbose_name="Ciudad", null=True, blank=True)
     address = models.CharField(
-        max_length=200, verbose_name="Dirección", null=True, blank=True, default='Sin dirección')
-    telephone = models.CharField(max_length=50,
-                                 verbose_name="Teléfono", null=True, blank=True, default='Sin teléfono')
-    postal_code = models.CharField(max_length=50,
-                                   verbose_name="Código postal", null=True, blank=True, default='Sin código postal')
+        max_length=200, verbose_name="Dirección", null=True, blank=True)
+    telephone = models.CharField(
+        validators=[TELEPHONE_VALIDATOR], verbose_name="Teléfono", max_length=17, null=True, blank=True)
+    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5, 
+        verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
 
@@ -154,16 +163,16 @@ class Worker(AbstractBaseUser):
     surname = models.CharField(
         max_length=50, blank=True, verbose_name="Apellido")
     birth_date = models.DateTimeField(
-        default=timezone.now, verbose_name="Fecha de nacimiento", null=True, blank=True)
+        verbose_name="Fecha de nacimiento", null=True, blank=True)
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
                            verbose_name="Género", null=True, blank=True)
     city = models.CharField(
         max_length=200, verbose_name="Ciudad", null=True, blank=True)
     address = models.CharField(
         max_length=200, verbose_name="Dirección", null=True, blank=True)
-    telephone = models.IntegerField(
-        verbose_name="Teléfono", null=True, blank=True)
-    postal_code = models.IntegerField(
+    telephone = models.CharField(
+        validators=[TELEPHONE_VALIDATOR], verbose_name="Teléfono", max_length=17, null=True, blank=True)
+    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5, 
         verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)

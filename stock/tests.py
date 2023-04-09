@@ -301,6 +301,7 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         after_count = Stock.objects.count()
 
         self.assertTrue(before_count == after_count+1 )
+    
     def test_stock_register_view(self):
         # Check access
         before_count = Stock.objects.count()
@@ -345,10 +346,3 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         test_stock_div = self.driver.find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
         test_stock_text = test_stock_div.find_element(By.CSS_SELECTOR,"h5.card-title span").text
         self.assertTrue(test_stock_text == "Lápiz bic rojo")
-
-
-
-
-
-
-        
