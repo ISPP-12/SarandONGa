@@ -96,7 +96,6 @@
         }
 
         if (Notification.permission === 'granted') {
-          console.log('Notificación permitida')
           new Notification(`El niño ${nombre} ha cumplido la mayoría de edad.`);
         } else if (Notification.permission !== 'denied') {
           Notification.requestPermission().then(permission => {
@@ -107,7 +106,7 @@
         }
       }
       if (usuarioLogeado && pertenecienteAVidesSur) {
-        setInterval(verificarNinos, 10*100);
+        setInterval(verificarNinos, 24 * 60 * 60 * 1000);
       }
   </script>
 
