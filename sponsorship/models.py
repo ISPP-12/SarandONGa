@@ -8,7 +8,7 @@ from xml.dom import ValidationErr
 class Sponsorship(models.Model):
     id = models.AutoField(primary_key=True)
     sponsorship_date = models.DateField(verbose_name='Fecha de apadrinamiento')
-    termination_date = models.DateField(verbose_name='Fecha de baja')
+    termination_date = models.DateField(null = True, blank = True, verbose_name='Fecha de baja')
     godfather = models.ManyToManyField(
         person_models.GodFather, verbose_name="Padrinos", blank=True)
     child = models.ForeignKey(
