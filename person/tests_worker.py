@@ -401,6 +401,7 @@ class UpdatePasswordTest(TestCase):
         response = self.client.get(reverse('update_password'))
         self.assertEqual(response.status_code, 200)
         
+        
         data = {
             'old_password': 'worker1password',
             'new_password1': 'new_password',
@@ -469,7 +470,7 @@ class UpdatePasswordTest(TestCase):
             'new_password1': 'worker1password',
             'new_password2': 'worker1password',
         }
-        response = self.client.post(reverse('update_password'), data)
+        self.client.post(reverse('update_password'), data, follow=True)
             
         # Comprueba si el usuario sigue autenticándose con la contraseña antigua
         self.assertTrue(self.worker1.check_password('worker1password'))
