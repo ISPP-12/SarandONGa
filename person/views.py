@@ -15,6 +15,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 
+
 class UpdatePasswordView(PasswordChangeView):
     form_class = PasswordChangeForm
     success_url = reverse_lazy('worker_list')

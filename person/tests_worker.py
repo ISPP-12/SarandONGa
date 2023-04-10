@@ -2,6 +2,8 @@ import datetime
 from django.test import TestCase
 from ong.models import Ong
 from person.models import Worker
+from django.urls import reverse
+from unittest.mock import patch
 
 
 class WorkerTestCase(TestCase):
@@ -381,3 +383,53 @@ class WorkerTestCase(TestCase):
         with self.assertRaises(Exception):
             worker.postal_code = "bad_postal_code"
             worker.full_clean()
+
+
+class UpdatePasswordTest(TestCase):
+
+    def setUp(self):
+        # Crea una ONG para los trabajadores
+        self.ong = Ong.objects.create(name="Test ONG")
+
+        # Utiliza 'unittest.mock.patch' para modificar la función 'input'
+        with patch('builtins.input', side_effect=[1, 1]):
+            # Crea dos trabajadores con privilegios de superusuario
+            self.worker1 = Worker.objects.create_superuser(email='worker1@example.com', password='worker1password')
+            self.worker2 = Worker.objects.create_superuser(email='worker2@example.com', password='worker2password')
+
+    def test_user_can_change_own_password(self):
+        self.client.login(username='worker1@example.com', password='worker1password')
+        response = self.client.get(reverse('update_password'))
+        self.assertEqual(response.status_code, 200)
+        
+        data = {
+            'old_password': 'worker1password',
+            'new_password1': 'new_password',
+            'new_password2': 'new_password',
+        }
+
+        # Agrega el argumento `follow=True`
+        response = self.client.post(reverse('update_password'), data, follow=True)
+
+        # Comprueba si la URL de la respuesta es la correcta
+        self.assertTrue(response.redirect_chain)
+        self.assertTrue(response.redirect_chain[0][0].endswith(reverse('worker_list')))  # URL correcta
+
+
+    def test_user_cannot_change_others_password(self):
+        self.client.login(username='worker1@example.com', password='worker1password')
+        response = self.client.get(reverse('update_password'))
+        self.assertEqual(response.status_code, 200)
+        
+        # Proporciona la contraseña incorrecta para el worker2
+        data = {
+            'old_password': 'incorrect_old_password',
+            'new_password1': 'new_password',
+            'new_password2': 'new_password',
+        }
+        response = self.client.post(reverse('update_password'), data)
+
+        # Comprueba si el formulario tiene errores
+        form = response.context['form']
+        self.assertTrue(form.errors)
+        self.assertIn('old_password', form.errors)
