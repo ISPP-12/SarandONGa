@@ -8,7 +8,7 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterChildForm
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterVolunteerForm
 from xml.dom import ValidationErr
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -476,15 +476,14 @@ def child_filter(queryset, form):
 def user_list(request):
     objects = ASEMUser.objects.filter(ong=request.user.ong).values()
 
+    form = FilterAsemUserForm(request.GET or None)  
+    objects = asemuser_filter(objects, form)
+
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
 
-    title = 'Gestión de Usuarios ASEM'
-    form = FilterAsemUserForm()
-    
-    if request.method == 'GET':
-        objects = asemuser_filter(objects, FilterAsemUserForm(request.GET))
+    title = "Gestión de Usuarios ASEM"
 
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
@@ -776,6 +775,9 @@ def child_delete(request, child_id):
 @login_required
 def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
+
+    form = FilterVolunteerForm(request.GET or None)  
+    objects = volunteer_filter(objects, form)
     
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -796,9 +798,99 @@ def volunteer_list(request):
         'title': title,
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',
+        'form' : form,
     }
 
     return render(request, 'users/list.html', context)
+
+def volunteer_filter(queryset, form):
+
+    q = form['qsearch'].value()
+    min_birth_date = form['min_birth_date'].value()
+    max_birth_date = form['max_birth_date'].value()
+    sex = form['sex'].value()
+    volunteer_type = form['volunteer_type'].value()
+    min_dedication_time = form['min_dedication_time'].value()
+    max_dedication_time = form['max_dedication_time'].value()
+    min_contract_start = form['min_contract_start'].value()
+    max_contract_start = form['max_contract_start'].value()
+    min_contract_end = form['min_contract_end'].value()
+    max_contract_end = form['max_contract_end'].value()
+    raffle = form['raffle'].value()
+    lottery = form['lottery'].value()
+    is_member = form['is_member'].value()
+    pres_table = form['pres_table'].value()
+    is_contributor = form['is_contributor'].value()
+    
+    if q is not None:
+            if q.strip() != "":
+                queryset = queryset.filter(
+                    Q(name__icontains=q) |
+                    Q(surname__icontains=q) |
+                    Q(address__icontains=q) |
+                    Q(city__icontains=q) |
+                    Q(postal_code__icontains=q) |
+                    Q(email__icontains=q) |
+                    Q(telephone__icontains=q) |
+                    Q(birth_date__icontains=q) |
+                    Q(sex__icontains=q) |
+                    Q(dni__icontains=q) |
+                    Q(job__icontains=q) |
+                    Q(dedication_time__icontains=q) |
+                    Q(contract_start_date__icontains=q) |
+                    Q(contract_end_date__icontains=q) |
+                    Q(notes__icontains=q) |
+                    Q(entity__icontains=q) |
+                    Q(table__icontains=q) |
+                    Q(volunteer_type__icontains=q)
+                )
+
+    if is_valid_queryparam(min_birth_date):
+        queryset = queryset.filter(birth_date__gte=min_birth_date)
+    
+    if is_valid_queryparam(max_birth_date):
+        queryset = queryset.filter(birth_date__lte=max_birth_date)
+    
+    if is_valid_queryparam(sex):
+        queryset = queryset.filter(sex=sex)
+       
+    if is_valid_queryparam(volunteer_type):
+        queryset = queryset.filter(volunteer_type=volunteer_type)
+    
+    if is_valid_queryparam(min_dedication_time):
+        queryset = queryset.filter(dedication_time__gte=min_dedication_time)
+    
+    if is_valid_queryparam(max_dedication_time):
+        queryset = queryset.filter(dedication_time__lte=max_dedication_time)
+    
+    if is_valid_queryparam(min_contract_start):
+        queryset = queryset.filter(contract_start_date__gte=min_contract_start)
+    
+    if is_valid_queryparam(max_contract_start):
+        queryset = queryset.filter(contract_start_date__lte=max_contract_start)
+    
+    if is_valid_queryparam(min_contract_end):
+        queryset = queryset.filter(contract_end_date__gte=min_contract_end)
+    
+    if is_valid_queryparam(max_contract_end):
+        queryset = queryset.filter(contract_end_date__lte=max_contract_end)
+    
+    if is_valid_queryparam(raffle):
+        queryset = queryset.filter(raffle=raffle)
+    
+    if is_valid_queryparam(lottery):
+        queryset = queryset.filter(lottery=lottery)
+    
+    if is_valid_queryparam(is_member):
+        queryset = queryset.filter(is_member=is_member)
+    
+    if is_valid_queryparam(pres_table):
+        queryset = queryset.filter(pres_table=pres_table)
+    
+    if is_valid_queryparam(is_contributor):
+        queryset = queryset.filter(is_contributor=is_contributor)
+
+    return queryset
 
 
 @login_required
