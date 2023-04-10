@@ -72,32 +72,6 @@
     </form>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const inputs = Array.from(
-            document.querySelectorAll('select[name=godfather], select[name=home]')
-        );
 
-        const selectListener = (e) => {
-            inputs
-            .filter((i) => i !== e.target)
-            .forEach((i) => {
-                i.required = !e.target.value;
-                i.disabled = e.target.value;
-            });
-        };
-
-        // Añadido: Verifica los valores iniciales al cargar la página
-        inputs.forEach((i) => {
-            if (i.value) {
-            selectListener({ target: i });
-            }
-        });
-
-        inputs.forEach((i) => i.addEventListener('input', selectListener));
-        });
-
-
-</script>
 
 {% endblock %}

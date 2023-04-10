@@ -1,14 +1,23 @@
+{% extends "layouts/master_sidebar.html" %}
+
 {% load static %}
 
 {% block content %}
 
 {% for o in context.objects %}
-    <p>{{o.slug}}</p>
-    <p>Casa: {{o.home.name}}</p>
+    <h1>Apadrinamiento {{ forloop.counter }}</h1>
+    <p>Niño Apadrinado: {{o.child.name}} {{o.child.surname}}</p>
+    <p>Casas apadrinadoras: </p>
+    {% if o.home.all %}
+        {% for h in o.home.all %}
+            <p> - {{h.name}}</p>
+        {% endfor %}
+    {% else %}
+        <p> - Ninguna</p>
+    {% endif %}
     <p>Padrinos:</p>
     {% for g in o.godfather.all %}
-        <p> - {{g.name}}</p>
+        <p> - {{g.name}} {{g.surname}}</p>
     {% endfor %}
-    <p>Niño: {{o.child.name}}</p>
 {% endfor %}
 {% endblock %}
