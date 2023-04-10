@@ -1,31 +1,42 @@
 {% load static %}
-<div class=" container-fluid us-cont card-list mw-100 px-2 card-list rounded py-1" id="volunteer-{{ object.id }}" tabindex="1">
+<div id="card-list-item-{{object.id}}" class="container-fluid card-list mw-100 px-2 card-list rounded py-1" tabindex="1">
   <span class="object-id  d-none">{{ object.id }}</span>
    
+
       
     <div class="row">
-      <div class="col-md-6 col-lg-4 col-sm-6 ">
-        <strong><h5>{{object.surname}}, {{object.name}}</h5></strong>
+      <div class="col-lg-4 col-6">
+        <strong><h5 title="{{object.surname}}, {{object.name}}">{{object.surname}}, {{object.name}}</h5></strong>
       
       </div>
       <div class="col-city col-md-2 col-lg-2 col-sm-2">
+
+        {% if object.city %}
         <span>{{object.city}}</span>
+        {% else %}
+        <span>No especificado</span>
+        {% endif %}
 
       </div>  
+
       <div class="col-telephone col-md-3 col-lg-2  col-sm-1">
+
+        {% if object.telephone %}
         <span>{{object.telephone}}</span>
+        {% else %}
+        <span>No especificado</span>
+        {% endif %}
 
       </div> 
-      <div class="col-email col-md-2 col-sm-1 col-lg-2 col-sm-1 ">
+
+      <div class="col-email col-md-2 col-sm-1 col-lg-2 col-sm-1 col-email ">
+
+        {% if object.email %}
         <span>{{object.email}}</span>
+        {% else %}
+        <span>No especificado</spa.n>
+        {% endif %}
       </div> 
-
-        
-        
-  
-    
-    
-
 
   </div>
 

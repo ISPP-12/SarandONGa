@@ -103,18 +103,17 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
     def test_access_volunteer_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/user/volunteer/list')
-        volunteer_div=self.driver.find_element(By.ID,f"volunteer-{self.test_volunteer_2.id}")
+        volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{self.test_volunteer_2.id}")
         
         self.assertTrue(volunteer_div)
 
         # Check the test item appears
         
-        test_volunteers_div=self.driver.find_element(By.CLASS_NAME,"us-cont")
-        test_volunteer_email = test_volunteers_div.find_element(By.CSS_SELECTOR,"div.col-email").text
+        test_volunteer_email = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-email").text
         self.assertTrue(test_volunteer_email == self.test_volunteer_2.email)
-        test_volunteer_phone = test_volunteers_div.find_element(By.CSS_SELECTOR,"div.col-telephone").text
+        test_volunteer_phone = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-telephone").text
         self.assertTrue(test_volunteer_phone == self.test_volunteer_2.telephone)
-        test_volunteer_city = test_volunteers_div.find_element(By.CSS_SELECTOR,"div.col-city").text
+        test_volunteer_city = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-city").text
         self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
 
 def test_delete_stock_view(self):
@@ -124,7 +123,7 @@ def test_delete_stock_view(self):
 
 
         # Check the test item appears
-        volunteer_div=self.driver.find_element(By.ID,f"volunteer-{self.test_volunteer_2.id}")
+        volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{{object.id}}-{self.test_volunteer_2.id}")
         self.assertTrue(volunteer_div)
         volunteer_div.click()
     
