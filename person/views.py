@@ -6,7 +6,7 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterGodfatherForm
 from xml.dom import ValidationErr
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -29,6 +29,10 @@ class CustomJSONEncoder(json.JSONEncoder):
 def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
     title = "Gestión de Padrinos"
+
+    form = FilterGodfatherForm(request.GET or None)
+    objects = godfather_filter(objects, form)
+
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -42,9 +46,89 @@ def godfather_list(request):
         'object_name_en': 'godfather',
         'title': title,
         'objects_json': persons_json,
+        'form' : form,
     }
 
     return render(request, 'users/list.html', context)
+
+def godfather_filter(queryset, form):
+
+    q = form['qsearch'].value()
+    min_birth_date = form['min_birth_date'].value()
+    max_birth_date = form['max_birth_date'].value()
+    sex = form['sex'].value()
+    payment_method = form['payment_method'].value()
+    frequency = form['frequency'].value()
+    min_amount = form['min_amount'].value()
+    max_amount = form['max_amount'].value()
+    min_start_date = form['min_start_date'].value()
+    max_start_date = form['max_start_date'].value()
+    min_end_date = form['min_end_date'].value()
+    max_end_date = form['max_end_date'].value()
+    status = form['status'].value()
+    
+    if q is not None:
+            if q.strip() != "":
+                queryset = queryset.filter(
+                    Q(name__icontains=q) |
+                    Q(surname__icontains=q) |
+                    Q(address__icontains=q) |
+                    Q(city__icontains=q) |
+                    Q(postal_code__icontains=q) |
+                    Q(email__icontains=q) |
+                    Q(telephone__icontains=q) |
+                    Q(birth_date__icontains=q) |
+                    Q(sex__icontains=q) |
+                    Q(dni__icontains=q) |
+                    Q(payment_method__icontains=q) |
+                    Q(frequency__icontains=q) |
+                    Q(amount__icontains=q) |
+                    Q(bank_account_number__icontains=q) |
+                    Q(bank_account_holder__icontains=q) |
+                    Q(bank_account_reference__icontains=q) |
+                    Q(start_date__icontains=q) |
+                    Q(termination_date__icontains=q) |
+                    Q(notes__icontains=q) |
+                    Q(status__icontains=q)
+                )
+
+    if is_valid_queryparam(min_birth_date):
+        queryset = queryset.filter(birth_date__gte=min_birth_date)
+    
+    if is_valid_queryparam(max_birth_date):
+        queryset = queryset.filter(birth_date__lte=max_birth_date)
+    
+    if is_valid_queryparam(sex):
+        queryset = queryset.filter(sex=sex)
+       
+    if is_valid_queryparam(payment_method):
+        queryset = queryset.filter(payment_method=payment_method)
+    
+    if is_valid_queryparam(min_amount):
+        queryset = queryset.filter(amount__gte=min_amount)
+    
+    if is_valid_queryparam(max_amount):
+        queryset = queryset.filter(amount__lte=max_amount)
+    
+    if is_valid_queryparam(min_start_date):
+        queryset = queryset.filter(start_date__gte=min_start_date)
+    
+    if is_valid_queryparam(max_start_date):
+        queryset = queryset.filter(start_date__lte=max_start_date)
+    
+    if is_valid_queryparam(min_end_date):
+        queryset = queryset.filter(termination_date__gte=min_end_date)
+    
+    if is_valid_queryparam(max_end_date):
+        queryset = queryset.filter(termination_date__lte=max_end_date)
+    
+    if is_valid_queryparam(status):
+        queryset = queryset.filter(status=status)
+    
+    if is_valid_queryparam(frequency):
+        queryset = queryset.filter(frequency=frequency)
+
+    return queryset
 
 
 @login_required
