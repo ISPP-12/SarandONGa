@@ -87,7 +87,7 @@ def donation_update(request, donation_id):
     return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
 
 
-@login_required()
+@login_required
 def donation_delete(request, donation_id):
     donation = get_object_or_404(Donation, id=donation_id)
     donation.delete()

@@ -25,3 +25,20 @@ class CreatePaymentForm(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
+
+
+class FilterPaymentForm(forms.Form):
+    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
+    min_payday_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Día de cobro después del")
+    max_payday_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Día de cobro antes del")
+    concept = forms.CharField(max_length=100, required=False , label="Concepto")
+    ong = forms.CharField(max_length=100, required=False , label="Ong")
+    paid = forms.ChoiceField(choices=[('', '--Seleccione--'), (True, 'Pagado'), (False, 'No pagado')], required=False, label="Pago")
+    godfather = forms.CharField(required=False , label="Padrino")
+    project = forms.CharField(required=False , label="Proyecto")
+    amount_min = forms.IntegerField(required=False, label="Importe mínimo de cantidad")
+    amount_max = forms.IntegerField(required=False, label="Importe máximo de cantidad")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.method = "get"
