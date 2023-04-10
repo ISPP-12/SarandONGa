@@ -14,6 +14,7 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 @login_required
+ 
 def stock_list(request):
 
     stock = Stock.objects.filter(ong=request.user.ong).values()
@@ -32,6 +33,7 @@ def stock_list(request):
     return render(request, 'stock/list.html', context)
 
 @login_required
+ 
 def stock_create(request):
     form = CreateNewStock(initial={'ong': request.user.ong})
     if request.method == "POST":
@@ -46,12 +48,14 @@ def stock_create(request):
     return render(request, 'stock/register.html', {'form': form, 'title': 'Registrar artículo'})
 
 @login_required
+ 
 def stock_delete(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
     stock.delete()
     return redirect('stock_list')
 
 @login_required
+ 
 def stock_update(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
     if stock.ong == request.user.ong:

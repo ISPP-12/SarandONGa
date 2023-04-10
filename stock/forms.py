@@ -8,7 +8,10 @@ class CreateNewStock(forms.ModelForm):
         exclude = ['id', 'ong']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Nombre del producto', 'maxlength': '200', 'required': 'true'}),
-            'quantity': forms.NumberInput(attrs={'placeholder': 'Cantidad', 'step': '1'}),
+            'model': forms.TextInput(attrs={'placeholder': 'Modelo del producto', 'maxlength': '200'}),
+            'quantity': forms.NumberInput(attrs={'placeholder': 'Cantidad', 'step': '1','required': 'true'}),
+            'amount': forms.NumberInput(attrs={'placeholder': 'Precio','step': "0.01"}),
+            'notes': forms.TextInput(attrs={'placeholder': 'Observaciones'})
             # 'file': forms.FileInput(attrs={'class': 'form-control-file'}),
 
         }

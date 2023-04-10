@@ -10,6 +10,7 @@ from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
 from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm
 from xml.dom import ValidationErr
+from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 import math
@@ -27,7 +28,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 
 @login_required
-@videssur_required
+@videssur_required 
 def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
     title = 'Gestión de Padrinos'
@@ -313,16 +314,20 @@ def worker_delete(request, worker_id):
 @videssur_required
 def child_list(request):
     objects = Child.objects.filter(ong=request.user.ong).values()
-    title = 'Gestión de Niños'
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    child_page = paginator.get_page(page_number)
+
+    title = "Gestión de Niños"
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [child for child in child_page]
     for d in persons_dict:
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': child_page,
         'object_name': 'niño',
         'object_name_en': 'child',
         'title': title,
@@ -747,3 +752,9 @@ def volunteer_update(request, volunteer_id):
     else:
         return custom_403(request)
     return render(request, 'volunteers/volunteers_form.html', {'form': form})
+
+
+def child_age(request):
+    ninos = Child.objects.values('name', 'birth_date')
+    return JsonResponse(list(ninos), safe=False)
+
