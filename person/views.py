@@ -650,7 +650,7 @@ def godfather_details(request, godfather_id):
 
     sponsorships = Sponsorship.objects.filter(godfather=godfather)
     if sponsorships:
-        children = [sponsorship.child for sponsorship in sponsorships if sponsorship.termination_date == None]
+        children = [sponsorship.child for sponsorship in sponsorships if sponsorship.termination_date == None or sponsorship.termination_date > datetime.date(datetime.now())]
         items.append(('Niños apadrinados', children))
 
 
@@ -742,7 +742,7 @@ def child_details(request, child_id):
 
     sponsorships = Sponsorship.objects.filter(child=child)
     if sponsorships:
-        godfathers = [sponsorship.godfather.all() for sponsorship in sponsorships if sponsorship.termination_date == None]
+        godfathers = [sponsorship.godfather.all() for sponsorship in sponsorships if sponsorship.termination_date == None or sponsorship.termination_date > datetime.date(datetime.now()) ]
         godfathers = [g for godfather in godfathers for g in godfather]
         items.append(('Padrinos', godfathers))
     

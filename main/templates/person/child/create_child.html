@@ -106,8 +106,9 @@
         } else {
             terminationDiv.innerHTML = ''
         }
+        const cond = (terminationDateValue ? terminationDateValue >= startDateValue : true)
         
-        if(birthDateValue < currentDate && startDateValue >= birthDateValue && terminationDateValue >= startDateValue) {
+        if(birthDateValue < currentDate && startDateValue >= birthDateValue && cond) {
             submitButton.disabled = false
         }
 
