@@ -23,6 +23,25 @@ class FilterAsemUserForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
+    
+class FilterGodfatherForm(forms.Form):
+    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
+    min_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
+    max_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
+    payment_method = forms.ChoiceField(choices=[('', '--Seleccione--'), ('T', 'Transferencia'), ('TB', 'Transferencia Bancaria'), ('E', 'Efectivo')], required=False, label="Método de pago")
+    frequency = forms.ChoiceField(choices=[('', '--Seleccione--'), ('A', 'Anual'), ('M', 'Mensual'), ('T', 'Trimestral'), ('S', 'Semestral')], required=False, label="Frecuencia de pago")
+    min_amount = forms.DecimalField(decimal_places=2, required=False, label="Cantidad superior a:")
+    max_amount = forms.DecimalField(decimal_places=2, required=False, label="Cantidad inferior a:")
+    min_start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Alta después del")
+    max_start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Alta antes del")
+    min_end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Baja después del")
+    max_end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Baja antes del")
+    status = forms.ChoiceField(choices=[('', '--Seleccione--'), ('C', 'Casado/a'), ('F', 'Fallecido/a'), ('V', 'Viudo/a'), ('S', 'Soltero/a'), ('D', 'Divorciado/a')], required=False, label="Estado civil")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.method = "get"
 
 class FilterVolunteerForm(forms.Form):
     qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
@@ -30,8 +49,8 @@ class FilterVolunteerForm(forms.Form):
     max_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
     volunteer_type = forms.ChoiceField(choices=[('', '--Seleccione--'), ('AP', 'Alumno en prácticas'), ('O', 'Otro')], required=False, label="Tipo de voluntario")
-    min_dedication_time = forms.FloatField(required=False, label="Tiempo de dedicación mínimo")
-    max_dedication_time = forms.FloatField(required=False, label="Tiempo de dedicación máximo")
+    min_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación mínimo")
+    max_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación máximo")
     min_contract_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Inicio de contrato después del")
     max_contract_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Inicio de contrato antes del")
     min_contract_end = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fin de contrato después del")
@@ -45,7 +64,6 @@ class FilterVolunteerForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
-
 
 class CreateNewGodFather(forms.ModelForm):
 
