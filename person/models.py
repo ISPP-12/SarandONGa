@@ -162,7 +162,7 @@ class Worker(AbstractBaseUser):
     email = models.EmailField(unique=True, verbose_name="E-Mail")
     name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
     surname = models.CharField(
-        max_length=50, blank=True, verbose_name="Apellido")
+        max_length=50, blank=True, verbose_name="Apellido/s")
     birth_date = models.DateField(
         verbose_name="Fecha de nacimiento", null=True, blank=True)
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
