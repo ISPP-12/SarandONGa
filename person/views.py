@@ -296,7 +296,7 @@ def user_list(request):
     objects = asemuser_filter(objects, FilterAsemUserForm(request.GET or None))
 
     if request.method == 'POST':
-        try:           
+        try:
             response=HttpResponse()
             response['Content-Disposition']= 'attachment; filename=asem_users.xlsx'
             writer=csv.writer(response)
@@ -307,7 +307,7 @@ def user_list(request):
             message = ("Exportado correctamente")
             messages.success(request, message)
             return response
-        except:
+        except ValidationErr:
             message = ("Error in exporting data. There are null data in rows")
             messages.error(request, message)
             return render(request, 'users/list.html')
