@@ -1,7 +1,6 @@
 {% extends "layouts/master_sidebar.html" %}
 {% load static %}
 
-{% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
 
 
 {% block botonPrimario %}
@@ -21,12 +20,13 @@
   {% include 'components/button.html' with href='/user/godfather/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
 
 {% endif %}
-
+{% endblock %}
 
 {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
+
 {%block filters%}
 {% if object_name_en == "worker" %}
-{% endblock %}
+
 
 
 
