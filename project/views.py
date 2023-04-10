@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import CreateNewProject
+from .forms import CreateNewProject, FilterProjectForm
 from django.contrib import messages
 from .models import Project
 from django.contrib.auth.decorators import login_required
-from main.views import videssur_required
+from main.views import  videssur_required
 import json
 from datetime import date
 from decimal import Decimal
+from django.db.models import Q
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -18,6 +19,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 @login_required
 @videssur_required
+ 
 def project_delete(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     project.delete()
@@ -25,6 +27,7 @@ def project_delete(request, project_id):
 
 @login_required
 @videssur_required
+ 
 def project_create(request):
     if request.user.is_anonymous:
         form = CreateNewProject()
@@ -46,6 +49,7 @@ def project_create(request):
 
 @login_required
 @videssur_required
+ 
 def project_update(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == "POST":
@@ -63,18 +67,87 @@ def project_update(request, project_id):
 
 @login_required
 @videssur_required
+ 
 def project_details(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     return render(request, 'project/project_details.html', {'project': project})
 
+
 @login_required
 @videssur_required
+ 
 def project_list(request):
+    objects = Project.objects.filter(ong=request.user.ong).values()
+    form = FilterProjectForm(request.GET or None)
+
+    if request.method == 'GET':
+        objects = project_filter(objects, form)
+
+
     context = {
-        'objects': Project.objects.filter(ong=request.user.ong).values(),
-        'objects_json' : json.dumps(list(Project.objects.filter(ong=request.user.ong).values()), cls=CustomJSONEncoder),
+        'objects': objects,
+        'objects_json' : json.dumps(list(objects), cls=CustomJSONEncoder),
         'object_name': 'proyecto',
         'object_name_en': 'project',
         'title': 'Gestión de Proyectos',
+        'form': form,
     }
     return render(request, 'project/list.html', context)
+
+def is_valid_queryparam(param):
+    return param != "" and param is not None
+
+def project_filter(queryset, form):
+
+    title = form['title'].value()
+    country = form['country'].value()
+    start_date_min = form['start_date_min'].value()
+    start_date_max = form['start_date_max'].value()
+    end_date_min = form['end_date_min'].value()
+    end_date_max = form['end_date_max'].value()
+    number_of_beneficiaries_min = form['number_of_beneficiaries_min'].value()
+    number_of_beneficiaries_max = form['number_of_beneficiaries_max'].value()
+    amount_min = form['amount_min'].value()
+    amount_max = form['amount_max'].value()
+    announcement_date_min = form['announcement_date_min'].value()
+    announcement_date_max = form['announcement_date_max'].value()
+
+    if title is not None:
+            if title.strip() != "":
+                queryset = queryset.filter(Q(title__icontains=title))
+
+    if country is not None:
+            if country.strip() != "":
+                queryset = queryset.filter(Q(country__icontains=country))
+
+    if is_valid_queryparam(start_date_min):
+        queryset = queryset.filter(start_date__gte=start_date_min)
+    
+    if is_valid_queryparam(start_date_max):
+        queryset = queryset.filter(start_date__lte=start_date_max)
+
+    if is_valid_queryparam(end_date_min):
+        queryset = queryset.filter(end_date__gte=end_date_min)
+    
+    if is_valid_queryparam(end_date_max):
+        queryset = queryset.filter(end_date__lte=end_date_max)
+
+    if is_valid_queryparam(number_of_beneficiaries_min):
+        queryset = queryset.filter(number_of_beneficiaries__gte=number_of_beneficiaries_min)
+
+    if is_valid_queryparam(number_of_beneficiaries_max):
+        queryset = queryset.filter(number_of_beneficiaries__lte=number_of_beneficiaries_max)
+
+    if is_valid_queryparam(amount_min):
+        queryset = queryset.filter(amount__gte=amount_min)
+
+    if is_valid_queryparam(amount_max):
+        queryset = queryset.filter(amount__lte=amount_max)
+
+    if is_valid_queryparam(announcement_date_min):
+        queryset = queryset.filter(announcement_date__gte=announcement_date_min)
+
+    if is_valid_queryparam(announcement_date_max):
+        queryset = queryset.filter(announcement_date__lte=announcement_date_max)
+
+    return queryset
