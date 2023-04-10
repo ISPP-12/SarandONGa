@@ -3,6 +3,7 @@ from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENC
 from localflavor.es.forms import ESIdentityCardNumberField
 from localflavor.generic.forms import IBANFormField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
+import re
 
 class FilterAsemUserForm(forms.Form):
     qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
@@ -108,13 +109,18 @@ class CreateNewWorker(forms.ModelForm):
                     {'class': 'form-control mb-3'})
 
     def clean_password2(self):
-        # Check that the two password entries match
+        # Check that the two password entries match and meet the validation requirements
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
+        regex = r"^(?=.*[A-Za-z]).{8,}$"
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Las contraseñas no coinciden")
-        return password2
-
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        
+        if re.match(regex, password2):
+            return password2
+        else:
+            raise forms.ValidationError("La contraseña debe tener 8 caracteres o más, y no debe ser exclusivamente numérica.")
+        
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(CreateNewWorker, self).save(commit=False)
