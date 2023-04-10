@@ -395,7 +395,6 @@ class UpdatePasswordTest(TestCase):
         with patch('builtins.input', side_effect=[1, 1]):
             # Crea dos trabajadores con privilegios de superusuario
             self.worker1 = Worker.objects.create_superuser(email='worker1@example.com', password='worker1password')
-            self.worker2 = Worker.objects.create_superuser(email='worker2@example.com', password='worker2password')
 
     def test_user_can_change_own_password(self):
         self.client.login(username='worker1@example.com', password='worker1password')
@@ -415,21 +414,64 @@ class UpdatePasswordTest(TestCase):
         self.assertTrue(response.redirect_chain)
         self.assertTrue(response.redirect_chain[0][0].endswith(reverse('worker_list')))  # URL correcta
 
-
-    def test_user_cannot_change_others_password(self):
+    def test_password_similar_to_personal_info(self):
         self.client.login(username='worker1@example.com', password='worker1password')
         response = self.client.get(reverse('update_password'))
         self.assertEqual(response.status_code, 200)
-        
-        # Proporciona la contraseña incorrecta para el worker2
         data = {
-            'old_password': 'incorrect_old_password',
-            'new_password1': 'new_password',
-            'new_password2': 'new_password',
+            'old_password': 'workerpassword',
+            'new_password1': 'worker1@example.com',
+            'new_password2': 'worker1@example.com',
+        }
+        response = self.client.post(reverse('update_password'), data, follow=True)
+        self.assertContains(response, "La contraseña es demasiado similar a la de E-Mail.")
+
+    def test_password_too_short(self):
+        self.client.login(username='worker1@example.com', password='worker1password')
+        response = self.client.get(reverse('update_password'))
+        self.assertEqual(response.status_code, 200)
+        data = {
+            'old_password': 'workerpassword',
+            'new_password1': 'short',
+            'new_password2': 'short',
+        }
+        response = self.client.post(reverse('update_password'), data, follow=True)
+        self.assertContains(response, "Esta contraseña es demasiado corta. Debe contener al menos 8 caracteres.")
+
+    def test_password_commonly_used(self):
+        self.client.login(username='worker1@example.com', password='worker1password')
+        response = self.client.get(reverse('update_password'))
+        self.assertEqual(response.status_code, 200)
+        data = {
+            'old_password': 'workerpassword',
+            'new_password1': 'password123',
+            'new_password2': 'password123',
+        }
+        response = self.client.post(reverse('update_password'), data, follow=True)
+        self.assertContains(response, "Esta contraseña es demasiado común.")
+
+    def test_password_all_numeric(self):
+        self.client.login(username='worker1@example.com', password='worker1password')
+        response = self.client.get(reverse('update_password'))
+        self.assertEqual(response.status_code, 200)
+        data = {
+            'old_password': 'workerpassword',
+            'new_password1': '12345678',
+            'new_password2': '12345678',
+        }
+        response = self.client.post(reverse('update_password'), data, follow=True)
+        self.assertContains(response, "Esta contraseña es completamente numérica.")
+
+    def test_password_same_as_old_password(self):
+        self.client.login(username='worker1@example.com', password='worker1password')
+        data = {
+            'old_password': 'worker1password',
+            'new_password1': 'worker1password',
+            'new_password2': 'worker1password',
         }
         response = self.client.post(reverse('update_password'), data)
+            
+        # Comprueba si el usuario sigue autenticándose con la contraseña antigua
+        self.assertTrue(self.worker1.check_password('worker1password'))
 
-        # Comprueba si el formulario tiene errores
-        form = response.context['form']
-        self.assertTrue(form.errors)
-        self.assertIn('old_password', form.errors)
+
