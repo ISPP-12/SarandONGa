@@ -26,8 +26,8 @@ from home import urls as home_urls
 from sponsorship import urls as sponsorship_urls
 from project import urls as project_urls
 from django.conf import settings
-from django.conf.urls.static import static
 from django.views.static import serve
+import os
 
 
 urlpatterns = [
@@ -49,9 +49,9 @@ urlpatterns = [
     path("", include("django.contrib.auth.urls")),
 ]
 
-
 if settings.DEBUG:     
     urlpatterns += [
-        re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT,}),
+        re_path(r'^media/(?P<path>.*)$', serve,
+                {'document_root': os.path.join(settings.BASE_DIR, 'media')}),
     ]
 
