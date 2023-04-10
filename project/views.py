@@ -85,9 +85,16 @@ def project_list(request):
     page_number = request.GET.get('page')
     project_page = paginator.get_page(page_number)
 
+    projects_dict = [project for project in project_page]
+    for p in projects_dict:
+        p.pop('_state', None)
+
+    project_json = json.dumps(projects_dict, cls=CustomJSONEncoder)
+
+
     context = {
         'objects': project_page,
-        'objects_json' : json.dumps(list(objects), cls=CustomJSONEncoder),
+        'objects_json' : project_json,
         'object_name': 'proyecto',
         'object_name_en': 'project',
         'title': 'Gestión de Proyectos',
