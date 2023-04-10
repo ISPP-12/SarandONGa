@@ -10,7 +10,7 @@ class FilterProjectForm(forms.Form):
     end_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de fin mínima")
     end_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de fin máxima")
     number_of_beneficiaries_min = forms.IntegerField(required=False, label="Tamaño mínimo de beneficiarios familiar")
-    number_of_beneficiaries_max = forms.IntegerField(required=False, label="Tamaño mínimo de beneficiarios familiar")
+    number_of_beneficiaries_max = forms.IntegerField(required=False, label="Tamaño máximo de beneficiarios familiar")
     amount_min = forms.FloatField(required=False, label="Cantidad mínima")
     amount_max = forms.FloatField(required=False, label="Cantidad máxima")
     announcement_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de anuncio mínima")
