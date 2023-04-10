@@ -21,15 +21,84 @@
 {% endblock %}
 
 {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
+{%block filters%}
+{% if object_name_en == "worker" %}
 
 
-{% block objectFor %}
 <form method="GET" class="my-3">
   {% csrf_token %}
-  {{form}}
-  <input type="submit" value="Filtrar">
-  <button type="reset" class="btn btn-secondary">Borrar filtros</button>
+
+  <div id="team">
+
+      
+    </div>
+  
+  <div id="team">
+    <div class="row">
+      
+      {% include "components/inputs.html" with id=form.name.id_for_label label_text="Búsqueda por nombre" input=form.name %} 
+      {% include "components/inputs.html" with id=form.surname.id_for_label label_text="Búsqueda por apellido" input=form.surname %} 
+      {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Búsqueda por Género" input=form.sex %} 
+
+
+
+
+
+    </div>
+   
+  </div>
+  <div id="hide" style="display:none">
+    <div class="row">
+      {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacido/a después del:" input=form.birth_date_min %} 
+      {% include "components/inputs.html" with id=form.birth_date_max.id_for_label label_text="Nacido/a antes del:" input=form.birth_date_max %} 
+      {% include "components/inputs.html" with id=form.telephone.id_for_label label_text="Busqueda por teléfono:" input=form.telephone %} 
+
+
+
+
+
+
+    </div>
+    <div class="row">
+        {% include "components/inputs.html" with id=form.city.id_for_label label_text="Búsqueda por ciudad" input=form.city %} 
+
+        {% include "components/inputs.html" with id=form.address.id_for_label label_text="Búsqueda por dirección:" input=form.address %} 
+
+    </div>
+    <div class="row">
+      <div class="col-4">
+        {% include "components/inputs.html" with id=form.postal_code.id_for_label label_text="Búsqueda por código postal:" input=form.postal_code %} 
+
+      </div>
+
+
+  </div>
+  </div>
+
+  <div class="col pt-2">
+    
+    <a class="px-3" id="team_show-more">Más filtros</a>
+
+  
+    {% include 'components/button.html' with text="Filtrar" id="id-filter" variation="SUBMIT" %}
+
+    {% include 'components/button.html' with text="Borrar" id="reset" type="reset" variation="RESET" %}
+
+
+  
+
+
+  
+  </div>
+
+
 </form>
+{% endif %}
+
+{% endblock %}
+
+{% block objectFor %}
+
 
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
@@ -68,7 +137,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script id="object-data">
+<script id="object-data" >
   const objectList = document.querySelectorAll('.card-list')
   const objetos = JSON.parse('{{ objects_json|escapejs }}')
   const preview = document.querySelector('#preview')
@@ -185,6 +254,33 @@
     e.preventDefault();
     window.location.href = window.location.pathname;
   });
+
+
+  var content = document.getElementById("team");
+  var button = document.getElementById("team_show-more");
+  var hide = document.getElementById("hide");
+
+
+  button.onclick = function () {
+    console.log("hola")
+
+    if(content.className == "open"){
+      //shrink the box
+      content.className = "";
+      hide.style.display="none"
+      
+      button.text = "Más filtros";
+    } else {
+      //expand the box
+      content.className = "open";
+      button.text = "Menos filtros";
+      hide.style.display="inline"
+
+    }
+
+};
+
+
 
 </script>
 {% endblock %}

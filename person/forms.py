@@ -166,9 +166,19 @@ class FilterWorkerForm(forms.Form):
     telephone = forms.IntegerField(required=False, label="Búsqueda por teléfono", widget=forms.NumberInput(attrs={'min': 0}))
     postal_code = forms.IntegerField(required=False, label="Búsqueda por código postal", widget=forms.NumberInput(attrs={'min': 0}))
 
+   
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+            else:
+                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+
 
         # Asignamos los valores de los filtros como valores iniciales
 
