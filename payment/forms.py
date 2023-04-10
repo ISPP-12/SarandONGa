@@ -33,7 +33,7 @@ class FilterPaymentForm(forms.Form):
     max_payday_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Día de cobro antes del")
     concept = forms.CharField(max_length=100, required=False , label="Concepto")
     ong = forms.CharField(max_length=100, required=False , label="Ong")
-    paid = forms.BooleanField(required=False , label="Pagado")
+    paid = forms.ChoiceField(choices=[('', '--Seleccione--'), (True, 'Pagado'), (False, 'No pagado')], required=False, label="Pago")
     godfather = forms.CharField(required=False , label="Padrino")
     project = forms.CharField(required=False , label="Proyecto")
     amount_min = forms.IntegerField(required=False, label="Importe mínimo de cantidad")
