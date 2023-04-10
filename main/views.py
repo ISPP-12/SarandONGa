@@ -6,7 +6,7 @@ from django.contrib import messages
 
 def index(request):
 
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'page_title': 'SarandONGa 💃 - Inicio'})
 
 
 def components(request):

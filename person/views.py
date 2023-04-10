@@ -28,6 +28,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 @videssur_required 
 def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
+    page_title = 'SarandONGa 💃 - Gestión de Padrinos'
     title = "Gestión de Padrinos"
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
@@ -40,6 +41,7 @@ def godfather_list(request):
         'objects': objects,
         'object_name': 'padrino',
         'object_name_en': 'godfather',
+        'page_title': page_title,
         'title': title,
         'objects_json': persons_json,
     }
@@ -62,7 +64,7 @@ def user_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
+    return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM", 'page_title': 'SarandONGa 💃 - Añadir Usuario ASEM'})
 
 
 @login_required
@@ -75,7 +77,7 @@ def asem_user_delete(request, asem_user_id):
 
 @login_required
 @asem_required
-def user_update(request, asem_user_id):
+def user_update(request, asem_user_id): 
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
     if request.method == "POST":
         form = CreateNewASEMUser(
@@ -87,7 +89,7 @@ def user_update(request, asem_user_id):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewASEMUser(instance=asem_user)
-    return render(request, 'asem_user/asem_user_form.html', {"form": form})
+    return render(request, 'asem_user/asem_user_form.html', {"form": form, 'page_title': 'SarandONGa 💃 - Editar Usuario ASEM', 'title': 'Editar Usuario ASEM'})
 
 
 def choices_dicts():
@@ -108,7 +110,7 @@ def choices_dicts():
 
 @login_required
 @asem_required
-def asem_user_details(request, asem_user_id):
+def asem_user_details(request, asem_user_id): #TODO
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
 
     choices_dict = choices_dicts()
@@ -119,7 +121,7 @@ def asem_user_details(request, asem_user_id):
     asem_user.status = choices_dict['status'][asem_user.status]
     asem_user.own_home = choices_dict['housing_type'][asem_user.own_home]
 
-    return render(request, 'asem_user/asem_user_details.html', {'asem_user': asem_user})
+    return render(request, 'asem_user/asem_user_details.html', {'asem_user': asem_user })
 
 
 @login_required
@@ -138,11 +140,11 @@ def worker_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador"})
+    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador", 'page_title': 'SarandONGa 💃 - Añadir Trabajador'})
 
 
 @login_required
-def worker_update(request, worker_id):
+def worker_update(request, worker_id): 
     worker = get_object_or_404(Worker, id=worker_id)
     if request.user.ong == worker.ong:
         if request.method == "POST":
@@ -154,7 +156,7 @@ def worker_update(request, worker_id):
                 messages.error(request, 'Formulario con errores')
 
         form = UpdateWorker(instance=worker)
-        context = {"form": form, "title": "Actualizar Trabajador"}
+        context = {"form": form, "title": "Actualizar Trabajador", 'page_title': 'SarandONGa 💃 - Actualizar Trabajador'}
     else:
         return custom_403(request)
     return render(request, 'workers/register.html', context)
@@ -180,6 +182,7 @@ def worker_list(request):
         'objects': objects,
         'object_name': 'trabajador',
         'object_name_en': 'worker',
+        'page_title': 'SarandONGa 💃 - Gestión de Trabajadores',
         'title': title,
         'objects_json': persons_json,
         'form': form
@@ -238,7 +241,7 @@ def worker_filter(queryset, form):
     return queryset
 
 @login_required
-def worker_details(request, worker_id):
+def worker_details(request, worker_id): #TODO
     worker = get_object_or_404(Worker, id=worker_id)
     if worker.ong == request.user.ong:
         return render(request, 'workers/details.html', {'worker': worker})
@@ -277,6 +280,7 @@ def child_list(request):
         'object_name': 'niño',
         'object_name_en': 'child',
         'title': title,
+        'page_title': 'SarandONGa 💃 - Gestión de Niños',
         'objects_json': persons_json,
     }
 
@@ -310,6 +314,7 @@ def user_list(request):
         'object_name': 'usuario',
         'object_name_en': 'user',
         'title': title,
+        'page_title': 'SarandONGa 💃 - Gestión de Usuarios ASEM',
         'objects_json': persons_json,
         'form' : form,
     }
@@ -406,7 +411,7 @@ def godfather_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'person/godfather/form.html', {"form": form, "title": "Añadir Padrino"})
+    return render(request, 'person/godfather/form.html', {"form": form, "title": "Añadir Padrino", 'page_title': 'SarandONGa 💃 - Añadir Padrino'})
 
 
 @login_required
@@ -428,12 +433,12 @@ def godfather_update(request, godfather_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'person/godfather/form.html', {"form": form})
+    return render(request, 'person/godfather/form.html', {"form": form, "title": "Editar Padrino", 'page_title': 'SarandONGa 💃 - Editar Padrino'})
 
 
 @login_required
 @videssur_required
-def godfather_details(request, godfather_id):
+def godfather_details(request, godfather_id):   #TODO
     godfather = get_object_or_404(GodFather, id=godfather_id)
     return render(request, 'prueba_padrino_detalles.html', {'godfather': godfather})
 
@@ -460,7 +465,7 @@ def child_create(request):
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
+    return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño", 'page_title': 'SarandONGa 💃 - Añadir Niño'})
 
 
 @login_required
@@ -483,12 +488,12 @@ def child_update(request, child_id):
     else:
         return custom_403(request)
 
-    return render(request, 'person/child/create_child.html', {"form": form})
+    return render(request, 'person/child/create_child.html', {"form": form, "title": "Editar Niño", 'page_title': 'SarandONGa 💃 - Editar Niño'})
 
 
 @login_required
 @videssur_required
-def child_details(request, child_id):
+def child_details(request, child_id):   #TODO:
     child = get_object_or_404(Child, id=child_id)
     return render(request, 'child_details.html', {'child': child})
 
@@ -509,7 +514,8 @@ def volunteer_list(request):
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
 
-    title = "Gestión de Voluntarios"
+    page_title = "SarandONGa 💃 - Gestión de Voluntarios"
+    
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
     for d in persons_dict:
@@ -521,7 +527,8 @@ def volunteer_list(request):
         'objects': user_page,
         'object_name': 'voluntario',
         'object_name_en': 'volunteer',
-        'title': title,
+        'page_title': page_title,
+        'title': 'Gestión de Voluntarios',
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',
     }
@@ -530,7 +537,7 @@ def volunteer_list(request):
 
 
 @login_required
-def volunteer_details(request, volunteer_id):
+def volunteer_details(request, volunteer_id): #TODO:
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if volunteer.ong == request.user.ong:
         return render(request, 'volunteer_details.html', {'volunteer': volunteer})
@@ -552,7 +559,7 @@ def volunteer_create(request):
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
+    return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario", 'page_title': 'SarandONGa 💃 - Añadir Voluntario'})
 
 
 @login_required
@@ -581,7 +588,7 @@ def volunteer_update(request, volunteer_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'volunteers/volunteers_form.html', {"form": form})
+    return render(request, 'volunteers/volunteers_form.html', {"form": form, 'title': 'Editar Voluntario', 'page_title': 'SarandONGa 💃 - Editar Voluntario'})
 
 
 def child_age(request):

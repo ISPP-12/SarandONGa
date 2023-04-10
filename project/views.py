@@ -45,7 +45,7 @@ def project_create(request):
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
 
-    return render(request, 'project/register.html', {"form": form, "title": "Crear Proyecto"})
+    return render(request, 'project/register.html', {"form": form, "title": "Crear Proyecto", 'page_title': 'SarandONGa 💃 - Crear Proyecto'})
 
 @login_required
 @videssur_required
@@ -63,12 +63,12 @@ def project_update(request, project_id):
                     messages.error(request, f"{field}: {error}")
 
     form = CreateNewProject(instance=project)
-    return render(request, 'project/register.html', {'form': form, 'title': 'Actualizar proyecto'})
+    return render(request, 'project/register.html', {'form': form, 'title': 'Actualizar proyecto', 'page_title': 'SarandONGa 💃 - Actualizar Proyecto'})
 
 @login_required
 @videssur_required
  
-def project_details(request, project_id):
+def project_details(request, project_id):   #TODO
     project = get_object_or_404(Project, id=project_id)
     return render(request, 'project/project_details.html', {'project': project})
 
@@ -90,6 +90,7 @@ def project_list(request):
         'object_name': 'proyecto',
         'object_name_en': 'project',
         'title': 'Gestión de Proyectos',
+        'page_title': 'SarandONGa 💃 - Gestión de Proyectos',
         'form': form,
     }
     return render(request, 'project/list.html', context)
