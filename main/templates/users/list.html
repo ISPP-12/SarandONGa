@@ -33,6 +33,10 @@
   <button type="reset" class="btn btn-secondary">Borrar filtros</button>
 </form>
 
+<form method="POST" class="my-3">
+  {% csrf_token %}
+  <input type="submit" value="DESCARGAR">
+</form>
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
   <div class="row">
