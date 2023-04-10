@@ -30,7 +30,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 @videssur_required
 def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
-    title = "Gestión de Padrinos"
+    title = 'Gestión de Padrinos'
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -53,7 +53,7 @@ def godfather_list(request):
 @asem_required
 def user_create(request):
     form = CreateNewASEMUser(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewASEMUser(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong  # basically, it is ASEM
@@ -64,7 +64,7 @@ def user_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM"})
+    return render(request, 'asem_user/asem_user_form.html', {'form': form, 'title': 'Añadir Usuario ASEM'})
 
 
 @login_required
@@ -79,7 +79,7 @@ def asem_user_delete(request, asem_user_id):
 @asem_required
 def user_update(request, asem_user_id):
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewASEMUser(
             request.POST, request.FILES, instance=asem_user)
         if form.is_valid():
@@ -89,7 +89,7 @@ def user_update(request, asem_user_id):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewASEMUser(instance=asem_user)
-    return render(request, 'asem_user/asem_user_form.html', {"form": form})
+    return render(request, 'asem_user/asem_user_form.html', {'form': form})
 
 
 def choices_dicts():
@@ -121,24 +121,25 @@ def asem_user_details(request, asem_user_id):
     asem_user.status = choices_dict['status'][asem_user.status]
     asem_user.own_home = choices_dict['housing_type'][asem_user.own_home]
 
-    fields = [f for f in ASEMUser._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "service", "ong", "person_ptr"]]
+    fields = [f for f in ASEMUser._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
     info = [getattr(asem_user, f.name) for f in fields]
 
     fields_info = dict(zip([f.verbose_name for f in fields], info))
     
     items = list(fields_info.items())
+    print(items)
 
     for item in items:
-        if(item[1] == True):
-            items[items.index(item)] = (item[0], "Sí")
-        elif(item[1] == False):
-            items[items.index(item)] = (item[0], "No")
-        elif(item[0] == "Género" and item[1] != None):
-            choices = Volunteer._meta.get_field('sex').choices
+        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            items[items.index(item)] = (item[0], 'Sí')
+        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            items[items.index(item)] = (item[0], 'No')
+        elif(item[0] == 'Género' and item[1] != None):
+            choices = ASEMUser._meta.get_field('sex').choices
             value = [choice[1] for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == "Tiempo de dedicación"):
-            items[items.index(item)] = (item[0], str(item[1]) + " horas")
+        elif(item[0] == 'Tiempo de dedicación'):
+            items[items.index(item)] = (item[0], str(item[1]) + ' horas')
 
     items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
 
@@ -152,7 +153,7 @@ def asem_user_details(request, asem_user_id):
 @login_required
 def worker_create(request):
     form = CreateNewWorker(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewWorker(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong
@@ -165,14 +166,14 @@ def worker_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador"})
+    return render(request, 'workers/register.html', {'form': form, 'title': 'Añadir trabajador'})
 
 
 @login_required
 def worker_update(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if request.user.ong == worker.ong:
-        if request.method == "POST":
+        if request.method == 'POST':
             form = UpdateWorker(request.POST, request.FILES, instance=worker)
             if form.is_valid():
                 form.save()
@@ -181,7 +182,7 @@ def worker_update(request, worker_id):
                 messages.error(request, 'Formulario con errores')
 
         form = UpdateWorker(instance=worker)
-        context = {"form": form, "title": "Actualizar Trabajador"}
+        context = {'form': form, 'title': 'Actualizar Trabajador'}
     else:
         return custom_403(request)
     return render(request, 'workers/register.html', context)
@@ -190,10 +191,10 @@ def worker_update(request, worker_id):
 @login_required
 def worker_list(request):
     objects = Worker.objects.filter(ong=request.user.ong).values()
-    title = "Gestión de Trabajadores"
+    title = 'Gestión de Trabajadores'
     form = FilterWorkerForm(request.GET or None)
 
-    if request.method == "GET":
+    if request.method == 'GET':
         objects = worker_filter(objects, form)
 
     # depending of the user type write one title or another
@@ -268,7 +269,7 @@ def worker_filter(queryset, form):
 def worker_details(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if worker.ong == request.user.ong:
-        fields = [f for f in Worker._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "service", "ong", "person_ptr", "logentry", "last_login", "is_active", "is_admin"]]
+        fields = [f for f in Worker._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'logentry', 'last_login', 'is_active', 'is_admin']]
         
         info = [getattr(worker, f.name) for f in fields]
 
@@ -277,12 +278,12 @@ def worker_details(request, worker_id):
         items = list(fields_info.items())
 
         for item in items:
-            if(item[1] == True):
-                items[items.index(item)] = (item[0], "Sí")
-            elif(item[1] == False):
-                items[items.index(item)] = (item[0], "No")
-            elif(item[0] == "Género" and item[1] != None):
-                choices = Volunteer._meta.get_field('sex').choices
+            if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+                items[items.index(item)] = (item[0], 'Sí')
+            elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+                items[items.index(item)] = (item[0], 'No')
+            elif(item[0] == 'Género' and item[1] != None):
+                choices = Worker._meta.get_field('sex').choices
                 value = [choice[1] for choice in choices if choice[0] == item[1]][0]
                 items[items.index(item)] = (item[0], value)
 
@@ -312,7 +313,7 @@ def worker_delete(request, worker_id):
 @videssur_required
 def child_list(request):
     objects = Child.objects.filter(ong=request.user.ong).values()
-    title = "Gestión de Niños"
+    title = 'Gestión de Niños'
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -340,7 +341,7 @@ def user_list(request):
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
 
-    title = "Gestión de Usuarios ASEM"
+    title = 'Gestión de Usuarios ASEM'
     form = FilterAsemUserForm()
     
     if request.method == 'GET':
@@ -366,7 +367,7 @@ def user_list(request):
 
 
 def is_valid_queryparam(param):
-    return param != "" and param is not None
+    return param != '' and param is not None
 
 def asemuser_filter(queryset, form):
 
@@ -385,7 +386,7 @@ def asemuser_filter(queryset, form):
     own_vehicle = form['own_vehicle'].value()
     
     if q is not None:
-            if q.strip() != "":
+            if q.strip() != '':
                 queryset = queryset.filter(
                     Q(name__icontains=q) |
                     Q(surname__icontains=q) |
@@ -440,7 +441,7 @@ def asemuser_filter(queryset, form):
 @videssur_required
 def godfather_create(request):
     form = CreateNewGodFather(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewGodFather(request.POST, request.FILES)
         if form.is_valid():
             try:
@@ -454,7 +455,7 @@ def godfather_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'person/godfather/form.html', {"form": form, "title": "Añadir Padrino"})
+    return render(request, 'person/godfather/form.html', {'form': form, 'title': 'Añadir Padrino'})
 
 
 @login_required
@@ -463,20 +464,20 @@ def godfather_update(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
     form = CreateNewGodFather(instance=godfather)
     if request.user.ong == godfather.ong:
-        if request.method == "POST":
+        if request.method == 'POST':
             form = CreateNewGodFather(
                 request.POST or None, request.FILES or None, instance=godfather)
             if form.is_valid():
                 try:
                     form.save()
-                    return redirect("godfather_list")
+                    return redirect('godfather_list')
                 except ValidationErr as v:
                     messages.error(request, str(v.args[0]))
             else:
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'person/godfather/form.html', {"form": form})
+    return render(request, 'person/godfather/form.html', {'form': form})
 
 
 @login_required
@@ -484,7 +485,7 @@ def godfather_update(request, godfather_id):
 def godfather_details(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
 
-    fields = [f for f in GodFather._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "payment", "sponsorship", "person_ptr", "ong" ]]
+    fields = [f for f in GodFather._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'payment', 'sponsorship', 'person_ptr', 'ong' ]]
     
     info = [getattr(godfather, f.name) for f in fields]
 
@@ -493,25 +494,25 @@ def godfather_details(request, godfather_id):
     items = list(fields_info.items())
 
     for item in items:
-        if(item[1] == True):
-            items[items.index(item)] = (item[0], "Sí")
-        elif(item[1] == False):
-            items[items.index(item)] = (item[0], "No")
-        elif(item[0] == "Género" and item[1] != None):
+        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            items[items.index(item)] = (item[0], 'Sí')
+        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            items[items.index(item)] = (item[0], 'No')
+        elif(item[0] == 'Género' and item[1] != None):
             choices = GodFather._meta.get_field('sex').choices
             value = [choice[1] for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == "Método de pago"):
+        elif(item[0] == 'Método de pago'):
             choices = GodFather._meta.get_field('payment_method').choices
             value = [choice[1] for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == "Cantidad"):
-            items[items.index(item)] = (item[0], str(item[1]) + "€")
-        elif(item[0] == "Frecuencia de pago"):
+        elif(item[0] == 'Cantidad'):
+            items[items.index(item)] = (item[0], str(item[1]) + '€')
+        elif(item[0] == 'Frecuencia de pago'):
             choices = GodFather._meta.get_field('frequency').choices
             value = [choice[1] for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == "Estado"):
+        elif(item[0] == 'Estado'):
             choices = GodFather._meta.get_field('status').choices
             value = [choice[1] for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
@@ -519,7 +520,7 @@ def godfather_details(request, godfather_id):
     sponsorships = Sponsorship.objects.filter(godfather=godfather)
     if sponsorships:
         children = [sponsorship.child for sponsorship in sponsorships]
-        items.append(("Niños apadrinados", children))
+        items.append(('Niños apadrinados', children))
 
 
 
@@ -546,7 +547,7 @@ def godfather_delete(request, godfather_id):
 @videssur_required
 def child_create(request):
     form = CreateNewChild(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewChild(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong  # it is videssur basically
@@ -556,7 +557,7 @@ def child_create(request):
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño"})
+    return render(request, 'person/child/create_child.html', {'form': form, 'title': 'Añadir Niño'})
 
 
 @login_required
@@ -565,13 +566,13 @@ def child_update(request, child_id):
     child = get_object_or_404(Child, id=child_id)
     if request.user.ong == child.ong:
         form = CreateNewChild(instance=child)
-        if request.method == "POST":
+        if request.method == 'POST':
             form = CreateNewChild(request.POST or None,
                                   request.FILES or None, instance=child)
             if form.is_valid():
                 try:
                     form.save()
-                    return redirect("child_list")
+                    return redirect('child_list')
                 except ValidationErr as v:
                     messages.error(request, str(v.args[0]))
             else:
@@ -579,14 +580,14 @@ def child_update(request, child_id):
     else:
         return custom_403(request)
 
-    return render(request, 'person/child/create_child.html', {"form": form})
+    return render(request, 'person/child/create_child.html', {'form': form})
 
 
 @login_required
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
-    fields = [f for f in Child._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "service", "ong", "person_ptr", "sponsorship"]]
+    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
         
     info = [getattr(child, f.name) for f in fields]
 
@@ -595,18 +596,24 @@ def child_details(request, child_id):
     items = list(fields_info.items())
 
     for item in items:
-        if(item[1] == True):
-            items[items.index(item)] = (item[0], "Sí")
-        elif(item[1] == False):
-            items[items.index(item)] = (item[0], "No")
-        elif(item[0] == "Género" and item[1] != None):
+        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            items[items.index(item)] = (item[0], 'Sí')
+        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            items[items.index(item)] = (item[0], 'No')
+        elif(item[0] == 'Género' and item[1] != None):
             choices = Child._meta.get_field('sex').choices
             value = [choice[1] for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == "Tipo de correspondencia"):
+        elif(item[0] == 'Tipo de correspondencia'):
             choices = Child._meta.get_field('correspondence').choices
             value = [choice[1] for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
+
+    sponsorships = Sponsorship.objects.filter(child=child)
+    if sponsorships:
+        godfathers = [sponsorship.godfather.all() for sponsorship in sponsorships]
+        godfathers = [g for godfather in godfathers for g in godfather]
+        items.append(('Padrinos', godfathers))
     
 
     items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
@@ -615,9 +622,7 @@ def child_details(request, child_id):
 
     mid = math.ceil(len(items) / 2)
     
-    context = {'child': child, 
-               'info_left': items[:mid], 'info_right': items[mid:]
-               }
+    context = {'child': child, 'info_left': items[:mid], 'info_right': items[mid:]}
     return render(request, 'users/details.html', context)
 
 
@@ -637,7 +642,7 @@ def volunteer_list(request):
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
 
-    title = "Gestión de Voluntarios"
+    title = 'Gestión de Voluntarios'
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
     for d in persons_dict:
@@ -661,7 +666,7 @@ def volunteer_list(request):
 def volunteer_details(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if volunteer.ong == request.user.ong:
-        fields = [f for f in Volunteer._meta.get_fields() if f.name not in ["id", "photo", "password", "user_type", "name", "surname", "service", "ong", "person_ptr"]]
+        fields = [f for f in Volunteer._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
         
         info = [getattr(volunteer, f.name) for f in fields]
 
@@ -671,17 +676,17 @@ def volunteer_details(request, volunteer_id):
         
 
         for item in items:
-            if(item[1] == True):
-                items[items.index(item)] = (item[0], "Sí")
-            elif(item[1] == False):
-                items[items.index(item)] = (item[0], "No")
-            elif(item[0] == "Género" and item[1] != None):
+            if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+                items[items.index(item)] = (item[0], 'Sí')
+            elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+                items[items.index(item)] = (item[0], 'No')
+            elif(item[0] == 'Género' and item[1] != None):
                 choices = Volunteer._meta.get_field('sex').choices
                 value = [choice[1] for choice in choices if choice[0] == item[1]][0]
                 items[items.index(item)] = (item[0], value)
-            elif(item[0] == "Tiempo de dedicación"):
-                items[items.index(item)] = (item[0], str(item[1]) + " horas")
-            elif(item[0] == "Tipo de voluntario"): # why is this not working?
+            elif(item[0] == 'Tiempo de dedicación'):
+                items[items.index(item)] = (item[0], str(item[1]) + ' horas')
+            elif(item[0] == 'Tipo de voluntario'): 
                 choices = Volunteer._meta.get_field('volunteer_type').choices
                 value = [choice[1] for choice in choices if choice[0] == item[1]][0]
                 items[items.index(item)] = (item[0], value)
@@ -701,7 +706,7 @@ def volunteer_details(request, volunteer_id):
 @login_required
 def volunteer_create(request):
     form = CreateNewVolunteer(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewVolunteer(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong
@@ -712,7 +717,7 @@ def volunteer_create(request):
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario"})
+    return render(request, 'volunteers/volunteers_form.html', {'form': form, 'title': 'Añadir Voluntario'})
 
 
 @login_required
@@ -730,7 +735,7 @@ def volunteer_update(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if volunteer.ong == request.user.ong:
         form = CreateNewVolunteer(instance=volunteer)
-        if request.method == "POST":
+        if request.method == 'POST':
             form = CreateNewVolunteer(
                 request.POST, request.FILES, instance=volunteer)
 
@@ -741,4 +746,4 @@ def volunteer_update(request, volunteer_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'volunteers/volunteers_form.html', {"form": form})
+    return render(request, 'volunteers/volunteers_form.html', {'form': form})
