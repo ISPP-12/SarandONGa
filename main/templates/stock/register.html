@@ -22,9 +22,17 @@
                     {% include "components/inputs.html" with id=form.name.id_for_label label_text="Nombre" input=form.name %}
 
                 </div>
-                <div class="row pt-4 mb-4">                  
+                <div class="row pt-4">                  
+                    {% include "components/inputs.html" with id=form.model.id_for_label label_text="Modelo" input=form.model %}
+                </div>
+                <div class="row pt-4">                  
                     {% include "components/inputs.html" with id=form.quantity.id_for_label label_text="Unidades" input=form.quantity %}
-
+                </div>
+                <div class="row pt-4">                  
+                    {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Precio" input=form.amount %}
+                </div>
+                <div class="row pt-4 mb-4">                  
+                    {% include "components/inputs.html" with id=form.notes.id_for_label label_text="Observaciones" input=form.notes %}
                 </div>
             </div>
             <div class="col-12 col-sm-6 ">
