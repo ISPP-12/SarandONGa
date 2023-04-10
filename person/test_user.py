@@ -117,9 +117,7 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
         test_volunteer_city = test_volunteers_div.find_element(By.CSS_SELECTOR,"div.col-city").text
         self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
 
-
-
-    def test_delete_stock_view(self):
+def test_delete_stock_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/user/volunteer/list')
         volunteer_div=self.driver.find_element(By.ID,"section-volunteer")
