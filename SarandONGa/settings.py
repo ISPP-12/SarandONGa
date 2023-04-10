@@ -141,7 +141,7 @@ STATICFILES_DIRS = [
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'sarandonga.contact@gmail.com'
-EMAIL_HOST_PASSWORD = 'nchnnzmuazuzompz'
+EMAIL_HOST_PASSWORD = config('MAIL_KEY')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

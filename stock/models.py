@@ -23,7 +23,6 @@ class Stock(models.Model):
                     f'Le informamos que el número de existencias del producto {self.name} es demasiado reducido.\n' \
                     f"Atentamente, \n¿Dónde están las gatas que no hablan y tiran pa'lante?"
             send_mail(subject, message, 'sarandonga.contact@gmail.com', ['sarandonga.contact@gmail.com'])
-            sent = True
 
         super(Stock, self).save(*args, **kwargs)
     def __str__(self):
