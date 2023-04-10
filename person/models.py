@@ -100,7 +100,7 @@ class Person(models.Model):
     surname = models.CharField(
         max_length=50, verbose_name="Apellido")
     birth_date = models.DateField(
-        verbose_name="Fecha de nacimiento", null=True, blank=True)
+        verbose_name="Fecha de nacimiento")
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
                            verbose_name="Género", null=True, blank=True)
     city = models.CharField(
