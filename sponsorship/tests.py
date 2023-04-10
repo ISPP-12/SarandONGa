@@ -185,7 +185,7 @@ class SponsorshipUpdateTestCase(TestCase):
         god_test = GodFather.objects.get(email='emailja@gmail.com')
         sponsorship= Sponsorship.objects.get(godfather=god_test)
         with self.assertRaises(Exception):
-            sponsorship.sponsorship_date =date.today()
+            sponsorship.sponsorship_date = date.today()
             sponsorship.termination_date = date(2022, 1, 1)
             sponsorship.save()
 
