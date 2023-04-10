@@ -3,6 +3,7 @@ from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENC
 from localflavor.es.forms import ESIdentityCardNumberField
 from localflavor.generic.forms import IBANFormField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
+import re
 
 class FilterAsemUserForm(forms.Form):
     qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
@@ -108,13 +109,18 @@ class CreateNewWorker(forms.ModelForm):
                     {'class': 'form-control mb-3'})
 
     def clean_password2(self):
-        # Check that the two password entries match
+        # Check that the two password entries match and meet the validation requirements
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
+        regex = r"^(?=.*[A-Za-z]).{8,}$"
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Las contraseñas no coinciden")
-        return password2
-
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        
+        if re.match(regex, password2):
+            return password2
+        else:
+            raise forms.ValidationError("La contraseña debe tener 8 caracteres o más, y no debe ser exclusivamente numérica.")
+        
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(CreateNewWorker, self).save(commit=False)
@@ -210,6 +216,64 @@ class CreateNewChild(forms.ModelForm):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
 
+class FilterChildForm(forms.Form):
+    email = forms.CharField(max_length=100, required=False , label="Búsqueda por email")
+    name = forms.CharField(max_length=50, required=False , label="Búsqueda por nombre")
+    surname = forms.CharField(max_length=50, required=False , label="Búsqueda por apellido")
+    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
+    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
+    city = forms.CharField(max_length=100, required=False, label="Búsqueda por ciudad")
+    address = forms.CharField(max_length=100, required=False, label="Búsqueda por dirección")
+    telephone = forms.CharField(max_length=15, required=False, label="Búsqueda por teléfono")
+    postal_code = forms.CharField(max_length=5, required=False, label="Búsqueda por código postal")
+    start_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Dado/a de alta después del")
+    start_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Dado/a de alta antes del")
+    termination_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Dado/a de baja después de")
+    termination_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Dado/a de baja antes de")
+    expected_mission_time = forms.CharField(max_length=100, required=False, label="Búsqueda por tiempo de misión esperado")
+    mission_house = forms.CharField(max_length=100, required=False, label="Búsqueda por casa de misión")
+    site = forms.CharField(max_length=100, required=False, label="Búsqueda por sede")
+    subsite = forms.CharField(max_length=100, required=False, label="Búsqueda por subsede")
+    father_name = forms.CharField(max_length=100, required=False, label="Búsqueda por nombre del padre")
+    father_profession = forms.CharField(max_length=100, required=False, label="Búsqueda por profesión del padre")
+    mother_name = forms.CharField(max_length=100, required=False, label="Búsqueda por nombre de la madre")
+    mother_profession = forms.CharField(max_length=100, required=False, label="Búsqueda por profesión de la madre")
+    number_brothers_siblings = forms.IntegerField(required=False, label="Búsqueda por número de hermanos", widget=forms.NumberInput(attrs={'min': 0}))
+    correspondence = forms.ChoiceField(choices=[('', '--Seleccione--'), ('E', 'Email'), ('CC', 'Carta con logo'), ('CS', 'Carta sin logo'), ('SR', 'Solo revista'), ('N', 'Ninguna')], required=False, label="Correspondencia")
+    is_older = forms.ChoiceField(choices=[('', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Es mayor de edad?")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.method = 'GET'
+
+        # Assigning Filter Values ​​as Initial Values
+
+        self.fields['email'].initial = self.data.get('email')
+        self.fields['name'].initial = self.data.get('name')
+        self.fields['surname'].initial = self.data.get('surname')
+        self.fields['birth_date_min'].initial = self.data.get('birth_date_min')
+        self.fields['birth_date_max'].initial = self.data.get('birth_date_max')
+        self.fields['sex'].initial = self.data.get('sex')
+        self.fields['city'].initial = self.data.get('city')
+        self.fields['address'].initial = self.data.get('address')
+        self.fields['telephone'].initial = self.data.get('telephone')
+        self.fields['postal_code'].initial = self.data.get('postal_code')
+        self.fields['start_date_min'].initial = self.data.get('start_date_min')
+        self.fields['start_date_max'].initial = self.data.get('start_date_max')
+        self.fields['termination_date_min'].initial = self.data.get('termination_date_min')
+        self.fields['termination_date_max'].initial = self.data.get('termination_date_max')
+        self.fields['expected_mission_time'].initial = self.data.get('expected_mission_time')
+        self.fields['mission_house'].initial = self.data.get('mission_house')
+        self.fields['site'].initial = self.data.get('site')
+        self.fields['subsite'].initial = self.data.get('subsite')
+        self.fields['father_name'].initial = self.data.get('father_name')
+        self.fields['father_profession'].initial = self.data.get('father_profession')
+        self.fields['mother_name'].initial = self.data.get('mother_name')
+        self.fields['mother_profession'].initial = self.data.get('mother_profession')
+        self.fields['number_brothers_siblings'].initial = self.data.get('number_brothers_siblings')
+        self.fields['correspondence'].initial = self.data.get('correspondence')
+        self.fields['is_older'].initial = self.data.get('is_older')
 
 class CreateNewVolunteer(forms.ModelForm):
 
