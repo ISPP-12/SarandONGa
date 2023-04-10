@@ -6,6 +6,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 from datetime import datetime
+from django.core.paginator import Paginator
 
 
 # Hay que asignar el padrino
@@ -79,8 +80,15 @@ def payment_update(request, payment_id):
 
 @login_required
 def payment_list(request):
+
+    objects = Payment.objects.filter(ong=request.user.ong).values()
+
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    payment_page = paginator.get_page(page_number)
+
     context = {
-        'objects': Payment.objects.filter(ong=request.user.ong).values(),
+        'objects': payment_page,
         # 'objects_json': json.dumps(list(Payment.objects.all().values())),
         'objects_name': 'Payment',
         'title': 'Gestión de Pagos'

@@ -6,11 +6,12 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterChildForm
 from xml.dom import ValidationErr
+from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
-
+from dateutil.relativedelta import relativedelta
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -24,7 +25,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 
 @login_required
-@videssur_required
+@videssur_required 
 def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
     title = "Gestión de Padrinos"
@@ -259,24 +260,154 @@ def worker_delete(request, worker_id):
 @videssur_required
 def child_list(request):
     objects = Child.objects.filter(ong=request.user.ong).values()
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    child_page = paginator.get_page(page_number)
+
     title = "Gestión de Niños"
+    form = FilterChildForm(request.GET or None)
+
+    if request.method == "GET":
+        objects = child_filter(objects, form)
+
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [child for child in child_page]
     for d in persons_dict:
         d.pop('_state', None)
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': child_page,
         'object_name': 'niño',
         'object_name_en': 'child',
         'title': title,
         'objects_json': persons_json,
+        'form': form,
     }
 
     return render(request, 'users/list.html', context)
 
+def child_filter(queryset, form):
+    email = form['email'].value()
+    name = form['name'].value()
+    surname = form['surname'].value()
+    birth_date_min = form['birth_date_min'].value()
+    birth_date_max = form['birth_date_max'].value()
+    sex = form['sex'].value()
+    city = form['city'].value()
+    address = form['address'].value()
+    telephone = form['telephone'].value()
+    postal_code = form['postal_code'].value()
+    start_date_min = form['start_date_min'].value()
+    start_date_max = form['start_date_max'].value()
+    termination_date_min = form['termination_date_min'].value()
+    termination_date_max = form['termination_date_max'].value()
+    expected_mission_time = form['expected_mission_time'].value()
+    mission_house = form['mission_house'].value()
+    site = form['site'].value()
+    subsite = form['subsite'].value()
+    father_name = form['father_name'].value()
+    father_profession = form['father_profession'].value()
+    mother_name = form['mother_name'].value()
+    mother_profession = form['mother_profession'].value()
+    number_brothers_siblings = form['number_brothers_siblings'].value()
+    correspondence = form['correspondence'].value()
+    is_older = form['is_older'].value()
+
+    if email is not None:
+        if email.strip() != '':
+            queryset = queryset.filter(Q(email__icontains=email))
+
+    if name is not None:
+        if name.strip() != '':
+            queryset = queryset.filter(Q(name__icontains=name))
+
+    if surname is not None:
+        if surname.strip() != '':
+            queryset = queryset.filter(Q(surname__icontains=surname))
+
+    if is_valid_queryparam(birth_date_min):
+        queryset = queryset.filter(birth_date__gte=birth_date_min)
+
+    if is_valid_queryparam(birth_date_max):
+        queryset = queryset.filter(birth_date__lte=birth_date_max)
+
+    if is_valid_queryparam(sex):
+        queryset = queryset.filter(sex=sex)
+
+    if city is not None:
+        if city.strip() != '':
+            queryset = queryset.filter(Q(city__icontains=city))
+
+    if address is not None:
+        if address.strip() != '':
+            queryset = queryset.filter(Q(address__icontains=address))
+
+    if is_valid_queryparam(telephone):
+        queryset = queryset.filter(telephone=telephone)
+
+    if is_valid_queryparam(postal_code):
+        queryset = queryset.filter(postal_code=postal_code)
+
+    if is_valid_queryparam(start_date_min):
+        queryset = queryset.filter(start_date__gte=start_date_min)
+
+    if is_valid_queryparam(start_date_max):
+        queryset = queryset.filter(start_date__lte=start_date_max)
+
+    if is_valid_queryparam(termination_date_min):
+        queryset = queryset.filter(termination_date__gte=termination_date_min)
+
+    if is_valid_queryparam(termination_date_max):
+        queryset = queryset.filter(termination_date__lte=termination_date_max)
+
+    if expected_mission_time is not None:
+        if expected_mission_time.strip() != '':
+            queryset = queryset.filter(Q(expected_mission_time__icontains=expected_mission_time))
+
+    if mission_house is not None:
+        if mission_house.strip() != '':
+            queryset = queryset.filter(Q(mission_house__icontains=mission_house))
+
+    if site is not None:
+        if site.strip() != '':
+            queryset = queryset.filter(Q(site__icontains=site))
+
+    if subsite is not None:
+        if subsite.strip() != '':
+            queryset = queryset.filter(Q(subsite__icontains=subsite))
+
+    if father_name is not None:
+        if father_name.strip() != '':
+            queryset = queryset.filter(Q(father_name__icontains=father_name))
+
+    if father_profession is not None:
+        if father_profession.strip() != '':
+            queryset = queryset.filter(Q(father_profession__icontains=father_profession))
+
+    if mother_name is not None:
+        if mother_name.strip() != '':
+            queryset = queryset.filter(Q(mother_name__icontains=mother_name))
+
+    if mother_profession is not None:
+        if mother_profession.strip() != '':
+            queryset = queryset.filter(Q(mother_profession__icontains=mother_profession))
+
+    if is_valid_queryparam(number_brothers_siblings):
+        queryset = queryset.filter(number_brothers_siblings=number_brothers_siblings)
+
+    if is_valid_queryparam(correspondence):
+        queryset = queryset.filter(correspondence=correspondence)
+
+    if is_valid_queryparam(is_older):
+        if is_older == 'S':
+            queryset = queryset.filter(birth_date__lte=date.today() - relativedelta(years=18))
+        elif is_older == 'N':
+            queryset = queryset.filter(birth_date__gt=date.today() - relativedelta(years=18))
+        
+    
+    return queryset
 
 @login_required
 @asem_required
@@ -577,3 +708,9 @@ def volunteer_update(request, volunteer_id):
     else:
         return custom_403(request)
     return render(request, 'volunteers/volunteers_form.html', {"form": form})
+
+
+def child_age(request):
+    ninos = Child.objects.values('name', 'birth_date')
+    return JsonResponse(list(ninos), safe=False)
+

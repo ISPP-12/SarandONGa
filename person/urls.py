@@ -29,5 +29,6 @@ urlpatterns = [
     path('volunteer/<int:volunteer_id>', views.volunteer_details, name='volunteer_details'),
     path('volunteer/create', views.volunteer_create, name='volunteer_create'),
     path('volunteer/<int:volunteer_id>/update', views.volunteer_update, name='volunteer_update'),
-    path('volunteer/<int:volunteer_id>/delete', views.volunteer_delete, name='volunteer_delete')
+    path('volunteer/<int:volunteer_id>/delete', views.volunteer_delete, name='volunteer_delete'),
+    path('api/child_age/', views.child_age, name='child_age'),
 ]
