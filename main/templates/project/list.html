@@ -74,6 +74,36 @@ displayed in the preview text (e.g. "donación")
 </div>
 {% endfor %}
 
+<div class="pagination">
+  <span class="step-links">
+    {% if objects.has_previous %}
+    <a href="?page=1{% if request.GET.title %}&title={{ request.GET.title }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}{% if request.GET.start_date_min %}&start_date_min={{ request.GET.start_date_min }}{% endif %}
+    {% if request.GET.start_date_max %}&start_date_max={{ request.GET.start_date_max }}{% endif %}{% if request.GET.end_date_min %}&end_date_min={{ request.GET.end_date_min }}{% endif %}{% if request.GET.end_date_max %}&end_date_max={{ request.GET.end_date_max }}{% endif %}
+    {% if request.GET.number_of_beneficiaries_min %}&number_of_beneficiaries_min={{ request.GET.number_of_beneficiaries_min }}{% endif %}{% if request.GET.number_of_beneficiaries_max %}&number_of_beneficiaries_max={{ request.GET.number_of_beneficiaries_max }}{% endif %}{% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+    {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}{% if request.GET.announcement_date_min %}&announcement_date_min={{ request.GET.announcement_date_min }}{% endif %}{% if request.GET.announcement_date_max %}&announcement_date_max={{ request.GET.announcement_date_max }}{% endif %}">&laquo; Primera</a>
+    <a href="?page={{ objects.previous_page_number }}{% if request.GET.title %}&title={{ request.GET.title }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}{% if request.GET.start_date_min %}&start_date_min={{ request.GET.start_date_min }}{% endif %}
+    {% if request.GET.start_date_max %}&start_date_max={{ request.GET.start_date_max }}{% endif %}{% if request.GET.end_date_min %}&end_date_min={{ request.GET.end_date_min }}{% endif %}{% if request.GET.end_date_max %}&end_date_max={{ request.GET.end_date_max }}{% endif %}
+    {% if request.GET.number_of_beneficiaries_min %}&number_of_beneficiaries_min={{ request.GET.number_of_beneficiaries_min }}{% endif %}{% if request.GET.number_of_beneficiaries_max %}&number_of_beneficiaries_max={{ request.GET.number_of_beneficiaries_max }}{% endif %}{% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+    {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}{% if request.GET.announcement_date_min %}&announcement_date_min={{ request.GET.announcement_date_min }}{% endif %}{% if request.GET.announcement_date_max %}&announcement_date_max={{ request.GET.announcement_date_max }}{% endif %}">Anterior</a>
+{% endif %}
+
+<span class="current">
+  Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
+</span>
+
+{% if objects.has_next %}
+    <a href="?page={{ objects.next_page_number }}{% if request.GET.title %}&title={{ request.GET.title }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}{% if request.GET.start_date_min %}&start_date_min={{ request.GET.start_date_min }}{% endif %}
+    {% if request.GET.start_date_max %}&start_date_max={{ request.GET.start_date_max }}{% endif %}{% if request.GET.end_date_min %}&end_date_min={{ request.GET.end_date_min }}{% endif %}{% if request.GET.end_date_max %}&end_date_max={{ request.GET.end_date_max }}{% endif %}
+    {% if request.GET.number_of_beneficiaries_min %}&number_of_beneficiaries_min={{ request.GET.number_of_beneficiaries_min }}{% endif %}{% if request.GET.number_of_beneficiaries_max %}&number_of_beneficiaries_max={{ request.GET.number_of_beneficiaries_max }}{% endif %}{% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+    {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}{% if request.GET.announcement_date_min %}&announcement_date_min={{ request.GET.announcement_date_min }}{% endif %}{% if request.GET.announcement_date_max %}&announcement_date_max={{ request.GET.announcement_date_max }}{% endif %}">Siguiente</a>
+    <a href="?page={{ objects.paginator.num_pages }}{% if request.GET.title %}&title={{ request.GET.title }}{% endif %}{% if request.GET.country %}&country={{ request.GET.country }}{% endif %}{% if request.GET.start_date_min %}&start_date_min={{ request.GET.start_date_min }}{% endif %}
+    {% if request.GET.start_date_max %}&start_date_max={{ request.GET.start_date_max }}{% endif %}{% if request.GET.end_date_min %}&end_date_min={{ request.GET.end_date_min }}{% endif %}{% if request.GET.end_date_max %}&end_date_max={{ request.GET.end_date_max }}{% endif %}
+    {% if request.GET.number_of_beneficiaries_min %}&number_of_beneficiaries_min={{ request.GET.number_of_beneficiaries_min }}{% endif %}{% if request.GET.number_of_beneficiaries_max %}&number_of_beneficiaries_max={{ request.GET.number_of_beneficiaries_max }}{% endif %}{% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+    {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}{% if request.GET.announcement_date_min %}&announcement_date_min={{ request.GET.announcement_date_min }}{% endif %}{% if request.GET.announcement_date_max %}&announcement_date_max={{ request.GET.announcement_date_max }}{% endif %}">Última &raquo;</a>
+{% endif %}
+  </span>
+</div>
+
 <div id="data" data-json='{{ objects_json|safe }}'></div>
 <div id="object-name" data-name='{{ object_name }}'></div>
 
