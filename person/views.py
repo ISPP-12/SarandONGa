@@ -1,17 +1,29 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from sponsorship.models import Sponsorship
 from .models import GodFather, ASEMUser, Worker, Child, Volunteer, SEX_TYPES, PAYMENT_METHOD, STATUS, FREQUENCY, CONDITION, MEMBER, ASEMUSER_TYPE, CORRESPONDENCE, HOUSING_TYPE, VOLUNTEER_TYPE
 from django.contrib import messages
 import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterVolunteerForm, FilterGodfatherForm
 from xml.dom import ValidationErr
 from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse_lazy
+from dateutil.relativedelta import relativedelta
+import math
 
+
+class UpdatePasswordView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('worker_list')
+    template_name = 'update_password.html'
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -30,6 +42,10 @@ def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
     page_title = 'SarandONGa 💃 - Gestión de Padrinos'
     title = "Gestión de Padrinos"
+
+    form = FilterGodfatherForm(request.GET or None)
+    objects = godfather_filter(objects, form)
+
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
     for d in persons_dict:
@@ -44,16 +60,96 @@ def godfather_list(request):
         'page_title': page_title,
         'title': title,
         'objects_json': persons_json,
+        'form' : form,
     }
 
     return render(request, 'users/list.html', context)
+
+def godfather_filter(queryset, form):
+
+    q = form['qsearch'].value()
+    min_birth_date = form['min_birth_date'].value()
+    max_birth_date = form['max_birth_date'].value()
+    sex = form['sex'].value()
+    payment_method = form['payment_method'].value()
+    frequency = form['frequency'].value()
+    min_amount = form['min_amount'].value()
+    max_amount = form['max_amount'].value()
+    min_start_date = form['min_start_date'].value()
+    max_start_date = form['max_start_date'].value()
+    min_end_date = form['min_end_date'].value()
+    max_end_date = form['max_end_date'].value()
+    status = form['status'].value()
+    
+    if q is not None:
+            if q.strip() != "":
+                queryset = queryset.filter(
+                    Q(name__icontains=q) |
+                    Q(surname__icontains=q) |
+                    Q(address__icontains=q) |
+                    Q(city__icontains=q) |
+                    Q(postal_code__icontains=q) |
+                    Q(email__icontains=q) |
+                    Q(telephone__icontains=q) |
+                    Q(birth_date__icontains=q) |
+                    Q(sex__icontains=q) |
+                    Q(dni__icontains=q) |
+                    Q(payment_method__icontains=q) |
+                    Q(frequency__icontains=q) |
+                    Q(amount__icontains=q) |
+                    Q(bank_account_number__icontains=q) |
+                    Q(bank_account_holder__icontains=q) |
+                    Q(bank_account_reference__icontains=q) |
+                    Q(start_date__icontains=q) |
+                    Q(termination_date__icontains=q) |
+                    Q(notes__icontains=q) |
+                    Q(status__icontains=q)
+                )
+
+    if is_valid_queryparam(min_birth_date):
+        queryset = queryset.filter(birth_date__gte=min_birth_date)
+    
+    if is_valid_queryparam(max_birth_date):
+        queryset = queryset.filter(birth_date__lte=max_birth_date)
+    
+    if is_valid_queryparam(sex):
+        queryset = queryset.filter(sex=sex)
+       
+    if is_valid_queryparam(payment_method):
+        queryset = queryset.filter(payment_method=payment_method)
+    
+    if is_valid_queryparam(min_amount):
+        queryset = queryset.filter(amount__gte=min_amount)
+    
+    if is_valid_queryparam(max_amount):
+        queryset = queryset.filter(amount__lte=max_amount)
+    
+    if is_valid_queryparam(min_start_date):
+        queryset = queryset.filter(start_date__gte=min_start_date)
+    
+    if is_valid_queryparam(max_start_date):
+        queryset = queryset.filter(start_date__lte=max_start_date)
+    
+    if is_valid_queryparam(min_end_date):
+        queryset = queryset.filter(termination_date__gte=min_end_date)
+    
+    if is_valid_queryparam(max_end_date):
+        queryset = queryset.filter(termination_date__lte=max_end_date)
+    
+    if is_valid_queryparam(status):
+        queryset = queryset.filter(status=status)
+    
+    if is_valid_queryparam(frequency):
+        queryset = queryset.filter(frequency=frequency)
+
+    return queryset
 
 
 @login_required
 @asem_required
 def user_create(request):
     form = CreateNewASEMUser(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewASEMUser(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong  # basically, it is ASEM
@@ -79,7 +175,7 @@ def asem_user_delete(request, asem_user_id):
 @asem_required
 def user_update(request, asem_user_id): 
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewASEMUser(
             request.POST, request.FILES, instance=asem_user)
         if form.is_valid():
@@ -89,7 +185,7 @@ def user_update(request, asem_user_id):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewASEMUser(instance=asem_user)
-    return render(request, 'asem_user/asem_user_form.html', {"form": form, 'page_title': 'SarandONGa 💃 - Editar Usuario ASEM', 'title': 'Editar Usuario ASEM'})
+    return render(request, 'asem_user/asem_user_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Editar Usuario ASEM', 'title': 'Editar Usuario ASEM'})
 
 
 def choices_dicts():
@@ -121,13 +217,39 @@ def asem_user_details(request, asem_user_id): #TODO
     asem_user.status = choices_dict['status'][asem_user.status]
     asem_user.own_home = choices_dict['housing_type'][asem_user.own_home]
 
-    return render(request, 'asem_user/asem_user_details.html', {'asem_user': asem_user })
+    fields = [f for f in ASEMUser._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
+    info = [getattr(asem_user, f.name) for f in fields]
+
+    fields_info = dict(zip([f.verbose_name for f in fields], info))
+    
+    items = list(fields_info.items())
+    print(items)
+
+    for item in items:
+        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            items[items.index(item)] = (item[0], 'Sí')
+        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            items[items.index(item)] = (item[0], 'No')
+        elif(item[0] == 'Género' and item[1] != None):
+            choices = ASEMUser._meta.get_field('sex').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == 'Tiempo de dedicación'):
+            items[items.index(item)] = (item[0], str(item[1]) + ' horas')
+
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+    mid = math.ceil(len(items) / 2)
+    
+    context = {'asem_user': asem_user, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+    return render(request, 'users/details.html', context)
 
 
 @login_required
 def worker_create(request):
     form = CreateNewWorker(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewWorker(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong
@@ -147,7 +269,7 @@ def worker_create(request):
 def worker_update(request, worker_id): 
     worker = get_object_or_404(Worker, id=worker_id)
     if request.user.ong == worker.ong:
-        if request.method == "POST":
+        if request.method == 'POST':
             form = UpdateWorker(request.POST, request.FILES, instance=worker)
             if form.is_valid():
                 form.save()
@@ -156,7 +278,7 @@ def worker_update(request, worker_id):
                 messages.error(request, 'Formulario con errores')
 
         form = UpdateWorker(instance=worker)
-        context = {"form": form, "title": "Actualizar Trabajador", 'page_title': 'SarandONGa 💃 - Actualizar Trabajador'}
+        context = {'form': form, 'title': 'Actualizar Trabajador', 'page_title': 'SarandONGa 💃 - Actualizar Trabajador'}
     else:
         return custom_403(request)
     return render(request, 'workers/register.html', context)
@@ -165,10 +287,10 @@ def worker_update(request, worker_id):
 @login_required
 def worker_list(request):
     objects = Worker.objects.filter(ong=request.user.ong).values()
-    title = "Gestión de Trabajadores"
+    title = 'Gestión de Trabajadores'
     form = FilterWorkerForm(request.GET or None)
 
-    if request.method == "GET":
+    if request.method == 'GET':
         objects = worker_filter(objects, form)
 
     # depending of the user type write one title or another
@@ -244,7 +366,32 @@ def worker_filter(queryset, form):
 def worker_details(request, worker_id): #TODO
     worker = get_object_or_404(Worker, id=worker_id)
     if worker.ong == request.user.ong:
-        return render(request, 'workers/details.html', {'worker': worker})
+        fields = [f for f in Worker._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'logentry', 'last_login', 'is_active', 'is_admin']]
+        
+        info = [getattr(worker, f.name) for f in fields]
+
+        fields_info = dict(zip([f.verbose_name for f in fields], info))
+        
+        items = list(fields_info.items())
+
+        for item in items:
+            if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+                items[items.index(item)] = (item[0], 'Sí')
+            elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+                items[items.index(item)] = (item[0], 'No')
+            elif(item[0] == 'Género' and item[1] != None):
+                choices = Worker._meta.get_field('sex').choices
+                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                items[items.index(item)] = (item[0], value)
+
+        items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+
+        mid = math.ceil(len(items) / 2)
+        
+        context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+        return render(request, 'users/details.html', context)
     else:
         return custom_403(request)
 
@@ -268,6 +415,11 @@ def child_list(request):
     child_page = paginator.get_page(page_number)
 
     title = "Gestión de Niños"
+    form = FilterChildForm(request.GET or None)
+
+    if request.method == "GET":
+        objects = child_filter(objects, form)
+
     # depending of the user type write one title or another
     persons_dict = [child for child in child_page]
     for d in persons_dict:
@@ -282,25 +434,145 @@ def child_list(request):
         'title': title,
         'page_title': 'SarandONGa 💃 - Gestión de Niños',
         'objects_json': persons_json,
+        'form': form,
     }
 
     return render(request, 'users/list.html', context)
 
+def child_filter(queryset, form):
+    email = form['email'].value()
+    name = form['name'].value()
+    surname = form['surname'].value()
+    birth_date_min = form['birth_date_min'].value()
+    birth_date_max = form['birth_date_max'].value()
+    sex = form['sex'].value()
+    city = form['city'].value()
+    address = form['address'].value()
+    telephone = form['telephone'].value()
+    postal_code = form['postal_code'].value()
+    start_date_min = form['start_date_min'].value()
+    start_date_max = form['start_date_max'].value()
+    termination_date_min = form['termination_date_min'].value()
+    termination_date_max = form['termination_date_max'].value()
+    expected_mission_time = form['expected_mission_time'].value()
+    mission_house = form['mission_house'].value()
+    site = form['site'].value()
+    subsite = form['subsite'].value()
+    father_name = form['father_name'].value()
+    father_profession = form['father_profession'].value()
+    mother_name = form['mother_name'].value()
+    mother_profession = form['mother_profession'].value()
+    number_brothers_siblings = form['number_brothers_siblings'].value()
+    correspondence = form['correspondence'].value()
+    is_older = form['is_older'].value()
+
+    if email is not None:
+        if email.strip() != '':
+            queryset = queryset.filter(Q(email__icontains=email))
+
+    if name is not None:
+        if name.strip() != '':
+            queryset = queryset.filter(Q(name__icontains=name))
+
+    if surname is not None:
+        if surname.strip() != '':
+            queryset = queryset.filter(Q(surname__icontains=surname))
+
+    if is_valid_queryparam(birth_date_min):
+        queryset = queryset.filter(birth_date__gte=birth_date_min)
+
+    if is_valid_queryparam(birth_date_max):
+        queryset = queryset.filter(birth_date__lte=birth_date_max)
+
+    if is_valid_queryparam(sex):
+        queryset = queryset.filter(sex=sex)
+
+    if city is not None:
+        if city.strip() != '':
+            queryset = queryset.filter(Q(city__icontains=city))
+
+    if address is not None:
+        if address.strip() != '':
+            queryset = queryset.filter(Q(address__icontains=address))
+
+    if is_valid_queryparam(telephone):
+        queryset = queryset.filter(telephone=telephone)
+
+    if is_valid_queryparam(postal_code):
+        queryset = queryset.filter(postal_code=postal_code)
+
+    if is_valid_queryparam(start_date_min):
+        queryset = queryset.filter(start_date__gte=start_date_min)
+
+    if is_valid_queryparam(start_date_max):
+        queryset = queryset.filter(start_date__lte=start_date_max)
+
+    if is_valid_queryparam(termination_date_min):
+        queryset = queryset.filter(termination_date__gte=termination_date_min)
+
+    if is_valid_queryparam(termination_date_max):
+        queryset = queryset.filter(termination_date__lte=termination_date_max)
+
+    if expected_mission_time is not None:
+        if expected_mission_time.strip() != '':
+            queryset = queryset.filter(Q(expected_mission_time__icontains=expected_mission_time))
+
+    if mission_house is not None:
+        if mission_house.strip() != '':
+            queryset = queryset.filter(Q(mission_house__icontains=mission_house))
+
+    if site is not None:
+        if site.strip() != '':
+            queryset = queryset.filter(Q(site__icontains=site))
+
+    if subsite is not None:
+        if subsite.strip() != '':
+            queryset = queryset.filter(Q(subsite__icontains=subsite))
+
+    if father_name is not None:
+        if father_name.strip() != '':
+            queryset = queryset.filter(Q(father_name__icontains=father_name))
+
+    if father_profession is not None:
+        if father_profession.strip() != '':
+            queryset = queryset.filter(Q(father_profession__icontains=father_profession))
+
+    if mother_name is not None:
+        if mother_name.strip() != '':
+            queryset = queryset.filter(Q(mother_name__icontains=mother_name))
+
+    if mother_profession is not None:
+        if mother_profession.strip() != '':
+            queryset = queryset.filter(Q(mother_profession__icontains=mother_profession))
+
+    if is_valid_queryparam(number_brothers_siblings):
+        queryset = queryset.filter(number_brothers_siblings=number_brothers_siblings)
+
+    if is_valid_queryparam(correspondence):
+        queryset = queryset.filter(correspondence=correspondence)
+
+    if is_valid_queryparam(is_older):
+        if is_older == 'S':
+            queryset = queryset.filter(birth_date__lte=date.today() - relativedelta(years=18))
+        elif is_older == 'N':
+            queryset = queryset.filter(birth_date__gt=date.today() - relativedelta(years=18))
+        
+    
+    return queryset
 
 @login_required
 @asem_required
 def user_list(request):
     objects = ASEMUser.objects.filter(ong=request.user.ong).values()
 
+    form = FilterAsemUserForm(request.GET or None)  
+    objects = asemuser_filter(objects, form)
+
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
 
     title = "Gestión de Usuarios ASEM"
-    form = FilterAsemUserForm()
-    
-    if request.method == 'GET':
-        objects = asemuser_filter(objects, FilterAsemUserForm(request.GET))
 
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
@@ -323,7 +595,7 @@ def user_list(request):
 
 
 def is_valid_queryparam(param):
-    return param != "" and param is not None
+    return param != '' and param is not None
 
 def asemuser_filter(queryset, form):
 
@@ -342,7 +614,7 @@ def asemuser_filter(queryset, form):
     own_vehicle = form['own_vehicle'].value()
     
     if q is not None:
-            if q.strip() != "":
+            if q.strip() != '':
                 queryset = queryset.filter(
                     Q(name__icontains=q) |
                     Q(surname__icontains=q) |
@@ -397,7 +669,7 @@ def asemuser_filter(queryset, form):
 @videssur_required
 def godfather_create(request):
     form = CreateNewGodFather(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewGodFather(request.POST, request.FILES)
         if form.is_valid():
             try:
@@ -411,7 +683,7 @@ def godfather_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'person/godfather/form.html', {"form": form, "title": "Añadir Padrino", 'page_title': 'SarandONGa 💃 - Añadir Padrino'})
+    return render(request, 'person/godfather/form.html', {'form': form, 'title': 'Añadir Padrino', 'page_title': 'SarandONGa 💃 - Añadir Padrino'})
 
 
 @login_required
@@ -420,27 +692,75 @@ def godfather_update(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
     form = CreateNewGodFather(instance=godfather)
     if request.user.ong == godfather.ong:
-        if request.method == "POST":
+        if request.method == 'POST':
             form = CreateNewGodFather(
                 request.POST or None, request.FILES or None, instance=godfather)
             if form.is_valid():
                 try:
                     form.save()
-                    return redirect("godfather_list")
+                    return redirect('godfather_list')
                 except ValidationErr as v:
                     messages.error(request, str(v.args[0]))
             else:
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'person/godfather/form.html', {"form": form, "title": "Editar Padrino", 'page_title': 'SarandONGa 💃 - Editar Padrino'})
+    return render(request, 'person/godfather/form.html', {'form': form, "title": "Editar Padrino", 'page_title': 'SarandONGa 💃 - Editar Padrino'})
 
 
 @login_required
 @videssur_required
 def godfather_details(request, godfather_id):   #TODO
     godfather = get_object_or_404(GodFather, id=godfather_id)
-    return render(request, 'prueba_padrino_detalles.html', {'godfather': godfather})
+
+    fields = [f for f in GodFather._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'payment', 'sponsorship', 'person_ptr', 'ong' ]]
+    
+    info = [getattr(godfather, f.name) for f in fields]
+
+    fields_info = dict(zip([f.verbose_name for f in fields], info))
+    
+    items = list(fields_info.items())
+
+    for item in items:
+        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            items[items.index(item)] = (item[0], 'Sí')
+        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            items[items.index(item)] = (item[0], 'No')
+        elif(item[0] == 'Género' and item[1] != None):
+            choices = GodFather._meta.get_field('sex').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == 'Método de pago'):
+            choices = GodFather._meta.get_field('payment_method').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == 'Cantidad'):
+            items[items.index(item)] = (item[0], str(item[1]) + '€')
+        elif(item[0] == 'Frecuencia de pago'):
+            choices = GodFather._meta.get_field('frequency').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == 'Estado'):
+            choices = GodFather._meta.get_field('status').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+
+    sponsorships = Sponsorship.objects.filter(godfather=godfather)
+    if sponsorships:
+        children = [sponsorship.child for sponsorship in sponsorships if sponsorship.termination_date == None or sponsorship.termination_date > datetime.date(datetime.now())]
+        items.append(('Niños apadrinados', children))
+
+
+
+
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+
+    mid = math.ceil(len(items) / 2)
+    
+    context = {'godfather': godfather, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+    return render(request, 'users/details.html', context)
 
 
 @login_required
@@ -455,7 +775,7 @@ def godfather_delete(request, godfather_id):
 @videssur_required
 def child_create(request):
     form = CreateNewChild(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewChild(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong  # it is videssur basically
@@ -465,7 +785,7 @@ def child_create(request):
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'person/child/create_child.html', {"form": form, "title": "Añadir Niño", 'page_title': 'SarandONGa 💃 - Añadir Niño'})
+    return render(request, 'person/child/create_child.html', {'form': form, 'title': 'Añadir Niño', 'page_title': 'SarandONGa 💃 - Añadir Niño'})
 
 
 @login_required
@@ -474,13 +794,13 @@ def child_update(request, child_id):
     child = get_object_or_404(Child, id=child_id)
     if request.user.ong == child.ong:
         form = CreateNewChild(instance=child)
-        if request.method == "POST":
+        if request.method == 'POST':
             form = CreateNewChild(request.POST or None,
                                   request.FILES or None, instance=child)
             if form.is_valid():
                 try:
                     form.save()
-                    return redirect("child_list")
+                    return redirect('child_list')
                 except ValidationErr as v:
                     messages.error(request, str(v.args[0]))
             else:
@@ -488,14 +808,50 @@ def child_update(request, child_id):
     else:
         return custom_403(request)
 
-    return render(request, 'person/child/create_child.html', {"form": form, "title": "Editar Niño", 'page_title': 'SarandONGa 💃 - Editar Niño'})
+    return render(request, 'person/child/create_child.html', {'form': form, "title": "Editar Niño", 'page_title': 'SarandONGa 💃 - Editar Niño'})
 
 
 @login_required
 @videssur_required
 def child_details(request, child_id):   #TODO:
     child = get_object_or_404(Child, id=child_id)
-    return render(request, 'child_details.html', {'child': child})
+    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
+        
+    info = [getattr(child, f.name) for f in fields]
+
+    fields_info = dict(zip([f.verbose_name for f in fields], info))
+    
+    items = list(fields_info.items())
+
+    for item in items:
+        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            items[items.index(item)] = (item[0], 'Sí')
+        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            items[items.index(item)] = (item[0], 'No')
+        elif(item[0] == 'Género' and item[1] != None):
+            choices = Child._meta.get_field('sex').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+        elif(item[0] == 'Tipo de correspondencia'):
+            choices = Child._meta.get_field('correspondence').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+
+    sponsorships = Sponsorship.objects.filter(child=child)
+    if sponsorships:
+        godfathers = [sponsorship.godfather.all() for sponsorship in sponsorships if sponsorship.termination_date == None or sponsorship.termination_date > datetime.date(datetime.now()) ]
+        godfathers = [g for godfather in godfathers for g in godfather]
+        items.append(('Padrinos', godfathers))
+    
+
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+
+
+    mid = math.ceil(len(items) / 2)
+    
+    context = {'child': child, 'info_left': items[:mid], 'info_right': items[mid:]}
+    return render(request, 'users/details.html', context)
 
 
 @login_required
@@ -509,12 +865,15 @@ def child_delete(request, child_id):
 @login_required
 def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
+
+    form = FilterVolunteerForm(request.GET or None)  
+    objects = volunteer_filter(objects, form)
     
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
 
-    page_title = "SarandONGa 💃 - Gestión de Voluntarios"
+    page_title = 'SarandONGa 💃 - Gestión de Voluntarios'
     
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
@@ -531,16 +890,138 @@ def volunteer_list(request):
         'title': 'Gestión de Voluntarios',
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',
+        'form' : form,
     }
 
     return render(request, 'users/list.html', context)
+
+def volunteer_filter(queryset, form):
+
+    q = form['qsearch'].value()
+    min_birth_date = form['min_birth_date'].value()
+    max_birth_date = form['max_birth_date'].value()
+    sex = form['sex'].value()
+    volunteer_type = form['volunteer_type'].value()
+    min_dedication_time = form['min_dedication_time'].value()
+    max_dedication_time = form['max_dedication_time'].value()
+    min_contract_start = form['min_contract_start'].value()
+    max_contract_start = form['max_contract_start'].value()
+    min_contract_end = form['min_contract_end'].value()
+    max_contract_end = form['max_contract_end'].value()
+    raffle = form['raffle'].value()
+    lottery = form['lottery'].value()
+    is_member = form['is_member'].value()
+    pres_table = form['pres_table'].value()
+    is_contributor = form['is_contributor'].value()
+    
+    if q is not None:
+            if q.strip() != "":
+                queryset = queryset.filter(
+                    Q(name__icontains=q) |
+                    Q(surname__icontains=q) |
+                    Q(address__icontains=q) |
+                    Q(city__icontains=q) |
+                    Q(postal_code__icontains=q) |
+                    Q(email__icontains=q) |
+                    Q(telephone__icontains=q) |
+                    Q(birth_date__icontains=q) |
+                    Q(sex__icontains=q) |
+                    Q(dni__icontains=q) |
+                    Q(job__icontains=q) |
+                    Q(dedication_time__icontains=q) |
+                    Q(contract_start_date__icontains=q) |
+                    Q(contract_end_date__icontains=q) |
+                    Q(notes__icontains=q) |
+                    Q(entity__icontains=q) |
+                    Q(table__icontains=q) |
+                    Q(volunteer_type__icontains=q)
+                )
+
+    if is_valid_queryparam(min_birth_date):
+        queryset = queryset.filter(birth_date__gte=min_birth_date)
+    
+    if is_valid_queryparam(max_birth_date):
+        queryset = queryset.filter(birth_date__lte=max_birth_date)
+    
+    if is_valid_queryparam(sex):
+        queryset = queryset.filter(sex=sex)
+       
+    if is_valid_queryparam(volunteer_type):
+        queryset = queryset.filter(volunteer_type=volunteer_type)
+    
+    if is_valid_queryparam(min_dedication_time):
+        queryset = queryset.filter(dedication_time__gte=min_dedication_time)
+    
+    if is_valid_queryparam(max_dedication_time):
+        queryset = queryset.filter(dedication_time__lte=max_dedication_time)
+    
+    if is_valid_queryparam(min_contract_start):
+        queryset = queryset.filter(contract_start_date__gte=min_contract_start)
+    
+    if is_valid_queryparam(max_contract_start):
+        queryset = queryset.filter(contract_start_date__lte=max_contract_start)
+    
+    if is_valid_queryparam(min_contract_end):
+        queryset = queryset.filter(contract_end_date__gte=min_contract_end)
+    
+    if is_valid_queryparam(max_contract_end):
+        queryset = queryset.filter(contract_end_date__lte=max_contract_end)
+    
+    if is_valid_queryparam(raffle):
+        queryset = queryset.filter(raffle=raffle)
+    
+    if is_valid_queryparam(lottery):
+        queryset = queryset.filter(lottery=lottery)
+    
+    if is_valid_queryparam(is_member):
+        queryset = queryset.filter(is_member=is_member)
+    
+    if is_valid_queryparam(pres_table):
+        queryset = queryset.filter(pres_table=pres_table)
+    
+    if is_valid_queryparam(is_contributor):
+        queryset = queryset.filter(is_contributor=is_contributor)
+
+    return queryset
 
 
 @login_required
 def volunteer_details(request, volunteer_id): #TODO:
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if volunteer.ong == request.user.ong:
-        return render(request, 'volunteer_details.html', {'volunteer': volunteer})
+        fields = [f for f in Volunteer._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
+        
+        info = [getattr(volunteer, f.name) for f in fields]
+
+        fields_info = dict(zip([f.verbose_name for f in fields], info))        
+        
+        items = list(fields_info.items())
+        
+
+        for item in items:
+            if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+                items[items.index(item)] = (item[0], 'Sí')
+            elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+                items[items.index(item)] = (item[0], 'No')
+            elif(item[0] == 'Género' and item[1] != None):
+                choices = Volunteer._meta.get_field('sex').choices
+                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                items[items.index(item)] = (item[0], value)
+            elif(item[0] == 'Tiempo de dedicación'):
+                items[items.index(item)] = (item[0], str(item[1]) + ' horas')
+            elif(item[0] == 'Tipo de voluntario'): 
+                choices = Volunteer._meta.get_field('volunteer_type').choices
+                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                items[items.index(item)] = (item[0], value)
+
+            
+        items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+        mid = math.ceil(len(items) / 2)
+        
+        context = {'volunteer': volunteer, 'info_left': items[:mid], 'info_right': items[mid:]}
+        
+        return render(request, 'users/details.html', context)
     else:
         return custom_403(request)
 
@@ -548,7 +1029,7 @@ def volunteer_details(request, volunteer_id): #TODO:
 @login_required
 def volunteer_create(request):
     form = CreateNewVolunteer(initial={'ong': request.user.ong})
-    if request.method == "POST":
+    if request.method == 'POST':
         form = CreateNewVolunteer(request.POST, request.FILES)
         if form.is_valid():
             ong = request.user.ong
@@ -559,7 +1040,7 @@ def volunteer_create(request):
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'volunteers/volunteers_form.html', {"form": form, "title": "Añadir Voluntario", 'page_title': 'SarandONGa 💃 - Añadir Voluntario'})
+    return render(request, 'volunteers/volunteers_form.html', {'form': form, 'title': 'Añadir Voluntario', 'page_title': 'SarandONGa 💃 - Añadir Voluntario'})
 
 
 @login_required
@@ -577,7 +1058,7 @@ def volunteer_update(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if volunteer.ong == request.user.ong:
         form = CreateNewVolunteer(instance=volunteer)
-        if request.method == "POST":
+        if request.method == 'POST':
             form = CreateNewVolunteer(
                 request.POST, request.FILES, instance=volunteer)
 
@@ -588,7 +1069,7 @@ def volunteer_update(request, volunteer_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'volunteers/volunteers_form.html', {"form": form, 'title': 'Editar Voluntario', 'page_title': 'SarandONGa 💃 - Editar Voluntario'})
+    return render(request, 'volunteers/volunteers_form.html', {'form': form, 'title': 'Editar Voluntario', 'page_title': 'SarandONGa 💃 - Editar Voluntario'})
 
 
 def child_age(request):

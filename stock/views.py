@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 import json
 from decimal import Decimal
+from django.core.paginator import Paginator
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -18,14 +19,18 @@ class CustomJSONEncoder(json.JSONEncoder):
 def stock_list(request):
 
     stock = Stock.objects.filter(ong=request.user.ong).values()
-    stock_dict = [obj for obj in stock]
+    paginator = Paginator(stock, 12)
+    page_number = request.GET.get('page')
+    stock_page = paginator.get_page(page_number)
+    
+    stock_dict = [stock for stock in stock_page]
     for d in stock_dict:
         d.pop('_state', None)
 
     stock_json = json.dumps(stock_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': stock,
+        'objects': stock_page,
         'objects_json' : stock_json,
         'object_name': 'stock',
         'page_title': 'SarandONGa 💃 - Gestión de inventario',
