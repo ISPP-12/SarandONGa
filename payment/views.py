@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import CreatePaymentForm, FilterPaymentForm
-from .models import Payment
+from .models import Payment, Project
 from django.contrib import messages
 import json
 from django.contrib.auth.decorators import login_required
@@ -8,37 +8,59 @@ from main.views import custom_403
 from datetime import datetime
 from django.db.models import Q
 from django.core.paginator import Paginator
+from person.models import GodFather
 
 
 # Hay que asignar el padrino
 @login_required
 def payment_create(request):
-    form = CreatePaymentForm(initial={'ong': request.user.ong})
+    project = Project.objects.all()
+    print('1')
+    form = CreatePaymentForm(initial={'ong': request.user.ong, 'project': project})
+    print('2')
+    if 'godfather' in request.GET:
+        godfather = GodFather.objects.get(id=request.GET.get("godfather"))
+    else:
+        godfather = None
+    print('3')
     if request.method == 'POST':
-        form = CreatePaymentForm(request.POST)
+        print('4')
+        form = CreatePaymentForm(request.POST, initial={'project': project,'godfather': godfather})
+        print(form.clean)
         if form.is_valid():
+            print('6')
             payment = form.save(commit=False)
             payment.ong = request.user.ong
-            payment.save()
+            print('7')
+            try:
+              payment.godfather = GodFather.objects.get(id=request.user.id)
+              print('8')
+              payment.save()
+            except:
+               messages.error(request, 'El usuario con el que ha iniciado sesion no puede hacer un pago')
+            
             return redirect('payment_list')
 
         else:
+            print(form.errors)
             messages.error(request, 'El formulario presenta errores')
     else:
-
-        all_events = Payment.objects.all()
-        event_arr = []
-        for i in all_events:
-            event_sub_arr = {}
-            event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
-            # start_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
-            # end_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
-            start_date = i.payday
-            end_date = i.payday
-            event_sub_arr['start'] = start_date
-            event_sub_arr['end'] = end_date
-            event_arr.append(event_sub_arr)
-        datatest = json.dumps(event_arr, default=str)
+        form = CreatePaymentForm(initial={'ong': request.user.ong, 'project': project,'godfather': godfather})
+        print('9')
+    all_events = Payment.objects.all()
+    event_arr = []
+    print('10')
+    for i in all_events:
+        event_sub_arr = {}
+        event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
+        # start_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+        # end_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
+        start_date = i.payday
+        end_date = i.payday
+        event_sub_arr['start'] = start_date
+        event_sub_arr['end'] = end_date
+        event_arr.append(event_sub_arr)
+    datatest = json.dumps(event_arr, default=str)
 
     context = {'form': form, 'title': 'Añadir pago', 'events_json': datatest}
 
