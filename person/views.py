@@ -19,6 +19,7 @@ from django.urls import reverse_lazy
 from dateutil.relativedelta import relativedelta
 import math
 
+
 class UpdatePasswordView(PasswordChangeView):
     form_class = PasswordChangeForm
     success_url = reverse_lazy('worker_list')

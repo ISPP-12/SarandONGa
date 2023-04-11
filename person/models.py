@@ -8,6 +8,7 @@ from localflavor.generic.models import IBANField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
+
 from ong.models import Ong
 
 SEX_TYPES = (
