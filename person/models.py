@@ -9,6 +9,7 @@ from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from utils.utils import get_person_str
 
+
 from ong.models import Ong
 
 SEX_TYPES = (
@@ -99,9 +100,9 @@ class Person(models.Model):
     email = models.EmailField(null=True, blank=True, verbose_name="E-Mail")
     name = models.CharField(max_length=50, verbose_name="Nombre")
     surname = models.CharField(
-        max_length=50, verbose_name="Apellido")
+        max_length=50, verbose_name="Apellido/s")
     birth_date = models.DateField(
-        verbose_name="Fecha de nacimiento", null=True, blank=True)
+        verbose_name="Fecha de nacimiento")
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
                            verbose_name="Género", null=True, blank=True)
     city = models.CharField(

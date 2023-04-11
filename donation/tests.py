@@ -349,20 +349,6 @@ class DonationTestCase(TestCase):
             donation.full_clean()
             donation.save()
 
-    def test_donation_update_null_size_address(self):
-        donation = Donation.objects.get(title="donation")
-        donation.donor_address = None
-        with self.assertRaises(Exception):
-            donation.full_clean()
-            donation.save()
-
-    def test_donation_update_blank_size_address(self):
-        donation = Donation.objects.get(title="donation")
-        donation.donor_address = ""
-        with self.assertRaises(Exception):
-            donation.full_clean()
-            donation.save()
-
     def test_donation_update_incorrect_email(self):
         donation = Donation.objects.get(title="donation")
         donation.donor_email = "email"

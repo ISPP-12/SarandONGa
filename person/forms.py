@@ -3,6 +3,7 @@ from .models import GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENC
 from localflavor.es.forms import ESIdentityCardNumberField
 from localflavor.generic.forms import IBANFormField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
+import re
 
 class FilterAsemUserForm(forms.Form):
     qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
@@ -22,7 +23,47 @@ class FilterAsemUserForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
+    
+class FilterGodfatherForm(forms.Form):
+    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
+    min_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
+    max_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
+    payment_method = forms.ChoiceField(choices=[('', '--Seleccione--'), ('T', 'Transferencia'), ('TB', 'Transferencia Bancaria'), ('E', 'Efectivo')], required=False, label="Método de pago")
+    frequency = forms.ChoiceField(choices=[('', '--Seleccione--'), ('A', 'Anual'), ('M', 'Mensual'), ('T', 'Trimestral'), ('S', 'Semestral')], required=False, label="Frecuencia de pago")
+    min_amount = forms.DecimalField(decimal_places=2, required=False, label="Cantidad superior a:")
+    max_amount = forms.DecimalField(decimal_places=2, required=False, label="Cantidad inferior a:")
+    min_start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Alta después del")
+    max_start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Alta antes del")
+    min_end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Baja después del")
+    max_end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Baja antes del")
+    status = forms.ChoiceField(choices=[('', '--Seleccione--'), ('C', 'Casado/a'), ('F', 'Fallecido/a'), ('V', 'Viudo/a'), ('S', 'Soltero/a'), ('D', 'Divorciado/a')], required=False, label="Estado civil")
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.method = "get"
+
+class FilterVolunteerForm(forms.Form):
+    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
+    min_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
+    max_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
+    volunteer_type = forms.ChoiceField(choices=[('', '--Seleccione--'), ('AP', 'Alumno en prácticas'), ('O', 'Otro')], required=False, label="Tipo de voluntario")
+    min_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación mínimo")
+    max_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación máximo")
+    min_contract_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Inicio de contrato después del")
+    max_contract_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Inicio de contrato antes del")
+    min_contract_end = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fin de contrato después del")
+    max_contract_end = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fin de contrato antes del")
+    raffle = forms.ChoiceField(choices=[('', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False,label= "Participa en la rifa")
+    lottery = forms.ChoiceField(choices=[('', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False,label= "Participa en la lotería")
+    is_member = forms.ChoiceField(choices=[('', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False,label= "Es miembro")
+    pres_table = forms.ChoiceField(choices=[('', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False,label= "Preside mesa")
+    is_contributor = forms.ChoiceField(choices=[('', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False,label= "Es colaborador")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.method = "get"
 
 class CreateNewGodFather(forms.ModelForm):
 
@@ -108,13 +149,18 @@ class CreateNewWorker(forms.ModelForm):
                     {'class': 'form-control mb-3'})
 
     def clean_password2(self):
-        # Check that the two password entries match
+        # Check that the two password entries match and meet the validation requirements
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
+        regex = r"^(?=.*[A-Za-z]).{8,}$"
         if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Las contraseñas no coinciden")
-        return password2
-
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        
+        if re.match(regex, password2):
+            return password2
+        else:
+            raise forms.ValidationError("La contraseña debe tener 8 caracteres o más, y no debe ser exclusivamente numérica.")
+        
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(CreateNewWorker, self).save(commit=False)
