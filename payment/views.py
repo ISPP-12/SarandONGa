@@ -31,7 +31,7 @@ def payment_create(request):
             try:
               payment.godfather = GodFather.objects.get(id=request.user.id)
               payment.save()
-            except ValidationErr as v:
+            except ValidationErr:
                messages.error(request, 'El usuario con el que ha iniciado sesion no puede hacer un pago')
             
             return redirect('payment_list')
