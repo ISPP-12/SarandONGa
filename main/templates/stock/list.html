@@ -45,9 +45,7 @@
         <div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
 
             {% for product in objects %}
-                {% with id_counter=forloop.counter|stringformat:"s" %}
-                    {% include "components/card.html" with id="id-productDiv-"|add:id_counter class_card="card-stock" item=product  %}
-                {% endwith %}
+                {% include "components/card.html" with class_card="card-stock" item=product  %}
             {% endfor %}
 
         </div>
