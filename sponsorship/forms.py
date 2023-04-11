@@ -11,8 +11,8 @@ class CreateSponsorshipForm(forms.ModelForm):
         widgets = {
             'sponsorship_date': forms.DateInput(attrs={'type': 'date', 'value': date.today()}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'type': 'date', 'required': False}, format='%Y-%m-%d'),
-            'home': forms.Select(attrs={'required': True}),
-            'godfather': forms.SelectMultiple(attrs={'required': True}),
+            'home': forms.SelectMultiple(attrs={'required': False}),
+            'godfather': forms.SelectMultiple(attrs={'required': False}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -35,12 +35,11 @@ class CreateSponsorshipForm(forms.ModelForm):
         child = cleaned_data.get("child")
         godfather = cleaned_data.get("godfather")
         home = cleaned_data.get("home")
-
         if sponsorship_date and termination_date and sponsorship_date > termination_date:
             self.add_error("sponsorship_date", ValidationErr("La fecha de apadrinamiento no puede ser posterior a la fecha de baja del apadrinamiento."))
-
-        if sponsorship_date and child and sponsorship_date < child.birth_date:
-            self.add_error("sponsorship_date", ValidationErr("La fecha de apadrinamiento no puede ser anterior a la fecha de nacimiento del niño"))
+        if child.birth_date is not None:
+            if sponsorship_date and child and sponsorship_date < child.birth_date:
+                self.add_error("sponsorship_date", ValidationErr("La fecha de apadrinamiento no puede ser anterior a la fecha de nacimiento del niño"))
 
         if sponsorship_date and child and child.termination_date is not None and sponsorship_date > child.termination_date:
             self.add_error("sponsorship_date", ValidationErr("La fecha de apadrinamiento no puede ser posterior a la fecha de baja del niño."))
@@ -58,7 +57,13 @@ class CreateSponsorshipForm(forms.ModelForm):
                         self.add_error("termination_date", ValidationErr("La fecha de terminación del apadrinamiento no puede ser posterior a la fecha de baja del padrino."))
 
         if home:
-            if home.termination_date is not None and termination_date is not None:
-                if termination_date > home.termination_date:
-                    self.add_error("termination_date", ValidationErr("La fecha de terminación del apadrinamiento no puede ser posterior a la fecha de baja de la casa de acogida."))
+            for h in home:
+                if h.termination_date is not None and termination_date is not None:
+                    if termination_date > h.termination_date:
+                        self.add_error("termination_date", ValidationErr("La fecha de terminación del apadrinamiento no puede ser posterior a la fecha de baja de la casa de acogida."))
+        if not home and not godfather:
+            self.add_error("home", ValidationErr("Debe seleccionar al menos una casa de acogida o un padrino."))
+        #There's another active sponsorship with the same child, besides the one is being created or updated:
+        if Sponsorship.objects.filter(child=child, termination_date__isnull=True).exclude(id=self.instance.id).exists():
+            self.add_error("child", ValidationErr("Ya existe un apadrinamiento activo para este niño."))
 
