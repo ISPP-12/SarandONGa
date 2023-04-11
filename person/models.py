@@ -343,23 +343,23 @@ class Child(Person):
     termination_date = models.DateField(
         verbose_name="Fecha de baja", null=True, blank=True)
     educational_level = models.CharField(
-        max_length=200, verbose_name="Nivel de estudios", null=True, blank=True)
+        max_length=100, verbose_name="Nivel de estudios", null=True, blank=True)
     expected_mission_time = models.CharField(
-        max_length=200, verbose_name="Tiempo previsto de mision", null=True, blank=True)
+        max_length=100, verbose_name="Tiempo previsto de mision", null=True, blank=True)
     mission_house = models.CharField(
-        max_length=200, verbose_name="Casa de la mision", null=True, blank=True)
+        max_length=100, verbose_name="Casa de la mision", null=True, blank=True)
     site = models.CharField(
-        max_length=200, verbose_name="Sede", null=True, blank=True)
+        max_length=100, verbose_name="Sede", null=True, blank=True)
     subsite = models.CharField(
-        max_length=200, verbose_name="Subsede", null=True, blank=True)
+        max_length=100, verbose_name="Subsede", null=True, blank=True)
     father_name = models.CharField(
-        max_length=200, verbose_name="Nombre del padre", null=True, blank=True)
+        max_length=100, verbose_name="Nombre del padre", null=True, blank=True)
     father_profession = models.CharField(
-        max_length=200, verbose_name="Profesion del padre", null=True, blank=True)
+        max_length=100, verbose_name="Profesion del padre", null=True, blank=True)
     mother_name = models.CharField(
-        max_length=200, verbose_name="Nombre de la madre", null=True, blank=True)
+        max_length=100, verbose_name="Nombre de la madre", null=True, blank=True)
     mother_profession = models.CharField(
-        max_length=200, verbose_name="Profesion de la madre", null=True, blank=True)
+        max_length=100, verbose_name="Profesion de la madre", null=True, blank=True)
     number_brothers_siblings = models.IntegerField(
         verbose_name="Número de hermanos", default=0, validators=[MinValueValidator(0)], null=True, blank=True)
     correspondence = models.CharField(
