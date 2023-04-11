@@ -70,9 +70,13 @@
         </span>
  
         {% if objects.has_next %}
-            <a href="?page={{ objects.next_page_number }}">Siguiente</a>
-            <a href="?page={{ objects.paginator.num_pages }}">Última &raquo;</a>
-        {% endif %}
+      <a href="?page={{ objects.next_page_number }}{% if request.GET.qsearch %}&qsearch={{ request.GET.qsearch }}{% endif %}{% if request.GET.quantity_min %}&quantity_min={{ request.GET.quantity_min }}{% endif %}
+      {% if request.GET.quantity_max %}&quantity_max={{ request.GET.quantity_max }}{% endif %}{% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+      {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}">Siguiente</a>
+      <a href="?page={{ objects.paginator.num_pages }}{% if request.GET.qsearch %}&qsearch={{ request.GET.qsearch }}{% endif %}{% if request.GET.quantity_min %}&quantity_min={{ request.GET.quantity_min }}{% endif %}
+      {% if request.GET.quantity_max %}&quantity_max={{ request.GET.quantity_max }}{% endif %}{% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+      {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}">Última &raquo;</a>
+  {% endif %}
     </span>
   </div>
 
