@@ -26,6 +26,7 @@ class AsemUserViewsTestCaseVidessur(StaticLiveServerTestCase):
         self.test_asem_user_1 = ASEMUser(
             name="Test",
             surname="Test Apellido",
+            birth_date=datetime(1990, 1, 24),
             condition="EM",
             member="EM",
             user_type="SACC",
@@ -83,6 +84,7 @@ class AsemUserViewsTestCaseVidessur(StaticLiveServerTestCase):
         # Fill and submit form
         self.driver.find_element(By.ID, "id_name").send_keys("Andrés")
         self.driver.find_element(By.ID, "id_surname").send_keys("González García")
+        self.driver.find_element(By.ID, "id_birth_date").send_keys("1990-01-24")
         Select(self.driver.find_element(By.ID, "id_condition")).select_by_index(1)
         Select(self.driver.find_element(By.ID, "id_member")).select_by_index(1)
         Select(self.driver.find_element(By.ID, "id_user_type")).select_by_index(1)
