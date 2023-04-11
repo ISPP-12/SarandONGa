@@ -306,7 +306,7 @@ class GodFatherTestCase(TestCase):
         with self.assertRaises(Exception):
             godfather.save()
     
-    def test_incorrect_postal_code(self):
+    def test_incorrect_postal_code_string(self):
             with self.assertRaises(Exception):
                 self.god_test_update.posta_code = "J"
                 self.god_test_update.save()
