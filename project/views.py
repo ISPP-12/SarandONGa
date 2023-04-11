@@ -8,6 +8,7 @@ import json
 from datetime import date
 from decimal import Decimal
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -78,15 +79,27 @@ def project_details(request, project_id):   #TODO
  
 def project_list(request):
     objects = Project.objects.filter(ong=request.user.ong).values()
+
+
     form = FilterProjectForm(request.GET or None)
 
     if request.method == 'GET':
         objects = project_filter(objects, form)
 
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    project_page = paginator.get_page(page_number)
+
+    projects_dict = [project for project in project_page]
+    for p in projects_dict:
+        p.pop('_state', None)
+
+    project_json = json.dumps(projects_dict, cls=CustomJSONEncoder)
+
 
     context = {
-        'objects': objects,
-        'objects_json' : json.dumps(list(objects), cls=CustomJSONEncoder),
+        'objects': project_page,
+        'objects_json' : project_json,
         'object_name': 'proyecto',
         'object_name_en': 'project',
         'title': 'Gestión de Proyectos',
