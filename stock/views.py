@@ -19,12 +19,13 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 @login_required
 def stock_list(request):
-    stock = Stock.objects.filter(ong=request.user.ong).values()
+    objects = Stock.objects.filter(ong=request.user.ong).values()
 
     form = FilterStockForm(request.GET or None)
-    objects = stock_filter(stock, form)
+    if request.method == 'GET':
+        objects = stock_filter(objects, form)
 
-    paginator = Paginator(objects, 12)
+    paginator = Paginator(objects, 9)
     page_number = request.GET.get('page')
     stock_page = paginator.get_page(page_number)
 
@@ -34,12 +35,30 @@ def stock_list(request):
 
     stock_json = json.dumps(stock_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+    query_str += "&min_quantity="
+    if "min_quantity" in keys:
+        query_str += request.GET["min_quantity"]
+    query_str += "&max_quantity="
+    if "max_quantity" in keys:
+        query_str += request.GET["max_quantity"]
+    query_str += "&min_amount="
+    if "min_amount" in keys:
+        query_str += request.GET["min_amount"]
+    query_str += "&max_amount="
+    if "max_amount" in keys:
+        query_str += request.GET["max_amount"]
+
     context = {
         'objects': stock_page,
         'objects_json': stock_json,
         'object_name': 'stock',
         'title': 'Gestión de Inventario',
         'form': form,
+        'query_str': query_str,
     }
     return render(request, 'stock/list.html', context)
 
