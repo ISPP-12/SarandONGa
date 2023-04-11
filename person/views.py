@@ -206,7 +206,7 @@ def choices_dicts():
 
 @login_required
 @asem_required
-def asem_user_details(request, asem_user_id): #TODO
+def asem_user_details(request, asem_user_id):
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
 
     choices_dict = choices_dicts()
@@ -240,8 +240,10 @@ def asem_user_details(request, asem_user_id): #TODO
     items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
 
     mid = math.ceil(len(items) / 2)
+
+    page_title = 'SarandONGa 💃 - ' + asem_user.name + ' ' + asem_user.surname
     
-    context = {'asem_user': asem_user, 'info_left': items[:mid], 'info_right': items[mid:]}
+    context = {'asem_user': asem_user, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
 
     return render(request, 'users/details.html', context)
 
@@ -363,7 +365,7 @@ def worker_filter(queryset, form):
     return queryset
 
 @login_required
-def worker_details(request, worker_id): #TODO
+def worker_details(request, worker_id): 
     worker = get_object_or_404(Worker, id=worker_id)
     if worker.ong == request.user.ong:
         fields = [f for f in Worker._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'logentry', 'last_login', 'is_active', 'is_admin']]
@@ -388,8 +390,12 @@ def worker_details(request, worker_id): #TODO
 
 
         mid = math.ceil(len(items) / 2)
+        if worker.name:
+            page_title = 'SarandONGa 💃 - ' + worker.name + ' ' + worker.surname
+        else:
+            page_title = 'SarandONGa 💃 - Trabajador'
         
-        context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:]}
+        context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
 
         return render(request, 'users/details.html', context)
     else:
@@ -710,7 +716,7 @@ def godfather_update(request, godfather_id):
 
 @login_required
 @videssur_required
-def godfather_details(request, godfather_id):   #TODO
+def godfather_details(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
 
     fields = [f for f in GodFather._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'payment', 'sponsorship', 'person_ptr', 'ong' ]]
@@ -757,8 +763,10 @@ def godfather_details(request, godfather_id):   #TODO
 
 
     mid = math.ceil(len(items) / 2)
+
+    page_title = 'SarandONGa 💃 - ' + godfather.name + ' ' + godfather.surname
     
-    context = {'godfather': godfather, 'info_left': items[:mid], 'info_right': items[mid:]}
+    context = {'godfather': godfather, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
 
     return render(request, 'users/details.html', context)
 
@@ -813,7 +821,7 @@ def child_update(request, child_id):
 
 @login_required
 @videssur_required
-def child_details(request, child_id):   #TODO:
+def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
     fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
         
@@ -846,11 +854,11 @@ def child_details(request, child_id):   #TODO:
 
     items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
 
-
-
     mid = math.ceil(len(items) / 2)
+
+    page_title = 'SarandONGa 💃 - ' + child.name + ' ' + child.surname
     
-    context = {'child': child, 'info_left': items[:mid], 'info_right': items[mid:]}
+    context = {'child': child, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
     return render(request, 'users/details.html', context)
 
 
@@ -986,7 +994,7 @@ def volunteer_filter(queryset, form):
 
 
 @login_required
-def volunteer_details(request, volunteer_id): #TODO:
+def volunteer_details(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if volunteer.ong == request.user.ong:
         fields = [f for f in Volunteer._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
@@ -1018,8 +1026,10 @@ def volunteer_details(request, volunteer_id): #TODO:
         items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
 
         mid = math.ceil(len(items) / 2)
+
+        page_title = 'SarandONGa 💃 - ' + volunteer.name + ' ' + volunteer.surname
         
-        context = {'volunteer': volunteer, 'info_left': items[:mid], 'info_right': items[mid:]}
+        context = {'volunteer': volunteer, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
         
         return render(request, 'users/details.html', context)
     else:
