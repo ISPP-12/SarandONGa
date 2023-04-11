@@ -205,9 +205,7 @@ class FilterWorkerForm(forms.Form):
     birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
     birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
-    telephone = forms.IntegerField(required=False, label="Búsqueda por teléfono", widget=forms.NumberInput(attrs={'min': 0}))
-    postal_code = forms.IntegerField(required=False, label="Búsqueda por código postal", widget=forms.NumberInput(attrs={'min': 0}))
-
+    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
@@ -218,8 +216,6 @@ class FilterWorkerForm(forms.Form):
         self.fields['birth_date_min'].initial = self.data.get('birth_date_min')
         self.fields['birth_date_max'].initial = self.data.get('birth_date_max')
         self.fields['sex'].initial = self.data.get('sex')
-        self.fields['telephone'].initial = self.data.get('telephone')
-        self.fields['postal_code'].initial = self.data.get('postal_code')
 
 class CreateNewChild(forms.ModelForm):
     def __init__(self, *args, **kwargs):

@@ -315,8 +315,6 @@ def worker_filter(queryset, form):
     birth_date_min = form['birth_date_min'].value()
     birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
-    telephone = form['telephone'].value()
-    postal_code = form['postal_code'].value()
 
     if qsearch is not None:
         if qsearch.strip() != '':
@@ -325,7 +323,9 @@ def worker_filter(queryset, form):
                 Q(name__icontains=qsearch) | 
                 Q(surname__icontains=qsearch) | 
                 Q(address__icontains=qsearch) |
-                Q(city__icontains=qsearch)
+                Q(city__icontains=qsearch) |
+                Q(telephone__icontains=qsearch) |
+                Q(postal_code__icontains=qsearch)
             )
 
     if is_valid_queryparam(birth_date_min):
@@ -336,12 +336,6 @@ def worker_filter(queryset, form):
 
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
-
-    if is_valid_queryparam(telephone):
-        queryset = queryset.filter(telephone=telephone)
-
-    if is_valid_queryparam(postal_code):
-        queryset = queryset.filter(postal_code=postal_code)
 
     return queryset
 
