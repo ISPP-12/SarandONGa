@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 import json
 from decimal import Decimal
+from django.core.paginator import Paginator
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -14,17 +15,22 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 @login_required
+ 
 def stock_list(request):
 
     stock = Stock.objects.filter(ong=request.user.ong).values()
-    stock_dict = [obj for obj in stock]
+    paginator = Paginator(stock, 12)
+    page_number = request.GET.get('page')
+    stock_page = paginator.get_page(page_number)
+    
+    stock_dict = [stock for stock in stock_page]
     for d in stock_dict:
         d.pop('_state', None)
 
     stock_json = json.dumps(stock_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': stock,
+        'objects': stock_page,
         'objects_json' : stock_json,
         'object_name': 'stock',
         'title': 'Gestión de Inventario',
@@ -32,6 +38,7 @@ def stock_list(request):
     return render(request, 'stock/list.html', context)
 
 @login_required
+ 
 def stock_create(request):
     form = CreateNewStock(initial={'ong': request.user.ong})
     if request.method == "POST":
@@ -46,12 +53,14 @@ def stock_create(request):
     return render(request, 'stock/register.html', {'form': form, 'title': 'Registrar artículo'})
 
 @login_required
+ 
 def stock_delete(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
     stock.delete()
     return redirect('stock_list')
 
 @login_required
+ 
 def stock_update(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
     if stock.ong == request.user.ong:

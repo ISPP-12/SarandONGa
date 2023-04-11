@@ -86,3 +86,15 @@
     margin-bottom: 1em;
   }
 }
+
+/* TEXT OVERFLOW */
+
+#id-tableHeader {
+  word-wrap: normal;
+  word-break: break-word;
+}
+
+h2, h5 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

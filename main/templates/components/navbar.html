@@ -54,11 +54,11 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="/logout">Cerrar sesión</a>
+                <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
             </li>
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="/login">Iniciar sesión</a>
+                <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
             </li>
             {% endif %}
             

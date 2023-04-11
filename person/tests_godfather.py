@@ -6,11 +6,12 @@ from person.models import GodFather
 class GodFatherTestCase(TestCase):
     def setUp(self):
         self.ong = Ong.objects.create(name='Mi ONG')
-        GodFather.objects.create(
+        self.god_test = GodFather.objects.create(
             name = 'John',
             surname = 'Doe',
             dni='65004204V',
             email = 'emailja@gmail.com',
+            birth_date=datetime(1990, 1, 24, tzinfo=timezone.utc),
             payment_method='T',
             bank_account_number='ES6621000418401234567891',
             bank_account_holder='John Doe',
@@ -29,6 +30,7 @@ class GodFatherTestCase(TestCase):
             surname = 'Deep',
             dni='65004204T',
             email = 'emailje@gmail.com',
+            birth_date=datetime(1990, 1, 24, tzinfo=timezone.utc),
             payment_method='T',
             bank_account_number='ES6621000418401234567198',
             bank_account_holder='John Bruh',
@@ -47,6 +49,7 @@ class GodFatherTestCase(TestCase):
             surname = 'Pérez',
             dni='65001204Z',
             email = 'emailjo@gmail.com',
+            birth_date=datetime(1990, 1, 24, tzinfo=timezone.utc),
             payment_method='T',
             bank_account_number='ES6621000418401234567176',
             bank_account_holder='Juan Pérez',
@@ -209,3 +212,210 @@ class GodFatherTestCase(TestCase):
         with self.assertRaises(Exception):
             gf.save()
             gf.full_clean()
+
+
+ # TESTS UPDATE godfather 
+
+    def test_godfather_update_incorrect_name_max_lenght(self):
+        godfather = GodFather.objects.get(name="Johny")
+        godfather.name = "a"*201
+        with self.assertRaises(Exception):
+            godfather.save()
+    
+    def test_godfather_update_incorrect_name_null(self):
+        godfather = GodFather.objects.get(name="Johny")
+        godfather.name = None
+        with self.assertRaises(Exception):
+            godfather.save()
+    
+    def test_godfather_incorrect_name_int(self):
+        with self.assertRaises(Exception):
+                self.god_test.name = 123
+                self.god_test.save()
+                self.god_test.full_clean()
+
+    def test_godfather_update_incorrect_surname_max_lenght(self):
+        godfather = GodFather.objects.get(name="Johny")
+        godfather.surname = "a"*201
+        with self.assertRaises(Exception):
+            godfather.save()
+    
+    def test_godfather_update_incorrect_surname_null(self):
+        godfather = GodFather.objects.get(name="Johny")
+        godfather.surname = None
+        with self.assertRaises(Exception):
+            godfather.save()
+            self.god_test.full_clean()
+
+    def test_godfather_incorrect_surname_int(self):
+        with self.assertRaises(Exception):
+                self.god_test_update.surname = 123
+                self.god_test_update.save()
+                self.god_test_update.full_clean()
+    
+    def test_godfather_incorrect_email(self):
+        with self.assertRaises(Exception):
+                self.god_test_update.email = "emailfalso"
+                self.god_test_update.save()
+                self.god_test_update.full_clean()
+    
+    def test_godfather_incorrect_birth_date(self):
+            with self.assertRaises(Exception):
+                self.god_test_update.birth_date = "23-12-23"
+                self.god_test_update.save()
+                self.god_test_update.full_clean()
+    
+    def test_godfather_incorrect_sex(self):
+            with self.assertRaises(Exception):
+                self.god_test_update.sex = "J"
+                self.god_test_update.save()
+                self.god_test_update.full_clean()
+    
+    def test_incorrect_city(self):
+            with self.assertRaises(Exception):
+                self.god_test_update.city = 1111
+                self.god_test_update.save()
+                self.god_test_update.full_clean()
+
+    def test_incorrect_city_max_length(self):
+        godfather = GodFather.objects.get(name="Johny")
+        godfather.city = "a"*201
+        with self.assertRaises(Exception):
+            godfather.save()
+            
+            
+    
+    def test_incorrect_addres_max_length(self):
+        godfather = GodFather.objects.get(name="Johny")
+        godfather.address = "a"*201
+        with self.assertRaises(Exception):
+            godfather.save()
+    
+    def test_incorrect_telephone(self):
+        with self.assertRaises(Exception):
+                self.god_test.telephone = "a"
+                self.god_test.save()
+                self.god_test.full_clean()
+    
+    def test_incorrect_cellphone(self):
+            with self.assertRaises(Exception):
+                self.god_test_update.telephone = "11111111111111111111111111111111111111111111111111111111111"
+                self.god_test_update.save()
+                self.god_test_update.full_clean()
+    
+    def test_incorrect_postal_code(self):
+        godfather = GodFather.objects.get(name="Johny")
+        godfather.postal_code = "a"*52
+        with self.assertRaises(Exception):
+            godfather.save()
+    
+    def test_incorrect_postal_code_string(self):
+            with self.assertRaises(Exception):
+                self.god_test_update.posta_code = "J"
+                self.god_test_update.save()
+                self.god_test_update.full_clean()
+
+   
+    def test_incorrect_start_date(self):
+        with self.assertRaises(Exception):
+            self.god_test.start_date = "23-12-23"
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_dni(self):
+        with self.assertRaises(Exception):
+            self.god_test.dni = "29533919"
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_dni_null(self):
+        with self.assertRaises(Exception):
+            self.god_test.dni = None
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_dni_max_length(self):
+        with self.assertRaises(Exception):
+            self.god_test.dni = "29533919"
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_amount_null(self):
+        with self.assertRaises(Exception):
+            self.god_test.amount = None
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_amount_negative(self):
+        with self.assertRaises(Exception):
+            self.god_test.amount = -1
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    
+    def test_incorrect_bank_reference_null(self):
+        with self.assertRaises(Exception):
+            self.god_test.bank_account_reference = None
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_bank_account_null(self):
+        with self.assertRaises(Exception):
+            self.god_test.bank_account = None
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_godfather_update_bank_account_number_incorrect_blank(self):
+        with self.assertRaises(Exception):
+            self.god_test.bank_account_number = ""
+            self.god_test.full_clean()    
+    
+ 
+    def test_incorrect_status_null(self):
+        with self.assertRaises(Exception):
+            self.god_test.status = None
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_status_int(self):
+        with self.assertRaises(Exception):
+            self.god_test.status = 111
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_status_string(self):
+        with self.assertRaises(Exception):
+            self.god_test.status = "111"
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_frequency_null(self):
+        with self.assertRaises(Exception):
+            self.god_test.frequency = None
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_frequency_choice(self):
+        with self.assertRaises(Exception):
+            self.god_test.frequency = "JJJJJ"
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    
+    def test_incorrect_ong_null(self):
+        with self.assertRaises(Exception):
+            self.god_test.ong = None
+            self.god_test.save()
+            self.god_test.full_clean()
+
+    def test_incorrect_ong_int(self):
+        with self.assertRaises(Exception):
+            self.god_test.ong = 111
+            self.god_test.save()
+            self.god_test.full_clean()
+    
+    def test_incorrect_ong_string(self):
+        with self.assertRaises(Exception):
+            self.god_test.ong = "111"
+            self.god_test.save()
+            self.god_test.full_clean()

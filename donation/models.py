@@ -2,8 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.validators import MinValueValidator
 from ong.models import Ong
-#from django.utils.text import slugify
-
+# from django.utils.text import slugify
 
 
 class Donation(models.Model):
@@ -25,18 +24,19 @@ class Donation(models.Model):
     donor_email = models.EmailField(verbose_name="Correo Electrónico")
     ong = models.ForeignKey(
         Ong, on_delete=models.CASCADE, related_name='donacion', verbose_name="ONG")
-    #slug = models.SlugField(max_length=200, unique=True, editable=False)
-    # Dejo esto comentado pero es para almacenar un documento correspondiente a la donación, si fuese necesario
-    # document= models.FileField(blank=True, null=True)
+    # slug = models.SlugField(max_length=200, unique=True, editable=False)
+    document = models.FileField(
+        verbose_name="Documento", upload_to="./media/docs/donation/", null=True, blank=True)
+    # documents = models.JSONField(
+    #     verbose_name="Documentos", null=True, blank=True)
 
     def __str__(self):
         return self.title
 
-
     def save(self, *args, **kwargs):
        # self.slug = slugify(self.title + ' ' + self.description)
-        super(Donation, self).save(*args, **kwargs) 
-    class Meta:
-        verbose_name = 'Donacion'
-        verbose_name_plural = 'Donaciones'
+        super(Donation, self).save(*args, **kwargs)
 
+    class Meta:
+        verbose_name = 'Donación'
+        verbose_name_plural = 'Donaciones'

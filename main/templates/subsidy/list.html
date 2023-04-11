@@ -28,20 +28,20 @@
 </div>
 {% for object in objects %}
 
-<div class="container-fluid mw-100  card-list rounded px-2 py-1" tabindex="1">
+<div class="container-fluid mw-100  card-list rounded px-2 py-1" id="subsidy-{{ object.id }}" tabindex="1">
   <span class="object-id d-none">{{ object.id }}</span>
    
       
     <div class="row">
-      <div class="col-md-5 col-lg-5 col-sm-6 ">
+      <div class="col-lg-5 col-6 ">
         <strong><h5>{{object.name}}</h5></strong>
       
       </div>
-      <div class="col-md-2 col-lg-3 col-sm-1">
+      <div class="col-lg-3 col-3">
         <span>{{object.amount}} €</span>
 
       </div>  
-      <div class="col-md-3 col-lg-4 col-email col-sm-1">
+      <div class="col-lg-4 col-3">
         <span>{{object.organism}}</span>
 
       </div> 
@@ -120,6 +120,7 @@
             <p><strong>Pago: </strong>${objectData.payment_date}</p>
             <p><strong>Resolución provisional: </strong>${objectData.provisional_resolution}</p>
             <p><strong>Resolución final: </strong>${objectData.provisional_resolution}</p>
+            <p><strong>Estado: </strong>${objectData.status}</p>
           </div>
         </div>
 

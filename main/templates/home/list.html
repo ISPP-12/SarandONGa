@@ -40,19 +40,19 @@ displayed in the preview text (e.g. "donación")
     <span class="object-id d-none">{{ object.id }}</span>
    
     <div class="row">
-      <div class="col-md-5 col-lg-4 col-sm-6 ">
-        <strong><h5>{{object.name}}</h5></strong>
+      <div class="col-lg-5 col-6">
+        <strong><h5 title="{{object.name}}">{{object.name}}</h5></strong>
       </div>
 
-      <div class="col-md-2 col-lg-2 col-sm-1">
+      <div class="col-lg-2 col-6">
         <span>{{object.province}}</span>
       </div>
 
-      <div class="col-md-3 col-lg-2  col-sm-1">
+      <div class="col-lg-3 col-6">
         <span>{{object.amount}} €</span>
       </div>
 
-      <div class="col-md-2 col-sm-1 col-lg-2 col-email ">
+      <div class="col-lg-2 col-6">
         <span>{{object.frequency}}</span>
       </div>
 
@@ -119,7 +119,7 @@ displayed in the preview text (e.g. "donación")
           preview.innerHTML = `
         <div class="row ">
           <div class="col-12 px-4 ">
-            <h2>${objectData.name}</h2>
+            <h2 title="${objectData.name}">${objectData.name}</h2>
             <h5>{{object_name}}</h5>
             <p>${objectData.province}</p>
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>

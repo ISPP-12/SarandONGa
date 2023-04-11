@@ -5,12 +5,13 @@ from django.core.paginator import Paginator
 from .models import Home
 from .models import PAYMENT_METHOD
 from .models import FREQUENCY
-from .forms import CreateHomeForm
+from .forms import CreateHomeForm, FilterHomeForm
 from decimal import Decimal
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from main.views import videssur_required
 from xml.dom import ValidationErr
+from django.db.models import Q
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -40,7 +41,12 @@ def home_create(request):
 @login_required
 def home_list(request):
     # get donations dict from database
+    
+    form = FilterHomeForm(request.GET or None)
     homes = Home.objects.all()
+
+    if request.method == 'GET':
+        homes = home_filter(homes, form)
 
     paginator = Paginator(homes, 12)
     page_number = request.GET.get('page')
@@ -64,6 +70,7 @@ def home_list(request):
         'object_name': 'casa',
         'object_name_en': 'home',
         'title': 'Gestión de Casas',
+        'form': form,
     }
 
     return render(request, 'home/list.html', context)
@@ -99,3 +106,69 @@ def home_update(request,home_id):
         else:
             messages.error(request, 'Formulario con errores')
     return render(request, 'home/home_form.html', {"form": form})
+
+def is_valid_queryparam(param):
+    return param != "" and param is not None
+
+def home_filter(queryset, form):
+    
+    q = form['qsearch'].value()
+    min_start_date = form['min_start_date'].value()
+    max_start_date = form['max_start_date'].value()
+    min_termination_date = form['min_termination_date'].value()
+    max_termination_date = form['max_termination_date'].value()
+    province = form['province'].value()
+    bank_account_holder = form['bank_account_holder'].value()
+    bank_account_reference = form['bank_account_reference'].value()
+    payment_method = form['payment_method'].value()
+    frequency = form['frequency'].value()
+    amount_min = form['amount_min'].value()
+    amount_max = form['amount_max'].value()
+    
+
+    if q is not None:
+            if q.strip() != "":
+                queryset = queryset.filter(
+                    Q(name__icontains=q) |
+                    Q(bank_account_number__icontains=q) |
+                    Q(province__icontains=q) |
+                    Q(bank_account_holder__icontains=q) |
+                    Q(bank_account_reference__icontains=q)
+                )
+
+    if is_valid_queryparam(min_start_date):
+        queryset = queryset.filter(start_date__gte=min_start_date)
+
+    if is_valid_queryparam(max_start_date):
+        queryset = queryset.filter(start_date__lte=max_start_date)
+
+    if is_valid_queryparam(min_termination_date):
+        queryset = queryset.filter(termination_date__gte=min_termination_date)
+
+    if is_valid_queryparam(max_termination_date):
+        queryset = queryset.filter(termination_date__lte=max_termination_date)
+
+    if is_valid_queryparam(province):
+        queryset = queryset.filter(province=province)
+
+    if is_valid_queryparam(bank_account_holder):
+        queryset = queryset.filter(bank_account_holder=bank_account_holder)
+
+    if is_valid_queryparam(bank_account_reference):
+        queryset = queryset.filter(bank_account_reference=bank_account_reference)
+
+    if is_valid_queryparam(payment_method):
+        queryset = queryset.filter(payment_method=payment_method)
+
+    if is_valid_queryparam(frequency):
+        queryset = queryset.filter(frequency=frequency)
+
+    if is_valid_queryparam(amount_min):
+        queryset = queryset.filter(amount__gte=amount_min)
+
+    if is_valid_queryparam(amount_max):
+        queryset = queryset.filter(amount__lte=amount_max)
+
+    
+
+    return queryset
