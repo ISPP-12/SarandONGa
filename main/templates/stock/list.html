@@ -38,6 +38,12 @@
         </div>
     </div>
 </div>
+<form method="GET" class="my-3">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Filtrar">
+    <button type="reset" class="btn btn-secondary">Borrar filtros</button>
+  </form>
 
 <!-- CARDS -->
 <div class="row h-100 mb-4">
@@ -55,8 +61,8 @@
 <div class="pagination">
     <span class="step-links">
         {% if objects.has_previous %}
-            <a href="?page=1">&laquo; Primera</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        <a href="?page=1{{ query_str }}">&laquo; Primera</a>
+        <a href="?page={{ objects.previous_page_number }}{{ query_str}}">Anterior</a>
         {% endif %}
  
         <span class="current">
@@ -64,11 +70,16 @@
         </span>
  
         {% if objects.has_next %}
-            <a href="?page={{ objects.next_page_number }}">Siguiente</a>
-            <a href="?page={{ objects.paginator.num_pages }}">Última &raquo;</a>
+        <a href="?page={{ objects.next_page_number }}{{ query_str }}">Siguiente</a>
+        <a href="?page={{ objects.paginator.num_pages }}{{ query_str}}">Última &raquo;</a>
         {% endif %}
     </span>
   </div>
-
 </div>
+<script>
+    document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = window.location.pathname;
+    });
+  </script>
 {% endblock %}
