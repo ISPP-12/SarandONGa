@@ -76,7 +76,7 @@ VOLUNTEER_TYPE = (
     ('O', 'Otro')
 )
 
-DNI_REGEX = r'^\d{8}[A-Z]$'
+DNI_REGEX = r'^\d{8}[A-Za-z]$'
 
 DNI_VALIDATOR = RegexValidator(
     regex=DNI_REGEX,
@@ -216,11 +216,11 @@ class GodFather(Person):
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
     bank_account_number = IBANField(
-        include_countries=IBAN_SEPA_COUNTRIES, verbose_name='Número de cuenta bancaria')
+        include_countries=IBAN_SEPA_COUNTRIES,blank=True, null=True)
     bank_account_holder = models.CharField(
-        max_length=100, verbose_name='Titular de cuenta bancaria')
+        max_length=100, blank=True, null=True)
     bank_account_reference = models.CharField(
-        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])  # for example, 1234567890
+        max_length=100, validators=[RegexValidator(r'^[0-9]+$')],blank=True, null=True)  # for example, 1234567890
     amount = models.DecimalField(max_digits=10, decimal_places=2,
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
@@ -232,7 +232,7 @@ class GodFather(Person):
     notes = models.TextField(blank=True, verbose_name='Observaciones')
     status = models.CharField(
         max_length=20, choices=STATUS, verbose_name='Estado')
-   # slug = models.SlugField(max_length=200, unique=True, editable=False)
+
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='padrino', verbose_name="ONG")
 

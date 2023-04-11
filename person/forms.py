@@ -5,6 +5,12 @@ from localflavor.generic.forms import IBANFormField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 import re
 
+PAYMENT_METHOD = (
+    ('T', 'Transferencia'),
+    ('TB', 'Tarjeta Bancaria'),
+    ('E', 'Efectivo'),
+)
+
 class FilterAsemUserForm(forms.Form):
     qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
     min_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
@@ -76,13 +82,38 @@ class CreateNewGodFather(forms.ModelForm):
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
             'sex': forms.Select(attrs={'step': "0.01"}),
+            'payment_method': forms.Select(choices=PAYMENT_METHOD),
         }
+        labels = {
+            'bank_account_number': 'Número de cuenta bancaria',
+            'bank_account_reference': 'Referencia de cuenta',
+            'bank_account_holder': 'Titular de cuenta bancaria',
+        }
+        error_messages = {
+            'bank_account_number': {
+                'required': 'Por favor ingrese su número de cuenta bancaria.',
+            },
+            'bank_account_reference': {
+                'required': 'Por favor ingrese su referencia de cuenta bancaria.',
+            },
+            'bank_account_holder': {
+                'required': 'Por favor ingrese el titular de la cuenta bancaria.',
+            },
+        }
+
         dni = ESIdentityCardNumberField(only_nif=True)
         bank_account_number = IBANFormField(
             include_countries=IBAN_SEPA_COUNTRIES)
 
     def __init__(self, *args, **kwargs):
         super(CreateNewGodFather, self).__init__(*args, **kwargs)
+        self.fields['bank_account_number'].required = False
+        self.fields['bank_account_reference'].required = False
+        self.fields['bank_account_holder'].required = False
+        self.fields['bank_account_number'].widget.attrs.update({'class': 'form-control'})
+        self.fields['bank_account_reference'].widget.attrs.update({'class': 'form-control'})
+        self.fields['bank_account_holder'].widget.attrs.update({'class': 'form-control'})
+        self.fields['payment_method'].widget.attrs.update({'class': 'form-control', 'id': 'id_payment_method'})
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
