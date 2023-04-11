@@ -9,47 +9,39 @@ from datetime import datetime
 from django.db.models import Q
 from django.core.paginator import Paginator
 from person.models import GodFather
+from xml.dom import ValidationErr
+
 
 
 # Hay que asignar el padrino
 @login_required
 def payment_create(request):
     project = Project.objects.all()
-    print('1')
     form = CreatePaymentForm(initial={'ong': request.user.ong, 'project': project})
-    print('2')
     if 'godfather' in request.GET:
         godfather = GodFather.objects.get(id=request.GET.get("godfather"))
     else:
         godfather = None
-    print('3')
     if request.method == 'POST':
-        print('4')
         form = CreatePaymentForm(request.POST, initial={'project': project,'godfather': godfather})
         print(form.clean)
         if form.is_valid():
-            print('6')
             payment = form.save(commit=False)
             payment.ong = request.user.ong
-            print('7')
             try:
               payment.godfather = GodFather.objects.get(id=request.user.id)
-              print('8')
               payment.save()
-            except:
+            except ValidationErr as v:
                messages.error(request, 'El usuario con el que ha iniciado sesion no puede hacer un pago')
             
             return redirect('payment_list')
 
         else:
-            print(form.errors)
             messages.error(request, 'El formulario presenta errores')
     else:
         form = CreatePaymentForm(initial={'ong': request.user.ong, 'project': project,'godfather': godfather})
-        print('9')
     all_events = Payment.objects.all()
     event_arr = []
-    print('10')
     for i in all_events:
         event_sub_arr = {}
         event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
