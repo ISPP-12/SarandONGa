@@ -1,6 +1,16 @@
 from django import forms
 from .models import Donation
 
+class FilterDonationForm(forms.Form):
+    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
+    min_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Donación registrada después del")
+    max_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Donación registrada antes del")
+    min_amount = forms.FloatField(required=False, label="Precio mínimo de donación")
+    max_amount = forms.FloatField(required=False, label="Precio máximo de donación")
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.method = "get"
 
 class CreateNewDonation(forms.ModelForm):
     class Meta:

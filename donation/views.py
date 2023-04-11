@@ -5,10 +5,10 @@ from donation.models import Donation
 from decimal import Decimal
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import CreateNewDonation
+from .forms import CreateNewDonation, FilterDonationForm
 from main.views import custom_403
 from django.core.paginator import Paginator
-
+from django.db.models import Q
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -43,6 +43,9 @@ def donation_list(request):
     objects = Donation.objects.filter(
         ong=request.user.ong).order_by('-created_date').values()
 
+    form = FilterDonationForm(request.GET or None)
+    objects = donation_filter(objects, form)
+
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     donation_page = paginator.get_page(page_number)
@@ -64,9 +67,47 @@ def donation_list(request):
         'object_name': 'donación',
         'object_name_en': 'donation',
         'title': 'Gestión de Donaciones',
+        'form': form,
     }
 
     return render(request, 'donation/list.html', context)
+
+def is_valid_queryparam(param):
+    return param != '' and param is not None
+
+def donation_filter(queryset, form):
+
+    q = form['qsearch'].value()
+    min_date = form['min_date'].value()
+    max_date = form['max_date'].value()
+    min_amount = form['min_amount'].value()
+    max_amount = form['max_amount'].value()
+    
+    if q is not None:
+            if q.strip() != '':
+                queryset = queryset.filter(
+                    Q(title__icontains=q) |
+                    Q(description__icontains=q) |
+                    Q(donor_name__icontains=q) |
+                    Q(donor_surname__icontains=q) |
+                    Q(donor_dni__icontains=q) |
+                    Q(donor_address__icontains=q) |
+                    Q(donor_email__icontains=q)
+                )
+
+    if is_valid_queryparam(min_date):
+        queryset = queryset.filter(created_date__gte=min_date)
+    
+    if is_valid_queryparam(max_date):
+        queryset = queryset.filter(created_date__lte=max_date)
+    
+    if is_valid_queryparam(min_amount):
+        queryset = queryset.filter(amount__gte=min_amount)
+    
+    if is_valid_queryparam(min_amount):
+        queryset = queryset.filter(amount__lte=max_amount)
+
+    return queryset
 
 
 @login_required

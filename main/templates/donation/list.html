@@ -18,6 +18,12 @@ displayed in the preview text (e.g. "donación")
 {% endblock %}
 
 {% block objectFor %}
+<form method="GET" class="my-3">
+  {% csrf_token %}
+  {{form}}
+  <input type="submit" value="Filtrar">
+  <button type="reset" class="btn btn-secondary">Borrar filtros</button>
+</form>
 
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
@@ -175,5 +181,11 @@ displayed in the preview text (e.g. "donación")
 
   })
 
+</script>
+<script>
+  document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = window.location.pathname;
+  });
 </script>
 {% endblock %}
