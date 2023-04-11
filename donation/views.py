@@ -104,7 +104,7 @@ def donation_filter(queryset, form):
     if is_valid_queryparam(min_amount):
         queryset = queryset.filter(amount__gte=min_amount)
     
-    if is_valid_queryparam(min_amount):
+    if is_valid_queryparam(max_amount):
         queryset = queryset.filter(amount__lte=max_amount)
 
     return queryset
