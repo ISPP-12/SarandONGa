@@ -110,6 +110,7 @@ class CreateNewGodFather(forms.ModelForm):
         self.fields['bank_account_number'].required = False
         self.fields['bank_account_reference'].required = False
         self.fields['bank_account_holder'].required = False
+        self.fields['email'].required = True
         self.fields['bank_account_number'].widget.attrs.update({'class': 'form-control'})
         self.fields['bank_account_reference'].widget.attrs.update({'class': 'form-control'})
         self.fields['bank_account_holder'].widget.attrs.update({'class': 'form-control'})
