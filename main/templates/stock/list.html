@@ -61,8 +61,16 @@
 <div class="pagination">
     <span class="step-links">
         {% if objects.has_previous %}
-            <a href="?page=1">&laquo; Primera</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+            <a href="?page=1{% if request.GET.qsearch %}&qsearch={{ request.GET.qsearch }}{% endif %}
+                {% if request.GET.quantity_min %}&quantity_min={{ request.GET.quantity_min }}{% endif %}
+                {% if request.GET.quantity_max %}&quantity_max={{ request.GET.quantity_max }}{% endif %}
+                {% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+                {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}">&laquo; Primera</a>
+            <a href="?page={{ objects.previous_page_number }}{% if request.GET.qsearch %}&qsearch={{ request.GET.qsearch }}{% endif %}
+                {% if request.GET.quantity_min %}&quantity_min={{ request.GET.quantity_min }}{% endif %}
+                {% if request.GET.quantity_max %}&quantity_max={{ request.GET.quantity_max }}{% endif %}
+                {% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+                {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}">Anterior</a>
         {% endif %}
  
         <span class="current">
@@ -70,13 +78,17 @@
         </span>
  
         {% if objects.has_next %}
-      <a href="?page={{ objects.next_page_number }}{% if request.GET.qsearch %}&qsearch={{ request.GET.qsearch }}{% endif %}{% if request.GET.quantity_min %}&quantity_min={{ request.GET.quantity_min }}{% endif %}
-      {% if request.GET.quantity_max %}&quantity_max={{ request.GET.quantity_max }}{% endif %}{% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
-      {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}">Siguiente</a>
-      <a href="?page={{ objects.paginator.num_pages }}{% if request.GET.qsearch %}&qsearch={{ request.GET.qsearch }}{% endif %}{% if request.GET.quantity_min %}&quantity_min={{ request.GET.quantity_min }}{% endif %}
-      {% if request.GET.quantity_max %}&quantity_max={{ request.GET.quantity_max }}{% endif %}{% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
-      {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}">Última &raquo;</a>
-  {% endif %}
+            <a href="?page={{ objects.next_page_number }}{% if request.GET.qsearch %}&qsearch={{ request.GET.qsearch }}{% endif %}
+                {% if request.GET.quantity_min %}&quantity_min={{ request.GET.quantity_min }}{% endif %}
+                {% if request.GET.quantity_max %}&quantity_max={{ request.GET.quantity_max }}{% endif %}
+                {% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+                {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}">Siguiente</a>
+            <a href="?page={{ objects.paginator.num_pages }}{% if request.GET.qsearch %}&qsearch={{ request.GET.qsearch }}{% endif %}
+                {% if request.GET.quantity_min %}&quantity_min={{ request.GET.quantity_min }}{% endif %}
+                {% if request.GET.quantity_max %}&quantity_max={{ request.GET.quantity_max }}{% endif %}
+                {% if request.GET.amount_min %}&amount_min={{ request.GET.amount_min }}{% endif %}
+                {% if request.GET.amount_max %}&amount_max={{ request.GET.amount_max }}{% endif %}">Última &raquo;</a>
+        {% endif %}
     </span>
   </div>
 
@@ -84,7 +96,12 @@
 <script>
     document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
         e.preventDefault();
-        window.location.href = window.location.pathname;
+        const queryString = location.search;
+
+        const params = new URLSearchParams(queryString);
+        const page = params.get("page");
+        if(page) window.location.href = window.location.pathname + "?page=" + page;
+        else window.location.href = window.location.pathname;
     });
   </script>
 {% endblock %}

@@ -46,3 +46,10 @@ class FilterStockForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
+
+        # Asignamos los valores de los filtros como valores iniciales
+        self.fields['qsearch'].initial = self.data.get('qsearch')
+        self.fields['min_quantity'].initial = self.data.get('min_quantity')
+        self.fields['max_quantity'].initial = self.data.get('max_quantity')
+        self.fields['min_amount'].initial = self.data.get('min_amount')
+        self.fields['max_amount'].initial = self.data.get('max_amount')
