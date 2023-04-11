@@ -11291,3 +11291,19 @@ footer.footer {
   color: #000000;
   line-height: 34px;
 }
+
+h1.first-title {
+  font-family: var(--font-header);
+  font-size: 64px;
+  color: var(--clr-black);
+}
+
+#login {
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+}
+
+#login:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-black);
+}
