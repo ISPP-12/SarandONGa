@@ -11,6 +11,11 @@
 {% block objectFor %}
 <div class="pagination">
   <span class="step-links">
+    <form method="GET">   
+      {% csrf_token %}   
+      {{form}}   
+      <input type="submit" value="Filtrar"> 
+    </form>
       {% if objects.has_previous %}
           <a href="?page=1">&laquo; Primera</a>
           <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
