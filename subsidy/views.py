@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Subsidy
 from .forms import CreateNewSubsidy, FilterSubsidyForm
@@ -8,7 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 from django.db.models import Q
-
+import math
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -19,8 +20,8 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+
 @login_required
- 
 def subsidy_create(request):
     form = CreateNewSubsidy(initial={'ong': request.user.ong})
     if request.method == "POST":
@@ -39,8 +40,8 @@ def subsidy_create(request):
 
     return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" ,  "title": "Añadir Subvención"})
 
+
 @login_required
- 
 def subsidy_list(request):
     subsidies = Subsidy.objects.filter(ong=request.user.ong).order_by('-presentation_date').values()
 
@@ -67,8 +68,57 @@ def subsidy_list(request):
 
     return render(request, 'subsidy/list.html', context)
 
+
 @login_required
- 
+def subsidy_details(request, subsidy_id):
+    subsidy = get_object_or_404(Subsidy, id=subsidy_id)
+
+    # fields to be shown
+    field_names = ['id', 'ong', 'document']
+    fields = [f for f in Subsidy._meta.get_fields() if f.name not in field_names]
+    info = [getattr(subsidy, f.name) for f in fields]
+
+    fields_info = dict(zip([f.verbose_name for f in fields], info))
+    
+    items = list(fields_info.items())
+    for item in items:
+        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            items[items.index(item)] = (item[0], 'Sí')
+        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            items[items.index(item)] = (item[0], 'No')
+        elif(item[0] == 'Estado'):
+            choices = Subsidy._meta.get_field('status').choices
+            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+
+    # document
+    document_url = subsidy.document.url
+    document_name = document_url.split('/')[-1]
+    document = {'url': document_url, 'name': document_name}
+
+    mid = math.ceil(len(items) / 2)
+    
+    context = {
+        'subsidy': subsidy, 
+        'subsidy_id': str(subsidy.id),
+        'info_left': items[:mid], 
+        'info_right': items[mid:],
+        'document': document,
+        }
+
+    return render(request, 'subsidy/details.html', context)
+
+
+# def download(request, document_id):
+#     document = get_object_or_404(Document, pk=document_id)
+#     response = HttpResponse(document.document, content_type='application/pdf')
+#     response['Content-Disposition'] = f'attachment; filename="{document.document.name}"'
+#     return response
+
+
+@login_required
 def subsidy_delete(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
     if subsidy.ong == request.user.ong:
@@ -77,8 +127,8 @@ def subsidy_delete(request, subsidy_id):
        return custom_403(request)
     return redirect("/subsidy/list")
 
+
 @login_required
- 
 def subsidy_update(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
     
@@ -97,8 +147,10 @@ def subsidy_update(request, subsidy_id):
         return custom_403(request)
     return render(request, 'subsidy/create.html', {"form": form})
 
+
 def is_valid_queryparam(param):
     return param != "" and param is not None
+
 
 def subsidy_filter(queryset, form):
     
@@ -169,8 +221,6 @@ def subsidy_filter(queryset, form):
 
     if is_valid_queryparam(amount_max):
         queryset = queryset.filter(amount__lte=amount_max)
-
-    
 
     return queryset
      

@@ -221,7 +221,6 @@ def asem_user_details(request, asem_user_id):
     fields_info = dict(zip([f.verbose_name for f in fields], info))
     
     items = list(fields_info.items())
-    print(items)
 
     for item in items:
         if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
