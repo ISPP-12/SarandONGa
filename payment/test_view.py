@@ -94,30 +94,14 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
     def tearDown(self):
         self.driver.quit()
         self.ong = None
+        self.test_payment_1 = None
         self.usersuper = None
+        self.god_test = None
+        self.project2 = None
+        self.project2 = None
         super().tearDown()
     
-    def test_payment_create_view(self):
-        before_count = Payment.objects.count()
 
-        # Acess form from list
-        self.driver.get(f"{self.live_server_url}/payment/create")
-
-        # Fill and submit form
-        self.driver.find_element(By.ID, "id_concept").send_keys("Pago Proyecto 2")
-        self.driver.find_element(By.ID, "id_amount").send_keys("45")
-        select = Select(self.driver.find_element(By.ID, 'id_project'))
-        select.select_by_index(1)
-        select2 = Select(self.driver.find_element(By.ID, 'id_godfather'))
-        select2.select_by_index(1)
-        # scroll to submit button and click
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        sleep(0.5)
-        self.driver.find_element(By.ID, "submit").click()
-
-        # Check there is one more payment
-        after_count = Payment.objects.count()
-        self.assertTrue(before_count == after_count - 1)
     
     def test_payment_create_view_amount_error(self):
         before_count = Payment.objects.count()

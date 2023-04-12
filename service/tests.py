@@ -175,6 +175,8 @@ class ServiceTestCase(TestCase):
             payment = None,
             asem_user = self.asem_user)
 
+
+
     def test_service_create_correct(self):
 
         service = Service.objects.get(service_type="Fisioterapia")
