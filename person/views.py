@@ -8,7 +8,7 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterVolunteerForm, FilterGodfatherForm
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterVolunteerForm, FilterGodfatherForm, FilterChildForm
 from xml.dom import ValidationErr
 from django.http import JsonResponse
 from django.core.paginator import Paginator
