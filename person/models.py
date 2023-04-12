@@ -377,10 +377,10 @@ class Child(Person):
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "The termination date must be after the start date")
-
-        if self.number_brothers_siblings < 0:
-            raise ValidationErr(
-                "Un niño no puede tener menos de 0 hermanos")
+        if self.number_brothers_siblings:
+            if self.number_brothers_siblings < 0:
+                raise ValidationErr(
+                    "Un niño no puede tener menos de 0 hermanos")
         # self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         super(Child, self).save(*args, **kwargs)
 
