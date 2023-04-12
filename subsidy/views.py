@@ -24,14 +24,14 @@ class CustomJSONEncoder(json.JSONEncoder):
 def subsidy_create(request):
     form = CreateNewSubsidy(initial={'ong': request.user.ong})
     if request.method == "POST":
-        form = CreateNewSubsidy(request.POST)
+        form = CreateNewSubsidy(request.POST, request.FILES)
 
         if form.is_valid():
             ong=request.user.ong
             subsidy=form.save(commit=False)
             subsidy.ong=ong
             subsidy.save()
-            
+            form.save()
 
             return redirect("/subsidy/list")
         else:
@@ -42,7 +42,7 @@ def subsidy_create(request):
 @login_required
  
 def subsidy_list(request):
-    subsidies = Subsidy.objects.filter(ong=request.user.ong).values()
+    subsidies = Subsidy.objects.filter(ong=request.user.ong).order_by('-presentation_date').values()
 
     form = FilterSubsidyForm(request.GET or None)
 
@@ -87,7 +87,8 @@ def subsidy_update(request, subsidy_id):
     if request.user.ong == subsidy.ong:
         form= CreateNewSubsidy(instance=subsidy)
         if request.method == "POST":
-            form= CreateNewSubsidy(request.POST or None, instance=subsidy)
+            form = CreateNewSubsidy(
+                request.POST,  request.FILES, instance=subsidy)
             if form.is_valid():
                 form.save()
                 return redirect("/subsidy/list")

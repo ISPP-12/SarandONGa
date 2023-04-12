@@ -45,6 +45,9 @@ class Subsidy(models.Model):
         max_length=50, choices=SUBSIDY_STATUS, verbose_name="Estado")
     #Observaciones
     notes = models.TextField(blank=True, verbose_name='Observaciones')
+    #Documentos referentes
+    document = models.FileField(
+        verbose_name="Documento", upload_to="docs/subsidy/", null=True, blank=True)
     #Relacione con la etidad Ong
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='subvencion', verbose_name="ONG")

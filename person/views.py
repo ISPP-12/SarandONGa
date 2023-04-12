@@ -8,7 +8,7 @@ import json
 from datetime import datetime, date
 from decimal import Decimal
 from main.views import videssur_required, asem_required, custom_403
-from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterVolunteerForm, FilterGodfatherForm
+from .forms import CreateNewGodFather, CreateNewASEMUser, CreateNewVolunteer, CreateNewWorker, CreateNewChild, UpdateWorker, FilterAsemUserForm, FilterWorkerForm, FilterVolunteerForm, FilterGodfatherForm, FilterChildForm
 from xml.dom import ValidationErr
 from django.http import JsonResponse
 from django.core.paginator import Paginator
@@ -316,28 +316,22 @@ def worker_list(request):
 
 def worker_filter(queryset, form):
 
-    email = form['email'].value()
-    name = form['name'].value()
-    surname = form['surname'].value()
+    qsearch = form['qsearch'].value()
     birth_date_min = form['birth_date_min'].value()
     birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
-    city = form['city'].value()
-    address = form['address'].value()
-    telephone = form['telephone'].value()
-    postal_code = form['postal_code'].value()
 
-    if email is not None:
-        if email.strip() != '':
-            queryset = queryset.filter(Q(email__icontains=email))
-
-    if name is not None:
-        if name.strip() != '':
-            queryset = queryset.filter(Q(name__icontains=name))
-
-    if surname is not None:
-        if surname.strip() != '':
-            queryset = queryset.filter(Q(surname__icontains=surname))
+    if qsearch is not None:
+        if qsearch.strip() != '':
+            queryset = queryset.filter(
+                Q(email__icontains=qsearch) | 
+                Q(name__icontains=qsearch) | 
+                Q(surname__icontains=qsearch) | 
+                Q(address__icontains=qsearch) |
+                Q(city__icontains=qsearch) |
+                Q(telephone__icontains=qsearch) |
+                Q(postal_code__icontains=qsearch)
+            )
 
     if is_valid_queryparam(birth_date_min):
         queryset = queryset.filter(birth_date__gte=birth_date_min)
@@ -347,20 +341,6 @@ def worker_filter(queryset, form):
 
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
-
-    if city is not None:
-        if city.strip() != '':
-            queryset = queryset.filter(Q(city__icontains=city))
-
-    if address is not None:
-        if address.strip() != '':
-            queryset = queryset.filter(Q(address__icontains=address))
-
-    if is_valid_queryparam(telephone):
-        queryset = queryset.filter(telephone=telephone)
-
-    if is_valid_queryparam(postal_code):
-        queryset = queryset.filter(postal_code=postal_code)
 
     return queryset
 
@@ -416,15 +396,16 @@ def worker_delete(request, worker_id):
 @videssur_required
 def child_list(request):
     objects = Child.objects.filter(ong=request.user.ong).values()
-    paginator = Paginator(objects, 12)
-    page_number = request.GET.get('page')
-    child_page = paginator.get_page(page_number)
 
     title = "Gestión de Niños"
     form = FilterChildForm(request.GET or None)
 
     if request.method == "GET":
         objects = child_filter(objects, form)
+
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    child_page = paginator.get_page(page_number)
 
     # depending of the user type write one title or another
     persons_dict = [child for child in child_page]
@@ -446,43 +427,39 @@ def child_list(request):
     return render(request, 'users/list.html', context)
 
 def child_filter(queryset, form):
-    email = form['email'].value()
-    name = form['name'].value()
-    surname = form['surname'].value()
+
+    qsearch = form['qsearch'].value()
     birth_date_min = form['birth_date_min'].value()
     birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
-    city = form['city'].value()
-    address = form['address'].value()
-    telephone = form['telephone'].value()
-    postal_code = form['postal_code'].value()
     start_date_min = form['start_date_min'].value()
     start_date_max = form['start_date_max'].value()
     termination_date_min = form['termination_date_min'].value()
     termination_date_max = form['termination_date_max'].value()
-    expected_mission_time = form['expected_mission_time'].value()
-    mission_house = form['mission_house'].value()
-    site = form['site'].value()
-    subsite = form['subsite'].value()
-    father_name = form['father_name'].value()
-    father_profession = form['father_profession'].value()
-    mother_name = form['mother_name'].value()
-    mother_profession = form['mother_profession'].value()
     number_brothers_siblings = form['number_brothers_siblings'].value()
     correspondence = form['correspondence'].value()
     is_older = form['is_older'].value()
+    is_sponsored = form['is_sponsored'].value()
 
-    if email is not None:
-        if email.strip() != '':
-            queryset = queryset.filter(Q(email__icontains=email))
-
-    if name is not None:
-        if name.strip() != '':
-            queryset = queryset.filter(Q(name__icontains=name))
-
-    if surname is not None:
-        if surname.strip() != '':
-            queryset = queryset.filter(Q(surname__icontains=surname))
+    if qsearch is not None:
+        if qsearch.strip() != '':
+            queryset = queryset.filter(
+                Q(name__icontains=qsearch) |
+                Q(surname__icontains=qsearch) |
+                Q(email__icontains=qsearch) |
+                Q(city__icontains=qsearch) |
+                Q(address__icontains=qsearch) |
+                Q(telephone__icontains=qsearch) |
+                Q(postal_code__icontains=qsearch) |
+                Q(expected_mission_time__icontains=qsearch) |
+                Q(mission_house__icontains=qsearch) |
+                Q(site__icontains=qsearch) |
+                Q(subsite__icontains=qsearch) |
+                Q(father_name__icontains=qsearch) |
+                Q(father_profession__icontains=qsearch) |
+                Q(mother_name__icontains=qsearch) |
+                Q(mother_profession__icontains=qsearch)
+            )
 
     if is_valid_queryparam(birth_date_min):
         queryset = queryset.filter(birth_date__gte=birth_date_min)
@@ -492,20 +469,6 @@ def child_filter(queryset, form):
 
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
-
-    if city is not None:
-        if city.strip() != '':
-            queryset = queryset.filter(Q(city__icontains=city))
-
-    if address is not None:
-        if address.strip() != '':
-            queryset = queryset.filter(Q(address__icontains=address))
-
-    if is_valid_queryparam(telephone):
-        queryset = queryset.filter(telephone=telephone)
-
-    if is_valid_queryparam(postal_code):
-        queryset = queryset.filter(postal_code=postal_code)
 
     if is_valid_queryparam(start_date_min):
         queryset = queryset.filter(start_date__gte=start_date_min)
@@ -519,38 +482,6 @@ def child_filter(queryset, form):
     if is_valid_queryparam(termination_date_max):
         queryset = queryset.filter(termination_date__lte=termination_date_max)
 
-    if expected_mission_time is not None:
-        if expected_mission_time.strip() != '':
-            queryset = queryset.filter(Q(expected_mission_time__icontains=expected_mission_time))
-
-    if mission_house is not None:
-        if mission_house.strip() != '':
-            queryset = queryset.filter(Q(mission_house__icontains=mission_house))
-
-    if site is not None:
-        if site.strip() != '':
-            queryset = queryset.filter(Q(site__icontains=site))
-
-    if subsite is not None:
-        if subsite.strip() != '':
-            queryset = queryset.filter(Q(subsite__icontains=subsite))
-
-    if father_name is not None:
-        if father_name.strip() != '':
-            queryset = queryset.filter(Q(father_name__icontains=father_name))
-
-    if father_profession is not None:
-        if father_profession.strip() != '':
-            queryset = queryset.filter(Q(father_profession__icontains=father_profession))
-
-    if mother_name is not None:
-        if mother_name.strip() != '':
-            queryset = queryset.filter(Q(mother_name__icontains=mother_name))
-
-    if mother_profession is not None:
-        if mother_profession.strip() != '':
-            queryset = queryset.filter(Q(mother_profession__icontains=mother_profession))
-
     if is_valid_queryparam(number_brothers_siblings):
         queryset = queryset.filter(number_brothers_siblings=number_brothers_siblings)
 
@@ -562,8 +493,23 @@ def child_filter(queryset, form):
             queryset = queryset.filter(birth_date__lte=date.today() - relativedelta(years=18))
         elif is_older == 'N':
             queryset = queryset.filter(birth_date__gt=date.today() - relativedelta(years=18))
-        
     
+    if is_valid_queryparam(is_sponsored):
+
+        sponshorships = Sponsorship.objects.all()
+        sponsored_children = set()
+
+        for sponsorship in sponshorships:
+            if sponsorship.termination_date is None:
+                sponsored_children.add(sponsorship.child.id)
+            elif sponsorship.termination_date > date.today():
+                sponsored_children.add(sponsorship.child.id)
+
+        if is_sponsored == 'S':
+            queryset = queryset.filter(id__in=sponsored_children)
+        elif is_sponsored == 'N':
+            queryset = queryset.exclude(id__in=sponsored_children)
+
     return queryset
 
 @login_required

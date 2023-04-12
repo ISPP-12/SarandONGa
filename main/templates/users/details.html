@@ -133,8 +133,10 @@
   {% if godfather %}
   <a href="/payment/create"><i class="bi bi bi-wallet2"></i> Añadir pago</a>
   {% endif %}
-  {% if child or godfather%}
-    <a href="/sponsorship/create"><i class="bi bi-diagram-2"></i> Añadir apadrinamiento</a>
+  {% if child %}
+    <a href="/sponsorship/create?child={{ child.id }}"><i class="bi bi-diagram-2"></i> Añadir apadrinamiento</a>
+  {% elif godfather %}
+    <a href="/sponsorship/create?godfather={{ godfather.id }}"><i class="bi bi-diagram-2"></i> Añadir apadrinamiento</a>
   {% endif %}
 
   <a href="{{ request.path|add:'/update' }}"><i class="bi bi-pencil"></i> Editar</a>
