@@ -8,8 +8,10 @@ class CreateNewSubsidy(forms.ModelForm):
         exclude = ['id','ong']
         widgets = { 
             'presentation_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'presentation_justification_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'payment_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'provisional_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'ong': forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
             'final_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
         }
