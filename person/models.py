@@ -214,13 +214,14 @@ class GodFather(Person):
         verbose_name='DNI'
     )
     payment_method = models.CharField(
-        max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
+        max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago')
     bank_account_number = IBANField(
-        include_countries=IBAN_SEPA_COUNTRIES,blank=True, null=True)
+        include_countries=IBAN_SEPA_COUNTRIES,blank=True, null=True,verbose_name='Número de cuenta bancaria')
     bank_account_holder = models.CharField(
-        max_length=100, blank=True, null=True)
+        max_length=100, blank=True, null=True, verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(
-        max_length=100, validators=[RegexValidator(r'^[0-9]+$')],blank=True, null=True)  # for example, 1234567890
+        max_length=100, validators=[RegexValidator(r'^[0-9]+$')],blank=True, null=True, 
+        verbose_name='Referencia de cuenta bancaria')  # for example, 1234567890
     amount = models.DecimalField(max_digits=10, decimal_places=2,
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(

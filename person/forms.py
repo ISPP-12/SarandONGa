@@ -84,11 +84,6 @@ class CreateNewGodFather(forms.ModelForm):
             'sex': forms.Select(attrs={'step': "0.01"}),
             'payment_method': forms.Select(choices=PAYMENT_METHOD),
         }
-        labels = {
-            'bank_account_number': 'Número de cuenta bancaria',
-            'bank_account_reference': 'Referencia de cuenta',
-            'bank_account_holder': 'Titular de cuenta bancaria',
-        }
         error_messages = {
             'bank_account_number': {
                 'required': 'Por favor ingrese su número de cuenta bancaria.',
