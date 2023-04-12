@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from decouple import config
 import os
+import braintree
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,6 +22,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('DJANGO_SECRET_KEY')
+
+
+# Braintree settings
+BRAINTREE_MERCHANT_ID = '93rqkcmqsz4sh4z5' # Merchant ID
+BRAINTREE_PUBLIC_KEY = 'hb24v8ns5dy6c3v4' # Public Key
+BRAINTREE_PRIVATE_KEY = 'efd21c055193c1dc43707bb28446570f' # Private key
+
+BRAINTREE_CONF = braintree.Configuration(
+        braintree.Environment.Sandbox,
+        BRAINTREE_MERCHANT_ID,
+        BRAINTREE_PUBLIC_KEY,
+        BRAINTREE_PRIVATE_KEY
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
