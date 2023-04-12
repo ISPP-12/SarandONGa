@@ -51,8 +51,12 @@ def donation_list(request):
     donation_page = paginator.get_page(page_number)
 
     donations_dict = [donation for donation in donation_page]
-    for d in donations_dict:
-        d.pop('_state', None)
+    for donation in donations_dict:
+        donation.pop('_state', None)
+        # remove null values
+        for key, value in list(donation.items()):
+            if value is None:
+                donation[key] = '-'
 
     donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
 

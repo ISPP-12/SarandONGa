@@ -41,14 +41,13 @@ def home_create(request):
 @login_required
 @videssur_required
 def home_list(request):
-    # get donations dict from database
-    
     form = FilterHomeForm(request.GET or None)
     homes = Home.objects.all()
 
     if request.method == 'GET':
         homes = home_filter(homes, form)
 
+    # get homes dict from database
     homes_dict = [obj.__dict__ for obj in homes]
     for d in homes_dict:
         d.pop('_state', None)
@@ -57,6 +56,10 @@ def home_list(request):
     for home in homes_dict:
         home['payment_method'] = dict(PAYMENT_METHOD)[home['payment_method']]
         home['frequency'] = dict(FREQUENCY)[home['frequency']]
+        # remove null values
+        for key, value in list(home.items()):
+            if value is None:
+                home[key] = '-'
 
     # json
     homes_json = json.dumps(homes_dict, cls=CustomJSONEncoder)
