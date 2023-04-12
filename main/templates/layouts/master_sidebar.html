@@ -50,7 +50,7 @@ BLOCKS IN THIS LAYOUT
               {% include "components/search.html" with text="Buscar "|add:object_name|add:"..." %}
             </div>
             
-            <div class="col-md-4 col-12 mb-md-0 me-4 mb-3 justify-content-end d-flex">
+            <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
               {%block botonPrimario%}{%endblock%}
             </div>
 
@@ -58,13 +58,13 @@ BLOCKS IN THIS LAYOUT
 
 
           <div class="row">
-              <div class="col-8 col-md-8 mb-3">
+              <div class="col-9 col-md-9 mb-3">
                 {% block filters %}
                 {% endblock %}
               </div>
 
 
-              <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
+              <div class="col-3 col-md-3 d-flex justify-content-end mb-2">
                 <div class="px-1">
                   {% include "components/button.html" with variation="EXCEL" text="Descargar" type="button" onclick="" secondary=True %}
                 </div>
