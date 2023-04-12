@@ -95,7 +95,9 @@
     {% for key, value in info_right %}
       {% if value %}
       <p><span style="font-weight: bold;">{{ key }}:</span> 
-        {% if key == "Niños apadrinados" %}
+        {% if key == "Documento" %}
+        <a href="/{{ value }}" target="_blank">{{ value }}</a>
+        {% elif key == "Niños apadrinados" %}
         <ul>
         {% for child in value %}
           <li>
