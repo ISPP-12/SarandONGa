@@ -429,6 +429,7 @@ def child_filter(queryset, form):
     number_brothers_siblings = form['number_brothers_siblings'].value()
     correspondence = form['correspondence'].value()
     is_older = form['is_older'].value()
+    is_sponsored = form['is_sponsored'].value()
 
     if qsearch is not None:
         if qsearch.strip() != '':
@@ -482,7 +483,23 @@ def child_filter(queryset, form):
             queryset = queryset.filter(birth_date__lte=date.today() - relativedelta(years=18))
         elif is_older == 'N':
             queryset = queryset.filter(birth_date__gt=date.today() - relativedelta(years=18))
-        
+    
+    if is_valid_queryparam(is_sponsored):
+
+        sponshorships = Sponsorship.objects.all()
+        sponsored_children = set()
+
+        for sponsorship in sponshorships:
+            if sponsorship.termination_date is None:
+                sponsored_children.add(sponsorship.child.id)
+            elif sponsorship.termination_date > date.today():
+                sponsored_children.add(sponsorship.child.id)
+
+        if is_sponsored == 'S':
+            queryset = queryset.filter(id__in=sponsored_children)
+        elif is_sponsored == 'N':
+            queryset = queryset.exclude(id__in=sponsored_children)
+
     return queryset
 
 @login_required

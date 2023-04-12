@@ -257,6 +257,7 @@ class FilterChildForm(forms.Form):
     number_brothers_siblings = forms.IntegerField(required=False, label="Búsqueda por número de hermanos", widget=forms.NumberInput(attrs={'min': 0}))
     correspondence = forms.ChoiceField(choices=[('', '--Seleccione--'), ('E', 'Email'), ('CC', 'Carta con logo'), ('CS', 'Carta sin logo'), ('SR', 'Solo revista'), ('N', 'Ninguna')], required=False, label="Correspondencia")
     is_older = forms.ChoiceField(choices=[('', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Es mayor de edad?")
+    is_sponsored = forms.ChoiceField(choices=[('', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Está apadrinado/a?")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -275,6 +276,7 @@ class FilterChildForm(forms.Form):
         self.fields['number_brothers_siblings'].initial = self.data.get('number_brothers_siblings')
         self.fields['correspondence'].initial = self.data.get('correspondence')
         self.fields['is_older'].initial = self.data.get('is_older')
+        self.fields['is_sponsored'].initial = self.data.get('is_sponsored')
 
 class CreateNewVolunteer(forms.ModelForm):
 
