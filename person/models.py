@@ -361,7 +361,7 @@ class Child(Person):
     mother_profession = models.CharField(
         max_length=100, verbose_name="Profesion de la madre", null=True, blank=True)
     number_brothers_siblings = models.IntegerField(
-        verbose_name="Número de hermanos", default=0, validators=[MinValueValidator(0)], null=True, blank=True)
+        verbose_name="Número de hermanos", validators=[MinValueValidator(0)], null=True, blank=True)
     correspondence = models.CharField(
         max_length=20, verbose_name="Tipo de correspondencia", choices=CORRESPONDENCE, null=True, blank=True)
     # slug = models.SlugField(max_length=200, unique=True, editable=False)
