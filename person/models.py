@@ -7,6 +7,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator, RegexVa
 from localflavor.generic.models import IBANField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from utils.utils import get_person_str
+
 
 from ong.models import Ong
 
@@ -161,9 +163,9 @@ class Worker(AbstractBaseUser):
     email = models.EmailField(unique=True, verbose_name="E-Mail")
     name = models.CharField(max_length=50, blank=True, verbose_name="Nombre")
     surname = models.CharField(
-        max_length=50, blank=True, verbose_name="Apellido")
+        max_length=50, blank=True, verbose_name="Apellido/s")
     birth_date = models.DateField(
-        default=timezone.now, verbose_name="Fecha de nacimiento", null=True, blank=True)
+        verbose_name="Fecha de nacimiento", null=True, blank=True)
     sex = models.CharField(max_length=50, choices=SEX_TYPES,
                            verbose_name="Género", null=True, blank=True)
     city = models.CharField(
@@ -186,12 +188,12 @@ class Worker(AbstractBaseUser):
     objects = WorkerManager()
 
     class Meta:
-        ordering = ['surname', 'name']
+        ordering = ['surname', 'name', 'email']
         verbose_name = 'Trabajador'
         verbose_name_plural = 'Trabajadores'
 
     def __str__(self):
-        return self.surname + ', ' + self.name
+        return get_person_str(self.name, self.surname, "No especificado")
 
     @classmethod
     def has_perm(self, perm, obj=None):

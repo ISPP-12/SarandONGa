@@ -32,11 +32,11 @@ class Sponsorship(models.Model):
             if self.termination_date is not None:
                 if self.sponsorship_date > self.termination_date:
                     raise ValidationErr(
-                        "La fecha de empadronamiento no puede ser posterior a la fecha de baja")
+                        "La fecha de apadrinamiento no puede ser posterior a la fecha de baja")
             if self.child.birth_date is not None:
                 if self.sponsorship_date < self.child.birth_date:
                     raise ValidationErr(
-                        "La fecha de empadronamiento no puede ser anterior a la fecha de nacimiento del niño")
+                        "La fecha de apadrinamiento no puede ser anterior a la fecha de nacimiento del niño")
         super(Sponsorship, self).save(*args, **kwargs)
 
     class Meta:
