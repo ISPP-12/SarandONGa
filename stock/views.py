@@ -19,6 +19,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 def stock_list(request):
 
     stock = Stock.objects.filter(ong=request.user.ong).values()
+
     paginator = Paginator(stock, 12)
     page_number = request.GET.get('page')
     stock_page = paginator.get_page(page_number)
@@ -29,11 +30,17 @@ def stock_list(request):
 
     stock_json = json.dumps(stock_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+
     context = {
         'objects': stock_page,
         'objects_json' : stock_json,
         'object_name': 'stock',
         'title': 'Gestión de Inventario',
+        'query_str': query_str
     }
     return render(request, 'stock/list.html', context)
 

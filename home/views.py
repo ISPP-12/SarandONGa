@@ -48,7 +48,7 @@ def home_list(request):
     if request.method == 'GET':
         homes = home_filter(homes, form)
 
-    paginator = Paginator(homes, 12)
+    paginator = Paginator(homes, 1)
     page_number = request.GET.get('page')
     home_page = paginator.get_page(page_number)
 
@@ -64,6 +64,11 @@ def home_list(request):
     # json
     homes_json = json.dumps(homes_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+
     context = {
         'objects': home_page,
         'objects_json': homes_json,
@@ -71,6 +76,7 @@ def home_list(request):
         'object_name_en': 'home',
         'title': 'Gestión de Casas',
         'form': form,
+        'query_str': query_str
     }
 
     return render(request, 'home/list.html', context)

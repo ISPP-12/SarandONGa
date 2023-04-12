@@ -50,7 +50,7 @@ def subsidy_list(request):
     if request.method == 'GET':
         subsidies = subsidy_filter(subsidies, form)
 
-    paginator = Paginator(subsidies, 12)
+    paginator = Paginator(subsidies, 1)
     page_number = request.GET.get('page')
     subsidy_page = paginator.get_page(page_number)
 
@@ -61,6 +61,11 @@ def subsidy_list(request):
 
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+
     context = {
         'objects': subsidy_page,
         'objects_json': subsidies_json,
@@ -68,6 +73,7 @@ def subsidy_list(request):
         'object_name_en': 'subsidy',
         'title': 'Gestión de Subvenciones',
         'form': form,
+        'query_str': query_str
     }
 
     return render(request, 'subsidy/list.html', context)
