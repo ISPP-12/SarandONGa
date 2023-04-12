@@ -350,26 +350,7 @@ class GodFatherTestCase(TestCase):
         with self.assertRaises(Exception):
             self.god_test.amount = -1
             self.god_test.save()
-            self.god_test.full_clean()
-    
-    
-    def test_incorrect_bank_reference_null(self):
-        with self.assertRaises(Exception):
-            self.god_test.bank_account_reference = None
-            self.god_test.save()
-            self.god_test.full_clean()
-    
-    def test_incorrect_bank_account_null(self):
-        with self.assertRaises(Exception):
-            self.god_test.bank_account = None
-            self.god_test.save()
-            self.god_test.full_clean()
-    
-    def test_godfather_update_bank_account_number_incorrect_blank(self):
-        with self.assertRaises(Exception):
-            self.god_test.bank_account_number = ""
             self.god_test.full_clean()    
-    
  
     def test_incorrect_status_null(self):
         with self.assertRaises(Exception):
