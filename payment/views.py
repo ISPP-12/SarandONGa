@@ -37,6 +37,8 @@ def payment_create(request):
             end_date = i.payday
             event_sub_arr['start'] = start_date
             event_sub_arr['end'] = end_date
+            event_sub_arr['url'] = "./"+str(i.id)+"/update"
+            event_sub_arr['id'] = str(i.id)
             event_arr.append(event_sub_arr)
         datatest = json.dumps(event_arr, default=str)
 
@@ -66,6 +68,7 @@ def payment_update(request, payment_id):
                 end_date = i.payday
                 event_sub_arr['start'] = start_date
                 event_sub_arr['end'] = end_date
+                event_sub_arr['id'] = str(i.id)
                 event_arr.append(event_sub_arr)
             datatest = json.dumps(event_arr, default=str)
 
@@ -107,7 +110,7 @@ def payment_delete(request, payment_id):
         payment.delete()
     else:
         return custom_403(request)
-    return redirect('payment_list')
+    return redirect('/payment/create')
 
 
 @login_required
