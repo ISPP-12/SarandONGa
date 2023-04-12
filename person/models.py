@@ -77,7 +77,7 @@ VOLUNTEER_TYPE = (
     ('O', 'Otro')
 )
 
-DNI_REGEX = r'^\d{8}[A-Z]$'
+DNI_REGEX = r'^\d{8}[A-Za-z]$'
 
 DNI_VALIDATOR = RegexValidator(
     regex=DNI_REGEX,
@@ -321,8 +321,11 @@ class Volunteer(Person):
     table = models.CharField(max_length=50, blank=True, verbose_name="Mesa")
     volunteer_type = models.CharField(
         max_length=20, choices=VOLUNTEER_TYPE, verbose_name="Tipo de voluntario")
+    notes = models.TextField(blank=True, verbose_name='Observaciones')
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='voluntario', verbose_name="ONG")
+    document = models.FileField(
+        verbose_name="Documento", upload_to="./media/docs/volunteer/", null=True, blank=True)
 
     class Meta:
         ordering = ['surname', 'name']
