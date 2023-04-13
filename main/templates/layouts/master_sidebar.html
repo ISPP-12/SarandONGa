@@ -46,28 +46,32 @@ BLOCKS IN THIS LAYOUT
 
         <div class="col-12 mb-4">
           <div class="row justify-content-between align-items-center mb-3">
-            <div class="col-12 col-md-6 mb-md-0 mb-3">
-              {% include "components/search.html" with text="Buscar "|add:object_name|add:"..." %}
+            <div class="col-12 col-md-6 justify-content-end mb-md-0 mb-3">
+              {% if object_name_en == "worker" %}
+              {%block botonPrimario%}{%endblock%}
+
+
+              {% else %}
+                {% include "components/search.html" with text="Buscar "|add:object_name|add:"..." %}
+              {% endif %}
             </div>
             
             <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
-              {%block botonPrimario%}{%endblock%}
+              {% include "components/button.html" with variation="EXCEL" text="Descargar" type="button" onclick="" secondary=True %}
             </div>
 
             
 
 
           <div class="row">
-              <div class="col-9 col-md-9 mb-3">
+              <div class="col-12 col-md-12 mb-3">
                 {% block filters %}
                 {% endblock %}
               </div>
 
 
               <div class="col-3 col-md-3 d-flex justify-content-end mb-2">
-                <div class="px-1">
-                  {% include "components/button.html" with variation="EXCEL" text="Descargar" type="button" onclick="" secondary=True %}
-                </div>
+                
               </div>
           </div>
         </div>

@@ -40,16 +40,26 @@
   
   <div id="team">
     <div class="row">
-      
-      {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
-      {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
-      {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
+      <div class="col-5 col-md-5">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
 
 
-
-
-
+      </div>
+    
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
+      </div>
     </div>
+
+      
+
+
+
+
+    
    
   </div>
  
