@@ -100,18 +100,18 @@ def tearDown(self):
     super().tearDown()
 
 def test_access_volunteer_view(self):
-        # Check access
-        self.driver.get(f'{self.live_server_url}/user/volunteer/list')
-        volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{self.test_volunteer_2.id}")
-        self.assertTrue(volunteer_div)
+    # Check access
+    self.driver.get(f'{self.live_server_url}/user/volunteer/list')
+    volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{self.test_volunteer_2.id}")
+    self.assertTrue(volunteer_div)
 
-        # Check the test item appears
-        test_volunteer_email = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-email").text
-        self.assertTrue(test_volunteer_email == self.test_volunteer_2.email)
-        test_volunteer_phone = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-telephone").text
-        self.assertTrue(test_volunteer_phone == self.test_volunteer_2.telephone)
-        test_volunteer_city = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-city").text
-        self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
+    # Check the test item appears
+    test_volunteer_email = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-email").text
+    self.assertTrue(test_volunteer_email == self.test_volunteer_2.email)
+    test_volunteer_phone = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-telephone").text
+    self.assertTrue(test_volunteer_phone == self.test_volunteer_2.telephone)
+    test_volunteer_city = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-city").text
+    self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
 
 def test_delete_stock_view(self):
     # Check access
