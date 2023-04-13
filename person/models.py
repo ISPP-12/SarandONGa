@@ -302,9 +302,9 @@ class Volunteer(Person):
         verbose_name='DNI'
     )
     # Trabajo que realiza el voluntario
-    job = models.CharField(max_length=50, verbose_name="Trabajo")
+    job = models.CharField(max_length=50, blank=True, null=True, verbose_name="Trabajo")
     # Tiempo de dedicación en horas
-    dedication_time = models.FloatField(verbose_name="Tiempo de dedicación")
+    dedication_time = models.FloatField(verbose_name="Tiempo de dedicación (horas)")
     contract_start_date = models.DateField(
         verbose_name="Fecha de inicio del contrato")
     contract_end_date = models.DateField(
@@ -318,14 +318,17 @@ class Volunteer(Person):
         default=False, verbose_name="¿Preside la mesa?")
     is_contributor = models.BooleanField(
         default=False, verbose_name="¿Es colaborador?")
-    notes = models.TextField(blank=True, verbose_name='Observaciones')
+    notes = models.TextField(blank=True, null=True, verbose_name='Observaciones')
     entity = models.CharField(
-        max_length=50, blank=True, verbose_name="Entidad")
-    table = models.CharField(max_length=50, blank=True, verbose_name="Mesa")
+        max_length=50, blank=True, null=True,verbose_name="Entidad")
+    table = models.CharField(max_length=50, blank=True, null=True, verbose_name="Mesa")
     volunteer_type = models.CharField(
         max_length=20, choices=VOLUNTEER_TYPE, verbose_name="Tipo de voluntario")
+    notes = models.TextField(blank=True, null=True, verbose_name='Observaciones')
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='voluntario', verbose_name="ONG")
+    document = models.FileField(
+        verbose_name="Contrato", upload_to="./media/docs/volunteer/", null=True, blank=True)
 
     class Meta:
         ordering = ['surname', 'name']

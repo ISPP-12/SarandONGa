@@ -855,8 +855,9 @@ def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
 
     form = FilterVolunteerForm(request.GET or None)
-    objects = volunteer_filter(objects, form)
-
+    if request.method == 'GET':
+        objects = volunteer_filter(objects, form)
+    
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
@@ -869,6 +870,72 @@ def volunteer_list(request):
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+    
+    query_str += "&min_birth_date="
+    if "min_birth_date" in keys:
+        query_str += request.GET["min_birth_date"]
+
+    query_str += "&max_birth_date="
+    if "max_birth_date" in keys:
+        query_str += request.GET["max_birth_date"]
+
+    query_str += "&sex="
+    if "sex" in keys:
+        query_str += request.GET["sex"]
+
+    query_str += "&volunteer_type="
+    if "volunteer_type" in keys:
+        query_str += request.GET["volunteer_type"]
+
+    query_str += "&min_dedication_time="
+    if "min_dedication_time" in keys:
+        query_str += request.GET["min_dedication_time"]
+
+    query_str += "&max_dedication_time="
+    if "max_dedication_time" in keys:
+        query_str += request.GET["max_dedication_time"]
+
+    query_str += "&min_contract_start="
+    if "min_contract_start" in keys:
+        query_str += request.GET["min_contract_start"]
+
+    query_str += "&max_contract_start="
+    if "max_contract_start" in keys:
+        query_str += request.GET["max_contract_start"]
+
+    query_str += "&min_contract_end="
+    if "min_contract_end" in keys:
+        query_str += request.GET["min_contract_end"]
+
+    query_str += "&max_contract_end="
+    if "max_contract_end" in keys:
+        query_str += request.GET["max_contract_end"]
+
+    query_str += "&raffle="
+    if "raffle" in keys:
+        query_str += request.GET["raffle"]
+
+    query_str += "&lottery="
+    if "lottery" in keys:
+        query_str += request.GET["lottery"]
+
+    query_str += "&is_member="
+    if "is_member" in keys:
+        query_str += request.GET["is_member"]
+
+    query_str += "&pres_table="
+    if "pres_table" in keys:
+        query_str += request.GET["pres_table"]
+
+    query_str += "&is_contributor="
+    if "is_contributor" in keys:
+        query_str += request.GET["is_contributor"]
+
     context = {
         'objects': user_page,
         'object_name': 'voluntario',
@@ -876,7 +943,8 @@ def volunteer_list(request):
         'title': title,
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',
-        'form': form,
+        'form' : form,
+        'query_str': query_str
     }
 
     return render(request, 'users/list.html', context)
