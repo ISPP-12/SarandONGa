@@ -74,7 +74,6 @@
 
       async function verificarStock(){
         try{
-          console.log(userDataElement.dataset)
               const response = await fetch('/stock/api/get/')
               const stock = await response.json();
               for (i = 0; i < stock.length;i++){
