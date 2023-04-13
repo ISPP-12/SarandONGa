@@ -27,7 +27,7 @@ class ServiceAmount(models.Model):
         max_length=50, choices=person_models.ASEMUSER_TYPE, verbose_name="Tipo de usuario ASEM")
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
                                  MinValueValidator(0)], verbose_name="Precio")
-    date = models.DateField(default=timezone.now, verbose_name="Fecha")
+    date = models.DateTimeField(default=timezone.now, verbose_name="Fecha")
 
     def __str__(self):
         return self.service_type + str(self.date)
