@@ -41,11 +41,11 @@ Añadir casa
     <div class="col-md-6 col-12">
       <div class="row my-3">
         {% if field.field.required %}
-        {% with label_text=field.label_tag|safe|add:'<span class="text-danger"> *</span>' %}
-        {% include 'components/inputs.html' with id=field.id_for_label label_text=label_text input=field %}
-        {% endwith %}
+          {% with label_text=field.label_tag|safe|add:'<span class="text-danger"> *</span>' %}
+            {% include 'components/inputs.html' with id=field.id_for_label label_text=label_text input=field %}
+          {% endwith %}
         {% else %}
-        {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+          {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
         {% endif %}
       </div>
       <div class="row text-danger">

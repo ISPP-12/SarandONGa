@@ -64,7 +64,7 @@ def godfather_list(request):
         'form' : form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 def godfather_filter(queryset, form):
 
@@ -161,7 +161,7 @@ def user_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'asem_user/asem_user_form.html', {'form': form, 'title': 'Añadir Usuario ASEM'})
+    return render(request, 'person/asem_user/register.html', {'form': form, 'title': 'Añadir Usuario ASEM'})
 
 
 @login_required
@@ -186,7 +186,7 @@ def user_update(request, asem_user_id):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewASEMUser(instance=asem_user)
-    return render(request, 'asem_user/asem_user_form.html', {'form': form})
+    return render(request, 'person/asem_user/register.html', {'form': form})
 
 
 def choices_dicts():
@@ -244,7 +244,7 @@ def asem_user_details(request, asem_user_id):
     
     context = {'asem_user': asem_user, 'info_left': items[:mid], 'info_right': items[mid:]}
 
-    return render(request, 'users/details.html', context)
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -263,7 +263,7 @@ def worker_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'workers/register.html', {'form': form, 'title': 'Añadir trabajador'})
+    return render(request, 'person/workers/register.html', {'form': form, 'title': 'Añadir trabajador'})
 
 
 @login_required
@@ -282,7 +282,7 @@ def worker_update(request, worker_id):
         context = {'form': form, 'title': 'Actualizar Trabajador'}
     else:
         return custom_403(request)
-    return render(request, 'workers/register.html', context)
+    return render(request, 'person/workers/register.html', context)
 
 
 @login_required
@@ -310,7 +310,7 @@ def worker_list(request):
         'form': form
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 def worker_filter(queryset, form):
 
@@ -371,7 +371,7 @@ def worker_details(request, worker_id):
         
         context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:]}
 
-        return render(request, 'users/details.html', context)
+        return render(request, 'person/users/details.html', context)
     else:
         return custom_403(request)
 
@@ -417,7 +417,7 @@ def child_list(request):
         'form': form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 def child_filter(queryset, form):
 
@@ -528,7 +528,7 @@ def user_list(request):
         except ValidationErr:
             message = ("Error in exporting data. There are null data in rows")
             messages.error(request, message)
-            return render(request, 'users/list.html')
+            return render(request, 'person/users/list.html')
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -552,7 +552,7 @@ def user_list(request):
         'form' : form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def is_valid_queryparam(param):
@@ -644,7 +644,7 @@ def godfather_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'person/godfather/form.html', {'form': form, 'title': 'Añadir Padrino'})
+    return render(request, 'person/godfather/register.html', {'form': form, 'title': 'Añadir Padrino'})
 
 
 @login_required
@@ -712,8 +712,6 @@ def godfather_details(request, godfather_id):
         items.append(('Niños apadrinados', children))
 
 
-
-
     items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
 
 
@@ -721,7 +719,7 @@ def godfather_details(request, godfather_id):
     
     context = {'godfather': godfather, 'info_left': items[:mid], 'info_right': items[mid:]}
 
-    return render(request, 'users/details.html', context)
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -746,7 +744,7 @@ def child_create(request):
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'person/child/create_child.html', {'form': form, 'title': 'Añadir Niño'})
+    return render(request, 'person/child/register.html', {'form': form, 'title': 'Añadir Niño'})
 
 
 @login_required
@@ -769,7 +767,7 @@ def child_update(request, child_id):
     else:
         return custom_403(request)
 
-    return render(request, 'person/child/create_child.html', {'form': form})
+    return render(request, 'person/child/register.html', {'form': form})
 
 
 @login_required
@@ -812,7 +810,7 @@ def child_details(request, child_id):
     mid = math.ceil(len(items) / 2)
     
     context = {'child': child, 'info_left': items[:mid], 'info_right': items[mid:]}
-    return render(request, 'users/details.html', context)
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -852,7 +850,7 @@ def volunteer_list(request):
         'form' : form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 def volunteer_filter(queryset, form):
 
@@ -980,7 +978,7 @@ def volunteer_details(request, volunteer_id):
         
         context = {'volunteer': volunteer, 'info_left': items[:mid], 'info_right': items[mid:]}
         
-        return render(request, 'users/details.html', context)
+        return render(request, 'person/users/details.html', context)
     else:
         return custom_403(request)
 
@@ -999,7 +997,7 @@ def volunteer_create(request):
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'volunteers/volunteers_form.html', {'form': form, 'title': 'Añadir Voluntario'})
+    return render(request, 'person/volunteers/register.html', {'form': form, 'title': 'Añadir Voluntario'})
 
 
 @login_required
@@ -1028,7 +1026,7 @@ def volunteer_update(request, volunteer_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'volunteers/volunteers_form.html', {'form': form})
+    return render(request, 'person/volunteers/register.html', {'form': form})
 
 
 def child_age(request):
