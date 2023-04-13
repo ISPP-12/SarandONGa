@@ -40,7 +40,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 
 @login_required
-@videssur_required 
+@videssur_required
 def godfather_list(request):
     objects = GodFather.objects.filter(ong=request.user.ong).values()
     title = "Gestión de Padrinos"
@@ -61,10 +61,11 @@ def godfather_list(request):
         'object_name_en': 'godfather',
         'title': title,
         'objects_json': persons_json,
-        'form' : form,
+        'form': form,
     }
 
     return render(request, 'users/list.html', context)
+
 
 def godfather_filter(queryset, form):
 
@@ -81,65 +82,65 @@ def godfather_filter(queryset, form):
     min_end_date = form['min_end_date'].value()
     max_end_date = form['max_end_date'].value()
     status = form['status'].value()
-    
+
     if q is not None:
-            if q.strip() != "":
-                queryset = queryset.filter(
-                    Q(name__icontains=q) |
-                    Q(surname__icontains=q) |
-                    Q(address__icontains=q) |
-                    Q(city__icontains=q) |
-                    Q(postal_code__icontains=q) |
-                    Q(email__icontains=q) |
-                    Q(telephone__icontains=q) |
-                    Q(birth_date__icontains=q) |
-                    Q(sex__icontains=q) |
-                    Q(dni__icontains=q) |
-                    Q(payment_method__icontains=q) |
-                    Q(frequency__icontains=q) |
-                    Q(amount__icontains=q) |
-                    Q(bank_account_number__icontains=q) |
-                    Q(bank_account_holder__icontains=q) |
-                    Q(bank_account_reference__icontains=q) |
-                    Q(start_date__icontains=q) |
-                    Q(termination_date__icontains=q) |
-                    Q(notes__icontains=q) |
-                    Q(status__icontains=q)
-                )
+        if q.strip() != "":
+            queryset = queryset.filter(
+                Q(name__icontains=q) |
+                Q(surname__icontains=q) |
+                Q(address__icontains=q) |
+                Q(city__icontains=q) |
+                Q(postal_code__icontains=q) |
+                Q(email__icontains=q) |
+                Q(telephone__icontains=q) |
+                Q(birth_date__icontains=q) |
+                Q(sex__icontains=q) |
+                Q(dni__icontains=q) |
+                Q(payment_method__icontains=q) |
+                Q(frequency__icontains=q) |
+                Q(amount__icontains=q) |
+                Q(bank_account_number__icontains=q) |
+                Q(bank_account_holder__icontains=q) |
+                Q(bank_account_reference__icontains=q) |
+                Q(start_date__icontains=q) |
+                Q(termination_date__icontains=q) |
+                Q(notes__icontains=q) |
+                Q(status__icontains=q)
+            )
 
     if is_valid_queryparam(min_birth_date):
         queryset = queryset.filter(birth_date__gte=min_birth_date)
-    
+
     if is_valid_queryparam(max_birth_date):
         queryset = queryset.filter(birth_date__lte=max_birth_date)
-    
+
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
-       
+
     if is_valid_queryparam(payment_method):
         queryset = queryset.filter(payment_method=payment_method)
-    
+
     if is_valid_queryparam(min_amount):
         queryset = queryset.filter(amount__gte=min_amount)
-    
+
     if is_valid_queryparam(max_amount):
         queryset = queryset.filter(amount__lte=max_amount)
-    
+
     if is_valid_queryparam(min_start_date):
         queryset = queryset.filter(start_date__gte=min_start_date)
-    
+
     if is_valid_queryparam(max_start_date):
         queryset = queryset.filter(start_date__lte=max_start_date)
-    
+
     if is_valid_queryparam(min_end_date):
         queryset = queryset.filter(termination_date__gte=min_end_date)
-    
+
     if is_valid_queryparam(max_end_date):
         queryset = queryset.filter(termination_date__lte=max_end_date)
-    
+
     if is_valid_queryparam(status):
         queryset = queryset.filter(status=status)
-    
+
     if is_valid_queryparam(frequency):
         queryset = queryset.filter(frequency=frequency)
 
@@ -210,39 +211,45 @@ def choices_dicts():
 def asem_user_details(request, asem_user_id):
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
 
-    choices_dict = choices_dicts()
-    asem_user.condition = choices_dict['condition'][asem_user.condition]
-    asem_user.member = choices_dict['member'][asem_user.member]
-    asem_user.correspondence = choices_dict['correspondence'][asem_user.correspondence]
-    asem_user.user_type = choices_dict['asemuser_type'][asem_user.user_type]
-    asem_user.status = choices_dict['status'][asem_user.status]
-    asem_user.own_home = choices_dict['housing_type'][asem_user.own_home]
+    NOT_DEFINED = "No especificado"
 
-    fields = [f for f in ASEMUser._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
+    choices_dict = choices_dicts()
+    asem_user.condition = choices_dict['condition'][asem_user.condition] if asem_user.condition else NOT_DEFINED
+    asem_user.member = choices_dict['member'][asem_user.member] if asem_user.member else NOT_DEFINED
+    asem_user.correspondence = choices_dict['correspondence'][
+        asem_user.correspondence] if asem_user.correspondence else NOT_DEFINED
+    asem_user.user_type = choices_dict['asemuser_type'][asem_user.user_type] if asem_user.user_type else NOT_DEFINED
+    asem_user.status = choices_dict['status'][asem_user.status] if asem_user.status else NOT_DEFINED
+    asem_user.own_home = choices_dict['housing_type'][asem_user.own_home] if asem_user.own_home else NOT_DEFINED
+
+    fields = [f for f in ASEMUser._meta.get_fields() if f.name not in [
+        'id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
     info = [getattr(asem_user, f.name) for f in fields]
 
     fields_info = dict(zip([f.verbose_name for f in fields], info))
-    
+
     items = list(fields_info.items())
-    print(items)
 
     for item in items:
-        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+        if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
             items[items.index(item)] = (item[0], 'Sí')
-        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+        elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
             items[items.index(item)] = (item[0], 'No')
-        elif(item[0] == 'Género' and item[1] != None):
+        elif (item[0] == 'Género' and item[1] != None):
             choices = ASEMUser._meta.get_field('sex').choices
-            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            value = [choice[1]
+                     for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == 'Tiempo de dedicación'):
+        elif (item[0] == 'Tiempo de dedicación'):
             items[items.index(item)] = (item[0], str(item[1]) + ' horas')
 
-    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+    items = [item for item in items if item[1] !=
+             None and item[1] != '' and item[1] != []]
 
     mid = math.ceil(len(items) / 2)
-    
-    context = {'asem_user': asem_user, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+    context = {'asem_user': asem_user,
+               'info_left': items[:mid], 'info_right': items[mid:]}
 
     return render(request, 'users/details.html', context)
 
@@ -312,6 +319,7 @@ def worker_list(request):
 
     return render(request, 'users/list.html', context)
 
+
 def worker_filter(queryset, form):
 
     qsearch = form['qsearch'].value()
@@ -322,9 +330,9 @@ def worker_filter(queryset, form):
     if qsearch is not None:
         if qsearch.strip() != '':
             queryset = queryset.filter(
-                Q(email__icontains=qsearch) | 
-                Q(name__icontains=qsearch) | 
-                Q(surname__icontains=qsearch) | 
+                Q(email__icontains=qsearch) |
+                Q(name__icontains=qsearch) |
+                Q(surname__icontains=qsearch) |
                 Q(address__icontains=qsearch) |
                 Q(city__icontains=qsearch) |
                 Q(telephone__icontains=qsearch) |
@@ -342,34 +350,38 @@ def worker_filter(queryset, form):
 
     return queryset
 
+
 @login_required
 def worker_details(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if worker.ong == request.user.ong:
-        fields = [f for f in Worker._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'logentry', 'last_login', 'is_active', 'is_admin']]
-        
+        fields = [f for f in Worker._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type',
+                                                                         'name', 'surname', 'service', 'ong', 'person_ptr', 'logentry', 'last_login', 'is_active', 'is_admin']]
+
         info = [getattr(worker, f.name) for f in fields]
 
         fields_info = dict(zip([f.verbose_name for f in fields], info))
-        
+
         items = list(fields_info.items())
 
         for item in items:
-            if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
                 items[items.index(item)] = (item[0], 'Sí')
-            elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
                 items[items.index(item)] = (item[0], 'No')
-            elif(item[0] == 'Género' and item[1] != None):
+            elif (item[0] == 'Género' and item[1] != None):
                 choices = Worker._meta.get_field('sex').choices
-                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                value = [choice[1]
+                         for choice in choices if choice[0] == item[1]][0]
                 items[items.index(item)] = (item[0], value)
 
-        items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
-
+        items = [item for item in items if item[1] !=
+                 None and item[1] != '' and item[1] != []]
 
         mid = math.ceil(len(items) / 2)
-        
-        context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+        context = {'worker': worker,
+                   'info_left': items[:mid], 'info_right': items[mid:]}
 
         return render(request, 'users/details.html', context)
     else:
@@ -418,6 +430,7 @@ def child_list(request):
     }
 
     return render(request, 'users/list.html', context)
+
 
 def child_filter(queryset, form):
 
@@ -476,17 +489,20 @@ def child_filter(queryset, form):
         queryset = queryset.filter(termination_date__lte=termination_date_max)
 
     if is_valid_queryparam(number_brothers_siblings):
-        queryset = queryset.filter(number_brothers_siblings=number_brothers_siblings)
+        queryset = queryset.filter(
+            number_brothers_siblings=number_brothers_siblings)
 
     if is_valid_queryparam(correspondence):
         queryset = queryset.filter(correspondence=correspondence)
 
     if is_valid_queryparam(is_older):
         if is_older == 'S':
-            queryset = queryset.filter(birth_date__lte=date.today() - relativedelta(years=18))
+            queryset = queryset.filter(
+                birth_date__lte=date.today() - relativedelta(years=18))
         elif is_older == 'N':
-            queryset = queryset.filter(birth_date__gt=date.today() - relativedelta(years=18))
-    
+            queryset = queryset.filter(
+                birth_date__gt=date.today() - relativedelta(years=18))
+
     if is_valid_queryparam(is_sponsored):
 
         sponshorships = Sponsorship.objects.all()
@@ -505,21 +521,24 @@ def child_filter(queryset, form):
 
     return queryset
 
+
 @login_required
 @asem_required
 def user_list(request):
     objects = ASEMUser.objects.filter(ong=request.user.ong).values()
 
-    form = FilterAsemUserForm(request.GET or None)  
+    form = FilterAsemUserForm(request.GET or None)
     objects = asemuser_filter(objects, form)
 
     if request.method == 'POST':
         try:
-            response=HttpResponse()
-            response['Content-Disposition']= 'attachment; filename=asem_users.xlsx'
-            writer=csv.writer(response)
-            writer.writerow(['id','email','nombre','apellido','fecha_nacimiento','sexo','ciudad','direccion','telefono','codigo_postal','foto','tipo_usuario','es_miembro','condicion','tipo_correspondencia','estado','tamaño_unidad_familiar','casa_propia','vehiculo_propio','numero_cuenta_bancaria','ong'])
-            asemUser_fields=objects.values_list('id','email','name','surname','birth_date','sex','city','address','telephone','postal_code','photo','user_type','member','condition','correspondence','status','family_unit_size','own_home','own_vehicle','bank_account_number','ong')
+            response = HttpResponse()
+            response['Content-Disposition'] = 'attachment; filename=asem_users.xlsx'
+            writer = csv.writer(response)
+            writer.writerow(['id', 'email', 'nombre', 'apellido', 'fecha_nacimiento', 'sexo', 'ciudad', 'direccion', 'telefono', 'codigo_postal', 'foto', 'tipo_usuario',
+                            'es_miembro', 'condicion', 'tipo_correspondencia', 'estado', 'tamaño_unidad_familiar', 'casa_propia', 'vehiculo_propio', 'numero_cuenta_bancaria', 'ong'])
+            asemUser_fields = objects.values_list('id', 'email', 'name', 'surname', 'birth_date', 'sex', 'city', 'address', 'telephone', 'postal_code', 'photo',
+                                                  'user_type', 'member', 'condition', 'correspondence', 'status', 'family_unit_size', 'own_home', 'own_vehicle', 'bank_account_number', 'ong')
             for a in asemUser_fields:
                 writer.writerow(a)
             message = ("Exportado correctamente")
@@ -549,7 +568,7 @@ def user_list(request):
         'object_name_en': 'user',
         'title': title,
         'objects_json': persons_json,
-        'form' : form,
+        'form': form,
     }
 
     return render(request, 'users/list.html', context)
@@ -557,6 +576,7 @@ def user_list(request):
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
+
 
 def asemuser_filter(queryset, form):
 
@@ -573,41 +593,41 @@ def asemuser_filter(queryset, form):
     fam_size_max = form['fam_size_max'].value()
     own_home = form['own_home'].value()
     own_vehicle = form['own_vehicle'].value()
-    
+
     if q is not None:
-            if q.strip() != '':
-                queryset = queryset.filter(
-                    Q(name__icontains=q) |
-                    Q(surname__icontains=q) |
-                    Q(address__icontains=q) |
-                    Q(city__icontains=q) |
-                    Q(postal_code__icontains=q) |
-                    Q(email__icontains=q) |
-                    Q(telephone__icontains=q) |
-                    Q(bank_account_number__icontains=q)
-                )
+        if q.strip() != '':
+            queryset = queryset.filter(
+                Q(name__icontains=q) |
+                Q(surname__icontains=q) |
+                Q(address__icontains=q) |
+                Q(city__icontains=q) |
+                Q(postal_code__icontains=q) |
+                Q(email__icontains=q) |
+                Q(telephone__icontains=q) |
+                Q(bank_account_number__icontains=q)
+            )
 
     if is_valid_queryparam(min_date):
         queryset = queryset.filter(birth_date__gte=min_date)
-    
+
     if is_valid_queryparam(max_date):
         queryset = queryset.filter(birth_date__lte=max_date)
-    
+
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
-       
+
     if is_valid_queryparam(condition):
         queryset = queryset.filter(condition=condition)
-    
+
     if is_valid_queryparam(member):
         queryset = queryset.filter(member=member)
-    
+
     if is_valid_queryparam(user_type):
         queryset = queryset.filter(user_type=user_type)
-    
+
     if is_valid_queryparam(correspondence):
         queryset = queryset.filter(correspondence=correspondence)
-    
+
     if is_valid_queryparam(status):
         queryset = queryset.filter(status=status)
 
@@ -616,10 +636,10 @@ def asemuser_filter(queryset, form):
 
     if is_valid_queryparam(fam_size_max):
         queryset = queryset.filter(family_unit_size__lte=fam_size_max)
-    
+
     if is_valid_queryparam(own_home):
         queryset = queryset.filter(own_home=own_home)
-    
+
     if is_valid_queryparam(own_vehicle):
         queryset = queryset.filter(own_vehicle=own_vehicle)
 
@@ -674,52 +694,56 @@ def godfather_update(request, godfather_id):
 def godfather_details(request, godfather_id):
     godfather = get_object_or_404(GodFather, id=godfather_id)
 
-    fields = [f for f in GodFather._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'payment', 'sponsorship', 'person_ptr', 'ong' ]]
-    
+    fields = [f for f in GodFather._meta.get_fields() if f.name not in ['id', 'photo', 'password',
+                                                                        'user_type', 'name', 'surname', 'payment', 'sponsorship', 'person_ptr', 'ong']]
+
     info = [getattr(godfather, f.name) for f in fields]
 
     fields_info = dict(zip([f.verbose_name for f in fields], info))
-    
+
     items = list(fields_info.items())
 
     for item in items:
-        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+        if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
             items[items.index(item)] = (item[0], 'Sí')
-        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+        elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
             items[items.index(item)] = (item[0], 'No')
-        elif(item[0] == 'Género' and item[1] != None):
+        elif (item[0] == 'Género' and item[1] != None):
             choices = GodFather._meta.get_field('sex').choices
-            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            value = [choice[1]
+                     for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == 'Método de pago'):
+        elif (item[0] == 'Método de pago'):
             choices = GodFather._meta.get_field('payment_method').choices
-            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            value = [choice[1]
+                     for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == 'Cantidad'):
+        elif (item[0] == 'Cantidad'):
             items[items.index(item)] = (item[0], str(item[1]) + '€')
-        elif(item[0] == 'Frecuencia de pago'):
+        elif (item[0] == 'Frecuencia de pago'):
             choices = GodFather._meta.get_field('frequency').choices
-            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            value = [choice[1]
+                     for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == 'Estado'):
+        elif (item[0] == 'Estado'):
             choices = GodFather._meta.get_field('status').choices
-            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            value = [choice[1]
+                     for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
 
     sponsorships = Sponsorship.objects.filter(godfather=godfather)
     if sponsorships:
-        children = [sponsorship.child for sponsorship in sponsorships if sponsorship.termination_date == None or sponsorship.termination_date > datetime.date(datetime.now())]
+        children = [sponsorship.child for sponsorship in sponsorships if sponsorship.termination_date ==
+                    None or sponsorship.termination_date > datetime.date(datetime.now())]
         items.append(('Niños apadrinados', children))
 
-
-
-
-    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
-
+    items = [item for item in items if item[1] !=
+             None and item[1] != '' and item[1] != []]
 
     mid = math.ceil(len(items) / 2)
-    
-    context = {'godfather': godfather, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+    context = {'godfather': godfather,
+               'info_left': items[:mid], 'info_right': items[mid:]}
 
     return render(request, 'users/details.html', context)
 
@@ -776,42 +800,45 @@ def child_update(request, child_id):
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
-    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
-        
+    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password',
+                                                                    'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
+
     info = [getattr(child, f.name) for f in fields]
 
     fields_info = dict(zip([f.verbose_name for f in fields], info))
-    
+
     items = list(fields_info.items())
 
     for item in items:
-        if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+        if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
             items[items.index(item)] = (item[0], 'Sí')
-        elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+        elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
             items[items.index(item)] = (item[0], 'No')
-        elif(item[0] == 'Género' and item[1] != None):
+        elif (item[0] == 'Género' and item[1] != None):
             choices = Child._meta.get_field('sex').choices
-            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            value = [choice[1]
+                     for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-        elif(item[0] == 'Tipo de correspondencia'):
+        elif (item[0] == 'Tipo de correspondencia'):
             choices = Child._meta.get_field('correspondence').choices
-            value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+            value = [choice[1]
+                     for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
 
     sponsorships = Sponsorship.objects.filter(child=child)
     if sponsorships:
-        godfathers = [sponsorship.godfather.all() for sponsorship in sponsorships if sponsorship.termination_date == None or sponsorship.termination_date > datetime.date(datetime.now()) ]
+        godfathers = [sponsorship.godfather.all() for sponsorship in sponsorships if sponsorship.termination_date ==
+                      None or sponsorship.termination_date > datetime.date(datetime.now())]
         godfathers = [g for godfather in godfathers for g in godfather]
         items.append(('Padrinos', godfathers))
-    
 
-    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
-
-
+    items = [item for item in items if item[1] !=
+             None and item[1] != '' and item[1] != []]
 
     mid = math.ceil(len(items) / 2)
-    
-    context = {'child': child, 'info_left': items[:mid], 'info_right': items[mid:]}
+
+    context = {'child': child,
+               'info_left': items[:mid], 'info_right': items[mid:]}
     return render(request, 'users/details.html', context)
 
 
@@ -827,9 +854,9 @@ def child_delete(request, child_id):
 def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
 
-    form = FilterVolunteerForm(request.GET or None)  
+    form = FilterVolunteerForm(request.GET or None)
     objects = volunteer_filter(objects, form)
-    
+
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
@@ -849,10 +876,11 @@ def volunteer_list(request):
         'title': title,
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',
-        'form' : form,
+        'form': form,
     }
 
     return render(request, 'users/list.html', context)
+
 
 def volunteer_filter(queryset, form):
 
@@ -872,72 +900,72 @@ def volunteer_filter(queryset, form):
     is_member = form['is_member'].value()
     pres_table = form['pres_table'].value()
     is_contributor = form['is_contributor'].value()
-    
+
     if q is not None:
-            if q.strip() != "":
-                queryset = queryset.filter(
-                    Q(name__icontains=q) |
-                    Q(surname__icontains=q) |
-                    Q(address__icontains=q) |
-                    Q(city__icontains=q) |
-                    Q(postal_code__icontains=q) |
-                    Q(email__icontains=q) |
-                    Q(telephone__icontains=q) |
-                    Q(birth_date__icontains=q) |
-                    Q(sex__icontains=q) |
-                    Q(dni__icontains=q) |
-                    Q(job__icontains=q) |
-                    Q(dedication_time__icontains=q) |
-                    Q(contract_start_date__icontains=q) |
-                    Q(contract_end_date__icontains=q) |
-                    Q(notes__icontains=q) |
-                    Q(entity__icontains=q) |
-                    Q(table__icontains=q) |
-                    Q(volunteer_type__icontains=q)
-                )
+        if q.strip() != "":
+            queryset = queryset.filter(
+                Q(name__icontains=q) |
+                Q(surname__icontains=q) |
+                Q(address__icontains=q) |
+                Q(city__icontains=q) |
+                Q(postal_code__icontains=q) |
+                Q(email__icontains=q) |
+                Q(telephone__icontains=q) |
+                Q(birth_date__icontains=q) |
+                Q(sex__icontains=q) |
+                Q(dni__icontains=q) |
+                Q(job__icontains=q) |
+                Q(dedication_time__icontains=q) |
+                Q(contract_start_date__icontains=q) |
+                Q(contract_end_date__icontains=q) |
+                Q(notes__icontains=q) |
+                Q(entity__icontains=q) |
+                Q(table__icontains=q) |
+                Q(volunteer_type__icontains=q)
+            )
 
     if is_valid_queryparam(min_birth_date):
         queryset = queryset.filter(birth_date__gte=min_birth_date)
-    
+
     if is_valid_queryparam(max_birth_date):
         queryset = queryset.filter(birth_date__lte=max_birth_date)
-    
+
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
-       
+
     if is_valid_queryparam(volunteer_type):
         queryset = queryset.filter(volunteer_type=volunteer_type)
-    
+
     if is_valid_queryparam(min_dedication_time):
         queryset = queryset.filter(dedication_time__gte=min_dedication_time)
-    
+
     if is_valid_queryparam(max_dedication_time):
         queryset = queryset.filter(dedication_time__lte=max_dedication_time)
-    
+
     if is_valid_queryparam(min_contract_start):
         queryset = queryset.filter(contract_start_date__gte=min_contract_start)
-    
+
     if is_valid_queryparam(max_contract_start):
         queryset = queryset.filter(contract_start_date__lte=max_contract_start)
-    
+
     if is_valid_queryparam(min_contract_end):
         queryset = queryset.filter(contract_end_date__gte=min_contract_end)
-    
+
     if is_valid_queryparam(max_contract_end):
         queryset = queryset.filter(contract_end_date__lte=max_contract_end)
-    
+
     if is_valid_queryparam(raffle):
         queryset = queryset.filter(raffle=raffle)
-    
+
     if is_valid_queryparam(lottery):
         queryset = queryset.filter(lottery=lottery)
-    
+
     if is_valid_queryparam(is_member):
         queryset = queryset.filter(is_member=is_member)
-    
+
     if is_valid_queryparam(pres_table):
         queryset = queryset.filter(pres_table=pres_table)
-    
+
     if is_valid_queryparam(is_contributor):
         queryset = queryset.filter(is_contributor=is_contributor)
 
@@ -948,38 +976,41 @@ def volunteer_filter(queryset, form):
 def volunteer_details(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
     if volunteer.ong == request.user.ong:
-        fields = [f for f in Volunteer._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
-        
+        fields = [f for f in Volunteer._meta.get_fields() if f.name not in [
+            'id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
+
         info = [getattr(volunteer, f.name) for f in fields]
 
-        fields_info = dict(zip([f.verbose_name for f in fields], info))        
-        
+        fields_info = dict(zip([f.verbose_name for f in fields], info))
+
         items = list(fields_info.items())
-        
 
         for item in items:
-            if((item[1] == True or item[1] == 'True') and type(item[1]) != int):    
+            if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
                 items[items.index(item)] = (item[0], 'Sí')
-            elif((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
                 items[items.index(item)] = (item[0], 'No')
-            elif(item[0] == 'Género' and item[1] != None):
+            elif (item[0] == 'Género' and item[1] != None):
                 choices = Volunteer._meta.get_field('sex').choices
-                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                value = [choice[1]
+                         for choice in choices if choice[0] == item[1]][0]
                 items[items.index(item)] = (item[0], value)
-            elif(item[0] == 'Tiempo de dedicación'):
+            elif (item[0] == 'Tiempo de dedicación'):
                 items[items.index(item)] = (item[0], str(item[1]) + ' horas')
-            elif(item[0] == 'Tipo de voluntario'): 
+            elif (item[0] == 'Tipo de voluntario'):
                 choices = Volunteer._meta.get_field('volunteer_type').choices
-                value = [choice[1] for choice in choices if choice[0] == item[1]][0]
+                value = [choice[1]
+                         for choice in choices if choice[0] == item[1]][0]
                 items[items.index(item)] = (item[0], value)
 
-            
-        items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+        items = [item for item in items if item[1] !=
+                 None and item[1] != '' and item[1] != []]
 
         mid = math.ceil(len(items) / 2)
-        
-        context = {'volunteer': volunteer, 'info_left': items[:mid], 'info_right': items[mid:]}
-        
+
+        context = {'volunteer': volunteer,
+                   'info_left': items[:mid], 'info_right': items[mid:]}
+
         return render(request, 'users/details.html', context)
     else:
         return custom_403(request)
@@ -1034,4 +1065,3 @@ def volunteer_update(request, volunteer_id):
 def child_age(request):
     ninos = Child.objects.values('name', 'birth_date')
     return JsonResponse(list(ninos), safe=False)
-
