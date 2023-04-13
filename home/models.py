@@ -60,7 +60,11 @@ class Home(models.Model):
                     "La cantidad debe ser mayor a 1.")
             else:
                # self.slug = slugify(self.name + ' ' + self.province)
-                super(Home, self).save(*args, **kwargs)
+               if self.bank_account_holder == None:
+                    self.bank_account_holder = "Pago por efectivo"
+                    self.bank_account_reference = "Pago por efectivo"
+                    self.bank_account_number = "Pago por efectivo"
+                    super(Home, self).save(*args, **kwargs)
         else:
          #   self.slug = slugify(self.name + ' ' + self.province)
             super(Home, self).save(*args, **kwargs)
