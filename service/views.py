@@ -4,19 +4,40 @@ from .models import Service
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from main.views import asem_required
+import json
 
 
 @login_required
 @asem_required
 def service_create(request):
+    form = CreateNewService(request.POST)
     if request.method == "POST":
-        form = CreateNewService(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('service_list')
+            service = form.save(commit=False)
+            service.save()
+            return redirect('service_create')
+        else:
+            messages.error(request, 'El formulario presenta errores')
+    
+    else:
+        services = Service.objects.all()
+        events = []
+        for event in services:
+            event_sub_arr = {}
+            event_sub_arr['title'] = f'{event.service_type} - {event.amount}'
+            start_date = event.date
+            end_date = event.date
+            
+            event_sub_arr['start'] = start_date
+            event_sub_arr['end'] = end_date
+            event_sub_arr['url'] = f'./{event.id}/update'
+            event_sub_arr['id'] = str(event.id)
+            events.append(event_sub_arr)
+        events_json = json.dumps(events, default=str)
 
-    form = CreateNewService()
-    return render(request, 'service/service_form_backend.html', {"form": form, "title": "Crear Servicio"})
+    context = {"form": form, "title": "Añadir Servicio", "events_json": events_json}
+    
+    return render(request, 'service/service_form.html', context)
 
 
 @login_required

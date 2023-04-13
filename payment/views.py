@@ -5,7 +5,6 @@ from django.contrib import messages
 import json
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
-from datetime import datetime
 from django.db.models import Q
 from django.core.paginator import Paginator
 
@@ -20,7 +19,7 @@ def payment_create(request):
             payment = form.save(commit=False)
             payment.ong = request.user.ong
             payment.save()
-            return redirect('payment_list')
+            return redirect('payment_create')
 
         else:
             messages.error(request, 'El formulario presenta errores')
