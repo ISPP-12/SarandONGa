@@ -49,9 +49,8 @@
 <div class="row h-100 mb-4">
     <div class="col-12">
         <div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
-
             {% for product in objects %}
-                {% include "components/card.html" with class_card="card-stock" item=product  %}
+                {% include "components/card.html" with item=product %}
             {% endfor %}
 
         </div>
@@ -76,10 +75,39 @@
     </span>
   </div>
 </div>
+
 <script>
     document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
         e.preventDefault();
         window.location.href = window.location.pathname;
     });
-  </script>
+
+    var display_state = sessionStorage.getItem('display_state');
+    if(display_state == null){
+        sessionStorage.setItem('display_state','grid');
+        display_state = 'grid';
+    }
+    let elements = document.getElementsByClassName('card');
+    if(elements !== null) {
+        if(display_state==="list") {
+            let cardDiv = document.querySelector('#id-cardsDiv');
+            cardDiv.classList.remove('row-cols-md-3');
+            Array.from(elements).forEach(element => {
+                element.classList.add('card-stock-list');
+                element.classList.remove('card-stock');
+                let elImgCol = element.querySelector('.card-img-col')
+                elImgCol.classList.add('col-4', 'col-md-3');
+                elImgCol.classList.remove('col-12');
+                let elBodyCol = element.querySelector('.card-body-col')
+                elBodyCol.classList.add('col-8','col-md-9');
+                elBodyCol.classList.remove('col-12');
+            });
+        } else if (display_state==="grid") {
+            Array.from(elements).forEach(element => {
+                element.classList.add('card-stock');
+            });
+        }
+    }
+
+</script>
 {% endblock %}
