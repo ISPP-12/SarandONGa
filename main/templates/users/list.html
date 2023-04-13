@@ -157,9 +157,12 @@
               {%elif object_name == "padrino" or object_name == "donante"%}
               <a id="add-payment" href="../../../payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
               {% endif %}
-              {%if object_name == "padrino" or object_name == "niño"%}
-              <a id="add-godfather" href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
+              {%if object_name == "niño"%}
+              <a id="add-godfather" href="../../../sponsorship/create?child=${ objectData.id }"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
+              {%elif object_name == "padrino"%}
+              <a id="add-godfather" href="../../../sponsorship/create?godfather=${ objectData.id }"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
               {% endif %}
+              <a href="${ objectData.id }"><i class="bi bi-info-circle"></i>Detalles</a>
               <a id="update-button" href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
               <a id="delete-button" href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
             </div>

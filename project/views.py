@@ -8,6 +8,7 @@ import json
 from datetime import date
 from decimal import Decimal
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -78,15 +79,27 @@ def project_details(request, project_id):
  
 def project_list(request):
     objects = Project.objects.filter(ong=request.user.ong).values()
+
+
     form = FilterProjectForm(request.GET or None)
 
     if request.method == 'GET':
         objects = project_filter(objects, form)
 
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    project_page = paginator.get_page(page_number)
+
+    projects_dict = [project for project in project_page]
+    for p in projects_dict:
+        p.pop('_state', None)
+
+    project_json = json.dumps(projects_dict, cls=CustomJSONEncoder)
+
 
     context = {
-        'objects': objects,
-        'objects_json' : json.dumps(list(objects), cls=CustomJSONEncoder),
+        'objects': project_page,
+        'objects_json' : project_json,
         'object_name': 'proyecto',
         'object_name_en': 'project',
         'title': 'Gestión de Proyectos',
@@ -99,8 +112,7 @@ def is_valid_queryparam(param):
 
 def project_filter(queryset, form):
 
-    title = form['title'].value()
-    country = form['country'].value()
+    search = form['search'].value()
     start_date_min = form['start_date_min'].value()
     start_date_max = form['start_date_max'].value()
     end_date_min = form['end_date_min'].value()
@@ -112,13 +124,9 @@ def project_filter(queryset, form):
     announcement_date_min = form['announcement_date_min'].value()
     announcement_date_max = form['announcement_date_max'].value()
 
-    if title is not None:
-            if title.strip() != "":
-                queryset = queryset.filter(Q(title__icontains=title))
-
-    if country is not None:
-            if country.strip() != "":
-                queryset = queryset.filter(Q(country__icontains=country))
+    if search is not None:
+            if search.strip() != "":
+                queryset = queryset.filter(Q(title__icontains=search) | Q(country__icontains=search))
 
     if is_valid_queryparam(start_date_min):
         queryset = queryset.filter(start_date__gte=start_date_min)

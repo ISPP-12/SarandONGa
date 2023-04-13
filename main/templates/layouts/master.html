@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }}</title>
+    <title>{{ title }}{% block title %}{% endblock %}</title>
 
 
     <!-- Bootstrap -->
@@ -106,7 +106,7 @@
         }
       }
       if (usuarioLogeado && pertenecienteAVidesSur) {
-        setInterval(verificarNinos, 24 * 60 * 60 * 1000);
+        setInterval(verificarNinos,   24*60* 60 * 1000);
       }
   </script>
 

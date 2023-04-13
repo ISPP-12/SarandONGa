@@ -7,6 +7,7 @@ from django.forms import ValidationError
 SUBSIDY_STATUS = (
     ('Por presentar', 'Por presentar'),
     ('Presentada', 'Presentada'),
+    ('Justificada', 'Justificada'),
     ('Concedida', 'Concedida'),
     ('Denegada', 'Denegada'),
 )
@@ -19,13 +20,18 @@ class Subsidy(models.Model):
     # Fecha en la que se presenta la subvención
     presentation_date = models.DateField(
         verbose_name="Fecha de presentación", null=True, blank=True)
+    # Fecha de cobro de la subvención
     payment_date = models.DateField(
         verbose_name="Fecha de cobro", null=True, blank=True)
     # Organismo
     organism = models.CharField(max_length=100, verbose_name="Organismo")
-
+    # Fecha de presentación de la justificación
+    presentation_justification_date = models.DateField(
+        verbose_name="Fecha de presentación de la justificación", null=True, blank=True)
+    # Fecha de resolución provisional
     provisional_resolution = models.DateField(
         verbose_name="Resolución provisional", null=True, blank=True)
+    # Fecha de resolución definitiva
     final_resolution = models.DateField(
         verbose_name="Resolución definitiva", null=True, blank=True)
     # Importe de la subvención
@@ -34,8 +40,15 @@ class Subsidy(models.Model):
 
     # Nombre completo (con apellidos) de la persona o entidad que dona
     name = models.CharField(max_length=200, verbose_name="Nombre completo")
+    # Estado de la Subvención
     status = models.CharField(
         max_length=50, choices=SUBSIDY_STATUS, verbose_name="Estado")
+    #Observaciones
+    notes = models.TextField(blank=True, verbose_name='Observaciones')
+    #Documentos referentes
+    document = models.FileField(
+        verbose_name="Documento", upload_to="docs/subsidy/", null=True, blank=True)
+    #Relacione con la etidad Ong
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='subvencion', verbose_name="ONG")
     # slug = models.SlugField(max_length=200, unique=True, editable=False)
@@ -47,6 +60,12 @@ class Subsidy(models.Model):
 
         if self.amount < 0:
             raise ValidationError("El importe no puede ser negativo")
+        
+        if self.presentation_date and self.presentation_justification_date:
+            if self.presentation_date > self.presentation_justification_date:
+                raise ValidationError(
+                    "La fecha de presentación de la justificación no puede ser anterior a la de presentación de la subvención")
+
         if self.final_resolution and self.provisional_resolution:
             if self.final_resolution < self.provisional_resolution:
                 raise ValidationError(
