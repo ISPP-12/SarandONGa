@@ -92,39 +92,40 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
         self.driver.find_element(By.ID,"id-submitForm").click()
 
 
-def tearDown(self):
-    self.driver.quit()
-    self.ong = None
-    self.test_volunteer_1 = None
-    self.test_volunteer_2 = None
-    super().tearDown()
+    def tearDown(self):
+        self.driver.quit()
+        self.ong = None
+        self.test_volunteer_1 = None
+        self.test_volunteer_2 = None
+        super().tearDown()
 
-def test_access_volunteer_view(self):
-    # Check access
-    self.driver.get(f'{self.live_server_url}/user/volunteer/list')
-    volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{self.test_volunteer_2.id}")
-    self.assertTrue(volunteer_div)
+    def test_access_volunteer_view(self):
+        # Check access
+        self.driver.get(f'{self.live_server_url}/user/volunteer/list')
+        volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{self.test_volunteer_2.id}")
+        self.assertTrue(volunteer_div)
 
-    # Check the test item appears
-    test_volunteer_email = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-email").text
-    self.assertTrue(test_volunteer_email == self.test_volunteer_2.email)
-    test_volunteer_phone = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-telephone").text
-    self.assertTrue(test_volunteer_phone == self.test_volunteer_2.telephone)
-    test_volunteer_city = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-city").text
-    self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
+        # Check the test item appears
+        test_volunteer_email = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-email").text
+        self.assertTrue(test_volunteer_email == self.test_volunteer_2.email)
+        test_volunteer_phone = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-telephone").text
+        self.assertTrue(test_volunteer_phone == self.test_volunteer_2.telephone)
+        test_volunteer_city = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-city").text
+        self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
 
-def test_delete_stock_view(self):
-    # Check access
-    self.driver.get(f'{self.live_server_url}/user/volunteer/list')
-    volunteer_div=self.driver.find_element(By.ID,"section-volunteer")
+    def test_delete_stock_view(self):
+        # Check access
+        self.driver.get(f'{self.live_server_url}/user/volunteer/list')
+        volunteer_div=self.driver.find_element(By.ID,"section-volunteer")
 
-    # Check the test item appears
-    volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{{object.id}}-{self.test_volunteer_2.id}")
-    self.assertTrue(volunteer_div)
-    volunteer_div.click()
+        # Check the test item appears
+        volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{self.test_volunteer_2.id}")
+     
+        self.assertTrue(volunteer_div)
+        volunteer_div.click()
 
-    # Check the item is removed
-    before_count = Volunteer.objects.count()
-    self.driver.find_element(By.ID,"deleteBtn").click()
-    after_count = Volunteer.objects.count()
-    self.assertTrue(before_count == after_count+1 )
+        # Check the item is removed
+        before_count = Volunteer.objects.count()
+        self.driver.find_element(By.ID,"delete-button").click()
+        after_count = Volunteer.objects.count()
+        self.assertTrue(before_count == after_count+1 )
