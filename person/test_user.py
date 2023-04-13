@@ -23,6 +23,7 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
             dedication_time=10,
             contract_start_date=date(2023, 1, 20),
             contract_end_date=date(2023, 2, 5),
+            birth_date=date(1990, 1, 20),
             raffle=False,
             lottery=False,
             telephone='123456789',
@@ -113,7 +114,7 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
         test_volunteer_city = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-city").text
         self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
 
-    def test_delete_stock_view(self):
+    def test_delete_volunteer_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/user/volunteer/list')
         volunteer_div=self.driver.find_element(By.ID,"section-volunteer")
