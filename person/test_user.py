@@ -47,6 +47,7 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
             dedication_time=10,
             contract_start_date=date(2023, 1, 20),
             contract_end_date=date(2023, 2, 5),
+            birth_date=date(1990, 1, 20),
             raffle=False,
             lottery=False,
             city="Sevilla",
