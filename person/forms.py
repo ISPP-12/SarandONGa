@@ -314,7 +314,7 @@ class CreateNewVolunteer(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'dedication_time': forms.NumberInput(attrs={'step': "0.01"}),
+            'dedication_time': forms.NumberInput(attrs={'step': "0.01", 'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):
