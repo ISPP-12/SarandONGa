@@ -79,6 +79,7 @@ class AsemUserViewsTestCaseVidessur(StaticLiveServerTestCase):
        
         # Acess form from list
         self.driver.get(f'{self.live_server_url}/user/asem/list')
+        sleep(1)
         self.driver.find_element(By.ID, "create-button").click()
         
         # Fill and submit form
@@ -109,6 +110,7 @@ class AsemUserViewsTestCaseVidessur(StaticLiveServerTestCase):
 
         # Acess form from list
         self.driver.get(f'{self.live_server_url}/user/asem/list')
+        sleep(1)
         self.driver.find_element(By.ID,"create-button").click()
         
         # Fill and submit form (missing name)
