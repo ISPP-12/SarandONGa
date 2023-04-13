@@ -264,7 +264,7 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         spans = test_subsidy_div.find_element(
             By.CLASS_NAME, "row").find_elements(By.TAG_NAME, "span")
         self.assertTrue(test_subsidy_text == self.test_subsidy_1.name)
-        self.assertIn(str(self.test_subsidy_1.amount).replace(".",","), spans[0].text)
+        self.assertIn(str(self.test_subsidy_1.status).replace(".",","), spans[0].text)
         self.assertTrue(spans[1].text.strip() == self.test_subsidy_1.organism)
 
         #  Check the left section is still empty
@@ -279,7 +279,7 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         self.assertTrue(children[0].text == self.test_subsidy_1.name)
         self.assertTrue(children[1].text == self.test_subsidy_1.organism)
         self.assertTrue(children[2].text == "Cantidad: " +
-                        str(int(self.test_subsidy_1.amount)).replace(".",",") + " €")
+                        str(int(self.test_subsidy_1.status)).replace(".",",") + " €")
         # The rest of the attributes won't be tested until the display 
         # for null values is fixed
 
