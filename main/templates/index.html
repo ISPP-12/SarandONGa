@@ -7,5 +7,8 @@
   <hr>
   <h5>Página de inicio</h5>
 
-  <a href="/gateway/">Hazte premium </a>"
+  {% if user.is_authenticated %}
+    <a href="/gateway/">Hazte premium </a>
+  {% endif %}
+ 
 {% endblock %}

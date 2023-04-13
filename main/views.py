@@ -4,17 +4,20 @@ from functools import wraps
 from django.contrib import messages
 import braintree
 from django.conf import settings
-
+from django.contrib.auth.decorators import login_required
 
 # instancia Braintree payment gateway
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
+@login_required
 def payment_done(request):
     return render(request, 'done.html')
 
+@login_required
 def payment_canceled(request):
     return render(request, 'canceled.html')
 
+@login_required
 def payment_process(request):
     # create and submit transaction
     if request.method == 'POST':
