@@ -58,7 +58,7 @@ def home_list(request):
         home['frequency'] = dict(FREQUENCY)[home['frequency']]
         # remove null values
         for key, value in list(home.items()):
-            if value is None:
+            if value is None or value == '':
                 home[key] = '-'
 
     # json

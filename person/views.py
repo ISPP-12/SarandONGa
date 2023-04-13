@@ -51,7 +51,7 @@ def godfather_list(request):
         person.pop('_state', None)
         # remove null values
         for key, value in list(person.items()):
-            if value is None:
+            if value is None or value == '':
                 person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
@@ -301,7 +301,7 @@ def worker_list(request):
         person.pop('_state', None)
         # remove null values
         for key, value in list(person.items()):
-            if value is None:
+            if value is None or value == '':
                 person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
@@ -411,7 +411,7 @@ def child_list(request):
         person.pop('_state', None)
         # remove null values
         for key, value in list(person.items()):
-            if value is None:
+            if value is None or value == '':
                 person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
@@ -568,7 +568,7 @@ def user_list(request):
         person.pop('_state', None)
         # remove null values
         for key, value in list(person.items()):
-            if value is None:
+            if value is None or value == '':
                 person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
@@ -871,7 +871,7 @@ def volunteer_list(request):
         person.pop('_state', None)
         # remove null values
         for key, value in list(person.items()):
-            if value is None:
+            if value is None or value == '':
                 person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)

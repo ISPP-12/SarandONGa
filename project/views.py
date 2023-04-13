@@ -93,7 +93,7 @@ def project_list(request):
         p.pop('_state', None)
         # remove null values
         for key, value in list(p.items()):
-            if value is None:
+            if value is None or value == '':
                 p[key] = '-'
 
     # json

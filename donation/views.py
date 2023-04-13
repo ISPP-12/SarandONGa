@@ -55,7 +55,7 @@ def donation_list(request):
         donation.pop('_state', None)
         # remove null values
         for key, value in list(donation.items()):
-            if value is None:
+            if value is None or value == '':
                 donation[key] = '-'
 
     donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
