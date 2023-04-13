@@ -70,8 +70,15 @@ BLOCKS IN THIS LAYOUT
               </div>
 
 
-              <div class="col-3 col-md-3 d-flex justify-content-end mb-2">
-                
+
+              <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
+                <div class="px-1">
+                  <form method="POST" class="my-3">
+                    {% csrf_token %}
+                  {% include "components/button.html" with variation="EXCEL" text="Descargar" type="submit" onclick="" secondary=True %}
+                </form>
+                    
+                </div>
               </div>
           </div>
         </div>

@@ -112,8 +112,7 @@ def is_valid_queryparam(param):
 
 def project_filter(queryset, form):
 
-    title = form['title'].value()
-    country = form['country'].value()
+    search = form['search'].value()
     start_date_min = form['start_date_min'].value()
     start_date_max = form['start_date_max'].value()
     end_date_min = form['end_date_min'].value()
@@ -125,13 +124,9 @@ def project_filter(queryset, form):
     announcement_date_min = form['announcement_date_min'].value()
     announcement_date_max = form['announcement_date_max'].value()
 
-    if title is not None:
-            if title.strip() != "":
-                queryset = queryset.filter(Q(title__icontains=title))
-
-    if country is not None:
-            if country.strip() != "":
-                queryset = queryset.filter(Q(country__icontains=country))
+    if search is not None:
+            if search.strip() != "":
+                queryset = queryset.filter(Q(title__icontains=search) | Q(country__icontains=search))
 
     if is_valid_queryparam(start_date_min):
         queryset = queryset.filter(start_date__gte=start_date_min)
