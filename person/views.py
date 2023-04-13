@@ -18,12 +18,15 @@ from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from dateutil.relativedelta import relativedelta
 import math
+from django.http import HttpResponse
+import csv
 
 
 class UpdatePasswordView(PasswordChangeView):
     form_class = PasswordChangeForm
     success_url = reverse_lazy('worker_list')
     template_name = 'update_password.html'
+
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -510,6 +513,23 @@ def user_list(request):
     form = FilterAsemUserForm(request.GET or None)  
     objects = asemuser_filter(objects, form)
 
+    if request.method == 'POST':
+        try:
+            response=HttpResponse()
+            response['Content-Disposition']= 'attachment; filename=asem_users.xlsx'
+            writer=csv.writer(response)
+            writer.writerow(['id','email','nombre','apellido','fecha_nacimiento','sexo','ciudad','direccion','telefono','codigo_postal','foto','tipo_usuario','es_miembro','condicion','tipo_correspondencia','estado','tamaño_unidad_familiar','casa_propia','vehiculo_propio','numero_cuenta_bancaria','ong'])
+            asemUser_fields=objects.values_list('id','email','name','surname','birth_date','sex','city','address','telephone','postal_code','photo','user_type','member','condition','correspondence','status','family_unit_size','own_home','own_vehicle','bank_account_number','ong')
+            for a in asemUser_fields:
+                writer.writerow(a)
+            message = ("Exportado correctamente")
+            messages.success(request, message)
+            return response
+        except ValidationErr:
+            message = ("Error in exporting data. There are null data in rows")
+            messages.error(request, message)
+            return render(request, 'users/list.html')
+
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
@@ -807,8 +827,9 @@ def child_delete(request, child_id):
 def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
 
-    form = FilterVolunteerForm(request.GET or None)  
-    objects = volunteer_filter(objects, form)
+    form = FilterVolunteerForm(request.GET or None)
+    if request.method == 'GET':
+        objects = volunteer_filter(objects, form)
     
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -822,6 +843,72 @@ def volunteer_list(request):
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+    
+    query_str += "&min_birth_date="
+    if "min_birth_date" in keys:
+        query_str += request.GET["min_birth_date"]
+
+    query_str += "&max_birth_date="
+    if "max_birth_date" in keys:
+        query_str += request.GET["max_birth_date"]
+
+    query_str += "&sex="
+    if "sex" in keys:
+        query_str += request.GET["sex"]
+
+    query_str += "&volunteer_type="
+    if "volunteer_type" in keys:
+        query_str += request.GET["volunteer_type"]
+
+    query_str += "&min_dedication_time="
+    if "min_dedication_time" in keys:
+        query_str += request.GET["min_dedication_time"]
+
+    query_str += "&max_dedication_time="
+    if "max_dedication_time" in keys:
+        query_str += request.GET["max_dedication_time"]
+
+    query_str += "&min_contract_start="
+    if "min_contract_start" in keys:
+        query_str += request.GET["min_contract_start"]
+
+    query_str += "&max_contract_start="
+    if "max_contract_start" in keys:
+        query_str += request.GET["max_contract_start"]
+
+    query_str += "&min_contract_end="
+    if "min_contract_end" in keys:
+        query_str += request.GET["min_contract_end"]
+
+    query_str += "&max_contract_end="
+    if "max_contract_end" in keys:
+        query_str += request.GET["max_contract_end"]
+
+    query_str += "&raffle="
+    if "raffle" in keys:
+        query_str += request.GET["raffle"]
+
+    query_str += "&lottery="
+    if "lottery" in keys:
+        query_str += request.GET["lottery"]
+
+    query_str += "&is_member="
+    if "is_member" in keys:
+        query_str += request.GET["is_member"]
+
+    query_str += "&pres_table="
+    if "pres_table" in keys:
+        query_str += request.GET["pres_table"]
+
+    query_str += "&is_contributor="
+    if "is_contributor" in keys:
+        query_str += request.GET["is_contributor"]
+
     context = {
         'objects': user_page,
         'object_name': 'voluntario',
@@ -830,6 +917,7 @@ def volunteer_list(request):
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',
         'form' : form,
+        'query_str': query_str
     }
 
     return render(request, 'users/list.html', context)
