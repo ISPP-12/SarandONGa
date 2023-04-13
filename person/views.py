@@ -18,12 +18,15 @@ from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from dateutil.relativedelta import relativedelta
 import math
+from django.http import HttpResponse
+import csv
 
 
 class UpdatePasswordView(PasswordChangeView):
     form_class = PasswordChangeForm
     success_url = reverse_lazy('worker_list')
     template_name = 'update_password.html'
+
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -509,6 +512,23 @@ def user_list(request):
 
     form = FilterAsemUserForm(request.GET or None)  
     objects = asemuser_filter(objects, form)
+
+    if request.method == 'POST':
+        try:
+            response=HttpResponse()
+            response['Content-Disposition']= 'attachment; filename=asem_users.xlsx'
+            writer=csv.writer(response)
+            writer.writerow(['id','email','nombre','apellido','fecha_nacimiento','sexo','ciudad','direccion','telefono','codigo_postal','foto','tipo_usuario','es_miembro','condicion','tipo_correspondencia','estado','tamaño_unidad_familiar','casa_propia','vehiculo_propio','numero_cuenta_bancaria','ong'])
+            asemUser_fields=objects.values_list('id','email','name','surname','birth_date','sex','city','address','telephone','postal_code','photo','user_type','member','condition','correspondence','status','family_unit_size','own_home','own_vehicle','bank_account_number','ong')
+            for a in asemUser_fields:
+                writer.writerow(a)
+            message = ("Exportado correctamente")
+            messages.success(request, message)
+            return response
+        except ValidationErr:
+            message = ("Error in exporting data. There are null data in rows")
+            messages.error(request, message)
+            return render(request, 'users/list.html')
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
