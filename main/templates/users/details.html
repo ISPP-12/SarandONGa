@@ -95,7 +95,7 @@
     {% for key, value in info_right %}
       {% if value %}
       <p><span style="font-weight: bold;">{{ key }}:</span> 
-        {% if key == "Documento" %}
+        {% if key == "Contrato" %}
         <a href="/{{ value }}" target="_blank">{{ value|cut:'media/docs/volunteer/' }}</a>
         {% elif key == "Niños apadrinados" %}
         <ul>
