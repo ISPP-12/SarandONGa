@@ -212,6 +212,11 @@
 
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
+        object_photo = objectData.photo
+        if(object_photo === "-" ){
+          object_photo = '../../static/img/person-icon.svg'
+        }
+        object_photo = '../../' + object_photo
           preview.innerHTML = `
         <div class="container p-0">
           <div class="row px-4">
@@ -219,7 +224,7 @@
               <div class=" row justify-content-center ">
                 {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} 
 
-                  <img class="profile-img-big rounded" alt="${objectData.photo}" src={%if objectData.photo is not null%}${"../../" + objectData.photo} {%else%} {% static 'img/person-icon.svg' %} {%endif%}/>
+                  <img class="profile-img-big rounded" alt="{{object.photo}}" src=${object_photo}/>
 
                 {%endif%}
               </div>
