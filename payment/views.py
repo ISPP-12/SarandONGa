@@ -83,10 +83,14 @@ def payment_update(request, payment_id):
                 event_sub_arr['end'] = end_date
                 event_sub_arr['id'] = str(i.id)
                 event_arr.append(event_sub_arr)
-            datatest = json.dumps(event_arr, default=str)
+            events_json = json.dumps(event_arr, default=str)
 
-        context = {'form': form, 'title': 'Actualizar pago',
-                   'events_json': datatest, 'page_title': 'SarandONGa 💃 - Actualizar pago'}
+        context = {
+            'form': form, 
+            'title': 'Actualizar pago',
+            'events_json': events_json, 
+            'page_title': 'SarandONGa 💃 - Actualizar pago'
+            }
     else:
         return custom_403(request)
     return render(request, 'payment/payment_form.html', context)

@@ -22,9 +22,6 @@
           {% else %}
             {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
           {% endif %}
-          <div class="row text-danger">
-            {{ field.errors }}
-          </div>
         </div>
 
       {% endfor %}

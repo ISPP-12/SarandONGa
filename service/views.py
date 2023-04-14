@@ -64,16 +64,38 @@ def service_list(request):
 @asem_required
 def service_update(request, service_id):
     service = get_object_or_404(Service, id=service_id)
+    form = CreateNewService(instance=service)
     if request.method == "POST":
         form = CreateNewService(request.POST, request.FILES,instance=service)
         if form.is_valid():
             form.save()
-            return redirect('service_list')
+            return redirect('/service/create')
         else:
             messages.error(request, 'Formulario con errores')
-    else: 
-        form = CreateNewService(instance=service)
-    return render(request, 'service/service_form_backend.html', {"form": form, "title": "Editar Servicio", 'page_title': 'SarandONGa 💃 - Editar Servicio'})
+    else:
+        services = Service.objects.all()
+        events = []
+        for event in services:
+            event_sub_arr = {}
+            event_sub_arr['title'] = f'{event.service_type} - {event.amount}'
+            start_date = event.date
+            end_date = event.date
+            
+            event_sub_arr['start'] = start_date
+            event_sub_arr['end'] = end_date
+            event_sub_arr['url'] = f'./{event.id}/update'
+            event_sub_arr['id'] = str(event.id)
+            events.append(event_sub_arr)
+        events_json = json.dumps(events, default=str)
+        
+    context = {
+        'form': form, 
+        'events_json': events_json,
+        'title': "Editar Servicio", 
+        'page_title': 'SarandONGa 💃 - Editar Servicio'
+        }
+        
+    return render(request, 'service/service_form.html', context)
 
 @login_required
 @asem_required
