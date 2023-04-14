@@ -55,8 +55,8 @@ class FilterVolunteerForm(forms.Form):
     max_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
     volunteer_type = forms.ChoiceField(choices=[('', '--Seleccione--'), ('AP', 'Alumno en prácticas'), ('O', 'Otro')], required=False, label="Tipo de voluntario")
-    min_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación mínimo")
-    max_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación máximo")
+    min_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación mínimo", widget=forms.NumberInput(attrs={'min': 0}))
+    max_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación máximo", widget=forms.NumberInput(attrs={'min': 0}))
     min_contract_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Inicio de contrato después del")
     max_contract_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Inicio de contrato antes del")
     min_contract_end = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fin de contrato después del")
@@ -70,6 +70,23 @@ class FilterVolunteerForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
+
+        self.fields['qsearch'].initial = self.data.get('qsearch')
+        self.fields['min_birth_date'].initial = self.data.get('min_birth_date')
+        self.fields['max_birth_date'].initial = self.data.get('max_birth_date')
+        self.fields['sex'].initial = self.data.get('sex')
+        self.fields['volunteer_type'].initial = self.data.get('volunteer_type')
+        self.fields['min_dedication_time'].initial = self.data.get('min_dedication_time')
+        self.fields['max_dedication_time'].initial = self.data.get('max_dedication_time')
+        self.fields['min_contract_start'].initial = self.data.get('min_contract_start')
+        self.fields['max_contract_start'].initial = self.data.get('max_contract_start')
+        self.fields['min_contract_end'].initial = self.data.get('min_contract_end')
+        self.fields['max_contract_end'].initial = self.data.get('max_contract_end')
+        self.fields['raffle'].initial = self.data.get('raffle')
+        self.fields['lottery'].initial = self.data.get('lottery')
+        self.fields['is_member'].initial = self.data.get('is_member')
+        self.fields['pres_table'].initial = self.data.get('pres_table')
+        self.fields['is_contributor'].initial = self.data.get('is_contributor')
 
 class CreateNewGodFather(forms.ModelForm):
 
@@ -232,10 +249,25 @@ class FilterWorkerForm(forms.Form):
     birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
     birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
+
+    city = forms.CharField(max_length=100, required=False, label="Búsqueda por ciudad")
+    address = forms.CharField(max_length=100, required=False, label="Búsqueda por dirección")
+    telephone = forms.IntegerField(required=False, label="Búsqueda por teléfono", widget=forms.NumberInput(attrs={'min': 0}))
+    postal_code = forms.IntegerField(required=False, label="Búsqueda por código postal", widget=forms.NumberInput(attrs={'min': 0}))
+
+
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+            else:
+                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+
 
         # We assign the values ​​of the filters as initial values
 
@@ -272,31 +304,19 @@ class CreateNewChild(forms.ModelForm):
                     {'class': 'form-control'})
 
 class FilterChildForm(forms.Form):
-    email = forms.CharField(max_length=100, required=False , label="Búsqueda por email")
-    name = forms.CharField(max_length=50, required=False , label="Búsqueda por nombre")
-    surname = forms.CharField(max_length=50, required=False , label="Búsqueda por apellido")
+
+    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
     birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
     birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
-    city = forms.CharField(max_length=100, required=False, label="Búsqueda por ciudad")
-    address = forms.CharField(max_length=100, required=False, label="Búsqueda por dirección")
-    telephone = forms.CharField(max_length=15, required=False, label="Búsqueda por teléfono")
-    postal_code = forms.CharField(max_length=5, required=False, label="Búsqueda por código postal")
     start_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Dado/a de alta después del")
     start_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Dado/a de alta antes del")
     termination_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Dado/a de baja después de")
     termination_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Dado/a de baja antes de")
-    expected_mission_time = forms.CharField(max_length=100, required=False, label="Búsqueda por tiempo de misión esperado")
-    mission_house = forms.CharField(max_length=100, required=False, label="Búsqueda por casa de misión")
-    site = forms.CharField(max_length=100, required=False, label="Búsqueda por sede")
-    subsite = forms.CharField(max_length=100, required=False, label="Búsqueda por subsede")
-    father_name = forms.CharField(max_length=100, required=False, label="Búsqueda por nombre del padre")
-    father_profession = forms.CharField(max_length=100, required=False, label="Búsqueda por profesión del padre")
-    mother_name = forms.CharField(max_length=100, required=False, label="Búsqueda por nombre de la madre")
-    mother_profession = forms.CharField(max_length=100, required=False, label="Búsqueda por profesión de la madre")
     number_brothers_siblings = forms.IntegerField(required=False, label="Búsqueda por número de hermanos", widget=forms.NumberInput(attrs={'min': 0}))
     correspondence = forms.ChoiceField(choices=[('', '--Seleccione--'), ('E', 'Email'), ('CC', 'Carta con logo'), ('CS', 'Carta sin logo'), ('SR', 'Solo revista'), ('N', 'Ninguna')], required=False, label="Correspondencia")
     is_older = forms.ChoiceField(choices=[('', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Es mayor de edad?")
+    is_sponsored = forms.ChoiceField(choices=[('', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Está apadrinado/a?")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -304,31 +324,18 @@ class FilterChildForm(forms.Form):
 
         # Assigning Filter Values ​​as Initial Values
 
-        self.fields['email'].initial = self.data.get('email')
-        self.fields['name'].initial = self.data.get('name')
-        self.fields['surname'].initial = self.data.get('surname')
+        self.fields['qsearch'].initial = self.data.get('qsearch')
         self.fields['birth_date_min'].initial = self.data.get('birth_date_min')
         self.fields['birth_date_max'].initial = self.data.get('birth_date_max')
         self.fields['sex'].initial = self.data.get('sex')
-        self.fields['city'].initial = self.data.get('city')
-        self.fields['address'].initial = self.data.get('address')
-        self.fields['telephone'].initial = self.data.get('telephone')
-        self.fields['postal_code'].initial = self.data.get('postal_code')
         self.fields['start_date_min'].initial = self.data.get('start_date_min')
         self.fields['start_date_max'].initial = self.data.get('start_date_max')
         self.fields['termination_date_min'].initial = self.data.get('termination_date_min')
         self.fields['termination_date_max'].initial = self.data.get('termination_date_max')
-        self.fields['expected_mission_time'].initial = self.data.get('expected_mission_time')
-        self.fields['mission_house'].initial = self.data.get('mission_house')
-        self.fields['site'].initial = self.data.get('site')
-        self.fields['subsite'].initial = self.data.get('subsite')
-        self.fields['father_name'].initial = self.data.get('father_name')
-        self.fields['father_profession'].initial = self.data.get('father_profession')
-        self.fields['mother_name'].initial = self.data.get('mother_name')
-        self.fields['mother_profession'].initial = self.data.get('mother_profession')
         self.fields['number_brothers_siblings'].initial = self.data.get('number_brothers_siblings')
         self.fields['correspondence'].initial = self.data.get('correspondence')
         self.fields['is_older'].initial = self.data.get('is_older')
+        self.fields['is_sponsored'].initial = self.data.get('is_sponsored')
 
 class CreateNewVolunteer(forms.ModelForm):
 
@@ -339,7 +346,7 @@ class CreateNewVolunteer(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'dedication_time': forms.NumberInput(attrs={'step': "0.01"}),
+            'dedication_time': forms.NumberInput(attrs={'step': "0.01", 'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):

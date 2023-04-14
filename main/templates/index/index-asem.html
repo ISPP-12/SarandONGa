@@ -1,0 +1,95 @@
+{% extends 'layouts/master.html' %}
+
+{% block title %} Inicio {% endblock %}
+{% block extrahead %} 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}"> 
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+{% endblock %}
+{% block content %} 
+<section class="showcase">
+<div class="row g-0">
+    <div class="col-lg-6 text-white showcase-img d-flex justify-content-center align-items-center"><img width="40%" src='{% static 'img/ASEM.jpg' %}'> </div>
+    <div class="col-lg-6 my-auto showcase-text">
+        <h2>Sobre ASEM</h2>
+        <p class="lead mb-0">La Asociación Sevillana de Esclerosis Múltiple, ofrece una atención especializada, llevada a cabo por un grupo multidisciplinar de profesionales titulados y colegiados, todo ello Coordinado por la Dra. Sara Eichau Hospital Virgen Macarena de Sevilla. </p>
+    </div>
+</div>
+</section>
+<div class="counter">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="employees">
+                    <p class="counter-count">{{donations}}</p>
+                    <p class="employee-p">Donaciones</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="customer">
+                    <p class="counter-count">{{users}}</p>
+                    <p class="customer-p">Usuarios</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="design">
+                    <p class="counter-count">{{workers}}</p>
+                    <p class="design-p">Trabajadores</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="order">
+                    <p class="counter-count">{{volunteers}}</p>
+                    <p class="order-p">Voluntarios</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+       
+        <!-- Image Showcases-->
+        <section class="showcase">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('{% static 'img/jornada01.jpeg' %}')"></div>
+                    <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                        <h2>Jornadas informativas</h2>
+                        <p class="lead mb-0">Este evento nos permite informar a muchas personas de los problemas a los que se enfrentan nuestros afectados y los servicios que les ofrecemos en nuestra Asociación.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Testimonials-->
+        <section class="testimonials text-center bg-light">
+            <div class="container">
+                <h2 class="mb-5">Datos de contacto</h2>
+                <div class="row text-start">
+                    <p><strong>ASEM - www.emsevilla.es</strong></p>
+                    <p>Asociaci&oacute;n Sevillana de Esclerosis M&uacute;ltiple<br></p>
+                    <p>Avda. de Altamira, n&deg; 29-Bq. 11 - Acc.A 41020 (Sevilla)</p>
+                    <p>Tel:<strong> 954 51 39 99</strong> - Fax:<strong> 954 52 38 11</strong></p>
+                    <p>CIF:<strong> G-41803974</strong></p>
+                </div>
+            </div>
+        </section>
+        
+<script>
+    $(document).ready(function(){
+    $('.counter-count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 1000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
+});
+</script>
+
+        {% endblock %}

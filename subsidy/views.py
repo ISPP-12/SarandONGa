@@ -37,7 +37,7 @@ def subsidy_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" ,  "title": "Añadir Subvención"})
+    return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" ,  "title": "Añadir Subvención", 'page_title': 'SarandONGa 💃 - Añadir Subvención'})
 
 @login_required
  
@@ -62,6 +62,7 @@ def subsidy_list(request):
         'object_name': 'subvención',
         'object_name_en': 'subsidy',
         'title': 'Gestión de Subvenciones',
+        'page_title': 'SarandONGa 💃 - Gestión de Subvenciones',
         'form': form,
     }
 
@@ -95,7 +96,7 @@ def subsidy_update(request, subsidy_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'subsidy/create.html', {"form": form})
+    return render(request, 'subsidy/create.html', {"form": form, 'page_title': 'SarandONGa 💃 - Editar Subvención'})
 
 def is_valid_queryparam(param):
     return param != "" and param is not None
