@@ -91,8 +91,8 @@ TELEPHONE_VALIDATOR = RegexValidator(
 )
 
 POSTAL_CODE_VALIDATOR = RegexValidator(
-    regex=r'^\d{5}$',
-    message="El código postal debe estar en el formato de cinco dígitos."
+    regex=r'^[\w\-\[\]\s]{3,10}$',
+    message="El código postal debe tener entre tres y diez caracteres, y se permiten letras, números, espacios, corchetes y guiones."
 )
 
 
@@ -112,7 +112,7 @@ class Person(models.Model):
         max_length=200, verbose_name="Dirección", null=True, blank=True)
     telephone = models.CharField(
         validators=[TELEPHONE_VALIDATOR], verbose_name="Teléfono", max_length=17, null=True, blank=True)
-    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5,
+    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=10,
                                    verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
@@ -175,7 +175,7 @@ class Worker(AbstractBaseUser):
         max_length=200, verbose_name="Dirección", null=True, blank=True)
     telephone = models.CharField(
         validators=[TELEPHONE_VALIDATOR], verbose_name="Teléfono", max_length=17, null=True, blank=True)
-    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5,
+    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=10,
                                    verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)
