@@ -4,6 +4,7 @@
 {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
 
 
+
 {% block botonPrimario %}
 {% if object_name_en == "user" %}
   {% include 'components/button.html' with href='/user/asem/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
