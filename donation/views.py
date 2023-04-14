@@ -44,7 +44,8 @@ def donation_list(request):
         ong=request.user.ong).order_by('-created_date').values()
 
     form = FilterDonationForm(request.GET or None)
-    objects = donation_filter(objects, form)
+    if request.method == 'GET':
+        objects = donation_filter(objects, form)
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -55,6 +56,23 @@ def donation_list(request):
         d.pop('_state', None)
 
     donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
+
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+    query_str += "&min_date="
+    if "min_date" in keys:
+        query_str += request.GET["min_date"]
+    query_str += "&max_date="
+    if "max_date" in keys:
+        query_str += request.GET["max_date"]
+    query_str += "&min_amount="
+    if "min_amount" in keys:
+        query_str += request.GET["min_amount"]
+    query_str += "&max_amount="
+    if "max_amount" in keys:
+        query_str += request.GET["max_amount"]
 
     for donation in objects:
         created_date = donation["created_date"]
@@ -68,6 +86,7 @@ def donation_list(request):
         'object_name_en': 'donation',
         'title': 'Gestión de Donaciones',
         'form': form,
+        'query_str': query_str,
         'page_title': 'SarandONGa 💃 - Gestión de Donaciones'
     }
 
