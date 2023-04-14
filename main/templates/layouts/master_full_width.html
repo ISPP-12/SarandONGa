@@ -4,9 +4,9 @@
 <head>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }}{% block title %}
-        {% endblock %}</title>
-
+    {% if page_title %}
+    <title>{{ page_title }}</title>
+    {% endif %}
     <!-- Bootstrap -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
@@ -29,6 +29,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/subsidies.css' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
 
     {% block extrahead %} {% endblock %}
 
