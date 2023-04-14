@@ -22,6 +22,8 @@ PAYMENT_METHOD = (
     ('T', 'Transferencia'),
     ('TB', 'Tarjeta Bancaria'),
     ('E', 'Efectivo'),
+    ('Bizum', 'Bizum'),
+    ('Domiciliacion', 'Domiciliacion'),
 )
 
 STATUS = (
@@ -62,6 +64,8 @@ ASEMUSER_TYPE = (
 
 CORRESPONDENCE = (
     ('E', 'Email'),
+    ('Correo Ordinario', 'Correo Ordinario'),
+    ('Whatsapp', 'Whatsapp'),
     ('CC', 'Carta con logo'),
     ('CS', 'Carta sin logo'),
     ('SR', 'Solo revista'),
