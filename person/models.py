@@ -91,8 +91,8 @@ TELEPHONE_VALIDATOR = RegexValidator(
 )
 
 POSTAL_CODE_VALIDATOR = RegexValidator(
-    regex=r'^\d{5}$',
-    message="El código postal debe estar en el formato de cinco dígitos."
+    regex=r'^[\w\-\[\]\s]{3,10}$',
+    message="El código postal debe tener entre tres y diez caracteres, y se permiten letras, números, espacios, corchetes y guiones."
 )
 
 
@@ -112,7 +112,7 @@ class Person(models.Model):
         max_length=200, verbose_name="Dirección", null=True, blank=True)
     telephone = models.CharField(
         validators=[TELEPHONE_VALIDATOR], verbose_name="Teléfono", max_length=17, null=True, blank=True)
-    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5,
+    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=10,
                                    verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
@@ -175,7 +175,7 @@ class Worker(AbstractBaseUser):
         max_length=200, verbose_name="Dirección", null=True, blank=True)
     telephone = models.CharField(
         validators=[TELEPHONE_VALIDATOR], verbose_name="Teléfono", max_length=17, null=True, blank=True)
-    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5,
+    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=10,
                                    verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)
@@ -350,27 +350,27 @@ class Child(Person):
     termination_date = models.DateField(
         verbose_name="Fecha de baja", null=True, blank=True)
     educational_level = models.CharField(
-        max_length=200, verbose_name="Nivel de estudios")
+        max_length=100, verbose_name="Nivel de estudios", null=True, blank=True)
     expected_mission_time = models.CharField(
-        max_length=200, verbose_name="Tiempo previsto de mision")
+        max_length=100, verbose_name="Tiempo previsto de mision", null=True, blank=True)
     mission_house = models.CharField(
-        max_length=200, verbose_name="Casa de la mision")
+        max_length=100, verbose_name="Casa de la mision", null=True, blank=True)
     site = models.CharField(
-        max_length=200, verbose_name="Sede")
+        max_length=100, verbose_name="Sede", null=True, blank=True)
     subsite = models.CharField(
-        max_length=200, verbose_name="Subsede")
+        max_length=100, verbose_name="Subsede", null=True, blank=True)
     father_name = models.CharField(
-        max_length=200, verbose_name="Nombre del padre")
+        max_length=100, verbose_name="Nombre del padre", null=True, blank=True)
     father_profession = models.CharField(
-        max_length=200, verbose_name="Profesion del padre")
+        max_length=100, verbose_name="Profesion del padre", null=True, blank=True)
     mother_name = models.CharField(
-        max_length=200, verbose_name="Nombre de la madre")
+        max_length=100, verbose_name="Nombre de la madre", null=True, blank=True)
     mother_profession = models.CharField(
-        max_length=200, verbose_name="Profesion de la madre")
+        max_length=100, verbose_name="Profesion de la madre", null=True, blank=True)
     number_brothers_siblings = models.IntegerField(
-        verbose_name="Número de hermanos", default=0, validators=[MinValueValidator(0)])
+        verbose_name="Número de hermanos", validators=[MinValueValidator(0)], null=True, blank=True)
     correspondence = models.CharField(
-        max_length=20, verbose_name="Tipo de correspondencia", choices=CORRESPONDENCE)
+        max_length=20, verbose_name="Tipo de correspondencia", choices=CORRESPONDENCE, null=True, blank=True)
     # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
@@ -384,10 +384,10 @@ class Child(Person):
             if self.termination_date < self.start_date:
                 raise ValidationErr(
                     "The termination date must be after the start date")
-
-        if self.number_brothers_siblings < 0:
-            raise ValidationErr(
-                "Un niño no puede tener menos de 0 hermanos")
+        if self.number_brothers_siblings:
+            if self.number_brothers_siblings < 0:
+                raise ValidationErr(
+                    "Un niño no puede tener menos de 0 hermanos")
         # self.slug = slugify(str(self.postal_code) + ' '+self.name + ' ' + self.surname)
         super(Child, self).save(*args, **kwargs)
 
