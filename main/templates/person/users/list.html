@@ -2,8 +2,6 @@
 {% load static %}
 
 
-
-
 {% block botonPrimario %}
 {% if object_name_en == "user" %}
   {% include 'components/button.html' with href='/user/asem/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
@@ -25,69 +23,141 @@
 
 {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
 
+
 {%block filters%}
-{% if object_name_en == "worker" %}
-
-
-
-
 <form method="GET" class="my-3">
+
   {% csrf_token %}
 
-  <div id="team">
-
-      
-    </div>
-  
+  {% comment %} ASEM USER {% endcomment %}
+  {% if object_name_en == "user" %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
-
-
       </div>
     
-      <div class='col-lg-4 col-md-12 col-12'>
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
         {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
       </div>
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado civil" input=form.status %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.condition.id_for_label label_text="Condición" input=form.condition %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.member.id_for_label label_text="Miembro" input=form.member %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.user_type.id_for_label label_text="Tipo de usuario" input=form.user_type %} 
+      </div>
+    </div>
+  </div>
+
+  {% comment %} WORKER {% endcomment %}
+  {% elif object_name_en == "worker" %}
+  <div id="team">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+      </div>
+    
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
       </div>
     </div>
-
-      
-
-
-
-
-    
-   
   </div>
- 
+
+  {% comment %} CHILD {% endcomment %}
+  {% elif object_name_en == "child" %}
+  <div id="team">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+      </div>
+    
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.is_older.id_for_label label_text="Mayor de edad" input=form.is_older %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.is_sponsored.id_for_label label_text="Apadrinado" input=form.is_sponsored %} 
+      </div>
+    </div>
+  </div>
+
+  {% comment %} VOLUNTEER {% endcomment %}
+  {% elif object_name_en == "volunteer" %}
+  <div id="team">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+      </div>
+    
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.volunteer_type.id_for_label label_text="Tipo" input=form.volunteer_type %} 
+      </div>
+    </div>
+  </div>
+
+  {% comment %} GODFATHER {% endcomment %}
+  {% elif object_name_en == "godfather" %}
+  <div id="team">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+      </div>
+    
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado Civil" input=form.status %} 
+      </div>
+    </div>
+  </div>
+
+  {% endif %}
 
   <div class="col pt-2">
-    
-
-  
     {% include 'components/button.html' with text="Filtrar" id="id-filter" variation="SUBMIT" %}
 
     {% include 'components/button.html' with text="Borrar" id="reset" type="reset" variation="RESET" %}
-
-
-  
-
-
-  
   </div>
-
-
 </form>
-{% endif %}
 
 {% endblock %}
 
-{% block objectFor %}
 
+{% block objectFor %}
 
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
@@ -101,27 +171,11 @@
 </div>
 
 {% for object in objects %}
-
-{% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
-
+  {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
 {% endfor %}
-<div class="pagination my-4">
-  <span class="step-links">
-      {% if objects.has_previous %}
-          <a href="?page=1{{ query_str }}">&laquo; Primera</a>
-          <a href="?page={{ objects.previous_page_number }}{{ query_str }}">Anterior</a>
-      {% endif %}
 
-      <span class="current">
-          Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
-      </span>
+{% include 'components/pagination.html' %}
 
-      {% if objects.has_next %}
-          <a href="?page={{ objects.next_page_number }}{{ query_str }}">Siguiente</a>
-          <a href="?page={{ objects.paginator.num_pages }}{{ query_str }}">Última &raquo;</a>
-      {% endif %}
-  </span>
-</div>
 {% endblock %}
 
 {% block scripts %}
@@ -242,7 +296,14 @@
 
   })
 
-  
 
+</script>
+
+
+<script>
+  document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = window.location.pathname;
+  });
 </script>
 {% endblock %}

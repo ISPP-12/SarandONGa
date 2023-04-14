@@ -31,7 +31,7 @@
     {{ form.non_field_errors }}
     {% for field in form %}
         <div class="col-md-6 col-12">
-            <div class="row">
+            <div class="row my-3">
                 {% if field.field.required %}
                     {% with field.label_tag|safe|add:'<span class="text-danger"> *</span>' as label_tag_required %}
                         {% include 'components/inputs.html' with id=field.id_for_label label_text=label_tag_required input=field %}
