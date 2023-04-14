@@ -16,15 +16,13 @@ from xml.dom import ValidationErr
 @login_required
 def payment_create(request):
     project = Project.objects.all()
-    form = CreatePaymentForm(
-        initial={'ong': request.user.ong, 'project': project})
     if 'godfather' in request.GET:
         godfather = GodFather.objects.get(id=request.GET.get("godfather"))
     else:
         godfather = None
     if request.method == 'POST':
-        form = CreatePaymentForm(request.POST, initial={
-                                 'project': project, 'godfather': godfather})
+        form = CreatePaymentForm(request.user.ong, request.POST, initial={
+                                 'project': project, 'godfather': godfather}, )
         if form.is_valid():
             payment = form.save(commit=False)
             payment.ong = request.user.ong
@@ -35,9 +33,9 @@ def payment_create(request):
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
-        form = CreatePaymentForm(
-            initial={'ong': request.user.ong, 'project': project, 'godfather': godfather})
-    all_events = Payment.objects.all()
+        form = CreatePaymentForm(request.user.ong,
+                                 initial={'ong': request.user.ong, 'project': project, 'godfather': godfather})
+    all_events = Payment.objects.filter(ong=request.user.ong)
     event_arr = []
     for i in all_events:
         event_sub_arr = {}
@@ -60,16 +58,16 @@ def payment_create(request):
 @login_required
 def payment_update(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
-    form = CreatePaymentForm(instance=payment)
+    form = CreatePaymentForm(request.user.ong, instance=payment)
     if request.user.ong == payment.ong:
         if request.method == 'POST':
-            form = CreatePaymentForm(
-                request.POST, request.FILES, instance=payment)
+            form = CreatePaymentForm(request.user.ong,
+                                     request.POST, request.FILES, instance=payment)
             if form.is_valid():
                 form.save()
                 return redirect('/payment/create')
         else:
-            all_events = Payment.objects.all()
+            all_events = Payment.objects.filter(ong=request.user.ong)
             event_arr = []
             for i in all_events:
                 event_sub_arr = {}
