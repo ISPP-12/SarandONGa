@@ -22,57 +22,67 @@
 {% block content %}
 
 <div id="section-user" class="p-2">
-<div class="d-flex flex-row justify-content-between align-items-center flex-wrap-reverse gap-4">
-  <div class="d-flex flex-row justify-content-start align-items-center gap-4">
-    {% if asem_user %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ asem_user.photo }}" src="{% if asem_user.photo %}  ../../{{asem_user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-    {% elif worker %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ worker.photo }}" src="{% if worker.photo %}  ../../{{worker.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-    {% elif volunteer %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ volunteer.photo }}" src="{% if volunteer.photo %}  ../../{{volunteer.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-    {% elif godfather %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ godfather.photo }}" src="{% if godfather.photo %}  ../../{{godfather.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-    {% elif child %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ child.photo }}" src="{% if child.photo %}  ../../{{child.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-    {% else  %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ user.photo }}" src="{% if user.photo %}  ../../{{user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-    {% endif %}
-    <div class="d-flex flex-column justify-content-start align-items-start">
-      {% if asem_user %}
-      {% include 'components/title.html' with title=asem_user.name|add:" "|add:asem_user.surname %}
-      {% elif worker %}
-        {% include 'components/title.html' with title=worker.name|add:" "|add:worker.surname %}
-      {% elif volunteer %}
-        {% include 'components/title.html' with title=volunteer.name|add:" "|add:volunteer.surname %}
-      {% elif godfather %}
-        {% include 'components/title.html' with title=godfather.name|add:" "|add:godfather.surname %}
-      {% elif child %}
-        {% include 'components/title.html' with title=child.name|add:" "|add:child.surname %}
-      {% else  %}
-        {% include 'components/title.html' with title="Usuario no identificado" %}
-      {% endif %}
+<div class="row">
+  <a href="{{ request.path|slice:'-1'|slice:'0:-1'|add:'/list' }}" id="returnBtn" style="margin: auto;">
+    {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}
+    </a>
+</div>
+<div class="row justify-content-between align-items-center">
+  <div class="col-12">
+    <div class="row justify-content-start align-items-center">
       
-      <p>
+      <div class="d-flex justify-content-md-start justify-content-center col-md-3 col-12 py-3">
         {% if asem_user %}
-          Usuario ASEM
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ asem_user.photo }}" src="{% if asem_user.photo %}  ../../{{asem_user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% elif worker %}
-          Trabajador
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ worker.photo }}" src="{% if worker.photo %}  ../../{{worker.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% elif volunteer %}
-          Voluntario
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ volunteer.photo }}" src="{% if volunteer.photo %}  ../../{{volunteer.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% elif godfather %}
-          Padrino
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ godfather.photo }}" src="{% if godfather.photo %}  ../../{{godfather.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% elif child %}
-          Niño
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ child.photo }}" src="{% if child.photo %}  ../../{{child.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% else  %}
-          Usuario no identificado
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ user.photo }}" src="{% if user.photo %}  ../../{{user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% endif %}
-      </p>
+      </div>
+
+      <div class="col-md-9 col-12 py-3">
+        {% if asem_user %}
+        {% include 'components/title.html' with title=asem_user.name|add:" "|add:asem_user.surname %}
+        {% elif worker %}
+          {% include 'components/title.html' with title=worker.name|add:" "|add:worker.surname %}
+        {% elif volunteer %}
+          {% include 'components/title.html' with title=volunteer.name|add:" "|add:volunteer.surname %}
+        {% elif godfather %}
+          {% include 'components/title.html' with title=godfather.name|add:" "|add:godfather.surname %}
+        {% elif child %}
+          {% include 'components/title.html' with title=child.name|add:" "|add:child.surname %}
+        {% else  %}
+          {% include 'components/title.html' with title="Usuario no identificado" %}
+        {% endif %}
+        
+        <p>
+          {% if asem_user %}
+            Usuario ASEM
+          {% elif worker %}
+            Trabajador
+          {% elif volunteer %}
+            Voluntario
+          {% elif godfather %}
+            Padrino
+          {% elif child %}
+            Niño
+          {% else  %}
+            Usuario no identificado
+          {% endif %}
+        </p>
+
+      </div>
 
     </div>
   </div>
-  <a href="{{ request.path|slice:'-1'|slice:'0:-1'|add:'/list' }}" id="returnBtn" style="margin: auto;">
-  {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}
-  </a>
+  
   {% comment %}
   {% with href=request.path|slice:'-1'|slice:'0:-1'|add:'/list' %}
     {% include "components/button.html" with variation="RETURN" text="Volver al listado" href="/stock/create" id="returnBtn" type="button" href={{href}} %}
@@ -81,23 +91,25 @@
 </div>
 
 
-<div class="row mt-5" id="content">
+<div class="row mt-3" id="content">
   <div class="col-md-6">
     {% for key, value in info_left %}
       {% if value %}
-        <p><span style="font-weight: bold;">{{ key }}:</span> 
-          {{ value }}
-        </p>
+        <strong>{{ key }}:</strong>
+        <p>{{ value }}</p>
       {% endif %}
     {% endfor %}
   </div>
   <div class="col-md-6">
     {% for key, value in info_right %}
       {% if value %}
-      <p><span style="font-weight: bold;">{{ key }}:</span> 
+
+      <strong>{{ key }}:</strong>
+      <p class="{% if key == 'Observaciones' %}scrollable{% endif %}">  
         {% if key == "Contrato" %}
         <a href="/{{ value }}" target="_blank">{{ value|cut:'media/docs/volunteer/' }}</a>
         {% elif key == "Niños apadrinados" %}
+
         <ul>
         {% for child in value %}
           <li>
