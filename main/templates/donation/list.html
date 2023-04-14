@@ -129,9 +129,9 @@ displayed in the preview text (e.g. "donación")
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
             <p><strong>Nombre donante: </strong>${objectData.donor_name + ' ' + objectData.donor_surname}</p>
             <p><strong>DNI donante:  </strong>${objectData.donor_dni}</p>
-            <p><strong>Dirección donante:  </strong>${objectData.donor_address}</p>
-            <p><strong>Correo donante:  </strong>${objectData.donor_email}</p>
-            <p><strong>Documento: </strong>
+            <p><strong>Dirección donante:  </strong><span>${objectData.donor_address}</span></p>
+            <p><strong>Correo donante:  </strong><span>${objectData.donor_email}</span></p>
+            <p style="margin-bottom: 131px;"><strong>Documento: </strong>
               ${
                 objectData.document && objectData.document.includes("donation/")
                   ? `<a href="/${objectData.document}" target="_blank">${objectData.document.split("donation/")[1]}</a>`
