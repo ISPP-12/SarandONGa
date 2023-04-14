@@ -49,8 +49,12 @@ def godfather_list(request):
     form = FilterGodfatherForm(request.GET or None)
     objects = godfather_filter(objects, form)
 
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    godfather_page = paginator.get_page(page_number)
+
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [obj for obj in godfather_page]
     for person in persons_dict:
         person.pop('_state', None)
         # remove null values
@@ -61,7 +65,7 @@ def godfather_list(request):
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': godfather_page,
         'object_name': 'padrino',
         'object_name_en': 'godfather',
         'page_title': page_title,
@@ -331,20 +335,24 @@ def worker_list(request):
 
     if request.method == 'GET':
         objects = worker_filter(objects, form)
+    
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    worker_page = paginator.get_page(page_number)
 
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [user for user in worker_page]
     for person in persons_dict:
         person.pop('_state', None)
         # remove null values
         for key, value in list(person.items()):
             if value is None or value == '':
                 person[key] = '-'
-
+    
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': worker_page,
         'object_name': 'trabajador',
         'object_name_en': 'worker',
         'page_title': 'SarandONGa 💃 - Gestión de Trabajadores',

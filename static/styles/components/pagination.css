@@ -1,6 +1,7 @@
 .pagination {
   display: inline-block;
   margin-top: 2rem;
+  width: fit-content;
 }
 
 .step-links {
