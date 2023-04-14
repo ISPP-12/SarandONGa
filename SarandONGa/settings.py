@@ -61,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'SarandONGa.middleware.custom_404_middleware.Custom404Middleware',
 ]
 
 ROOT_URLCONF = 'SarandONGa.urls'
