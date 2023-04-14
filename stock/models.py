@@ -23,7 +23,7 @@ class Stock(models.Model):
     
     #Precio del suministro
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
-                                 MinValueValidator(0)], verbose_name="Precio",null=True, blank=True)
+                                 MinValueValidator(0)], verbose_name="Precio (€)",null=True, blank=True)
 
     #Foto del suministro
     photo = models.ImageField(verbose_name="Foto", upload_to="./static/img/stock/", null=True, blank=True)

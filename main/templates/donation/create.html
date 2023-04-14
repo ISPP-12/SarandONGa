@@ -69,7 +69,11 @@
             {% include "components/inputs.html" with id=form.document.id_for_label label_text="Documento" input=form.document %} 
             {{ form.document.errors }}
           </div>
+          <div class="col-12">
+            <p class="text-danger">* Campos obligatorios</p>
+          </div>
         </div>
+        
       <div class="form-section mt-5 mx-5 mb-5 text-center">
         {% if form.instance.id %}
         {% with button_text="Actualizar" %}

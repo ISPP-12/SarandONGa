@@ -8,6 +8,45 @@
 {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
 {% endblock %}
 
+{% block filters %}
+<form method="GET" class="my-3">
+  {% csrf_token %}
+  <div id="team">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+      </div>
+
+      <div class='col-lg-3 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.min_presentation_date.id_for_label label_text="Fecha presentación" input=form.min_presentation_date %} 
+      </div>
+
+      <div class='col-lg-3 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.min_payment_date.id_for_label label_text="Fecha pago" input=form.min_payment_date %} 
+      </div>
+
+      <div class='col-lg-3 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.min_final_resolution_date.id_for_label label_text="Fecha resolución final" input=form.min_final_resolution_date %} 
+      </div>
+      
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad" input=form.amount_min %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado" input=form.status %} 
+      </div>
+    </div>
+  </div>
+  <div class="col pt-2">
+    {% include 'components/button.html' with text="Filtrar" id="id-filter" variation="SUBMIT" %}
+
+    {% include 'components/button.html' with text="Borrar" id="reset" type="reset" variation="RESET" %}
+  </div>
+</form>
+{% endblock %}
+
+
 {% block objectFor %}
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">

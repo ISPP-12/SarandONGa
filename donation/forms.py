@@ -10,6 +10,14 @@ class FilterDonationForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.method = 'GET'
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+            else:
+                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
 
         # Asignamos los valores de los filtros como valores iniciales
         self.fields['qsearch'].initial = self.data.get('qsearch')

@@ -149,12 +149,10 @@ Añadir casa
             terminationDiv.innerHTML = 'La fecha de baja debe ser posterior a la fecha de alta'
     } else {
             terminationDiv.innerHTML = ''
+            submitButton.disabled = false
     }
 
 
-    if((terminationDateValue > startDateValue || !terminationDateValue)) {
-            submitButton.disabled = false
-        }
   }
 
   startDate.addEventListener('change', compare)
