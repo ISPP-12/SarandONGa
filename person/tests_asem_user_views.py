@@ -78,6 +78,7 @@ class AsemUserViewsTestCaseVidessur(StaticLiveServerTestCase):
 
         # Acess form from list
         self.driver.get(f'{self.live_server_url}/user/asem/list')
+        sleep(1)
         self.driver.find_element(By.ID, "create-button").click()
 
         # Fill and submit form
@@ -115,6 +116,7 @@ class AsemUserViewsTestCaseVidessur(StaticLiveServerTestCase):
 
         # Acess form from list
         self.driver.get(f'{self.live_server_url}/user/asem/list')
+
         self.driver.find_element(By.ID, "create-button").click()
 
         # Fill and submit form (missing name)
@@ -155,11 +157,11 @@ class AsemUserViewsTestCaseVidessur(StaticLiveServerTestCase):
         test_user_text = test_user_div.text
         self.assertTrue(str(self.test_asem_user_1.name) in test_user_text)
         self.assertTrue(str(self.test_asem_user_1.email)
-                        in test_user_text or "No especificado" in test_user_text)
+                        in test_user_text or "-" in test_user_text)
         self.assertTrue(str(self.test_asem_user_1.telephone)
-                        in test_user_text or "No especificado" in test_user_text)
+                        in test_user_text or "-" in test_user_text)
         self.assertTrue(str(self.test_asem_user_1.city)
-                        in test_user_text or "No especificado" in test_user_text)
+                        in test_user_text or "-" in test_user_text)
 
         # Update item
         test_user_div.click()

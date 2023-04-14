@@ -49,15 +49,23 @@ def godfather_list(request):
     form = FilterGodfatherForm(request.GET or None)
     objects = godfather_filter(objects, form)
 
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    godfather_page = paginator.get_page(page_number)
+
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
-    for d in persons_dict:
-        d.pop('_state', None)
+    persons_dict = [obj for obj in godfather_page]
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': godfather_page,
         'object_name': 'padrino',
         'object_name_en': 'godfather',
         'page_title': page_title,
@@ -66,23 +74,15 @@ def godfather_list(request):
         'form': form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def godfather_filter(queryset, form):
 
     q = form['qsearch'].value()
-    min_birth_date = form['min_birth_date'].value()
-    max_birth_date = form['max_birth_date'].value()
+    birth_date_min = form['birth_date_min'].value()
+    birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
-    payment_method = form['payment_method'].value()
-    frequency = form['frequency'].value()
-    min_amount = form['min_amount'].value()
-    max_amount = form['max_amount'].value()
-    min_start_date = form['min_start_date'].value()
-    max_start_date = form['max_start_date'].value()
-    min_end_date = form['min_end_date'].value()
-    max_end_date = form['max_end_date'].value()
     status = form['status'].value()
 
     if q is not None:
@@ -110,41 +110,17 @@ def godfather_filter(queryset, form):
                 Q(status__icontains=q)
             )
 
-    if is_valid_queryparam(min_birth_date):
-        queryset = queryset.filter(birth_date__gte=min_birth_date)
+    if is_valid_queryparam(birth_date_min):
+        queryset = queryset.filter(birth_date__gte=birth_date_min)
 
-    if is_valid_queryparam(max_birth_date):
-        queryset = queryset.filter(birth_date__lte=max_birth_date)
+    if is_valid_queryparam(birth_date_max):
+        queryset = queryset.filter(birth_date__lte=birth_date_max)
 
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
 
-    if is_valid_queryparam(payment_method):
-        queryset = queryset.filter(payment_method=payment_method)
-
-    if is_valid_queryparam(min_amount):
-        queryset = queryset.filter(amount__gte=min_amount)
-
-    if is_valid_queryparam(max_amount):
-        queryset = queryset.filter(amount__lte=max_amount)
-
-    if is_valid_queryparam(min_start_date):
-        queryset = queryset.filter(start_date__gte=min_start_date)
-
-    if is_valid_queryparam(max_start_date):
-        queryset = queryset.filter(start_date__lte=max_start_date)
-
-    if is_valid_queryparam(min_end_date):
-        queryset = queryset.filter(termination_date__gte=min_end_date)
-
-    if is_valid_queryparam(max_end_date):
-        queryset = queryset.filter(termination_date__lte=max_end_date)
-
     if is_valid_queryparam(status):
         queryset = queryset.filter(status=status)
-
-    if is_valid_queryparam(frequency):
-        queryset = queryset.filter(frequency=frequency)
 
     return queryset
 
@@ -164,7 +140,13 @@ def user_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM", 'page_title': 'SarandONGa 💃 - Añadir Usuario ASEM'})
+    context = {
+        "form": form, 
+        "title": "Añadir Usuario ASEM", 
+        'page_title': 'SarandONGa 💃 - Añadir Usuario ASEM'
+        }
+
+    return render(request, 'person/asem_user/register.html', context)
 
 
 @login_required
@@ -189,7 +171,14 @@ def user_update(request, asem_user_id):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewASEMUser(instance=asem_user)
-    return render(request, 'asem_user/asem_user_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Editar Usuario ASEM', 'title': 'Editar Usuario ASEM'})
+
+    context = {
+        'form': form, 
+        'page_title': 'SarandONGa 💃 - Editar Usuario ASEM', 
+        'title': 'Editar Usuario ASEM'
+        }
+
+    return render(request, 'person/asem_user/register.html', context)
 
 
 def choices_dicts():
@@ -252,9 +241,14 @@ def asem_user_details(request, asem_user_id):
 
     page_title = 'SarandONGa 💃 - ' + asem_user.name + ' ' + asem_user.surname
     
-    context = {'asem_user': asem_user, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
+    context = {
+        'asem_user': asem_user, 
+        'info_left': items[:mid], 
+        'info_right': items[mid:], 
+        'page_title': page_title
+        }
 
-    return render(request, 'users/details.html', context)
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -273,7 +267,13 @@ def worker_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador", 'page_title': 'SarandONGa 💃 - Añadir Trabajador'})
+    context = {
+        "form": form, 
+        "title": "Añadir trabajador", 
+        'page_title': 'SarandONGa 💃 - Añadir Trabajador'
+        }
+
+    return render(request, 'person/workers/register.html', context)
 
 
 @login_required
@@ -292,7 +292,7 @@ def worker_update(request, worker_id):
         context = {'form': form, 'title': 'Actualizar Trabajador', 'page_title': 'SarandONGa 💃 - Actualizar Trabajador'}
     else:
         return custom_403(request)
-    return render(request, 'workers/register.html', context)
+    return render(request, 'person/workers/register.html', context)
 
 
 @login_required
@@ -303,16 +303,24 @@ def worker_list(request):
 
     if request.method == 'GET':
         objects = worker_filter(objects, form)
+    
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    worker_page = paginator.get_page(page_number)
 
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
-    for d in persons_dict:
-        d.pop('_state', None)
-
+    persons_dict = [user for user in worker_page]
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
+    
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': worker_page,
         'object_name': 'trabajador',
         'object_name_en': 'worker',
         'page_title': 'SarandONGa 💃 - Gestión de Trabajadores',
@@ -321,7 +329,7 @@ def worker_list(request):
         'form': form
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def worker_filter(queryset, form):
@@ -390,7 +398,7 @@ def worker_details(request, worker_id):
         
         context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
 
-        return render(request, 'users/details.html', context)
+        return render(request, 'person/users/details.html', context)
     else:
         return custom_403(request)
 
@@ -422,8 +430,12 @@ def child_list(request):
 
     # depending of the user type write one title or another
     persons_dict = [child for child in child_page]
-    for d in persons_dict:
-        d.pop('_state', None)
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
@@ -437,7 +449,7 @@ def child_list(request):
         'form': form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def child_filter(queryset, form):
@@ -446,12 +458,6 @@ def child_filter(queryset, form):
     birth_date_min = form['birth_date_min'].value()
     birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
-    start_date_min = form['start_date_min'].value()
-    start_date_max = form['start_date_max'].value()
-    termination_date_min = form['termination_date_min'].value()
-    termination_date_max = form['termination_date_max'].value()
-    number_brothers_siblings = form['number_brothers_siblings'].value()
-    correspondence = form['correspondence'].value()
     is_older = form['is_older'].value()
     is_sponsored = form['is_sponsored'].value()
 
@@ -483,25 +489,6 @@ def child_filter(queryset, form):
 
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
-
-    if is_valid_queryparam(start_date_min):
-        queryset = queryset.filter(start_date__gte=start_date_min)
-
-    if is_valid_queryparam(start_date_max):
-        queryset = queryset.filter(start_date__lte=start_date_max)
-
-    if is_valid_queryparam(termination_date_min):
-        queryset = queryset.filter(termination_date__gte=termination_date_min)
-
-    if is_valid_queryparam(termination_date_max):
-        queryset = queryset.filter(termination_date__lte=termination_date_max)
-
-    if is_valid_queryparam(number_brothers_siblings):
-        queryset = queryset.filter(
-            number_brothers_siblings=number_brothers_siblings)
-
-    if is_valid_queryparam(correspondence):
-        queryset = queryset.filter(correspondence=correspondence)
 
     if is_valid_queryparam(is_older):
         if is_older == 'S':
@@ -545,8 +532,7 @@ def user_list(request):
             writer = csv.writer(response)
             writer.writerow(['id', 'email', 'nombre', 'apellido', 'fecha_nacimiento', 'sexo', 'ciudad', 'direccion', 'telefono', 'codigo_postal', 'foto', 'tipo_usuario',
                             'es_miembro', 'condicion', 'tipo_correspondencia', 'estado', 'tamaño_unidad_familiar', 'casa_propia', 'vehiculo_propio', 'numero_cuenta_bancaria', 'ong'])
-            asemUser_fields = objects.values_list('id', 'email', 'name', 'surname', 'birth_date', 'sex', 'city', 'address', 'telephone', 'postal_code', 'photo',
-                                                  'user_type', 'member', 'condition', 'correspondence', 'status', 'family_unit_size', 'own_home', 'own_vehicle', 'bank_account_number', 'ong')
+            asemUser_fields = objects.values_list('id', 'email', 'name', 'surname', 'birth_date', 'sex', 'city', 'address', 'telephone', 'postal_code', 'photo', 'user_type', 'member', 'condition', 'correspondence', 'status', 'family_unit_size', 'own_home', 'own_vehicle', 'bank_account_number', 'ong')
             for a in asemUser_fields:
                 writer.writerow(a)
             message = ("Exportado correctamente")
@@ -555,7 +541,7 @@ def user_list(request):
         except ValidationErr:
             message = ("Error in exporting data. There are null data in rows")
             messages.error(request, message)
-            return render(request, 'users/list.html')
+            return render(request, 'person/users/list.html')
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -565,8 +551,12 @@ def user_list(request):
 
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
-    for d in persons_dict:
-        d.pop('_state', None)
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
@@ -580,7 +570,7 @@ def user_list(request):
         'form': form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def is_valid_queryparam(param):
@@ -590,18 +580,13 @@ def is_valid_queryparam(param):
 def asemuser_filter(queryset, form):
 
     q = form['qsearch'].value()
-    min_date = form['min_date'].value()
-    max_date = form['max_date'].value()
+    birth_date_min = form['birth_date_min'].value()
+    birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
     condition = form['condition'].value()
     member = form['member'].value()
     user_type = form['user_type'].value()
-    correspondence = form['correspondence'].value()
     status = form['status'].value()
-    fam_size_min = form['fam_size_min'].value()
-    fam_size_max = form['fam_size_max'].value()
-    own_home = form['own_home'].value()
-    own_vehicle = form['own_vehicle'].value()
 
     if q is not None:
         if q.strip() != '':
@@ -616,11 +601,11 @@ def asemuser_filter(queryset, form):
                 Q(bank_account_number__icontains=q)
             )
 
-    if is_valid_queryparam(min_date):
-        queryset = queryset.filter(birth_date__gte=min_date)
+    if is_valid_queryparam(birth_date_min):
+        queryset = queryset.filter(birth_date__gte=birth_date_min)
 
-    if is_valid_queryparam(max_date):
-        queryset = queryset.filter(birth_date__lte=max_date)
+    if is_valid_queryparam(birth_date_max):
+        queryset = queryset.filter(birth_date__lte=birth_date_max)
 
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
@@ -633,24 +618,9 @@ def asemuser_filter(queryset, form):
 
     if is_valid_queryparam(user_type):
         queryset = queryset.filter(user_type=user_type)
-
-    if is_valid_queryparam(correspondence):
-        queryset = queryset.filter(correspondence=correspondence)
-
+        
     if is_valid_queryparam(status):
         queryset = queryset.filter(status=status)
-
-    if is_valid_queryparam(fam_size_min):
-        queryset = queryset.filter(family_unit_size__gte=fam_size_min)
-
-    if is_valid_queryparam(fam_size_max):
-        queryset = queryset.filter(family_unit_size__lte=fam_size_max)
-
-    if is_valid_queryparam(own_home):
-        queryset = queryset.filter(own_home=own_home)
-
-    if is_valid_queryparam(own_vehicle):
-        queryset = queryset.filter(own_vehicle=own_vehicle)
 
     return queryset
 
@@ -673,7 +643,13 @@ def godfather_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'person/godfather/form.html', {'form': form, 'title': 'Añadir Padrino', 'page_title': 'SarandONGa 💃 - Añadir Padrino'})
+    context = {
+        'form': form, 
+        'title': 'Añadir Padrino', 
+        'page_title': 'SarandONGa 💃 - Añadir Padrino'
+        }
+
+    return render(request, 'person/godfather/register.html', context)
 
 
 @login_required
@@ -695,7 +671,14 @@ def godfather_update(request, godfather_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'person/godfather/form.html', {'form': form, "title": "Editar Padrino", 'page_title': 'SarandONGa 💃 - Editar Padrino'})
+    
+    context = {
+        'form': form, 
+        'title': "Editar Padrino", 
+        'page_title': 'SarandONGa 💃 - Editar Padrino'
+        }
+    
+    return render(request, 'person/godfather/register.html', context)
 
 
 @login_required
@@ -746,16 +729,20 @@ def godfather_details(request, godfather_id):
                     None or sponsorship.termination_date > datetime.date(datetime.now())]
         items.append(('Niños apadrinados', children))
 
-    items = [item for item in items if item[1] !=
-             None and item[1] != '' and item[1] != []]
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
 
     mid = math.ceil(len(items) / 2)
 
     page_title = 'SarandONGa 💃 - ' + godfather.name + ' ' + godfather.surname
     
-    context = {'godfather': godfather, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
+    context = {
+        'godfather': godfather, 
+        'info_left': items[:mid], 
+        'info_right': items[mid:], 
+        'page_title': page_title
+        }
 
-    return render(request, 'users/details.html', context)
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -780,7 +767,14 @@ def child_create(request):
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'person/child/create_child.html', {'form': form, 'title': 'Añadir Niño', 'page_title': 'SarandONGa 💃 - Añadir Niño'})
+    
+    context = {
+        'form': form, 
+        'title': 'Añadir Niño', 
+        'page_title': 'SarandONGa 💃 - Añadir Niño'
+        }
+            
+    return render(request, 'person/child/create_child.html', context)
 
 
 @login_required
@@ -803,7 +797,13 @@ def child_update(request, child_id):
     else:
         return custom_403(request)
 
-    return render(request, 'person/child/create_child.html', {'form': form, "title": "Editar Niño", 'page_title': 'SarandONGa 💃 - Editar Niño'})
+    context = {
+        'form': form, 
+        'title': "Editar Niño", 
+        'page_title': 'SarandONGa 💃 - Editar Niño'
+        }
+
+    return render(request, 'person/child/create_child.html', context)
 
 
 @login_required
@@ -851,8 +851,14 @@ def child_details(request, child_id):
 
     page_title = 'SarandONGa 💃 - ' + child.name + ' ' + child.surname
     
-    context = {'child': child, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
-    return render(request, 'users/details.html', context)
+    context = {
+        'child': child, 
+        'info_left': items[:mid], 
+        'info_right': items[mid:], 
+        'page_title': page_title
+        }
+    
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -879,8 +885,12 @@ def volunteer_list(request):
     
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
-    for d in persons_dict:
-        d.pop('_state', None)
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
@@ -890,13 +900,13 @@ def volunteer_list(request):
     if "qsearch" in keys:
         query_str += request.GET["qsearch"]
     
-    query_str += "&min_birth_date="
-    if "min_birth_date" in keys:
-        query_str += request.GET["min_birth_date"]
+    query_str += "&birth_date_min="
+    if "birth_date_min" in keys:
+        query_str += request.GET["birth_date_min"]
 
-    query_str += "&max_birth_date="
-    if "max_birth_date" in keys:
-        query_str += request.GET["max_birth_date"]
+    query_str += "&birth_date_max="
+    if "birth_date_max" in keys:
+        query_str += request.GET["birth_date_max"]
 
     query_str += "&sex="
     if "sex" in keys:
@@ -962,27 +972,16 @@ def volunteer_list(request):
         'query_str': query_str
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def volunteer_filter(queryset, form):
 
     q = form['qsearch'].value()
-    min_birth_date = form['min_birth_date'].value()
-    max_birth_date = form['max_birth_date'].value()
+    birth_date_min = form['birth_date_min'].value()
+    birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
     volunteer_type = form['volunteer_type'].value()
-    min_dedication_time = form['min_dedication_time'].value()
-    max_dedication_time = form['max_dedication_time'].value()
-    min_contract_start = form['min_contract_start'].value()
-    max_contract_start = form['max_contract_start'].value()
-    min_contract_end = form['min_contract_end'].value()
-    max_contract_end = form['max_contract_end'].value()
-    raffle = form['raffle'].value()
-    lottery = form['lottery'].value()
-    is_member = form['is_member'].value()
-    pres_table = form['pres_table'].value()
-    is_contributor = form['is_contributor'].value()
 
     if q is not None:
         if q.strip() != "":
@@ -1007,50 +1006,17 @@ def volunteer_filter(queryset, form):
                 Q(volunteer_type__icontains=q)
             )
 
-    if is_valid_queryparam(min_birth_date):
-        queryset = queryset.filter(birth_date__gte=min_birth_date)
+    if is_valid_queryparam(birth_date_min):
+        queryset = queryset.filter(birth_date__gte=birth_date_min)
 
-    if is_valid_queryparam(max_birth_date):
-        queryset = queryset.filter(birth_date__lte=max_birth_date)
+    if is_valid_queryparam(birth_date_max):
+        queryset = queryset.filter(birth_date__lte=birth_date_max)
 
     if is_valid_queryparam(sex):
         queryset = queryset.filter(sex=sex)
 
     if is_valid_queryparam(volunteer_type):
         queryset = queryset.filter(volunteer_type=volunteer_type)
-
-    if is_valid_queryparam(min_dedication_time):
-        queryset = queryset.filter(dedication_time__gte=min_dedication_time)
-
-    if is_valid_queryparam(max_dedication_time):
-        queryset = queryset.filter(dedication_time__lte=max_dedication_time)
-
-    if is_valid_queryparam(min_contract_start):
-        queryset = queryset.filter(contract_start_date__gte=min_contract_start)
-
-    if is_valid_queryparam(max_contract_start):
-        queryset = queryset.filter(contract_start_date__lte=max_contract_start)
-
-    if is_valid_queryparam(min_contract_end):
-        queryset = queryset.filter(contract_end_date__gte=min_contract_end)
-
-    if is_valid_queryparam(max_contract_end):
-        queryset = queryset.filter(contract_end_date__lte=max_contract_end)
-
-    if is_valid_queryparam(raffle):
-        queryset = queryset.filter(raffle=raffle)
-
-    if is_valid_queryparam(lottery):
-        queryset = queryset.filter(lottery=lottery)
-
-    if is_valid_queryparam(is_member):
-        queryset = queryset.filter(is_member=is_member)
-
-    if is_valid_queryparam(pres_table):
-        queryset = queryset.filter(pres_table=pres_table)
-
-    if is_valid_queryparam(is_contributor):
-        queryset = queryset.filter(is_contributor=is_contributor)
 
     return queryset
 
@@ -1093,9 +1059,14 @@ def volunteer_details(request, volunteer_id):
 
         page_title = 'SarandONGa 💃 - ' + volunteer.name + ' ' + volunteer.surname
         
-        context = {'volunteer': volunteer, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
+        context = {
+            'volunteer': volunteer, 
+            'info_left': items[:mid], 
+            'info_right': items[mid:], 
+            'page_title': page_title
+            }
         
-        return render(request, 'users/details.html', context)
+        return render(request, 'person/users/details.html', context)
     else:
         return custom_403(request)
 
@@ -1114,7 +1085,14 @@ def volunteer_create(request):
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'volunteers/volunteers_form.html', {'form': form, 'title': 'Añadir Voluntario', 'page_title': 'SarandONGa 💃 - Añadir Voluntario'})
+
+    context = {
+        'form': form, 
+        'title': 'Añadir Voluntario', 
+        'page_title': 'SarandONGa 💃 - Añadir Voluntario'
+        }
+
+    return render(request, 'person/volunteers/register.html', context)
 
 
 @login_required
@@ -1143,9 +1121,16 @@ def volunteer_update(request, volunteer_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'volunteers/volunteers_form.html', {'form': form, 'title': 'Editar Voluntario', 'page_title': 'SarandONGa 💃 - Editar Voluntario'})
+    
+    context = {
+        'form': form, 
+        'title': 'Editar Voluntario', 
+        'page_title': 'SarandONGa 💃 - Editar Voluntario'
+        }
+    
+    return render(request, 'person/volunteers/register.html', context)
 
 
 def child_age(request):
-    ninos = Child.objects.values('name', 'birth_date')
-    return JsonResponse(list(ninos), safe=False)
+    childs = Child.objects.values('name', 'birth_date')
+    return JsonResponse(list(childs), safe=False)
