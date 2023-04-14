@@ -31,7 +31,23 @@
   <div class="col-12">
     <div class="row justify-content-start align-items-center">
       
-      <div class="row py-3">
+      <div class="d-flex justify-content-md-start justify-content-center col-md-3 col-12 py-3">
+        {% if asem_user %}
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ asem_user.photo }}" src="{% if asem_user.photo %}  ../../{{asem_user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
+        {% elif worker %}
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ worker.photo }}" src="{% if worker.photo %}  ../../{{worker.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
+        {% elif volunteer %}
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ volunteer.photo }}" src="{% if volunteer.photo %}  ../../{{volunteer.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
+        {% elif godfather %}
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ godfather.photo }}" src="{% if godfather.photo %}  ../../{{godfather.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
+        {% elif child %}
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ child.photo }}" src="{% if child.photo %}  ../../{{child.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
+        {% else  %}
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ user.photo }}" src="{% if user.photo %}  ../../{{user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
+        {% endif %}
+      </div>
+
+      <div class="col-md-9 col-12 py-3">
         {% if asem_user %}
         {% include 'components/title.html' with title=asem_user.name|add:" "|add:asem_user.surname %}
         {% elif worker %}
@@ -64,21 +80,6 @@
 
       </div>
 
-      <div class="d-flex justify-content-md-start justify-content-center col-sm-12 col-xs-12">
-        {% if asem_user %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ asem_user.photo }}" src="{% if asem_user.photo %}  ../../{{asem_user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-        {% elif worker %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ worker.photo }}" src="{% if worker.photo %}  ../../{{worker.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-        {% elif volunteer %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ volunteer.photo }}" src="{% if volunteer.photo %}  ../../{{volunteer.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-        {% elif godfather %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ godfather.photo }}" src="{% if godfather.photo %}  ../../{{godfather.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-        {% elif child %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ child.photo }}" src="{% if child.photo %}  ../../{{child.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-        {% else  %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ user.photo }}" src="{% if user.photo %}  ../../{{user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
-        {% endif %}
-      </div>
     </div>
   </div>
   
@@ -90,7 +91,7 @@
 </div>
 
 
-<div class="row mt-5" id="content">
+<div class="row mt-3" id="content">
   <div class="col-md-6">
     {% for key, value in info_left %}
       {% if value %}
