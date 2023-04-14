@@ -215,8 +215,9 @@
         object_photo = objectData.photo
         if(object_photo === "-" ){
           object_photo = '../../static/img/person-icon.svg'
+        } else {
+          object_photo = '../../' + object_photo
         }
-        object_photo = '../../' + object_photo
           preview.innerHTML = `
         <div class="container p-0">
           <div class="row px-4">
