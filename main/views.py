@@ -117,9 +117,6 @@ def components(request):
 def custom_403(request):
     return render(request, 'error/403.html', {}, status=403)
 
-def custom_404(request):
-    return render(request, 'error/404.html', {}, status=404)
-
 def asem_required(function):
     @wraps(function)
     def wrapper(request, *args, **kwargs):

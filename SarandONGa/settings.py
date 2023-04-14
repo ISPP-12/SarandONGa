@@ -79,7 +79,6 @@ TEMPLATES = [
                 'SarandONGa.context_processors.user_info',
             ],
         },
-        
     },
 ]
 
