@@ -60,7 +60,7 @@ displayed in the preview text (e.g. "donación")
       <span class="object-donor-name pt-1"><strong>Fecha de inicio:&nbsp;</strong>{{ object.start_date  }}</span>
       <span class="object-donor-dni pt-1"><strong>Fecha de fin:&nbsp;</strong>{{ object.end_date  }}</span>
       <span class="object-donor-address pt-1"><strong>N&uacute;mero de beneficiarios:&nbsp;</strong>{{ object.number_of_beneficiaries  }}</span>
-      <span class="object-donor-email pt-1"><strong>Cantidad:&nbsp;</strong>{{ object.amount  }}&euro;</span>
+      <span class="object-donor-email pt-1"><strong>Cantidad:&nbsp;</strong>{{ object.amount  }} €</span>
       <span class="object-donor-email pt-1"><strong>Fecha de anuncio:&nbsp;</strong>{{ object.announcement_date  }}</span>
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
@@ -113,14 +113,14 @@ displayed in the preview text (e.g. "donación")
         <div class="row ">
           <div class="col-12  px-4">
             
-            <h2 title="${objectData.title ? objectData.title : 'No especificado' }">${objectData.title ? objectData.title : 'No especificado' }</h2>
+            <h2 title="${objectData.title}">${objectData.title ? objectData.title : 'No especificado' }</h2>
             <h5>{{object_name}}</h5>
-            <p><strong>Pa&iacute;s:&nbsp;</strong>${objectData.country ? objectData.country : 'No especificado' }</p>
-            <p><strong>Fecha de inicio:&nbsp;</strong>${objectData.start_date ? objectData.start_date : 'No especificado'}</p>
-            <p><strong>Fecha de fin:&nbsp;</strong>${objectData.end_date ? objectData.end_date : 'No especificado'}</p>
-            <p><strong>N&uacute;mero de beneficiarios:&nbsp;</strong>${objectData.number_of_beneficiaries ? objectData.number_of_beneficiaries : 'No especificado'}</p>
-            <p><strong>Cantidad:&nbsp;</strong>${objectData.amount ? objectData.amount + '€' : 'No especificado'};</p>
-            <p><strong>Fecha de anuncio:&nbsp;</strong>${objectData.announcement_date ? objectData.announcement_date : 'No especificado'}</p>
+            <p><strong>Pa&iacute;s:&nbsp;</strong>${objectData.country}</p>
+            <p><strong>Fecha de inicio:&nbsp;</strong>${objectData.start_date}</p>
+            <p><strong>Fecha de fin:&nbsp;</strong>${objectData.end_date}</p>
+            <p><strong>N&uacute;mero de beneficiarios:&nbsp;</strong>${objectData.number_of_beneficiaries}</p>
+            <p><strong>Cantidad:&nbsp;</strong>${objectData.amount} €</p>
+            <p><strong>Fecha de anuncio:&nbsp;</strong>${objectData.announcement_date}</p>
           </div>
         </div>
 

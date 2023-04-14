@@ -51,8 +51,12 @@ def godfather_list(request):
 
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
-    for d in persons_dict:
-        d.pop('_state', None)
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
@@ -330,8 +334,12 @@ def worker_list(request):
 
     # depending of the user type write one title or another
     persons_dict = [obj for obj in objects]
-    for d in persons_dict:
-        d.pop('_state', None)
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
@@ -446,8 +454,12 @@ def child_list(request):
 
     # depending of the user type write one title or another
     persons_dict = [child for child in child_page]
-    for d in persons_dict:
-        d.pop('_state', None)
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
@@ -589,8 +601,12 @@ def user_list(request):
 
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
-    for d in persons_dict:
-        d.pop('_state', None)
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
@@ -939,8 +955,12 @@ def volunteer_list(request):
     
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
-    for d in persons_dict:
-        d.pop('_state', None)
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
