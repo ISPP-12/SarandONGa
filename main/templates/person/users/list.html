@@ -159,27 +159,11 @@
 </div>
 
 {% for object in objects %}
-
-{% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
-
+  {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
 {% endfor %}
-<div class="pagination my-4">
-  <span class="step-links">
-      {% if objects.has_previous %}
-          <a href="?page=1{{ query_str }}">&laquo; Primera</a>
-          <a href="?page={{ objects.previous_page_number }}{{ query_str }}">Anterior</a>
-      {% endif %}
 
-      <span class="current">
-          Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
-      </span>
+{% include 'components/pagination.html' %}
 
-      {% if objects.has_next %}
-          <a href="?page={{ objects.next_page_number }}{{ query_str }}">Siguiente</a>
-          <a href="?page={{ objects.paginator.num_pages }}{{ query_str }}">Última &raquo;</a>
-      {% endif %}
-  </span>
-</div>
 {% endblock %}
 
 {% block scripts %}
@@ -269,7 +253,7 @@
               {%if object_name == "usuario"%}
               <a id="add-service" href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
               {%elif object_name == "padrino" or object_name == "donante"%}
-              <a id="add-payment" href="../../../payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
+              <a id="add-payment" href="../../../payment/create?godfather=${ objectData.id }""><i class="bi bi-wallet2"></i>Añadir pago</a>
               {% endif %}
               {%if object_name == "niño"%}
               <a id="add-godfather" href="../../../sponsorship/create?child=${ objectData.id }"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
