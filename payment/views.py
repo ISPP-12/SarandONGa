@@ -34,7 +34,7 @@ def payment_create(request):
             except ValidationErr:
                messages.error(request, 'El usuario con el que ha iniciado sesion no puede hacer un pago')
             
-            return redirect('payment_list')
+            return redirect('payment_create')
 
         else:
             messages.error(request, 'El formulario presenta errores')
