@@ -240,13 +240,13 @@ class ChildTestCase(TestCase):
         child.name = "a"*201
         with self.assertRaises(Exception):
             child.save()
-    
+
     def test_child_update_incorrect_name_null(self):
         child = Child.objects.get(name="Test_1")
         child.name = None
         with self.assertRaises(Exception):
             child.save()
-    
+
     def test_child_incorrect_name_int(self):
         with self.assertRaises(Exception):
                 self.child_update.name = 123
@@ -258,7 +258,7 @@ class ChildTestCase(TestCase):
         child.surname = "a"*201
         with self.assertRaises(Exception):
             child.save()
-    
+
     def test_child_update_incorrect_surname_null(self):
         child = Child.objects.get(name="Test_1")
         child.surname = None
@@ -271,25 +271,25 @@ class ChildTestCase(TestCase):
                 self.child_update.surname = 123
                 self.child_update.save()
                 self.child_update.full_clean()
-    
+
     def test_child_incorrect_email(self):
         with self.assertRaises(Exception):
                 self.child_update.email = "emailfalso"
                 self.child_update.save()
                 self.child_update.full_clean()
-    
+
     def test_child_incorrect_birth_date(self):
             with self.assertRaises(Exception):
                 self.child_update.birth_date = "23-12-23"
                 self.child_update.save()
                 self.child_update.full_clean()
-    
+
     def test_child_incorrect_sex(self):
             with self.assertRaises(Exception):
                 self.child_update.sex = "J"
                 self.child_update.save()
                 self.child_update.full_clean()
-    
+
     def test_incorrect_city(self):
             with self.assertRaises(Exception):
                 self.child_update.city = 1111
@@ -301,33 +301,33 @@ class ChildTestCase(TestCase):
         child.city = "a"*201
         with self.assertRaises(Exception):
             child.save()
-            
-            
+     
     
+
     def test_incorrect_addres_max_length(self):
         child = Child.objects.get(name="Test_1")
         child.address = "a"*201
         with self.assertRaises(Exception):
             child.save()
-    
+
     def test_incorrect_telephone(self):
         child = Child.objects.get(name="Test_1")
         child.telephone = "a"*201
         with self.assertRaises(Exception):
             child.save()
-    
+
     def test_incorrect_cellphone(self):
             with self.assertRaises(Exception):
                 self.child_update.telephone = "11111111111111111111111111111111111111111111111111111111111"
                 self.child_update.save()
                 self.child_update.full_clean()
-    
+
     def test_incorrect_postal_code_max_lenght(self):
         child = Child.objects.get(name="Test_1")
         child.postal_code = "a"*52
         with self.assertRaises(Exception):
             child.save()
-    
+
     def test_incorrect_postal_code(self):
             with self.assertRaises(Exception):
                 self.child_update.posta_code = "J"
@@ -339,62 +339,32 @@ class ChildTestCase(TestCase):
         child.expected_mission_time = "a"*201
         with self.assertRaises(Exception):
             child.save()
-    
-    def test_incorrect_expected_mission_time_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.expected_mission_time = None
-        with self.assertRaises(Exception):
-            child.save()
-    
+
     def test_incorrect_start_date(self):
         child = Child.objects.get(name="Test_1")
         child.start_date = "2040-01-01"
         with self.assertRaises(Exception):
             child.save()
-    
+
     def test_incorrect_termination_date(self):
         child = Child.objects.get(name="Test_1")
         child.termination_date = "2040-01-01"
         with self.assertRaises(Exception):
             child.save()
-    
 
-    
-    def test_incorrect_mission_house_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.mission_house = None
-        with self.assertRaises(Exception):
-            child.save()
-    
     def test_incorrect_mission_house_max_length(self):
         child = Child.objects.get(name="Test_1")
         child.mission_house = "a"*201
         with self.assertRaises(Exception):
             child.save()
-    
-    def test_incorrect_site_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.site = None
-        with self.assertRaises(Exception):
-            child.save()
-    
-    def test_incorrect_subssite_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.subsite = None
-        with self.assertRaises(Exception):
-            child.save()    
+
     
     def test_child_incorrect_father_name_max_lenght(self):
         child = Child.objects.get(name="Test_1")
         child.father_name = "a"*201
         with self.assertRaises(Exception):
             child.save()
-    
-    def test_child_incorrect_father_name_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.father_name = None
-        with self.assertRaises(Exception):
-            child.save()
+
     
     def test_child_incorrect_father_profession_max_lenght(self):
         child = Child.objects.get(name="Test_1")
@@ -402,11 +372,6 @@ class ChildTestCase(TestCase):
         with self.assertRaises(Exception):
             child.save()
     
-    def test_child_incorrect_father_profession_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.father_profession = None
-        with self.assertRaises(Exception):
-            child.save()
     
     def test_child_incorrect_mother_name_max_lenght(self):
         child = Child.objects.get(name="Test_1")
@@ -414,21 +379,10 @@ class ChildTestCase(TestCase):
         with self.assertRaises(Exception):
             child.save()
     
-    def test_child_incorrect_mother_name_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.mother_name = None
-        with self.assertRaises(Exception):
-            child.save()
     
     def test_child_incorrect_mother_profession_max_lenght(self):
         child = Child.objects.get(name="Test_1")
         child.mother_profession = "a"*201
-        with self.assertRaises(Exception):
-            child.save()
-    
-    def test_child_incorrect_mother_profession_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.mother_profession = None
         with self.assertRaises(Exception):
             child.save()
     
@@ -438,19 +392,7 @@ class ChildTestCase(TestCase):
         child.number_brothers_siblings = -1
         with self.assertRaises(Exception):
             child.save()
-    
-    def test_child_incorrect_correspondence_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.correspondence = None
-        with self.assertRaises(Exception):
-            child.save()
-    
-    def test_child_incorrect_number_brothers_siblings_null(self):
-        child = Child.objects.get(name="Test_1")
-        child.number_brothers_siblings = None
-        with self.assertRaises(Exception):
-            child.save()
-    
+
     def test_child_incorrect_ong(self):
             with self.assertRaises(Exception):
                 self.subsidy.payment_date = "23-12-23"

@@ -12,9 +12,9 @@
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
   <div class="row">
-    <div class="col-lg-5 col-6"><strong>Nombre</strong></div>
-    <div class="col-lg-3 col-3"><strong>Cantidad</strong></div>
-    <div class="col-lg-4 col-3"><strong>Organismo</strong></div>
+    <div class="col-lg-4 col-4"><strong>Nombre</strong></div>
+    <div class="col-lg-3 col-3"><strong>Organismo</strong></div>
+    <div class="col-lg-3 col-3"><strong>Estado</strong></div>
   </div>
   <hr class="my-1">
 </div>
@@ -25,18 +25,19 @@
    
       
     <div class="row">
-      <div class="col-lg-5 col-6 ">
+      <div class="col-lg-4 col-4 ">
         <strong><h5>{{object.name}}</h5></strong>
       
       </div>
       <div class="col-lg-3 col-3">
-        <span>{{object.amount}} €</span>
-
-      </div>  
-      <div class="col-lg-4 col-3">
         <span>{{object.organism}}</span>
 
-      </div> 
+      </div>
+      <div class="col-lg-3 col-3">
+        <span>{{object.status}}</span>
+
+      </div>
+
         
     </div>
     
@@ -63,6 +64,9 @@
   <span class="object-id d-none">{{ object.id }}</span>
 
 {% endfor %}
+
+{% include 'components/pagination.html' %}
+
 {% endblock %}
 
 {% block scripts %}

@@ -40,39 +40,44 @@ BLOCKS IN THIS LAYOUT
     <div class="col-12 col-md-8 border-start border-dark border-1 p-4 " id="rightSectionContainer">
       <!-- TITULO -->
       <div class="row ps-5" id="rightSection">
-        <div class="col-12 mb-4">
+        <div class="col-12">
           {% include 'components/title.html' with title=title %}
         </div>
 
         <div class="col-12 mb-4">
           <div class="row justify-content-between align-items-center mb-3">
-            <div class="col-12 col-md-6 mb-md-0 mb-3">
-              {% include "components/search.html" with text="Buscar "|add:object_name|add:"..." %}
+            <div class="col-12 col-md-6 justify-content-end mb-md-0 mb-3">
+              
+              {%block botonPrimario%}{%endblock%}
+
+
+              
+
+
             </div>
             
-            <div class="col-md-3 col-12 mb-md-0 me-4 mb-3 justify-content-end d-flex">
-              {%block botonPrimario%}{%endblock%}
+            <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
+                <div class="px-1">
+                  
+                <form method="POST" class="my-3">
+                  {% csrf_token %}
+                  {% include "components/button.html" with variation="EXCEL" text="Descargar" type="submit" onclick="" secondary=True %}
+              </form>            
+              </div>
             </div>
 
             
 
 
           <div class="row">
-              <div class="col-8 col-md-8 mb-3">
+              <div class="col-12 col-md-12 mb-3">
                 {% block filters %}
                 {% endblock %}
               </div>
 
 
-              <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
-                <div class="px-1">
-                  <form method="POST" class="my-3">
-                    {% csrf_token %}
-                  {% include "components/button.html" with variation="EXCEL" text="Descargar" type="submit" onclick="" secondary=True %}
-                </form>
-                    
-                </div>
-              </div>
+
+              
           </div>
         </div>
         
