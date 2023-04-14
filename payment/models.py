@@ -23,10 +23,10 @@ class Payment(models.Model):
     paid = models.BooleanField(default=True, verbose_name="Pagado")
 
     godfather = models.ForeignKey(
-        GodFather, null=True, on_delete=models.CASCADE, verbose_name="Padrino")
+        GodFather, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Padrino")
 
     project = models.OneToOneField(
-        Project, null=True, on_delete=models.CASCADE, verbose_name="Proyecto")
+        Project, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Proyecto")
 
     # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
