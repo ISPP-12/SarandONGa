@@ -102,9 +102,13 @@
   <div class="col-md-6">
     {% for key, value in info_right %}
       {% if value %}
+
       <strong>{{ key }}:</strong>
-      <p class="{% if key == 'Observaciones' %}scrollable{% endif %}"> 
-        {% if key == "Niños apadrinados" %}
+      <p class="{% if key == 'Observaciones' %}scrollable{% endif %}">  
+        {% if key == "Contrato" %}
+        <a href="/{{ value }}" target="_blank">{{ value|cut:'media/docs/volunteer/' }}</a>
+        {% elif key == "Niños apadrinados" %}
+
         <ul>
         {% for child in value %}
           <li>

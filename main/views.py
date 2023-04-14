@@ -19,6 +19,7 @@ def index(request):
                 'users': users,
                 'workers': workers,
                 'donations': donations,
+                'page_title': 'SarandONGa 💃 - Inicio'
             }
         elif request.user.ong.name.lower() == "videssur":
             view = 'index/index-videssur.html'
@@ -31,11 +32,12 @@ def index(request):
                 'volunteers': volunteers,
                 'workers': workers,
                 'donations': donations,
-                'godfathers': godfathers
+                'godfathers': godfathers,
+                'page_title': 'SarandONGa 💃 - Inicio'
             }
     else:
         view = 'index.html'
-        context = {}
+        context = {'page_title': 'SarandONGa 💃 - Inicio'}
 
     return render(request, view, context)
 

@@ -95,6 +95,7 @@ POSTAL_CODE_VALIDATOR = RegexValidator(
     message="El código postal debe estar en el formato de cinco dígitos."
 )
 
+
 class Person(models.Model):
     id = models.AutoField(primary_key=True)
     email = models.EmailField(null=True, blank=True, verbose_name="E-Mail")
@@ -111,8 +112,8 @@ class Person(models.Model):
         max_length=200, verbose_name="Dirección", null=True, blank=True)
     telephone = models.CharField(
         validators=[TELEPHONE_VALIDATOR], verbose_name="Teléfono", max_length=17, null=True, blank=True)
-    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5, 
-        verbose_name="Código postal", null=True, blank=True)
+    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5,
+                                   verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
 
@@ -174,8 +175,8 @@ class Worker(AbstractBaseUser):
         max_length=200, verbose_name="Dirección", null=True, blank=True)
     telephone = models.CharField(
         validators=[TELEPHONE_VALIDATOR], verbose_name="Teléfono", max_length=17, null=True, blank=True)
-    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5, 
-        verbose_name="Código postal", null=True, blank=True)
+    postal_code = models.CharField(validators=[POSTAL_CODE_VALIDATOR], max_length=5,
+                                   verbose_name="Código postal", null=True, blank=True)
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/worker/", null=True, blank=True)
     is_active = models.BooleanField(default=True, verbose_name="¿Activo?")
@@ -218,11 +219,11 @@ class GodFather(Person):
     payment_method = models.CharField(
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago')
     bank_account_number = IBANField(
-        include_countries=IBAN_SEPA_COUNTRIES,blank=True, null=True,verbose_name='Número de cuenta bancaria')
+        include_countries=IBAN_SEPA_COUNTRIES, blank=True, null=True, verbose_name='Número de cuenta bancaria')
     bank_account_holder = models.CharField(
         max_length=100, blank=True, null=True, verbose_name='Titular de cuenta bancaria')
     bank_account_reference = models.CharField(
-        max_length=100, validators=[RegexValidator(r'^[0-9]+$')],blank=True, null=True, 
+        max_length=100, validators=[RegexValidator(r'^[0-9]+$')], blank=True, null=True,
         verbose_name='Referencia de cuenta bancaria')  # for example, 1234567890
     amount = models.DecimalField(max_digits=10, decimal_places=2,
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
@@ -261,25 +262,25 @@ class GodFather(Person):
 
 class ASEMUser(Person):
 
-    condition = models.CharField(
-        max_length=20, choices=CONDITION, verbose_name='Condición médica')
-    member = models.CharField(
-        max_length=20, choices=MEMBER, verbose_name='Socio')
-    user_type = models.CharField(
-        max_length=20, choices=ASEMUSER_TYPE, verbose_name='Tipo de usuario ASEM')
-    correspondence = models.CharField(
-        max_length=20, choices=CORRESPONDENCE, verbose_name='Tipo de correspondencia')
+    condition = models.CharField(blank=True, null=True, max_length=20,
+                                 choices=CONDITION, verbose_name='Condición médica')
+    member = models.CharField(blank=True, null=True, max_length=20,
+                              choices=MEMBER, verbose_name='Socio')
+    user_type = models.CharField(blank=True, null=True, max_length=20,
+                                 choices=ASEMUSER_TYPE, verbose_name='Tipo de usuario ASEM')
+    correspondence = models.CharField(blank=True, null=True, max_length=20,
+                                      choices=CORRESPONDENCE, verbose_name='Tipo de correspondencia')
     status = models.CharField(
-        max_length=20, choices=STATUS, verbose_name='Estado civil')
-    family_unit_size = models.IntegerField(
-        verbose_name='Tamaño de la unidad familiar', validators=[MinValueValidator(0), MaxValueValidator(30)])
-    own_home = models.CharField(
-        max_length=20, choices=HOUSING_TYPE, verbose_name='Tipo de vivienda')
+        blank=True, null=True, max_length=20, choices=STATUS, verbose_name='Estado civil')
+    family_unit_size = models.IntegerField(blank=True, null=True,
+                                           verbose_name='Tamaño de la unidad familiar', default=0,
+                                           validators=[MinValueValidator(0), MaxValueValidator(30)])
+    own_home = models.CharField(max_length=20, blank=True, null=True,
+                                choices=HOUSING_TYPE, verbose_name='Tipo de vivienda')
     own_vehicle = models.BooleanField(
         default=False, verbose_name='¿Tiene vehículo propio?')
-    bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
-                                           validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
-                                                                      message='El número de cuenta no es válido.')])
+    bank_account_number = IBANField(include_countries=IBAN_SEPA_COUNTRIES,
+                                    blank=True, null=True, verbose_name='Número de cuenta bancaria')
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='asemuser', verbose_name="ONG")
 
@@ -301,9 +302,9 @@ class Volunteer(Person):
         verbose_name='DNI'
     )
     # Trabajo que realiza el voluntario
-    job = models.CharField(max_length=50, verbose_name="Trabajo")
+    job = models.CharField(max_length=50, blank=True, null=True, verbose_name="Trabajo")
     # Tiempo de dedicación en horas
-    dedication_time = models.FloatField(verbose_name="Tiempo de dedicación")
+    dedication_time = models.FloatField(verbose_name="Tiempo de dedicación (horas)")
     contract_start_date = models.DateField(
         verbose_name="Fecha de inicio del contrato")
     contract_end_date = models.DateField(
@@ -317,14 +318,17 @@ class Volunteer(Person):
         default=False, verbose_name="¿Preside la mesa?")
     is_contributor = models.BooleanField(
         default=False, verbose_name="¿Es colaborador?")
-    notes = models.TextField(blank=True, verbose_name='Observaciones')
+    notes = models.TextField(blank=True, null=True, verbose_name='Observaciones')
     entity = models.CharField(
-        max_length=50, blank=True, verbose_name="Entidad")
-    table = models.CharField(max_length=50, blank=True, verbose_name="Mesa")
+        max_length=50, blank=True, null=True,verbose_name="Entidad")
+    table = models.CharField(max_length=50, blank=True, null=True, verbose_name="Mesa")
     volunteer_type = models.CharField(
         max_length=20, choices=VOLUNTEER_TYPE, verbose_name="Tipo de voluntario")
+    notes = models.TextField(blank=True, null=True, verbose_name='Observaciones')
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='voluntario', verbose_name="ONG")
+    document = models.FileField(
+        verbose_name="Contrato", upload_to="./media/docs/volunteer/", null=True, blank=True)
 
     class Meta:
         ordering = ['surname', 'name']
