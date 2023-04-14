@@ -170,7 +170,7 @@ def user_create(request):
         'page_title': 'SarandONGa 💃 - Añadir Usuario ASEM'
         }
 
-    return render(request, 'asem_user/asem_user_form.html', context)
+    return render(request, 'person/asem_user/register.html', context)
 
 
 @login_required
@@ -202,7 +202,7 @@ def user_update(request, asem_user_id):
         'title': 'Editar Usuario ASEM'
         }
 
-    return render(request, 'asem_user/asem_user_form.html', context)
+    return render(request, 'person/asem_user/register.html', context)
 
 
 def choices_dicts():
@@ -297,7 +297,7 @@ def worker_create(request):
         'page_title': 'SarandONGa 💃 - Añadir Trabajador'
         }
 
-    return render(request, 'workers/register.html', context)
+    return render(request, 'person/workers/register.html', context)
 
 
 @login_required
@@ -703,7 +703,7 @@ def godfather_create(request):
         'page_title': 'SarandONGa 💃 - Añadir Padrino'
         }
 
-    return render(request, 'person/godfather/form.html', context)
+    return render(request, 'person/godfather/register.html', context)
 
 
 @login_required
@@ -732,7 +732,7 @@ def godfather_update(request, godfather_id):
         'page_title': 'SarandONGa 💃 - Editar Padrino'
         }
     
-    return render(request, 'person/godfather/form.html', context)
+    return render(request, 'person/godfather/register.html', context)
 
 
 @login_required
@@ -1186,7 +1186,7 @@ def volunteer_create(request):
         'page_title': 'SarandONGa 💃 - Añadir Voluntario'
         }
 
-    return render(request, 'volunteers/volunteers_form.html', context)
+    return render(request, 'person/volunteers/register.html', context)
 
 
 @login_required
@@ -1222,7 +1222,7 @@ def volunteer_update(request, volunteer_id):
         'page_title': 'SarandONGa 💃 - Editar Voluntario'
         }
     
-    return render(request, 'volunteers/volunteers_form.html', context)
+    return render(request, 'person/volunteers/register.html', context)
 
 
 def child_age(request):
