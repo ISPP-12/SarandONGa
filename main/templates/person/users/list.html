@@ -1,7 +1,6 @@
 {% extends "layouts/master_sidebar.html" %}
 {% load static %}
 
-{% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
 
 
 
@@ -22,17 +21,73 @@
   {% include 'components/button.html' with href='/user/godfather/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
 
 {% endif %}
+{% endblock %}
+
+{% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
+
+{%block filters%}
+{% if object_name_en == "worker" %}
+
+
+
+
+<form method="GET" class="my-3">
+  {% csrf_token %}
+
+  <div id="team">
+
+      
+    </div>
+  
+  <div id="team">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-5">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+
+
+      </div>
+    
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
+      </div>
+    </div>
+
+      
+
+
+
+
+    
+   
+  </div>
+ 
+
+  <div class="col pt-2">
+    
+
+  
+    {% include 'components/button.html' with text="Filtrar" id="id-filter" variation="SUBMIT" %}
+
+    {% include 'components/button.html' with text="Borrar" id="reset" type="reset" variation="RESET" %}
+
+
+  
+
+
+  
+  </div>
+
+
+</form>
+{% endif %}
 
 {% endblock %}
 
-
 {% block objectFor %}
-<form method="GET" class="my-3">
-  {% csrf_token %}
-  {{form}}
-  <input type="submit" value="Filtrar">
-  <button type="reset" class="btn btn-secondary">Borrar filtros</button>
-</form>
+
 
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
@@ -46,31 +101,15 @@
 </div>
 
 {% for object in objects %}
-
-{% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
-
+  {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
 {% endfor %}
-<div class="pagination my-4">
-  <span class="step-links">
-      {% if objects.has_previous %}
-          <a href="?page=1{{ query_str }}">&laquo; Primera</a>
-          <a href="?page={{ objects.previous_page_number }}{{ query_str }}">Anterior</a>
-      {% endif %}
 
-      <span class="current">
-          Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
-      </span>
+{% include 'components/pagination.html' %}
 
-      {% if objects.has_next %}
-          <a href="?page={{ objects.next_page_number }}{{ query_str }}">Siguiente</a>
-          <a href="?page={{ objects.paginator.num_pages }}{{ query_str }}">Última &raquo;</a>
-      {% endif %}
-  </span>
-</div>
 {% endblock %}
 
 {% block scripts %}
-<script id="object-data">
+<script id="object-data" >
   const objectList = document.querySelectorAll('.card-list')
   const objetos = JSON.parse('{{ objects_json|escapejs }}')
   const preview = document.querySelector('#preview')
@@ -156,7 +195,7 @@
               {%if object_name == "usuario"%}
               <a id="add-service" href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
               {%elif object_name == "padrino" or object_name == "donante"%}
-              <a id="add-payment" href="../../../payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
+              <a id="add-payment" href="../../../payment/create?godfather=${ objectData.id }""><i class="bi bi-wallet2"></i>Añadir pago</a>
               {% endif %}
               {%if object_name == "niño"%}
               <a id="add-godfather" href="../../../sponsorship/create?child=${ objectData.id }"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
@@ -187,10 +226,7 @@
 
   })
 
-  document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
-    e.preventDefault();
-    window.location.href = window.location.pathname;
-  });
+  
 
 </script>
 {% endblock %}

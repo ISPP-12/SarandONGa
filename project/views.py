@@ -18,17 +18,17 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+
 @login_required
 @videssur_required
- 
 def project_delete(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     project.delete()
     return redirect('project_list')
 
+
 @login_required
 @videssur_required
- 
 def project_create(request):
     if request.user.is_anonymous:
         form = CreateNewProject()
@@ -48,9 +48,9 @@ def project_create(request):
 
     return render(request, 'project/register.html', {"form": form, "title": "Crear Proyecto", 'page_title': 'SarandONGa 💃 - Crear Proyecto'})
 
+
 @login_required
 @videssur_required
- 
 def project_update(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     if request.method == "POST":
@@ -66,9 +66,9 @@ def project_update(request, project_id):
     form = CreateNewProject(instance=project)
     return render(request, 'project/register.html', {'form': form, 'title': 'Actualizar proyecto', 'page_title': 'SarandONGa 💃 - Actualizar Proyecto'})
 
+
 @login_required
 @videssur_required
- 
 def project_details(request, project_id):   #TODO
     project = get_object_or_404(Project, id=project_id)
     return render(request, 'project/project_details.html', {'project': project})
@@ -76,13 +76,11 @@ def project_details(request, project_id):   #TODO
 
 @login_required
 @videssur_required
- 
 def project_list(request):
+    # get projects dict from database
     objects = Project.objects.filter(ong=request.user.ong).values()
 
-
     form = FilterProjectForm(request.GET or None)
-
     if request.method == 'GET':
         objects = project_filter(objects, form)
 
@@ -93,9 +91,13 @@ def project_list(request):
     projects_dict = [project for project in project_page]
     for p in projects_dict:
         p.pop('_state', None)
+        # remove null values
+        for key, value in list(p.items()):
+            if value is None or value == '':
+                p[key] = '-'
 
+    # json
     project_json = json.dumps(projects_dict, cls=CustomJSONEncoder)
-
 
     context = {
         'objects': project_page,
@@ -108,8 +110,10 @@ def project_list(request):
     }
     return render(request, 'project/list.html', context)
 
+
 def is_valid_queryparam(param):
     return param != "" and param is not None
+
 
 def project_filter(queryset, form):
 

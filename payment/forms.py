@@ -5,11 +5,12 @@ from .models import Payment
 class CreatePaymentForm(forms.ModelForm):
     class Meta:
         model = Payment
-        exclude = ['id', 'ong', 'godfather', 'project']
+        exclude = ['id', 'ong']
         widgets = {
             'payday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "min": 0, "placeholder": "Escriba una cantidad"}),
             'concept': forms.TextInput(attrs={"placeholder": "Introduzca un concepto"}),
+
         }
 
     def __init__(self, *args, **kwargs):
