@@ -49,10 +49,13 @@ def subsidy_list(request):
     if request.method == 'GET':
         subsidies = subsidy_filter(subsidies, form)
 
-
     subsidies_dict = [obj for obj in subsidies]
     for s in subsidies_dict:
         s.pop('_state', None)
+        # remove null values
+        for key, value in list(s.items()):
+            if value is None or value == '':
+                s[key] = '-'
 
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
@@ -82,7 +85,6 @@ def subsidy_delete(request, subsidy_id):
  
 def subsidy_update(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
-    
     
     if request.user.ong == subsidy.ong:
         form= CreateNewSubsidy(instance=subsidy)
