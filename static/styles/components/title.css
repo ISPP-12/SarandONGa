@@ -1,5 +1,5 @@
 .title {
-  width: 100%;
+  width: fit-content;
   word-wrap: break-word;
   font-size: 2.5em;
   font-family: var(--font-header);
