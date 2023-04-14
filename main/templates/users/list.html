@@ -49,7 +49,7 @@
 {% include 'components/card-list.html' with object_name=object_name  name=object.name surnames=object.surname %}
 
 {% endfor %}
-<div class="pagination my-4">
+<div class="pagination mt-4">
   <span class="step-links">
       {% if objects.has_previous %}
           <a href="?page=1">&laquo; Primera</a>
@@ -107,15 +107,9 @@
           <div class="row px-4">
             <div class="col justify-content-center">
               <div class=" row justify-content-center ">
-                {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} {% if "objectData.photo" %}
+                {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} 
 
-                  <img class="profile-img-big rounded" src=${"../../" + objectData.photo} />
-                {% else %}
-
-                  <img class="profile-img-big rounded" src={% static 'img/person-icon.svg' %} />
-
-                  {% endif %} 
-
+                  <img class="profile-img-big rounded" alt="${objectData.photo}" src={%if objectData.photo is not null%}${"../../" + objectData.photo} {%else%} {% static 'img/person-icon.svg' %} {%endif%}/>
 
                 {%endif%}
               </div>
@@ -150,7 +144,7 @@
             </div>
           </div>
         </div>
-          <div class="container mt-auto border-dark border-top border-1  p-0">
+          <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panelcol-md-4 p-0 fixed-panel">
             <div class="buttons row d-flex flex-column text-center p-3" id="lateralButtons">
               {%if object_name == "usuario"%}
               <a id="add-service" href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>

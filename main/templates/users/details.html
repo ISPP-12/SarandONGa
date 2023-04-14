@@ -25,17 +25,17 @@
 <div class="d-flex flex-row justify-content-between align-items-center flex-wrap-reverse gap-4">
   <div class="d-flex flex-row justify-content-start align-items-center gap-4">
     {% if asem_user %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ asem_user.photo }}" />
+    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ asem_user.photo }}" src="{{ '../../' }}{{ asem_user.photo }}" />
     {% elif worker %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ worker.photo }}" />
+    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ worker.photo }}" src="{{ '../../' }}{{ worker.photo }}" />
     {% elif volunteer %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ volunteer.photo }}" />
+    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ volunteer.photo }}" src="{{ '../../' }}{{ volunteer.photo }}" />
     {% elif godfather %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ godfather.photo }}" />
+    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ godfather.photo }}" src="{{ '../../' }}{{ godfather.photo }}" />
     {% elif child %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ child.photo }}" />
+    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ child.photo }}" src="{{ '../../' }}{{ child.photo }}" />
     {% else  %}
-    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ user.photo }}" />
+    <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ user.photo }}" src="{{ '../../' }}{{ user.photo }}" />
     {% endif %}
     <div class="d-flex flex-column justify-content-start align-items-start">
       {% if asem_user %}

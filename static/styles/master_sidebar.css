@@ -54,8 +54,16 @@
   font-size: medium;
 }
 
+.fixed-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+}
+
 #rightSectionContainer {
-  height: calc(100vh - 55px);
+  height: fit-content;
+  min-height: calc(100vh - 55px);
 }
 
 #previewContainerButtons {
