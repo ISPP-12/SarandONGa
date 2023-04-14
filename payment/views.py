@@ -12,34 +12,31 @@ from person.models import GodFather
 from xml.dom import ValidationErr
 
 
-
 # Hay que asignar el padrino
 @login_required
 def payment_create(request):
     project = Project.objects.all()
-    form = CreatePaymentForm(initial={'ong': request.user.ong, 'project': project})
+    form = CreatePaymentForm(
+        initial={'ong': request.user.ong, 'project': project})
     if 'godfather' in request.GET:
         godfather = GodFather.objects.get(id=request.GET.get("godfather"))
     else:
         godfather = None
     if request.method == 'POST':
-        form = CreatePaymentForm(request.POST, initial={'project': project,'godfather': godfather})
-        print(form.clean)
+        form = CreatePaymentForm(request.POST, initial={
+                                 'project': project, 'godfather': godfather})
         if form.is_valid():
             payment = form.save(commit=False)
             payment.ong = request.user.ong
-            try:
-              payment.godfather = GodFather.objects.get(id=request.user.id)
-              payment.save()
-            except ValidationErr:
-               messages.error(request, 'El usuario con el que ha iniciado sesion no puede hacer un pago')
-            
+            payment.save()
+
             return redirect('payment_create')
 
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
-        form = CreatePaymentForm(initial={'ong': request.user.ong, 'project': project,'godfather': godfather})
+        form = CreatePaymentForm(
+            initial={'ong': request.user.ong, 'project': project, 'godfather': godfather})
     all_events = Payment.objects.all()
     event_arr = []
     for i in all_events:
@@ -54,8 +51,8 @@ def payment_create(request):
         event_arr.append(event_sub_arr)
     datatest = json.dumps(event_arr, default=str)
 
-
-    context = {'form': form, 'title': 'Añadir pago', 'page_title': 'SarandONGa 💃 - Añadir pago', 'events_json': datatest}
+    context = {'form': form, 'title': 'Añadir pago',
+               'page_title': 'SarandONGa 💃 - Añadir pago', 'events_json': datatest}
 
     return render(request, 'payment/payment_form.html', context)
 
@@ -94,10 +91,10 @@ def payment_update(request, payment_id):
 
 @login_required
 def payment_list(request):
-   
-    form = FilterPaymentForm(request.GET or None) 
+
+    form = FilterPaymentForm(request.GET or None)
     objects = Payment.objects.filter(ong=request.user.ong).values()
-    
+
     if request.method == 'GET':
         objects = payment_filter(objects, FilterPaymentForm(request.GET))
 
@@ -134,10 +131,11 @@ def payment_details(request, payment_id):
         return render(request, 'payment/payment_details.html', {'payment': payment, 'page_title': 'SarandONGa 💃 - Detalles de pago'})
     else:
         return custom_403(request)
-    
-    
+
+
 def is_valid_queryparam(param):
     return param != "" and param is not None
+
 
 def payment_filter(queryset, form):
 
@@ -152,15 +150,14 @@ def payment_filter(queryset, form):
     amount_min = form['amount_min'].value()
     amount_max = form['amount_max'].value()
 
-
     if q is not None:
-            if q.strip() != "":
-                queryset = queryset.filter(
-                    Q(ong__name__icontains=q) |
-                    Q(godfather__name__icontains=q) |
-                    Q(project__title__icontains=q) |
-                    Q(concept__icontains=q) 
-                )
+        if q.strip() != "":
+            queryset = queryset.filter(
+                Q(ong__name__icontains=q) |
+                Q(godfather__name__icontains=q) |
+                Q(project__title__icontains=q) |
+                Q(concept__icontains=q)
+            )
 
     if is_valid_queryparam(min_payday_date):
         queryset = queryset.filter(payday__gte=min_payday_date)
@@ -188,7 +185,5 @@ def payment_filter(queryset, form):
 
     if is_valid_queryparam(amount_max):
         queryset = queryset.filter(amount__lte=amount_max)
-
-
 
     return queryset
