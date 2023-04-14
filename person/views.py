@@ -49,8 +49,12 @@ def godfather_list(request):
     form = FilterGodfatherForm(request.GET or None)
     objects = godfather_filter(objects, form)
 
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    godfather_page = paginator.get_page(page_number)
+
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [obj for obj in godfather_page]
     for person in persons_dict:
         person.pop('_state', None)
         # remove null values
@@ -61,7 +65,7 @@ def godfather_list(request):
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': godfather_page,
         'object_name': 'padrino',
         'object_name_en': 'godfather',
         'page_title': page_title,
@@ -70,7 +74,7 @@ def godfather_list(request):
         'form': form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def godfather_filter(queryset, form):
@@ -168,7 +172,13 @@ def user_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'asem_user/asem_user_form.html', {"form": form, "title": "Añadir Usuario ASEM", 'page_title': 'SarandONGa 💃 - Añadir Usuario ASEM'})
+    context = {
+        "form": form, 
+        "title": "Añadir Usuario ASEM", 
+        'page_title': 'SarandONGa 💃 - Añadir Usuario ASEM'
+        }
+
+    return render(request, 'person/asem_user/register.html', context)
 
 
 @login_required
@@ -193,7 +203,14 @@ def user_update(request, asem_user_id):
             messages.error(request, 'Formulario con errores')
 
     form = CreateNewASEMUser(instance=asem_user)
-    return render(request, 'asem_user/asem_user_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Editar Usuario ASEM', 'title': 'Editar Usuario ASEM'})
+
+    context = {
+        'form': form, 
+        'page_title': 'SarandONGa 💃 - Editar Usuario ASEM', 
+        'title': 'Editar Usuario ASEM'
+        }
+
+    return render(request, 'person/asem_user/register.html', context)
 
 
 def choices_dicts():
@@ -256,9 +273,14 @@ def asem_user_details(request, asem_user_id):
 
     page_title = 'SarandONGa 💃 - ' + asem_user.name + ' ' + asem_user.surname
     
-    context = {'asem_user': asem_user, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
+    context = {
+        'asem_user': asem_user, 
+        'info_left': items[:mid], 
+        'info_right': items[mid:], 
+        'page_title': page_title
+        }
 
-    return render(request, 'users/details.html', context)
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -277,7 +299,13 @@ def worker_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'workers/register.html', {"form": form, "title": "Añadir trabajador", 'page_title': 'SarandONGa 💃 - Añadir Trabajador'})
+    context = {
+        "form": form, 
+        "title": "Añadir trabajador", 
+        'page_title': 'SarandONGa 💃 - Añadir Trabajador'
+        }
+
+    return render(request, 'person/workers/register.html', context)
 
 
 @login_required
@@ -296,7 +324,7 @@ def worker_update(request, worker_id):
         context = {'form': form, 'title': 'Actualizar Trabajador', 'page_title': 'SarandONGa 💃 - Actualizar Trabajador'}
     else:
         return custom_403(request)
-    return render(request, 'workers/register.html', context)
+    return render(request, 'person/workers/register.html', context)
 
 
 @login_required
@@ -307,20 +335,24 @@ def worker_list(request):
 
     if request.method == 'GET':
         objects = worker_filter(objects, form)
+    
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    worker_page = paginator.get_page(page_number)
 
     # depending of the user type write one title or another
-    persons_dict = [obj for obj in objects]
+    persons_dict = [user for user in worker_page]
     for person in persons_dict:
         person.pop('_state', None)
         # remove null values
         for key, value in list(person.items()):
             if value is None or value == '':
                 person[key] = '-'
-
+    
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
+        'objects': worker_page,
         'object_name': 'trabajador',
         'object_name_en': 'worker',
         'page_title': 'SarandONGa 💃 - Gestión de Trabajadores',
@@ -329,7 +361,7 @@ def worker_list(request):
         'form': form
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def worker_filter(queryset, form):
@@ -398,7 +430,7 @@ def worker_details(request, worker_id):
         
         context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
 
-        return render(request, 'users/details.html', context)
+        return render(request, 'person/users/details.html', context)
     else:
         return custom_403(request)
 
@@ -449,7 +481,7 @@ def child_list(request):
         'form': form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def child_filter(queryset, form):
@@ -567,7 +599,7 @@ def user_list(request):
         except ValidationErr:
             message = ("Error in exporting data. There are null data in rows")
             messages.error(request, message)
-            return render(request, 'users/list.html')
+            return render(request, 'person/users/list.html')
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -596,7 +628,7 @@ def user_list(request):
         'form': form,
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def is_valid_queryparam(param):
@@ -689,7 +721,13 @@ def godfather_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'person/godfather/form.html', {'form': form, 'title': 'Añadir Padrino', 'page_title': 'SarandONGa 💃 - Añadir Padrino'})
+    context = {
+        'form': form, 
+        'title': 'Añadir Padrino', 
+        'page_title': 'SarandONGa 💃 - Añadir Padrino'
+        }
+
+    return render(request, 'person/godfather/register.html', context)
 
 
 @login_required
@@ -711,7 +749,14 @@ def godfather_update(request, godfather_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'person/godfather/form.html', {'form': form, "title": "Editar Padrino", 'page_title': 'SarandONGa 💃 - Editar Padrino'})
+    
+    context = {
+        'form': form, 
+        'title': "Editar Padrino", 
+        'page_title': 'SarandONGa 💃 - Editar Padrino'
+        }
+    
+    return render(request, 'person/godfather/register.html', context)
 
 
 @login_required
@@ -762,16 +807,20 @@ def godfather_details(request, godfather_id):
                     None or sponsorship.termination_date > datetime.date(datetime.now())]
         items.append(('Niños apadrinados', children))
 
-    items = [item for item in items if item[1] !=
-             None and item[1] != '' and item[1] != []]
+    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
 
     mid = math.ceil(len(items) / 2)
 
     page_title = 'SarandONGa 💃 - ' + godfather.name + ' ' + godfather.surname
     
-    context = {'godfather': godfather, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
+    context = {
+        'godfather': godfather, 
+        'info_left': items[:mid], 
+        'info_right': items[mid:], 
+        'page_title': page_title
+        }
 
-    return render(request, 'users/details.html', context)
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -796,7 +845,14 @@ def child_create(request):
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'person/child/create_child.html', {'form': form, 'title': 'Añadir Niño', 'page_title': 'SarandONGa 💃 - Añadir Niño'})
+    
+    context = {
+        'form': form, 
+        'title': 'Añadir Niño', 
+        'page_title': 'SarandONGa 💃 - Añadir Niño'
+        }
+            
+    return render(request, 'person/child/create_child.html', context)
 
 
 @login_required
@@ -819,7 +875,13 @@ def child_update(request, child_id):
     else:
         return custom_403(request)
 
-    return render(request, 'person/child/create_child.html', {'form': form, "title": "Editar Niño", 'page_title': 'SarandONGa 💃 - Editar Niño'})
+    context = {
+        'form': form, 
+        'title': "Editar Niño", 
+        'page_title': 'SarandONGa 💃 - Editar Niño'
+        }
+
+    return render(request, 'person/child/create_child.html', context)
 
 
 @login_required
@@ -867,8 +929,14 @@ def child_details(request, child_id):
 
     page_title = 'SarandONGa 💃 - ' + child.name + ' ' + child.surname
     
-    context = {'child': child, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
-    return render(request, 'users/details.html', context)
+    context = {
+        'child': child, 
+        'info_left': items[:mid], 
+        'info_right': items[mid:], 
+        'page_title': page_title
+        }
+    
+    return render(request, 'person/users/details.html', context)
 
 
 @login_required
@@ -982,7 +1050,7 @@ def volunteer_list(request):
         'query_str': query_str
     }
 
-    return render(request, 'users/list.html', context)
+    return render(request, 'person/users/list.html', context)
 
 
 def volunteer_filter(queryset, form):
@@ -1113,9 +1181,14 @@ def volunteer_details(request, volunteer_id):
 
         page_title = 'SarandONGa 💃 - ' + volunteer.name + ' ' + volunteer.surname
         
-        context = {'volunteer': volunteer, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
+        context = {
+            'volunteer': volunteer, 
+            'info_left': items[:mid], 
+            'info_right': items[mid:], 
+            'page_title': page_title
+            }
         
-        return render(request, 'users/details.html', context)
+        return render(request, 'person/users/details.html', context)
     else:
         return custom_403(request)
 
@@ -1134,7 +1207,14 @@ def volunteer_create(request):
             return redirect('volunteer_list')
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'volunteers/volunteers_form.html', {'form': form, 'title': 'Añadir Voluntario', 'page_title': 'SarandONGa 💃 - Añadir Voluntario'})
+
+    context = {
+        'form': form, 
+        'title': 'Añadir Voluntario', 
+        'page_title': 'SarandONGa 💃 - Añadir Voluntario'
+        }
+
+    return render(request, 'person/volunteers/register.html', context)
 
 
 @login_required
@@ -1163,9 +1243,16 @@ def volunteer_update(request, volunteer_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'volunteers/volunteers_form.html', {'form': form, 'title': 'Editar Voluntario', 'page_title': 'SarandONGa 💃 - Editar Voluntario'})
+    
+    context = {
+        'form': form, 
+        'title': 'Editar Voluntario', 
+        'page_title': 'SarandONGa 💃 - Editar Voluntario'
+        }
+    
+    return render(request, 'person/volunteers/register.html', context)
 
 
 def child_age(request):
-    ninos = Child.objects.values('name', 'birth_date')
-    return JsonResponse(list(ninos), safe=False)
+    childs = Child.objects.values('name', 'birth_date')
+    return JsonResponse(list(childs), safe=False)

@@ -165,9 +165,7 @@ class CreateNewWorker(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(
-        label='Confirmar contraseña', widget=forms.PasswordInput)
-    photo = forms.ImageField(required=False)
+    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
 
     class Meta:
         model = Worker
