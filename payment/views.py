@@ -41,7 +41,7 @@ def payment_create(request):
             event_arr.append(event_sub_arr)
         datatest = json.dumps(event_arr, default=str)
 
-    context = {'form': form, 'title': 'Añadir pago', 'events_json': datatest}
+    context = {'form': form, 'title': 'Añadir pago', 'page_title': 'SarandONGa 💃 - Añadir pago', 'events_json': datatest}
 
     return render(request, 'payment/payment_form.html', context)
 
@@ -72,7 +72,7 @@ def payment_update(request, payment_id):
             datatest = json.dumps(event_arr, default=str)
 
         context = {'form': form, 'title': 'Actualizar pago',
-                   'events_json': datatest}
+                   'events_json': datatest, 'page_title': 'SarandONGa 💃 - Actualizar pago'}
     else:
         return custom_403(request)
     return render(request, 'payment/payment_form.html', context)
@@ -96,6 +96,7 @@ def payment_list(request):
         # 'objects_json': json.dumps(list(Payment.objects.all().values())),
         'objects_name': 'Payment',
         'title': 'Gestión de Pagos',
+        'page_title': 'SarandONGa 💃 - Gestión de Pagos',
         'form': form,
     }
 
@@ -116,7 +117,7 @@ def payment_delete(request, payment_id):
 def payment_details(request, payment_id):
     payment = get_object_or_404(Payment, id=payment_id)
     if request.user.ong == payment.ong:
-        return render(request, 'payment/payment_details.html', {'payment': payment})
+        return render(request, 'payment/payment_details.html', {'payment': payment, 'page_title': 'SarandONGa 💃 - Detalles de pago'})
     else:
         return custom_403(request)
     
