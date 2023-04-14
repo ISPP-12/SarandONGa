@@ -63,7 +63,7 @@ displayed in the preview text (e.g. "donación")
       <span class="object-donor-name pt-1"><strong>Titular de cuenta bancaria: </strong>{{ object.bank_account_holder  }}</span>
       <span class="object-donor-dni pt-1"><strong>Referencia de la cuenta bancaria: </strong>{{ object.bank_account_reference  }}</span>
       <span class="object-donor-address pt-1"><strong>Antigüedad: </strong> {{ object.seniority  }}</span>
-      <span class="object-donor-email pt-1"><strong>Observaciones: </strong> {{ object.notes  }}</span>
+      <span class="object-donor-email pt-1"><strong>Observaciones: </strong><span class="d-flex scrollable">{{ object.notes  }}</span></span>
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
@@ -117,8 +117,8 @@ displayed in the preview text (e.g. "donación")
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
           preview.innerHTML = `
-        <div class="row ">
-          <div class="col-12 px-4 ">
+        <div class="container-fluid">
+          <div class="row">
             <h2 title="${objectData.name}">${objectData.name}</h2>
             <h5>{{object_name}}</h5>
             <p>${objectData.province}</p>
@@ -128,7 +128,7 @@ displayed in the preview text (e.g. "donación")
             <p><strong>Referencia de la cuenta bancaria:  </strong>${objectData.bank_account_reference}</p>
             <p><strong>Titular de cuenta bancaria: </strong>${objectData.bank_account_holder}</p>
             <p><strong>Antigüedad:  </strong>${objectData.seniority}</p>
-            <p><strong>Observaciones:  </strong>${objectData.notes}</p>
+            <p><strong>Observaciones:  </strong><span class="d-flex scrollable">${objectData.notes}</span></p>
           </div>
         </div>
 

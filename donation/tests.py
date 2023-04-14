@@ -446,7 +446,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         # Now the preview section should be filled with the test item data
         children = left_section_div.find_elements(By.CSS_SELECTOR, "h2, p")
         self.assertTrue(children[0].text == self.test_donation_1.title)
-        self.assertTrue(children[1].text == self.test_donation_1.description)
+        self.assertTrue(children[1].find_element(By.TAG_NAME,'span').text == self.test_donation_1.description)
         # 100 € is the text in the html
         self.assertTrue(children[2].text == "Cantidad: " +
                         str(self.test_donation_1.amount) + " €")

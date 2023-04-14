@@ -54,10 +54,6 @@
   font-size: medium;
 }
 
-#rightSectionContainer {
-  height: calc(100vh - 55px);
-}
-
 #previewContainerButtons {
   height: 200px;
 }
@@ -95,6 +91,5 @@
 }
 
 h2, h5 {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-all;
 }

@@ -60,7 +60,7 @@ displayed in the preview text (e.g. "donación")
     </div>
 
     <div class="d-none d-flex flex-column " id="moreInfo">
-      <span class="object-description pt-1"><strong>Descripción: </strong>{{ object.description }}</span>
+      <span class="object-description pt-1"><strong>Descripción: </strong><span class="d-flex scrollable">{{ object.description }}</span></span>
 
       <span class="object-donor-name pt-1"><strong>Nombre donante: </strong>{{ object.donor_name  }} {{object.donor_surname}}</span>
       <span class="object-donor-dni pt-1"><strong>DNI donante: </strong>{{ object.donor_dni  }}</span>
@@ -141,7 +141,7 @@ displayed in the preview text (e.g. "donación")
             
             <h2 title="${objectData.title}">${objectData.title}</h2>
             <h5>{{object_name}}</h5>
-            <p>${objectData.description}</p>
+            <p><strong>Descripción: </strong><span class="d-flex scrollable">${objectData.description}</span></p>
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
             <p><strong>Nombre donante: </strong>${objectData.donor_name + ' ' + objectData.donor_surname}</p>
             <p><strong>DNI donante:  </strong>${objectData.donor_dni}</p>
