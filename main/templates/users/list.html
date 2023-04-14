@@ -3,6 +3,7 @@
 
 
 
+
 {% block botonPrimario %}
 {% if object_name_en == "user" %}
   {% include 'components/button.html' with href='/user/asem/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe%}
@@ -107,8 +108,8 @@
 <div class="pagination my-4">
   <span class="step-links">
       {% if objects.has_previous %}
-          <a href="?page=1">&laquo; Primera</a>
-          <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+          <a href="?page=1{{ query_str }}">&laquo; Primera</a>
+          <a href="?page={{ objects.previous_page_number }}{{ query_str }}">Anterior</a>
       {% endif %}
 
       <span class="current">
@@ -116,8 +117,8 @@
       </span>
 
       {% if objects.has_next %}
-          <a href="?page={{ objects.next_page_number }}">Siguiente</a>
-          <a href="?page={{ objects.paginator.num_pages }}">Última &raquo;</a>
+          <a href="?page={{ objects.next_page_number }}{{ query_str }}">Siguiente</a>
+          <a href="?page={{ objects.paginator.num_pages }}{{ query_str }}">Última &raquo;</a>
       {% endif %}
   </span>
 </div>
@@ -206,7 +207,7 @@
           </div>
         </div>
           <div class="container mt-auto border-dark border-top border-1  p-0">
-            <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <div class="buttons row d-flex flex-column text-center p-3" id="lateralButtons">
               {%if object_name == "usuario"%}
               <a id="add-service" href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
               {%elif object_name == "padrino" or object_name == "donante"%}
@@ -217,6 +218,7 @@
               {%elif object_name == "padrino"%}
               <a id="add-godfather" href="../../../sponsorship/create?godfather=${ objectData.id }"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
               {% endif %}
+
               <a href="${ objectData.id }"><i class="bi bi-info-circle"></i>Detalles</a>
               <a id="update-button" href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
               <a id="delete-button" href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>

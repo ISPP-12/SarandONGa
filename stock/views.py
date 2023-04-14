@@ -56,7 +56,8 @@ def stock_list(request):
         'objects': stock_page,
         'objects_json': stock_json,
         'object_name': 'stock',
-        'title': 'Gestión de Inventario',
+        'page_title': 'SarandONGa 💃 - Gestión de inventario',
+        'title': 'Gestión de inventario',
         'form': form,
         'query_str': query_str,
     }
@@ -109,8 +110,7 @@ def stock_create(request):
             return redirect('stock_list')
         else:
             return custom_403(request)
-    return render(request, 'stock/register.html', {'form': form, 'title': 'Registrar artículo'})
-
+    return render(request, 'stock/register.html', {'form': form, 'title': 'Registrar artículo', 'page_title': 'SarandONGa 💃 - Registrar artículo'})
 
 @login_required
 def stock_delete(request, stock_id):
@@ -132,7 +132,7 @@ def stock_update(request, stock_id):
                 messages.error(request, 'Formulario con errores')
 
         form = CreateNewStock(instance=stock)
-        context = {'form': form, 'title': 'Actualizar artículo'}
+        context = {'form': form, 'title': 'Actualizar artículo', 'page_title': 'SarandONGa 💃 - Actualizar artículo'}
     else:
         return custom_403(request)
     return render(request, 'stock/register.html', context)
