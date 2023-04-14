@@ -66,19 +66,19 @@
 
       <div class="d-flex justify-content-md-start justify-content-center col-sm-12 col-xs-12">
         {% if asem_user %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ asem_user.photo }}" />
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ asem_user.photo }}" src="{% if asem_user.photo %}  ../../{{asem_user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% elif worker %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ worker.photo }}" />
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ worker.photo }}" src="{% if worker.photo %}  ../../{{worker.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% elif volunteer %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ volunteer.photo }}" />
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ volunteer.photo }}" src="{% if volunteer.photo %}  ../../{{volunteer.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% elif godfather %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ godfather.photo }}" />
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ godfather.photo }}" src="{% if godfather.photo %}  ../../{{godfather.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% elif child %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ child.photo }}" />
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ child.photo }}" src="{% if child.photo %}  ../../{{child.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% else  %}
-        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" src="{{ '../../' }}{{ user.photo }}" />
+        <img style="width: 150px; height: 150px; object-fit: cover; border-radius: 30px;" alt="{{ user.photo }}" src="{% if user.photo %}  ../../{{user.photo}}{% else %}{% static 'img/person-icon.svg' %}{% endif %}" />
         {% endif %}
-        </div>
+      </div>
     </div>
   </div>
   
