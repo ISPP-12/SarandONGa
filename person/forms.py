@@ -247,10 +247,25 @@ class FilterWorkerForm(forms.Form):
     birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
     birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
+
+    city = forms.CharField(max_length=100, required=False, label="Búsqueda por ciudad")
+    address = forms.CharField(max_length=100, required=False, label="Búsqueda por dirección")
+    telephone = forms.IntegerField(required=False, label="Búsqueda por teléfono", widget=forms.NumberInput(attrs={'min': 0}))
+    postal_code = forms.IntegerField(required=False, label="Búsqueda por código postal", widget=forms.NumberInput(attrs={'min': 0}))
+
+
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+            else:
+                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+
 
         # We assign the values ​​of the filters as initial values
 
