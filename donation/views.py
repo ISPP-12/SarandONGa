@@ -34,7 +34,7 @@ def donation_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación", "page_title": "SarandONGa 💃 - Añadir donación"})
 
 
 @login_required
@@ -87,6 +87,7 @@ def donation_list(request):
         'title': 'Gestión de Donaciones',
         'form': form,
         'query_str': query_str,
+        'page_title': 'SarandONGa 💃 - Gestión de Donaciones'
     }
 
     return render(request, 'donation/list.html', context)
@@ -144,7 +145,7 @@ def donation_update(request, donation_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar", 'page_title': 'SarandONGa 💃 - Actualizar Donación'})
 
 
 @login_required

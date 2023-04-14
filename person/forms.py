@@ -55,8 +55,8 @@ class FilterVolunteerForm(forms.Form):
     max_birth_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
     sex = forms.ChoiceField(choices=[('', '--Seleccione--'), ('F', 'Femenino'), ('M', 'Masculino'), ('O', 'Otro')], required=False, label="Género")
     volunteer_type = forms.ChoiceField(choices=[('', '--Seleccione--'), ('AP', 'Alumno en prácticas'), ('O', 'Otro')], required=False, label="Tipo de voluntario")
-    min_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación mínimo")
-    max_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación máximo")
+    min_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación mínimo", widget=forms.NumberInput(attrs={'min': 0}))
+    max_dedication_time = forms.DecimalField(decimal_places=2, required=False, label="Tiempo de dedicación máximo", widget=forms.NumberInput(attrs={'min': 0}))
     min_contract_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Inicio de contrato después del")
     max_contract_start = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Inicio de contrato antes del")
     min_contract_end = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fin de contrato después del")
@@ -70,6 +70,23 @@ class FilterVolunteerForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
+
+        self.fields['qsearch'].initial = self.data.get('qsearch')
+        self.fields['min_birth_date'].initial = self.data.get('min_birth_date')
+        self.fields['max_birth_date'].initial = self.data.get('max_birth_date')
+        self.fields['sex'].initial = self.data.get('sex')
+        self.fields['volunteer_type'].initial = self.data.get('volunteer_type')
+        self.fields['min_dedication_time'].initial = self.data.get('min_dedication_time')
+        self.fields['max_dedication_time'].initial = self.data.get('max_dedication_time')
+        self.fields['min_contract_start'].initial = self.data.get('min_contract_start')
+        self.fields['max_contract_start'].initial = self.data.get('max_contract_start')
+        self.fields['min_contract_end'].initial = self.data.get('min_contract_end')
+        self.fields['max_contract_end'].initial = self.data.get('max_contract_end')
+        self.fields['raffle'].initial = self.data.get('raffle')
+        self.fields['lottery'].initial = self.data.get('lottery')
+        self.fields['is_member'].initial = self.data.get('is_member')
+        self.fields['pres_table'].initial = self.data.get('pres_table')
+        self.fields['is_contributor'].initial = self.data.get('is_contributor')
 
 class CreateNewGodFather(forms.ModelForm):
 
@@ -314,7 +331,7 @@ class CreateNewVolunteer(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'dedication_time': forms.NumberInput(attrs={'step': "0.01"}),
+            'dedication_time': forms.NumberInput(attrs={'step': "0.01", 'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):
