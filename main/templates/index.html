@@ -1,10 +1,20 @@
 {% extends 'layouts/master.html' %}
 
-{% block titulo %} Página inicial {% endblock %}
 
-{% block content %} 
-	
-  <hr>
-  <h5>Página de inicio</h5>
 
+{% block extrahead %} 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}"> 
 {% endblock %}
+{% block content %} 
+<section class="showcase">
+<div class="row g-0">
+    <div class="col-lg-6 text-white showcase-img d-flex justify-content-center align-items-center"><img width="80%" src='{% static 'img/index.png' %}'> </div>
+    <div class="col-lg-6 my-auto showcase-text">
+        <h1 class="first-title">Comienza la gestión con SARANDONGA</h1>
+        <p class="lead mb-4">Te ayudamos a gestionar tus recursos y apostamos por soluciones digitales.</p>
+        {% include 'components/button.html' with id="login" text="Acceder" href="/login" variation="SUBMIT" %}
+    </div>
+</div>
+</section>
+        {% endblock %}

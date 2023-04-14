@@ -34,7 +34,7 @@ def donation_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación", "page_title": "SarandONGa 💃 - Añadir donación"})
 
 
 @login_required
@@ -44,7 +44,8 @@ def donation_list(request):
         ong=request.user.ong).order_by('-created_date').values()
 
     form = FilterDonationForm(request.GET or None)
-    objects = donation_filter(objects, form)
+    if request.method == 'GET':
+        objects = donation_filter(objects, form)
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -60,6 +61,23 @@ def donation_list(request):
 
     donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+    query_str += "&min_date="
+    if "min_date" in keys:
+        query_str += request.GET["min_date"]
+    query_str += "&max_date="
+    if "max_date" in keys:
+        query_str += request.GET["max_date"]
+    query_str += "&min_amount="
+    if "min_amount" in keys:
+        query_str += request.GET["min_amount"]
+    query_str += "&max_amount="
+    if "max_amount" in keys:
+        query_str += request.GET["max_amount"]
+
     for donation in objects:
         created_date = donation["created_date"]
         modified_date = created_date.strftime('%d/%m/%Y %H:%M')
@@ -72,6 +90,8 @@ def donation_list(request):
         'object_name_en': 'donation',
         'title': 'Gestión de Donaciones',
         'form': form,
+        'query_str': query_str,
+        'page_title': 'SarandONGa 💃 - Gestión de Donaciones'
     }
 
     return render(request, 'donation/list.html', context)
@@ -129,7 +149,7 @@ def donation_update(request, donation_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar", 'page_title': 'SarandONGa 💃 - Actualizar Donación'})
 
 
 @login_required

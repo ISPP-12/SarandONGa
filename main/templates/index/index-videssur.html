@@ -1,0 +1,98 @@
+{% extends 'layouts/master.html' %}
+
+{% block title %} Inicio {% endblock %}
+{% block extrahead %} 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/index.css' %}"> 
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+{% endblock %}
+{% block content %} 
+<section class="showcase">
+<div class="row g-0">
+    <div class="col-lg-6 text-white showcase-img d-flex justify-content-center align-items-center"><img width="40%" src='{% static 'img/logo-videssur.png' %}'> </div>
+    <div class="col-lg-6 my-auto showcase-text">
+        <h2>Sobre VidesSur</h2>
+        <p class="lead mb-0">VIDESSUR promueve actividades de formación y sensibilización y de actuación concreta mediante talleres, campos de trabajos nacionales e internacionales, proyectos de cooperación al desarrollo y apadrinamientos. Para el desarrollo de estas actividades VIDESSUR cuenta con la aportación de numerosas personas que hacen efectiva su solidaridad.
+    </div>
+</div>
+</section>
+<div class="counter">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="employees">
+                    <p class="counter-count">{{donations}}</p>
+                    <p class="employee-p">Donaciones</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="customer">
+                    <p class="counter-count">{{godfathers}}</p>
+                    <p class="customer-p">Padrinos</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="design">
+                    <p class="counter-count">{{workers}}</p>
+                    <p class="design-p">Trabajadores</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="order">
+                    <p class="counter-count">{{volunteers}}</p>
+                    <p class="order-p">Voluntarios</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+       
+        <!-- Image Showcases-->
+        <section class="showcase">
+            <div class="container-fluid p-0">
+                <div class="row g-0">
+                    <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('{% static 'img/jornada02.jpeg' %}')"></div>
+                    <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                        <h2>Misión</h2>
+                        <p class="lead mb-0">VidesSur es una Organización No Gubernamental de Cooperación al Desarrollo cuya misión es promover el voluntariado y la educación para la defensa de los Derechos Humanos, en especial el derecho a la educación de niños, niñas, jóvenes y mujeres en los países más empobrecidos o en vías de desarrollo.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Testimonials-->
+        <section class="testimonials text-center bg-light">
+            <div class="container">
+                <h2 class="mb-5">Datos de contacto</h2>
+                <div class="row text-start">
+                    Videssur ONGD<br/>
+                    C/ Espinosa y Cárcel nº 26<br/>
+                    41005-Sevilla<br/>
+                    Telf. Fijo: (+034) 954-922773<br/>
+                    Telf.Móvil: 699750814<br/>
+                    Web: www.videssur.org<br/>
+                    Blog: videssur.blogspot.com<br/>
+                    Mail: videssur@videssur.org<br/>
+                </div>
+            </div>
+        </section>
+        
+<script>
+    $(document).ready(function(){
+    $('.counter-count').each(function () {
+        $(this).prop('Counter',0).animate({
+            Counter: $(this).text()
+        }, {
+            duration: 1000,
+            easing: 'swing',
+            step: function (now) {
+                $(this).text(Math.ceil(now));
+            }
+        });
+    });
+});
+</script>
+
+        {% endblock %}

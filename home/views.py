@@ -36,7 +36,7 @@ def home_create(request):
                 messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'El formulario presenta errores')
-    return render(request, 'home/home_form.html', {'form': form})
+    return render(request, 'home/home_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Añadir Casa'})
 
 @login_required
 @videssur_required
@@ -70,6 +70,7 @@ def home_list(request):
         'object_name': 'casa',
         'object_name_en': 'home',
         'title': 'Gestión de Casas',
+        'page_title': 'SarandONGa 💃 - Gestión de Casas',
         'form': form,
     }
 
@@ -105,7 +106,7 @@ def home_update(request,home_id):
                     messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'home/home_form.html', {"form": form})
+    return render(request, 'home/home_form.html', {"form": form, "page_title": "SarandONGa 💃 - Editar Casa"})
 
 def is_valid_queryparam(param):
     return param != "" and param is not None
