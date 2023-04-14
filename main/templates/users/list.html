@@ -33,15 +33,27 @@
   {% if object_name_en == "user" %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
     
-      <div class='col-lg-4 col-md-12 col-12'>
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
         {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
       </div>
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado civil" input=form.status %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.condition.id_for_label label_text="Condición" input=form.condition %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.member.id_for_label label_text="Miembro" input=form.member %} 
+      </div>
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.user_type.id_for_label label_text="Tipo de usuario" input=form.user_type %} 
       </div>
     </div>
   </div>
@@ -50,14 +62,14 @@
   {% elif object_name_en == "worker" %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
     
-      <div class='col-lg-4 col-md-12 col-12'>
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
         {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
       </div>
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
       </div>
     </div>
@@ -67,23 +79,23 @@
   {% elif object_name_en == "child" %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
     
-      <div class='col-lg-4 col-md-12 col-12'>
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
         {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.is_older.id_for_label label_text="Mayor de edad" input=form.is_older %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.is_sponsored.id_for_label label_text="Apadrinado" input=form.is_sponsored %} 
       </div>
     </div>
@@ -93,19 +105,19 @@
   {% elif object_name_en == "volunteer" %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
     
-      <div class='col-lg-4 col-md-12 col-12'>
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
         {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.volunteer_type.id_for_label label_text="Tipo" input=form.volunteer_type %} 
       </div>
     </div>
@@ -115,19 +127,19 @@
   {% elif object_name_en == "godfather" %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
     
-      <div class='col-lg-4 col-md-12 col-12'>
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
         {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12">
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado Civil" input=form.status %} 
       </div>
     </div>
@@ -300,7 +312,14 @@
 
   })
 
-  
 
+</script>
+
+
+<script>
+  document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = window.location.pathname;
+  });
 </script>
 {% endblock %}
