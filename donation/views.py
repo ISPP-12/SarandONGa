@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from datetime import datetime
+from datetime import datetime, date
 import json
 from donation.models import Donation
 from decimal import Decimal
@@ -13,6 +13,8 @@ from django.db.models import Q
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
+            return obj.strftime('%d/%m/%Y')
+        elif isinstance(obj, date):
             return obj.strftime('%d/%m/%Y')
         elif isinstance(obj, Decimal):
             return float(obj)
