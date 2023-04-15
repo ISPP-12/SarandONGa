@@ -1,12 +1,17 @@
 from django.db import models
 # from django.utils.text import slugify
 
+PLAN_TYPES = (
+    ('B', 'Básico'),
+    ('P', 'Premium'),
+)
 
 class Ong(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nombre")
-    # FALTA RELACION A PROYECTOS CUANDO SE CREE
-    # RELACION A DONACION, SUBVENCION, STOCK, PERSONA HECHAS, SOLO REVISAR
-    # slug = models.SlugField(max_length=200, unique=True, editable=False)
+    plan = models.CharField(max_length=50, choices=PLAN_TYPES,
+                           verbose_name="Plan de pago", default='B', null=True, blank=True)
+    premium_payment_date = models.DateField(
+        verbose_name="Fecha de pago del plan Premium", null=True, blank=True)
 
     def __str__(self):
         return self.name

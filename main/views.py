@@ -4,9 +4,11 @@ from functools import wraps
 from django.contrib import messages
 from person.models import ASEMUser, Worker, Volunteer, GodFather
 from donation.models import Donation
+from ong.models import Ong
 import braintree
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+import datetime
 
 # instancia Braintree payment gateway
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
@@ -24,6 +26,7 @@ def payment_process(request):
     # create and submit transaction
     if request.method == 'POST':
         # retrieve nonce
+        ong = request.user.ong
         nonce = request.POST.get('payment_method_nonce', None)
         total_cost = 150.00
         result = gateway.transaction.sale({
@@ -34,6 +37,9 @@ def payment_process(request):
             }
         })
         if result.is_success:
+            ong.plan = "P"
+            ong.premium_payment_date = datetime.date.today()
+            ong.save()
             return redirect('done')
         else:
             return redirect('canceled')
