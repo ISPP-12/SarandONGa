@@ -3,11 +3,12 @@ from .forms import CreateNewProject, FilterProjectForm
 from django.contrib import messages
 from .models import Project
 from django.contrib.auth.decorators import login_required
-from main.views import videssur_required
+from main.views import  videssur_required
 import json
 from datetime import date
 from decimal import Decimal
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -17,12 +18,14 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+
 @login_required
 @videssur_required
 def project_delete(request, project_id):
     project = get_object_or_404(Project, id=project_id)
     project.delete()
     return redirect('project_list')
+
 
 @login_required
 @videssur_required
@@ -43,7 +46,8 @@ def project_create(request):
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
 
-    return render(request, 'project/register.html', {"form": form, "title": "Crear Proyecto"})
+    return render(request, 'project/register.html', {"form": form, "title": "Crear Proyecto", 'page_title': 'SarandONGa 💃 - Crear Proyecto'})
+
 
 @login_required
 @videssur_required
@@ -60,11 +64,12 @@ def project_update(request, project_id):
                     messages.error(request, f"{field}: {error}")
 
     form = CreateNewProject(instance=project)
-    return render(request, 'project/register.html', {'form': form, 'title': 'Actualizar proyecto'})
+    return render(request, 'project/register.html', {'form': form, 'title': 'Actualizar proyecto', 'page_title': 'SarandONGa 💃 - Actualizar Proyecto'})
+
 
 @login_required
 @videssur_required
-def project_details(request, project_id):
+def project_details(request, project_id):   #TODO
     project = get_object_or_404(Project, id=project_id)
     return render(request, 'project/project_details.html', {'project': project})
 
@@ -72,30 +77,47 @@ def project_details(request, project_id):
 @login_required
 @videssur_required
 def project_list(request):
+    # get projects dict from database
     objects = Project.objects.filter(ong=request.user.ong).values()
-    form = FilterProjectForm(request.GET or None)
 
+    form = FilterProjectForm(request.GET or None)
     if request.method == 'GET':
         objects = project_filter(objects, form)
 
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    project_page = paginator.get_page(page_number)
+
+    projects_dict = [project for project in project_page]
+    for p in projects_dict:
+        p.pop('_state', None)
+        # remove null values
+        for key, value in list(p.items()):
+            if value is None or value == '':
+                p[key] = '-'
+
+    # json
+    project_json = json.dumps(projects_dict, cls=CustomJSONEncoder)
 
     context = {
-        'objects': objects,
-        'objects_json' : json.dumps(list(objects), cls=CustomJSONEncoder),
+        'objects': project_page,
+        'objects_json' : project_json,
         'object_name': 'proyecto',
         'object_name_en': 'project',
         'title': 'Gestión de Proyectos',
+        'page_title': 'SarandONGa 💃 - Gestión de Proyectos',
         'form': form,
     }
     return render(request, 'project/list.html', context)
 
+
 def is_valid_queryparam(param):
     return param != "" and param is not None
 
+
 def project_filter(queryset, form):
 
-    title = form['title'].value()
-    country = form['country'].value()
+    search = form['search'].value()
     start_date_min = form['start_date_min'].value()
     start_date_max = form['start_date_max'].value()
     end_date_min = form['end_date_min'].value()
@@ -107,13 +129,9 @@ def project_filter(queryset, form):
     announcement_date_min = form['announcement_date_min'].value()
     announcement_date_max = form['announcement_date_max'].value()
 
-    if title is not None:
-            if title.strip() != "":
-                queryset = queryset.filter(Q(title__icontains=title))
-
-    if country is not None:
-            if country.strip() != "":
-                queryset = queryset.filter(Q(country__icontains=country))
+    if search is not None:
+            if search.strip() != "":
+                queryset = queryset.filter(Q(title__icontains=search) | Q(country__icontains=search))
 
     if is_valid_queryparam(start_date_min):
         queryset = queryset.filter(start_date__gte=start_date_min)

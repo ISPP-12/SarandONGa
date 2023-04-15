@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 # from django.utils.text import slugify
 from person import models as person_models
 from payment import models as payment_models
@@ -24,7 +25,8 @@ class ServiceAmount(models.Model):
         max_length=50, choices=SERVICES_TYPE, verbose_name="Tipo de servicio")
     user_type = models.CharField(
         max_length=50, choices=person_models.ASEMUSER_TYPE, verbose_name="Tipo de usuario ASEM")
-    amount = models.FloatField(verbose_name="Precio")
+    amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
+                                 MinValueValidator(0)], verbose_name="Precio")
     date = models.DateTimeField(default=timezone.now, verbose_name="Fecha")
 
     def __str__(self):
@@ -64,3 +66,4 @@ class Service(models.Model):
     class Meta:
         verbose_name = 'Sevicio'
         verbose_name_plural = 'Servicios'
+

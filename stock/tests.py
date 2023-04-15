@@ -16,15 +16,15 @@ from selenium.webdriver.common.by import By
 class StockTestCase(TestCase):
     def setUp(self):
         self.ong = Ong.objects.create(name='Mi ONG')
-        self.stock1 = Stock.objects.create(name="Manzanas", quantity=4,ong=self.ong)
-        self.stock2 = Stock.objects.create(name="Naranjas", quantity=7,ong=self.ong)
+        self.stock1 = Stock.objects.create(name="Manzanas", quantity=4,amount=3.0,ong=self.ong)
+        self.stock2 = Stock.objects.create(name="Naranjas", quantity=7,amount=3.0,ong=self.ong)
     
     def tearDown(self):
         Stock.objects.all().delete()
 
     def test_stock_create(self):
         count = Stock.objects.count()
-        Stock.objects.create(name="Peras", quantity=9,ong=self.ong)
+        Stock.objects.create(name="Peras",amount=3.0, quantity=9,ong=self.ong)
         new_count = Stock.objects.count()
         self.assertEqual(new_count, count+1)
     
@@ -47,20 +47,20 @@ class StockTestCase(TestCase):
         updated_stock = Stock.objects.get(pk=stock.id)
         self.assertEqual(updated_stock.name, "Mandarinas")
         self.assertEqual(updated_stock.quantity, 10)
-    
-    def test_quantity_decimal_numbers(self):
-        stock = Stock.objects.get(name="Manzanas")
-        self.assertEqual(stock.quantity, 4.00)
 
-        stock.quantity = 4.199999
+    def test_amount_decimal_numbers(self):
+        stock = Stock.objects.get(name="Manzanas")
+        self.assertEqual(stock.amount, 3.00)
+
+        stock.amount = 3.199999
         stock.save()
 
         updated_stock = Stock.objects.get(name="Manzanas")
-        self.assertEqual(updated_stock.quantity, Decimal('4.20'))
+        self.assertEqual(updated_stock.amount, Decimal('3.20'))
     
     @transaction.atomic         
     def test_get_stock(self):
-        stock = Stock.objects.create(name='Test Stock', quantity=100.00,ong=self.ong)
+        stock = Stock.objects.create(name='Test Stock', amount=3.0,quantity=100.00,ong=self.ong)
         retrieved_stock = Stock.objects.get(id=stock.id)
         self.assertEqual(retrieved_stock, stock)
         
@@ -71,46 +71,75 @@ class StockTestCase(TestCase):
     @transaction.atomic        
     def test_create_stock_without_name(self):
         with self.assertRaises(Exception):
-            Stock.objects.create(name=None,quantity=100.00)
+            Stock.objects.create(name=None,amount=3.0,quantity=100.00)
     
     @transaction.atomic        
     def test_create_stock_without_quantity(self):
         with self.assertRaises(Exception):
-            Stock.objects.create(name='Test Stock',quantity=None)
+            Stock.objects.create(name='Test Stock',amount=3.0,quantity=None)
+
+    @transaction.atomic        
+    def test_create_stock_without_amount(self):
+        with self.assertRaises(Exception):
+            Stock.objects.create(name='Test Stock',amount=None,quantity=100.00)
 
     @transaction.atomic 
     def test_create_name_max(self):
         with self.assertRaises(Exception):
-            Stock.objects.create(name='a'*201,quantity=100.00)
+            Stock.objects.create(name='a'*201,amount=3.0,quantity=100.00)
     
     @transaction.atomic 
     def test_create_name_blank(self):
         with self.assertRaises(Exception):
-            s = Stock.objects.create(name='',quantity=100.00)
+            s = Stock.objects.create(name='',amount=3.0,quantity=100.00)
             s.full_clean()
      
     @transaction.atomic        
     def test_create_quantity_max(self):
         with self.assertRaises(Exception):
-            s = Stock.objects.create(name='Test Stock',quantity=10000000000000)
+            s = Stock.objects.create(name='Test Stock',amount=3.0,quantity=10000000000000)
             s.full_clean()
             
     @transaction.atomic 
     def test_create_quantity_min(self):
         with self.assertRaises(Exception):
-            s = Stock.objects.create(name='Test Stock',quantity=-1)
+            s = Stock.objects.create(name='Test Stock',amount=3.0,quantity=-1)
             s.full_clean()
             
     @transaction.atomic         
     def test_create_quantity_blank(self):
         with self.assertRaises(Exception):
-            s = Stock.objects.create(name='Test Stock',quantity='')
+            s = Stock.objects.create(name='Test Stock',amount=3.0,quantity='')
             s.full_clean()
             
     @transaction.atomic         
     def test_create_quantity_string(self):
         with self.assertRaises(Exception):
-            s = Stock.objects.create(name='Test Stock',quantity='a')
+            s = Stock.objects.create(name='Test Stock',amount=3.0,quantity='a')
+            s.full_clean()
+
+    @transaction.atomic        
+    def test_create_amount_max(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='Test Stock',amount=10000000000000,quantity=100.00)
+            s.full_clean()
+
+    @transaction.atomic 
+    def test_create_amount_min(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='Test Stock',amount=-1,quantity=100.00)
+            s.full_clean()
+            
+    @transaction.atomic         
+    def test_create_amount_blank(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='Test Stock',amount='',quantity=100.00)
+            s.full_clean()
+            
+    @transaction.atomic         
+    def test_create_amount_string(self):
+        with self.assertRaises(Exception):
+            s = Stock.objects.create(name='Test Stock',amount='a',quantity=100.00)
             s.full_clean()
             
     @transaction.atomic         
@@ -161,13 +190,34 @@ class StockTestCase(TestCase):
             stock = Stock.objects.get(name="Naranjas")
             stock.quantity = -1
             stock.full_clean()
+    
+    @transaction.atomic         
+    def test_update_amount_max(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.amount = 10000000000000
+            stock.full_clean()
+    
+    @transaction.atomic         
+    def test_update_amount_string(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.amount = 'a'
+            stock.full_clean()
+            
+    @transaction.atomic         
+    def test_update_amount_min(self):
+        with self.assertRaises(Exception):
+            stock = Stock.objects.get(name="Naranjas")
+            stock.amount = -1
+            stock.full_clean()
 
 class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
     def setUp(self):
         super().setUp()
         
         self.ong = Ong(name='VidesSur')
-        self.test_stock_1 = Stock(name="Test stock 1", ong=self.ong, quantity=150)
+        self.test_stock_1 = Stock(name="Test stock 1",amount=3.0, ong=self.ong, quantity=150)
 
         self.ong.save()
         self.test_stock_1.save()
@@ -176,7 +226,7 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
             email="test@email.com",
             name="Test Person",
             surname="Test Apellido",
-            birth_date=datetime(2001,3,14),
+            birth_date=datetime(2001,3,14,1),
             sex='M',
             city='Test Ciudad',
             address='Test Calle',
@@ -241,6 +291,7 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         after_count = Stock.objects.count()
 
         self.assertTrue(before_count == after_count+1 )
+    
     def test_stock_register_view(self):
         # Check access
         before_count = Stock.objects.count()
@@ -249,6 +300,7 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         self.driver.find_element(By.ID,"create-button").click()
         self.driver.find_element(By.ID,"id_name").send_keys("Lápiz bic azul")
         self.driver.find_element(By.ID,"id_quantity").send_keys("100")
+        self.driver.find_element(By.ID,"id_amount").send_keys("30")
         self.driver.find_element(By.ID,"submit").click()
         after_count = Stock.objects.count()
         self.assertTrue(before_count == after_count-1 )
@@ -284,10 +336,3 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         test_stock_div = self.driver.find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
         test_stock_text = test_stock_div.find_element(By.CSS_SELECTOR,"h5.card-title span").text
         self.assertTrue(test_stock_text == "Lápiz bic rojo")
-
-
-
-
-
-
-        

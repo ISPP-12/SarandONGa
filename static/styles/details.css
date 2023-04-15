@@ -1,0 +1,46 @@
+.links {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid #000;
+  background: #fff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.links a {
+  color: #000;
+  text-decoration: underline;
+  font-size: 18px;
+  padding: 0 10px;
+}
+
+#content {
+  margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+  .links {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  #content {
+    margin-bottom: 160px;
+  }
+
+}
+
+@media (min-width: 992px) {
+  #returnBtn {
+    margin: 0 !important;
+  }
+}
+
+h1 {
+  width: 100% !important;
+}

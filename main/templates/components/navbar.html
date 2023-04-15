@@ -52,13 +52,23 @@
                     </li>
                 </ul>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/logout">Cerrar sesión</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Sesion
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/update_password">Actualizar contraseña</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                    </li>
+                </ul>
             </li>
+
             {% else %}
             <li class="nav-item">
-                <a class="nav-link" href="/login">Iniciar sesión</a>
+                <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
             </li>
             {% endif %}
             

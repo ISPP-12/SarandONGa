@@ -3,25 +3,22 @@ from project.models import Project
 
 
 class FilterProjectForm(forms.Form):
-    title = forms.CharField(max_length=100, required=False , label="Búsqueda por título")
-    country = forms.CharField(max_length=100, required=False , label="Búsqueda por país")
+    search = forms.CharField(max_length=100, required=False , label="Búsqueda")
     start_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de inicio mínima")
     start_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de inicio máxima")
     end_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de fin mínima")
     end_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de fin máxima")
-    number_of_beneficiaries_min = forms.IntegerField(required=False, label="Tamaño mínimo de beneficiarios familiar")
-    number_of_beneficiaries_max = forms.IntegerField(required=False, label="Tamaño mínimo de beneficiarios familiar")
-    amount_min = forms.FloatField(required=False, label="Cantidad mínima")
-    amount_max = forms.FloatField(required=False, label="Cantidad máxima")
+    number_of_beneficiaries_min = forms.IntegerField(required=False, label="Tamaño mínimo de unidad familiar",widget=forms.NumberInput(attrs={'min':0}))
+    number_of_beneficiaries_max = forms.IntegerField(required=False, label="Tamaño máximo de unidad familiar",widget=forms.NumberInput(attrs={'min':0}))
+    amount_min = forms.FloatField(required=False, label="Cantidad mínima",widget=forms.NumberInput(attrs={'min':0}))
+    amount_max = forms.FloatField(required=False, label="Cantidad máxima",widget=forms.NumberInput(attrs={'min':0}))
     announcement_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de anuncio mínima")
     announcement_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de anuncio máxima")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        # Asignamos los valores de los filtros como valores iniciales
-        self.fields['title'].initial = self.data.get('title')
-        self.fields['country'].initial = self.data.get('country')
+        self.fields['search'].initial = self.data.get('search')
         self.fields['start_date_min'].initial = self.data.get('start_date_min')
         self.fields['start_date_max'].initial = self.data.get('start_date_max')
         self.fields['end_date_min'].initial = self.data.get('end_date_min')

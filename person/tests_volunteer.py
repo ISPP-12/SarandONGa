@@ -13,6 +13,7 @@ class VolunteerTestCase(TestCase):
             name='John',
             surname='Smith',
             email='johnsmith@gmail.com',
+            birth_date=date(1996, 6, 18),
             dni='12345678Z',
             job='Developer',
             dedication_time=10,
@@ -34,6 +35,7 @@ class VolunteerTestCase(TestCase):
             name='Gabriel',
             surname='Moreno',
             email='gabrimoreno@gmail.com',
+            birth_date=date(1996, 6, 18),
             dni='23456781Z',
             job='Developer',
             dedication_time=10,
@@ -55,6 +57,7 @@ class VolunteerTestCase(TestCase):
             name='Paco',
             surname='López',
             email='paco@gmail.com',
+            birth_date=date(1996, 6, 18),
             dni='42758465',
             job='Developer',
             dedication_time=10,
@@ -190,6 +193,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='12345678Z',
                 job='Developer',
                 dedication_time=10,
@@ -213,6 +217,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='123456789Z',
                 job='Developer',
                 dedication_time=10,
@@ -236,6 +241,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='1234567AA',
                 job='Developer',
                 dedication_time=10,
@@ -260,6 +266,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='',
                 job='Developer',
                 dedication_time=10,
@@ -284,6 +291,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni=None,
                 job='Developer',
                 dedication_time=10,
@@ -307,6 +315,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='D'*51,
                 dedication_time=10,
@@ -330,6 +339,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='',
                 dedication_time=10,
@@ -348,35 +358,13 @@ class VolunteerTestCase(TestCase):
             )
             volunteer.full_clean()
 
-    def test_volunteer_job_incorrect_null(self):
-        with self.assertRaises(Exception):
-            Volunteer.objects.create(
-                name='Jesús',
-                surname='García',
-                email='jgarcia@gmail.com',
-                dni='22345678A',
-                job=None,
-                dedication_time=10,
-                contract_start_date=date(2023, 1, 20),
-                contract_end_date=date(2023, 2, 5),
-                raffle=False,
-                lottery=False,
-                is_member=False,
-                pres_table=False,
-                is_contributor=False,
-                notes='This is a note',
-                entity='Entity',
-                table='Table',
-                volunteer_type='Otro',
-                ong=self.ong
-            )
-
     def test_volunteer_dedication_time_incorrect_null(self):
         with self.assertRaises(Exception):
             Volunteer.objects.create(
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=None,
@@ -400,6 +388,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail-com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time="Valor inválido",
@@ -423,6 +412,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -446,6 +436,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -469,6 +460,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -492,6 +484,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -515,6 +508,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -539,6 +533,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -562,6 +557,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -585,6 +581,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -608,6 +605,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -631,6 +629,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -654,6 +653,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -677,6 +677,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -700,6 +701,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -723,6 +725,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -746,6 +749,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -763,58 +767,13 @@ class VolunteerTestCase(TestCase):
                 ong=self.ong
             )
 
-    def test_volunteer_notes_incorrect_null(self):
-        with self.assertRaises(Exception):
-            Volunteer.objects.create(
-                name='Jesús',
-                surname='García',
-                email='jgarcia@gmail.com',
-                dni='22345678A',
-                job='Developer',
-                dedication_time=10,
-                contract_start_date=date(2023, 1, 20),
-                contract_end_date=date(2023, 2, 5),
-                raffle=False,
-                lottery=False,
-                is_member=False,
-                pres_table=False,
-                is_contributor=False,
-                notes=None,
-                entity='Entity',
-                table='Table',
-                volunteer_type='Otro',
-                ong=self.ong
-            )
-
-    def test_volunteer_entity_incorrect_null(self):
-        with self.assertRaises(Exception):
-            Volunteer.objects.create(
-                name='Jesús',
-                surname='García',
-                email='jgarcia@gmail.com',
-                dni='22345678A',
-                job='Developer',
-                dedication_time=10,
-                contract_start_date=date(2023, 1, 20),
-                contract_end_date=date(2023, 2, 5),
-                raffle=False,
-                lottery=False,
-                is_member=False,
-                pres_table=False,
-                is_contributor=False,
-                notes='This is a note',
-                entity=None,
-                table='Table',
-                volunteer_type='Otro',
-                ong=self.ong
-            )
-
     def test_volunteer_entity_incorrect_max_length(self):
         with self.assertRaises(Exception):
             Volunteer.objects.create(
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -832,35 +791,13 @@ class VolunteerTestCase(TestCase):
                 ong=self.ong
             )
 
-    def test_volunteer_table_incorrect_null(self):
-        with self.assertRaises(Exception):
-            Volunteer.objects.create(
-                name='Jesús',
-                surname='García',
-                email='jgarcia@gmail.com',
-                dni='22345678A',
-                job='Developer',
-                dedication_time=10,
-                contract_start_date=date(2023, 1, 20),
-                contract_end_date=date(2023, 2, 5),
-                raffle=False,
-                lottery=False,
-                is_member=False,
-                pres_table=False,
-                is_contributor=False,
-                notes='This is a note',
-                entity='Entity',
-                table=None,
-                volunteer_type='Otro',
-                ong=self.ong
-            )
-
     def test_volunteer_table_incorrect_max_length(self):
         with self.assertRaises(Exception):
             Volunteer.objects.create(
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -884,6 +821,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -907,6 +845,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -930,6 +869,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -954,6 +894,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -978,6 +919,7 @@ class VolunteerTestCase(TestCase):
                 name='Jesús',
                 surname='García',
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -999,6 +941,7 @@ class VolunteerTestCase(TestCase):
         with self.assertRaises(Exception):
             Volunteer.objects.create(
                 email='jgarcia@gmail.com',
+                birth_date=date(1996, 6, 18),
                 dni='22345678A',
                 job='Developer',
                 dedication_time=10,
@@ -1123,34 +1066,14 @@ class VolunteerTestCase(TestCase):
             self.volunteer_update.job = ""
             self.volunteer_update.full_clean()
 
-    def test_update_volunteer_job_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.job = None
-            self.volunteer_update.save()
-
     def test_update_volunteer_entity_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.volunteer_update.entity = "A" * 51
             self.volunteer_update.save()
 
-    def test_update_volunteer_entity_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.entity = None
-            self.volunteer_update.save()
-
-    def test_update_volunteer_notes_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.notes = None
-            self.volunteer_update.save()
-
     def test_update_volunteer_table_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.volunteer_update.table = "A" * 51
-            self.volunteer_update.save()
-
-    def test_update_volunteer_table_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.table = None
             self.volunteer_update.save()
 
     def test_update_volunteer_pres_table_incorrect_value(self):
@@ -1212,11 +1135,6 @@ class VolunteerTestCase(TestCase):
     def test_update_volunteer_dedication_time_incorrect_value(self):
         with self.assertRaises(Exception):
             self.volunteer_update.dedication_time = "Valor inválido"
-            self.volunteer_update.save()
-
-    def test_update_volunteer_raffle_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.raffle = None
             self.volunteer_update.save()
 
     def test_update_volunteer_raffle_incorrect_value(self):

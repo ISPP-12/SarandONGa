@@ -54,8 +54,18 @@
   font-size: medium;
 }
 
+.fixed-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+}
+
 #rightSectionContainer {
-  height: calc(100vh - 55px);
+  height: 100%;
+  min-height: calc(100vh - 55px);
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #previewContainerButtons {
@@ -95,6 +105,5 @@
 }
 
 h2, h5 {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-all;
 }

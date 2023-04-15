@@ -1,6 +1,8 @@
 {% load static %}
-<div class=" container-fluid card-list mw-100 px-2 card-list rounded py-1" tabindex="1">
-  <span class="object-id d-none">{{ object.id }}</span>
+<div id="card-list-item-{{object.id}}" class="container-fluid card-list mw-100 px-2 card-list rounded py-1" tabindex="1">
+  <span class="object-id  d-none">{{ object.id }}</span>
+   
+
       
     <div class="row">
       <div class="col-lg-4 col-6">
@@ -8,6 +10,7 @@
       
       </div>
       <div class="col-lg-3 col-6">
+
         {% if object.city %}
         <span>{{object.city}}</span>
         {% else %}
@@ -15,7 +18,9 @@
         {% endif %}
 
       </div>  
+
       <div class="col-lg-2 col-6">
+
         {% if object.telephone %}
         <span>{{object.telephone}}</span>
         {% else %}
@@ -23,7 +28,9 @@
         {% endif %}
 
       </div> 
+
       <div class="col-lg-3 col-6">
+
         {% if object.email %}
         <span>{{object.email}}</span>
         {% else %}
@@ -52,8 +59,9 @@
           {%if object_name == "padrino" or object_name == "niño"%}
           <a href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
           {% endif %}
-          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}"><i class="bi bi-info-circle"></i>Detalles</a>
+          <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
     </div>

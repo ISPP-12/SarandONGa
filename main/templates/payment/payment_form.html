@@ -27,20 +27,35 @@
           {% include "components/inputs.html" with id=form.paid.id_for_label label_text=form.paid.label_tag input=form.paid  %}
           {{ form.paid.errors }}
         </div>
+        {% if form.godfather %}
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.godfather.id_for_label label_text=form.godfather.label_tag input=form.godfather  %}
+          {{ form.godfather.errors }}
+        </div>
+        {% endif %}
+        {% if form.project %}
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.project.id_for_label label_text=form.project.label_tag input=form.project  %}
+          {{ form.project.errors }}
+        </div>
+        {% endif %}
       </div>
       <div class="form-section mt-5 mx-5 text-center">
         {% if form.instance.id %}
           {% with button_text="Actualizar" %}
-            {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+            {% include 'components/button.html' with id="submit" text=button_text variation="SUBMIT" %}
           {% endwith %}
         {% else %}
           {% with button_text="Añadir pago" %}
-            {% include 'components/button.html' with text=button_text variation="SUBMIT" %}
+            {% include 'components/button.html' with id="submit" text=button_text variation="SUBMIT" %}
           {% endwith %}
         {% endif %}
       </div>
     </div>
 </form>
+{% if form.instance.id %}
+    {% include 'components/button.html'  with id="delete" href="./delete" text="Eliminar pago" %}
+{% endif %}
 {% endblock %}
 
 {% block rightSide %}

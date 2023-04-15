@@ -6,3 +6,5 @@ pillow==9.4.0
 django-localflavor==3.1
 selenium==3.141.0
 webdriver-manager==3.8.5
+python-dateutil==2.8.2
+braintree==3.59.0

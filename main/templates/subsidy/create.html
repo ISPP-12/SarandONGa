@@ -14,7 +14,7 @@
   {% else %}
       {% include 'components/title.html' with title="Añadir subvención" %}
   {% endif %}
-  <form method="post"  action="">
+  <form method="post" enctype='multipart/form-data' action="">
     {% csrf_token %}
       <div class="row my-4 mx-5">
         <div class="col-sm-12 col-lg-6">
@@ -62,6 +62,33 @@
     
           </div>
       </div>
+
+      <div class="row my-4 mx-5">
+        <div class="col-sm-12 col-lg-6">
+          {% include "components/inputs.html" with id=form.presentation_justification_date.id_for_label label_text="Fecha de presentación de la justificación" input=form.presentation_justification_date %} 
+          {{ form.provisional_resolution.errors }}
+          <div id="message-dates-prov"></div>
+
+    
+        </div>
+        <div class="col-sm-12 col-lg-6">
+          {% include "components/inputs.html" with id=form.notes.id_for_label label_text="Observaciones" input=form.notes %} 
+          {{ form.final_resolution.errors }}
+          <div id="message-dates"></div>
+          <div id="message-dates-2"></div>
+          <div id="message-dates-3"></div>
+
+
+
+  
+        </div>
+
+        <div class="col-sm-12 col-lg-6">
+          {% include "components/inputs.html" with id=form.document.id_for_label label_text="Documento" input=form.document %} 
+          {{ form.document.errors }}
+        </div>
+    </div>
+
       <div class="row my-4 mx-5">
           <div class="col-sm-12 col-lg-6">
             {% include "components/inputs.html" with id=form.amount.id_for_label label_text=field.label_tag|safe|add:'Cantidad<span class="text-danger"> *</span>' input=form.amount %} 

@@ -175,6 +175,8 @@ class ServiceTestCase(TestCase):
             payment = None,
             asem_user = self.asem_user)
 
+
+
     def test_service_create_correct(self):
 
         service = Service.objects.get(service_type="Fisioterapia")
@@ -290,3 +292,110 @@ class ServiceTestCase(TestCase):
                 attendance = True,
                 payment = None,
                 asem_user = None)
+            
+
+class UpdateServiceTestCase(TestCase):
+    def setUp(self):
+        self.ong = Ong.objects.create(name='Mi ONG')
+        self.asem_user = ASEMUser.objects.create(email="manfergom@gmail.com",
+            name="Manuel",
+            surname="Fernández",
+            birth_date=datetime.datetime(1995, 2, 27, tzinfo=datetime.timezone.utc),
+            sex="Masculino",
+            city="Sevilla",
+            address="Avda. Reina Mercedes, 53",
+            telephone=623135837,
+            postal_code=41012,
+            condition="Esclerosis múltiple",
+            member="Escleriosis múltiple",
+            user_type="SACC",
+            correspondence="Email",
+            status="Soltero/a",
+            family_unit_size=3,
+            own_home="Vivienda propia",
+            own_vehicle=False,
+            bank_account_number="ES6700567834215439610225",ong=self.ong)
+
+        self.payment_1 = Payment.objects.create(payday=datetime.datetime(2018, 2, 27, tzinfo=datetime.timezone.utc),
+            amount=30, ong=self.ong)
+
+        Payment.objects.create(payday=datetime.datetime(2018, 3, 27, tzinfo=datetime.timezone.utc),
+            amount=60, ong=self.ong)
+
+        ServiceAmount.objects.create(service_type="Fisioterapia",
+            user_type="SACC",
+            amount=30,
+            date=datetime.datetime(2018, 1, 1, tzinfo=datetime.timezone.utc))
+
+        ServiceAmount.objects.create(service_type="Logopedia",
+            user_type="SACC",
+            amount=30,
+            date=datetime.datetime(2018, 1, 1, tzinfo=datetime.timezone.utc))
+        
+        Service.objects.create(service_type = "Fisioterapia",
+            date = datetime.datetime(2018, 2, 1, tzinfo=datetime.timezone.utc),
+            attendance = True,
+            payment = None,
+            asem_user = self.asem_user)
+
+        Service.objects.create(service_type = "Logopedia",
+            date = datetime.datetime(2018, 2, 1, tzinfo=datetime.timezone.utc),
+            attendance = True,
+            payment = None,
+            asem_user = self.asem_user)
+        
+    def test_update_service_correct(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        service.service_type = "Logopedia"
+        service.date = datetime.datetime(2018, 3, 1, tzinfo=datetime.timezone.utc)
+        service.attendance = False
+        service.save()
+        self.assertEqual(service.service_type, "Logopedia")
+
+    def test_update_service_incorrect_service_type(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        with self.assertRaises(Exception):
+            service.service_type = 1234
+            service.clear_data()
+
+    def test_update_service_incorrect_service_type_null(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        with self.assertRaises(Exception):
+            service.service_type = None
+            service.save()
+    
+    def test_update_service_incorrect_date(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        with self.assertRaises(Exception):
+            service.date = "No es una fecha"
+            service.save()
+
+    def test_update_service_incorrect_date_null(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        with self.assertRaises(Exception):
+            service.date = None
+            service.save()
+
+    def test_update_service_incorrect_attendance(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        with self.assertRaises(Exception):
+            service.attendance = "No es un tipo válido"
+            service.save()
+
+    def test_update_service_incorrect_attendance_null(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        with self.assertRaises(Exception):
+            service.attendance = None
+            service.save()
+    
+    def test_update_service_incorrect_payment(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        with self.assertRaises(Exception):
+            service.payment = "No es un tipo válido"
+            service.save()
+
+    def test_update_service_incorrect_asem_user(self):
+        service = Service.objects.get(service_type="Fisioterapia")
+        with self.assertRaises(Exception):
+            service.asem_user = None
+            service.save()

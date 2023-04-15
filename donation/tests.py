@@ -349,20 +349,6 @@ class DonationTestCase(TestCase):
             donation.full_clean()
             donation.save()
 
-    def test_donation_update_null_size_address(self):
-        donation = Donation.objects.get(title="donation")
-        donation.donor_address = None
-        with self.assertRaises(Exception):
-            donation.full_clean()
-            donation.save()
-
-    def test_donation_update_blank_size_address(self):
-        donation = Donation.objects.get(title="donation")
-        donation.donor_address = ""
-        with self.assertRaises(Exception):
-            donation.full_clean()
-            donation.save()
-
     def test_donation_update_incorrect_email(self):
         donation = Donation.objects.get(title="donation")
         donation.donor_email = "email"
@@ -460,18 +446,18 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         # Now the preview section should be filled with the test item data
         children = left_section_div.find_elements(By.CSS_SELECTOR, "h2, p")
         self.assertTrue(children[0].text == self.test_donation_1.title)
-        self.assertTrue(children[1].text == self.test_donation_1.description)
+        self.assertTrue(children[1].find_element(By.TAG_NAME,'span').text == self.test_donation_1.description)
         # 100 € is the text in the html
-        self.assertTrue(children[2].text == "Cantidad: " +
+        self.assertTrue(children[3].text == "Cantidad: " +
                         str(self.test_donation_1.amount) + " €")
-        self.assertTrue(children[3].text == "Nombre donante: " +
+        self.assertTrue(children[4].text == "Nombre donante: " +
                         self.test_donation_1.donor_name + " " + self.test_donation_1.donor_surname)
         self.assertTrue(
-            children[4].text == "DNI donante: " + self.test_donation_1.donor_dni)
+            children[5].text == "DNI donante: " + self.test_donation_1.donor_dni)
         self.assertTrue(
-            children[5].text == "Dirección donante: " + self.test_donation_1.donor_address)
+            children[6].text == "Dirección donante: " + self.test_donation_1.donor_address)
         self.assertTrue(
-            children[6].text == "Correo donante: " + self.test_donation_1.donor_email)
+            children[7].text == "Correo donante: " + self.test_donation_1.donor_email)
 
     def test_delete_donation_view(self):
         # Check access
