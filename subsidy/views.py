@@ -5,6 +5,7 @@ from datetime import date
 import json
 from decimal import Decimal
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 from django.db.models import Q
@@ -55,6 +56,7 @@ def subsidy_list(request):
 
     # depending of the user type write one title or another
     subsidies_dict = [user for user in subsidies_page]
+
     for s in subsidies_dict:
         s.pop('_state', None)
         # remove null values
@@ -64,6 +66,11 @@ def subsidy_list(request):
 
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+
     context = {
         'objects': subsidies_page,
         'objects_json': subsidies_json,
@@ -72,6 +79,7 @@ def subsidy_list(request):
         'title': 'Gestión de Subvenciones',
         'page_title': 'SarandONGa 💃 - Gestión de Subvenciones',
         'form': form,
+        'query_str': query_str
     }
 
     return render(request, 'subsidy/list.html', context)

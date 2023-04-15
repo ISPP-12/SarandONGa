@@ -18,22 +18,6 @@ displayed in the preview text (e.g. "donación")
 {% endblock %}
 
 {% block objectFor %}
-<form method="GET" class="mb-4">
-  {% csrf_token %}
-  {{form}}
-  <input type="submit" value="Filtrar">
-</form>
-
-<!-- TABLE HEADER -->
-<div id="id-tableHeader" class="container-fluid">
-  <div class="row">
-    <div class="col-lg-5 col-6"><strong>Nombre</strong></div>
-    <div class="col-lg-2 col-6"><strong>Provincia</strong></div>
-    <div class="col-lg-3 col-6"><strong>Cantidad</strong></div>
-    <div class="col-lg-2 col-6"><strong>Frecuencia de pago</strong></div>
-  </div>
-  <hr class="my-1">
-</div>
 
 {% for object in objects %}
 <div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
@@ -74,6 +58,8 @@ displayed in the preview text (e.g. "donación")
     </div>
 </div>
 {% endfor %}
+
+{% include 'components/pagination.html' %}
 
 <div id="data" data-json='{{ objects_json|safe }}'></div>
 <div id="object-name" data-name='{{ object_name }}'></div>
