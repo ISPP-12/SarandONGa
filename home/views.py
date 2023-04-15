@@ -37,20 +37,18 @@ def home_create(request):
                 messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'El formulario presenta errores')
-    return render(request, 'home/home_form.html', {'form': form})
+    return render(request, 'home/home_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Añadir Casa'})
 
 @login_required
 @videssur_required
 def home_list(request):
-    # get donations dict from database
-    
     form = FilterHomeForm(request.GET or None)
     homes = Home.objects.all()
 
     if request.method == 'GET':
         homes = home_filter(homes, form)
 
-    paginator = Paginator(homes, 1)
+    paginator = Paginator(homes, 12)
     page_number = request.GET.get('page')
     home_page = paginator.get_page(page_number)
 
@@ -62,6 +60,10 @@ def home_list(request):
     for home in homes_dict:
         home['payment_method'] = dict(PAYMENT_METHOD)[home['payment_method']]
         home['frequency'] = dict(FREQUENCY)[home['frequency']]
+        # remove null values
+        for key, value in list(home.items()):
+            if value is None or value == '':
+                home[key] = '-'
 
     # json
     homes_json = json.dumps(homes_dict, cls=CustomJSONEncoder)
@@ -77,6 +79,7 @@ def home_list(request):
         'object_name': 'casa',
         'object_name_en': 'home',
         'title': 'Gestión de Casas',
+        'page_title': 'SarandONGa 💃 - Gestión de Casas',
         'form': form,
         'query_str': query_str
     }
@@ -113,7 +116,7 @@ def home_update(request,home_id):
                     messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
-    return render(request, 'home/home_form.html', {"form": form})
+    return render(request, 'home/home_form.html', {"form": form, "page_title": "SarandONGa 💃 - Editar Casa"})
 
 def is_valid_queryparam(param):
     return param != "" and param is not None

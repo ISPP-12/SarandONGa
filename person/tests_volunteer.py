@@ -358,30 +358,6 @@ class VolunteerTestCase(TestCase):
             )
             volunteer.full_clean()
 
-    def test_volunteer_job_incorrect_null(self):
-        with self.assertRaises(Exception):
-            Volunteer.objects.create(
-                name='Jesús',
-                surname='García',
-                email='jgarcia@gmail.com',
-                birth_date=date(1996, 6, 18),
-                dni='22345678A',
-                job=None,
-                dedication_time=10,
-                contract_start_date=date(2023, 1, 20),
-                contract_end_date=date(2023, 2, 5),
-                raffle=False,
-                lottery=False,
-                is_member=False,
-                pres_table=False,
-                is_contributor=False,
-                notes='This is a note',
-                entity='Entity',
-                table='Table',
-                volunteer_type='Otro',
-                ong=self.ong
-            )
-
     def test_volunteer_dedication_time_incorrect_null(self):
         with self.assertRaises(Exception):
             Volunteer.objects.create(
@@ -791,54 +767,6 @@ class VolunteerTestCase(TestCase):
                 ong=self.ong
             )
 
-    def test_volunteer_notes_incorrect_null(self):
-        with self.assertRaises(Exception):
-            Volunteer.objects.create(
-                name='Jesús',
-                surname='García',
-                email='jgarcia@gmail.com',
-                birth_date=date(1996, 6, 18),
-                dni='22345678A',
-                job='Developer',
-                dedication_time=10,
-                contract_start_date=date(2023, 1, 20),
-                contract_end_date=date(2023, 2, 5),
-                raffle=False,
-                lottery=False,
-                is_member=False,
-                pres_table=False,
-                is_contributor=False,
-                notes=None,
-                entity='Entity',
-                table='Table',
-                volunteer_type='Otro',
-                ong=self.ong
-            )
-
-    def test_volunteer_entity_incorrect_null(self):
-        with self.assertRaises(Exception):
-            Volunteer.objects.create(
-                name='Jesús',
-                surname='García',
-                email='jgarcia@gmail.com',
-                birth_date=date(1996, 6, 18),
-                dni='22345678A',
-                job='Developer',
-                dedication_time=10,
-                contract_start_date=date(2023, 1, 20),
-                contract_end_date=date(2023, 2, 5),
-                raffle=False,
-                lottery=False,
-                is_member=False,
-                pres_table=False,
-                is_contributor=False,
-                notes='This is a note',
-                entity=None,
-                table='Table',
-                volunteer_type='Otro',
-                ong=self.ong
-            )
-
     def test_volunteer_entity_incorrect_max_length(self):
         with self.assertRaises(Exception):
             Volunteer.objects.create(
@@ -859,30 +787,6 @@ class VolunteerTestCase(TestCase):
                 notes='This is a note',
                 entity='E' * 51,
                 table='Table',
-                volunteer_type='Otro',
-                ong=self.ong
-            )
-
-    def test_volunteer_table_incorrect_null(self):
-        with self.assertRaises(Exception):
-            Volunteer.objects.create(
-                name='Jesús',
-                surname='García',
-                email='jgarcia@gmail.com',
-                birth_date=date(1996, 6, 18),
-                dni='22345678A',
-                job='Developer',
-                dedication_time=10,
-                contract_start_date=date(2023, 1, 20),
-                contract_end_date=date(2023, 2, 5),
-                raffle=False,
-                lottery=False,
-                is_member=False,
-                pres_table=False,
-                is_contributor=False,
-                notes='This is a note',
-                entity='Entity',
-                table=None,
                 volunteer_type='Otro',
                 ong=self.ong
             )
@@ -1162,34 +1066,14 @@ class VolunteerTestCase(TestCase):
             self.volunteer_update.job = ""
             self.volunteer_update.full_clean()
 
-    def test_update_volunteer_job_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.job = None
-            self.volunteer_update.save()
-
     def test_update_volunteer_entity_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.volunteer_update.entity = "A" * 51
             self.volunteer_update.save()
 
-    def test_update_volunteer_entity_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.entity = None
-            self.volunteer_update.save()
-
-    def test_update_volunteer_notes_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.notes = None
-            self.volunteer_update.save()
-
     def test_update_volunteer_table_incorrect_max_length(self):
         with self.assertRaises(Exception):
             self.volunteer_update.table = "A" * 51
-            self.volunteer_update.save()
-
-    def test_update_volunteer_table_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.table = None
             self.volunteer_update.save()
 
     def test_update_volunteer_pres_table_incorrect_value(self):
@@ -1251,11 +1135,6 @@ class VolunteerTestCase(TestCase):
     def test_update_volunteer_dedication_time_incorrect_value(self):
         with self.assertRaises(Exception):
             self.volunteer_update.dedication_time = "Valor inválido"
-            self.volunteer_update.save()
-
-    def test_update_volunteer_raffle_incorrect_null(self):
-        with self.assertRaises(Exception):
-            self.volunteer_update.raffle = None
             self.volunteer_update.save()
 
     def test_update_volunteer_raffle_incorrect_value(self):

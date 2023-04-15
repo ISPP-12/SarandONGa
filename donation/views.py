@@ -34,7 +34,7 @@ def donation_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación"})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación", "page_title": "SarandONGa 💃 - Añadir donación"})
 
 
 @login_required
@@ -52,8 +52,12 @@ def donation_list(request):
     donation_page = paginator.get_page(page_number)
 
     donations_dict = [donation for donation in donation_page]
-    for d in donations_dict:
-        d.pop('_state', None)
+    for donation in donations_dict:
+        donation.pop('_state', None)
+        # remove null values
+        for key, value in list(donation.items()):
+            if value is None or value == '':
+                donation[key] = '-'
 
     donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
 
@@ -87,6 +91,7 @@ def donation_list(request):
         'title': 'Gestión de Donaciones',
         'form': form,
         'query_str': query_str,
+        'page_title': 'SarandONGa 💃 - Gestión de Donaciones'
     }
 
     return render(request, 'donation/list.html', context)
@@ -144,7 +149,7 @@ def donation_update(request, donation_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar"})
+    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar", 'page_title': 'SarandONGa 💃 - Actualizar Donación'})
 
 
 @login_required
