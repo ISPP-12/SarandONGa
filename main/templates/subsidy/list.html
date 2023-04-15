@@ -30,6 +30,16 @@
           <a href="?page={{ objects.paginator.num_pages }}{{ query_str }}">Última &raquo;</a>
       {% endif %}
   </span>
+  
+<!-- TABLE HEADER -->
+<div id="id-tableHeader" class="container-fluid">
+  <div class="row">
+    <div class="col-lg-4 col-4"><strong>Nombre</strong></div>
+    <div class="col-lg-3 col-3"><strong>Organismo</strong></div>
+    <div class="col-lg-3 col-3"><strong>Estado</strong></div>
+  </div>
+  <hr class="my-1">
+
 </div>
 {% for object in objects %}
 
@@ -38,18 +48,19 @@
    
       
     <div class="row">
-      <div class="col-lg-5 col-6 ">
+      <div class="col-lg-4 col-4 ">
         <strong><h5>{{object.name}}</h5></strong>
       
       </div>
       <div class="col-lg-3 col-3">
-        <span>{{object.amount}} €</span>
-
-      </div>  
-      <div class="col-lg-4 col-3">
         <span>{{object.organism}}</span>
 
-      </div> 
+      </div>
+      <div class="col-lg-3 col-3">
+        <span>{{object.status}}</span>
+
+      </div>
+
         
     </div>
     
@@ -59,15 +70,16 @@
 
     <div class="d-none d-flex flex-column" id="moreInfo">
       <span class="object-description"><strong>Fecha de presentación: </strong>{{ object.telephone }}</span>
-
       <span class="object-payment"><strong>Fecha de pago: </strong>{{ object.payment_date }}</span>
       <span class="object-prov"><strong>Resolucion provisional: </strong>{{ object.provisional_resolution  }}</span>
       <span class="object-final"><strong>Resolución final: </strong>{{ object.final_resolution  }}</span>
+      <span class="object-final"><strong>Presentación de justificación: </strong>{{ object.presentation_justification_date  }}</span>
+      <span class="object-final"><strong>Observaciones: </strong><span class="d-flex scrollable">{{ object.notes  }}</span></span>
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
-          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
       
@@ -76,6 +88,9 @@
   <span class="object-id d-none">{{ object.id }}</span>
 
 {% endfor %}
+
+{% include 'components/pagination.html' %}
+
 {% endblock %}
 
 {% block scripts %}
@@ -119,18 +134,20 @@
             
             <h2>${objectData.name}</h2>
             <h5>{{object_name}}</h5>
-            <p>${objectData.organism}</p>
-            <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
-            <p><strong>Presentación: </strong>${objectData.presentation_date}</p>
-            <p><strong>Pago: </strong>${objectData.payment_date}</p>
-            <p><strong>Resolución provisional: </strong>${objectData.provisional_resolution}</p>
-            <p><strong>Resolución final: </strong>${objectData.provisional_resolution}</p>
-            <p><strong>Estado: </strong>${objectData.status}</p>
+            <p><strong>Organismo: </strong><span>${objectData.organism}</span></p>
+            <p><strong>Cantidad:  </strong><span>${objectData.amount} €</span></p>
+            <p><strong>Presentación: </strong><span>${objectData.presentation_date}</span></p>
+            <p><strong>Pago: </strong><span>${objectData.payment_date}</span></p>
+            <p><strong>Resolución provisional: </strong><span>${objectData.provisional_resolution}</span></p>
+            <p><strong>Resolución final: </strong><span>${objectData.provisional_resolution}</span></p>
+            <p><strong>Estado: </strong><span>${objectData.status}</span></p>
+            <p><strong>Presentación de justificación: </strong><span>${objectData.presentation_justification_date}</span></p>
+            <p style="margin-bottom: 131px;"><strong>Observaciones: </strong><span class="d-flex scrollable">${objectData.notes}</span></p>
           </div>
         </div>
 
         
-        <div class="container mt-auto border-dark border-top border-1  p-0">
+        <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panelcol-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
             <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
             <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>

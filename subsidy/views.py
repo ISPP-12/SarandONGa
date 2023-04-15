@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 from django.db.models import Q
-
+from django.core.paginator import Paginator
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -38,7 +38,7 @@ def subsidy_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" ,  "title": "Añadir Subvención"})
+    return render(request, 'subsidy/create.html', {"form": form,"object_name":"subvención" ,  "title": "Añadir Subvención", 'page_title': 'SarandONGa 💃 - Añadir Subvención'})
 
 @login_required
  
@@ -49,15 +49,20 @@ def subsidy_list(request):
 
     if request.method == 'GET':
         subsidies = subsidy_filter(subsidies, form)
-
-    paginator = Paginator(subsidies, 1)
+        
+    paginator = Paginator(subsidies, 12)
     page_number = request.GET.get('page')
-    subsidy_page = paginator.get_page(page_number)
+    subsidies_page = paginator.get_page(page_number)
 
-    subsidies_dict = [obj for obj in subsidy_page]
-    
+    # depending of the user type write one title or another
+    subsidies_dict = [user for user in subsidies_page]
+
     for s in subsidies_dict:
         s.pop('_state', None)
+        # remove null values
+        for key, value in list(s.items()):
+            if value is None or value == '':
+                s[key] = '-'
 
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
@@ -67,11 +72,12 @@ def subsidy_list(request):
         query_str += request.GET["qsearch"]
 
     context = {
-        'objects': subsidy_page,
+        'objects': subsidies_page,
         'objects_json': subsidies_json,
         'object_name': 'subvención',
         'object_name_en': 'subsidy',
         'title': 'Gestión de Subvenciones',
+        'page_title': 'SarandONGa 💃 - Gestión de Subvenciones',
         'form': form,
         'query_str': query_str
     }
@@ -93,7 +99,6 @@ def subsidy_delete(request, subsidy_id):
 def subsidy_update(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
     
-    
     if request.user.ong == subsidy.ong:
         form= CreateNewSubsidy(instance=subsidy)
         if request.method == "POST":
@@ -106,7 +111,7 @@ def subsidy_update(request, subsidy_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'subsidy/create.html', {"form": form})
+    return render(request, 'subsidy/create.html', {"form": form, 'page_title': 'SarandONGa 💃 - Editar Subvención'})
 
 def is_valid_queryparam(param):
     return param != "" and param is not None

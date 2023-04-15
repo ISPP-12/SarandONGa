@@ -27,6 +27,18 @@
           {% include "components/inputs.html" with id=form.paid.id_for_label label_text=form.paid.label_tag input=form.paid  %}
           {{ form.paid.errors }}
         </div>
+        {% if form.godfather %}
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.godfather.id_for_label label_text=form.godfather.label_tag input=form.godfather  %}
+          {{ form.godfather.errors }}
+        </div>
+        {% endif %}
+        {% if form.project %}
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.project.id_for_label label_text=form.project.label_tag input=form.project  %}
+          {{ form.project.errors }}
+        </div>
+        {% endif %}
       </div>
       <div class="form-section mt-5 mx-5 text-center">
         {% if form.instance.id %}

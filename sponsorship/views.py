@@ -11,7 +11,6 @@ from main.views import  videssur_required
 
 @login_required
 @videssur_required
- 
 def sponsorship_create(request):
     #check if "child" is in the request:
     if 'child' in request.GET:
@@ -40,13 +39,12 @@ def sponsorship_create(request):
         initial_data = {'child': child, 'godfather': godfather}
         form = CreateSponsorshipForm(initial=initial_data)
 
-    return render(request, 'sponsorship/sponsorship_form.html', {'form': form})
+    return render(request, 'sponsorship/sponsorship_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Crear Apadrinamiento'})
 
 
 
 @login_required
 @videssur_required
- 
 def sponsorship_list(request):
     context = {
         'objects': Sponsorship.objects.all(),
@@ -54,12 +52,11 @@ def sponsorship_list(request):
         'objects_name': 'Sponsorship',
         'title': 'Gestión de Apadrinamientos'
     }
-    return render(request, 'sponsorship/sponsorship_list.html', {"context": context})
+    return render(request, 'sponsorship/sponsorship_list.html', {"context": context, 'page_title': 'SarandONGa 💃 - Listado de Apadrinamientos'})
 
 
 @login_required
 @videssur_required
- 
 def sponsorship_delete(request, sponsorship_id):
     sponsorship = Sponsorship.objects.get(id=sponsorship_id)
     sponsorship.delete()
@@ -68,19 +65,13 @@ def sponsorship_delete(request, sponsorship_id):
 
 @login_required
 @videssur_required
- 
-def sponsorship_details(request, sponsorship_id):
+def sponsorship_details(request, sponsorship_id):   #TODO
     sponsorship = get_object_or_404(Sponsorship, id=sponsorship_id)
     return render(request, 'sponsorship/sponsorship_details.html', {'sponsorship': sponsorship})
-
-# def sponsorship_details(request, sponsorship_slug):
-#    sponsorship = get_object_or_404(Sponsorship, slug=sponsorship_slug)
-#    return render(request, 'sponsorship/sponsorship_details.html', {'sponsorship': sponsorship})
 
 
 @login_required
 @videssur_required
- 
 def sponsorship_edit(request, sponsorship_id):
     sponsorship_toupdate = get_object_or_404(Sponsorship, id=sponsorship_id)
     if request.method == "POST":
@@ -96,4 +87,4 @@ def sponsorship_edit(request, sponsorship_id):
             messages.error(request, 'Formulario con errores')
     else:
         form = CreateSponsorshipForm(instance=sponsorship_toupdate)
-    return render(request, 'sponsorship/sponsorship_form.html', {"form": form})
+    return render(request, 'sponsorship/sponsorship_form.html', {"form": form, 'page_title': 'SarandONGa 💃 - Editar Apadrinamiento'})

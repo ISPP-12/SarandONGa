@@ -16,7 +16,7 @@ def service_create(request):
             return redirect('service_list')
 
     form = CreateNewService()
-    return render(request, 'service/service_form_backend.html', {"form": form, "title": "Crear Servicio"})
+    return render(request, 'service/service_form_backend.html', {"form": form, "title": "Crear Servicio", 'page_title': 'SarandONGa 💃 - Crear Servicio'})
 
 
 @login_required
@@ -29,6 +29,7 @@ def service_list(request):
         'object_name': 'Servicio',
         'object_name_en': 'service',
         'title': 'Gestión de servicios',
+        'page_title': 'SarandONGa 💃 - Gestión de Servicios'
     }
 
     return render(request, 'service_list.html', context)
@@ -46,7 +47,7 @@ def service_update(request, service_id):
             messages.error(request, 'Formulario con errores')
     else: 
         form = CreateNewService(instance=service)
-    return render(request, 'service/service_form_backend.html', {"form": form, "title": "Editar Servicio"})
+    return render(request, 'service/service_form_backend.html', {"form": form, "title": "Editar Servicio", 'page_title': 'SarandONGa 💃 - Editar Servicio'})
 
 @login_required
 @asem_required
@@ -56,7 +57,7 @@ def service_delete(request, service_id):
     return redirect('service_list')
 
 @login_required
-@asem_required
+@asem_required  #TODO
 def service_details(request, service_id):
     service = get_object_or_404(Service, id=service_id)
     return render(request, 'service/service_details.html', {'service': service})
