@@ -24,6 +24,7 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 
 @login_required
+@videssur_required
 def home_create(request):
     form = CreateHomeForm()
     if request.method == 'POST':
@@ -39,6 +40,7 @@ def home_create(request):
     return render(request, 'home/home_form.html', {'form': form})
 
 @login_required
+@videssur_required
 def home_list(request):
     # get donations dict from database
     
