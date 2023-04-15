@@ -46,7 +46,7 @@ def home_list(request):
     if request.method == 'GET':
         homes = home_filter(homes, form)
 
-    paginator = Paginator(homes, 12)p
+    paginator = Paginator(homes, 12)
     page_number = request.GET.get('page')
     home_page = paginator.get_page(page_number)
 
