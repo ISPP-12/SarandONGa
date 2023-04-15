@@ -66,8 +66,8 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
-          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
     </div>
@@ -116,21 +116,24 @@ displayed in the preview text (e.g. "donación")
         prevInfo.classList.add('d-none')
         preview.classList.remove('text-center')
           preview.innerHTML = `
-        <div class="row ">
-          <div class="col-12 px-4 ">
+        <div class="container-fluid">
+          <div class="row">
             <h2 title="${objectData.name}">${objectData.name}</h2>
             <h5>{{object_name}}</h5>
             <p>${objectData.province}</p>
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
             <p><strong>Frecuencia de pago: </strong>${objectData.frequency}</p>
             <p><strong>Método de pago:  </strong>${objectData.payment_method}</p>
-            <p><strong>Referencia de la cuenta bancaria:  </strong>${objectData.bank_account_reference}</p>
             <p><strong>Titular de cuenta bancaria: </strong>${objectData.bank_account_holder}</p>
             <p><strong>Observaciones:  </strong>${objectData.notes}</p>
+            <p><strong>Referencia de la cuenta bancaria:  </strong>${objectData.bank_account_reference}</p>
+            <p><strong>Número de cuenta bancaria:  </strong>${objectData.bank_account_number}</p>
+            <p><strong>Fecha de alta:  </strong>${objectData.start_date}</p>
+            <p><strong>Fecha de baja:  </strong>${objectData.termination_date}</p>
           </div>
         </div>
 
-        <div class="container mt-auto border-dark border-top border-1  p-0">
+        <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
             <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
             <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>

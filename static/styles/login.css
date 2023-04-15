@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: center;
 }
-.alert, 
+.alert,
 .form-outline input,
 .form-section button {
   width: 300px;
@@ -15,7 +15,11 @@
   border-bottom: none !important;
 }
 
-@media(min-width: 768px) {
+.fit-width {
+  width: fit-content;
+}
+
+@media (min-width: 768px) {
   .alert,
   .form-outline input,
   .form-section button {

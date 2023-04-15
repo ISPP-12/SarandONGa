@@ -1,0 +1,11 @@
+{% extends 'layouts/master.html' %}
+
+{% block titulo %} Pasarela de pago {% endblock %}
+
+{% block content %} 
+	
+  <hr>
+  <h5>Ha habido un error en la transacción. Pago cancelado</h5>
+
+  <a href="{{% url 'gateway' %}}">Hazte premium </a>"
+{% endblock %}

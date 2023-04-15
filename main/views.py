@@ -1,9 +1,46 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from functools import wraps
 from django.contrib import messages
 from person.models import ASEMUser, Worker, Volunteer, GodFather
 from donation.models import Donation
+import braintree
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+
+# instancia Braintree payment gateway
+gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+
+@login_required
+def payment_done(request):
+    return render(request, 'done.html')
+
+@login_required
+def payment_canceled(request):
+    return render(request, 'canceled.html')
+
+@login_required
+def payment_process(request):
+    # create and submit transaction
+    if request.method == 'POST':
+        # retrieve nonce
+        nonce = request.POST.get('payment_method_nonce', None)
+        total_cost = 150.00
+        result = gateway.transaction.sale({
+            'amount': f'{total_cost:.2f}',
+            'payment_method_nonce': nonce,
+            'options': {
+            'submit_for_settlement': True
+            }
+        })
+        if result.is_success:
+            return redirect('done')
+        else:
+            return redirect('canceled')
+    else:
+        # generate token
+        client_token = gateway.client_token.generate()
+        return render(request,'process.html',{'client_token': client_token})
 
 def index(request):
     if request.user.is_authenticated:
@@ -19,6 +56,7 @@ def index(request):
                 'users': users,
                 'workers': workers,
                 'donations': donations,
+                'page_title': 'SarandONGa 💃 - Inicio'
             }
         elif request.user.ong.name.lower() == "videssur":
             view = 'index/index-videssur.html'
@@ -31,11 +69,12 @@ def index(request):
                 'volunteers': volunteers,
                 'workers': workers,
                 'donations': donations,
-                'godfathers': godfathers
+                'godfathers': godfathers,
+                'page_title': 'SarandONGa 💃 - Inicio'
             }
     else:
         view = 'index.html'
-        context = {}
+        context = {'page_title': 'SarandONGa 💃 - Inicio'}
 
     return render(request, view, context)
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ title }}{% block title %}{% endblock %}</title>
+    <title>{{ page_title }}</title>
 
 
     <!-- Bootstrap -->
@@ -28,6 +28,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/card-list.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     {% block extrahead %} {% endblock %}
     {% block head %}
     {% endblock %}
