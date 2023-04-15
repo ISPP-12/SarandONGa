@@ -277,7 +277,7 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         # Now the preview section should be filled with the test item data
         children = left_section_div.find_elements(By.CSS_SELECTOR, "h2, p")
         self.assertTrue(children[0].text == self.test_subsidy_1.name)
-        self.assertTrue(children[1].text == self.test_subsidy_1.organism)
+        self.assertTrue(children[1].find_element(By.TAG_NAME,'span').text == self.test_subsidy_1.organism)
         self.assertTrue(children[2].text == "Cantidad: " +
                         str(int(self.test_subsidy_1.amount)).replace(".",",") + " €")
         # The rest of the attributes won't be tested until the display 

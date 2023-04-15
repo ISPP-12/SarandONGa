@@ -1023,9 +1023,19 @@ def volunteer_filter(queryset, form):
 @login_required
 def volunteer_details(request, volunteer_id):
     volunteer = get_object_or_404(Volunteer, id=volunteer_id)
-    if volunteer.ong == request.user.ong:
-        fields = [f for f in Volunteer._meta.get_fields() if f.name not in [
-            'id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr']]
+    this_ong = request.user.ong
+    if volunteer.ong == this_ong:
+        fields = []
+        
+        if str(this_ong).lower() == "asem":
+            fields = [f for f in Volunteer._meta.get_fields() if f.name not in [
+            'id', 'photo', 'password', 'user_type', 'name', 'surname',
+            'service', 'ong', 'person_ptr']]
+        elif str(this_ong).lower() == "videssur":
+            fields = [f for f in Volunteer._meta.get_fields() if f.name not in [
+            'id', 'photo', 'password', 'user_type', 'name', 'surname',
+            'service', 'ong', 'person_ptr','raffle','lottery','is_member',
+            'pres_table','is_contributor','entity','table']]
 
         info = [getattr(volunteer, f.name) for f in fields]
 

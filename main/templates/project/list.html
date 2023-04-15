@@ -88,8 +88,8 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
-          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
     </div>
@@ -143,11 +143,11 @@ displayed in the preview text (e.g. "donación")
             <p><strong>Fecha de fin:&nbsp;</strong>${objectData.end_date}</p>
             <p><strong>N&uacute;mero de beneficiarios:&nbsp;</strong>${objectData.number_of_beneficiaries}</p>
             <p><strong>Cantidad:&nbsp;</strong>${objectData.amount} €</p>
-            <p><strong>Fecha de anuncio:&nbsp;</strong>${objectData.announcement_date}</p>
+            <p style="margin-bottom: 131px;"><strong>Fecha de anuncio:&nbsp;</strong>${objectData.announcement_date}</p>
           </div>
         </div>
 
-        <div class="container mt-auto border-dark border-top border-1  p-0">
+        <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
             <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
             <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
