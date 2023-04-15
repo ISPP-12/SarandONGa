@@ -4,7 +4,6 @@ from functools import wraps
 from django.contrib import messages
 from person.models import ASEMUser, Worker, Volunteer, GodFather
 from donation.models import Donation
-from ong.models import Ong
 import braintree
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
