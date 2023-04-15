@@ -36,10 +36,13 @@ def payment_process(request):
             }
         })
         if result.is_success:
-            ong.plan = "P"
-            ong.premium_payment_date = datetime.date.today()
-            ong.save()
-            return redirect('done')
+            if ong.plan == "B":
+                ong.plan = "P"
+                ong.premium_payment_date = datetime.date.today()
+                ong.save()
+                return redirect('done')
+            else:
+                return redirect('canceled')
         else:
             return redirect('canceled')
     else:
