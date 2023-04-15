@@ -810,9 +810,6 @@ def child_update(request, child_id):
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
-    choices_dict = choices_dicts()
-    child.correspondence = choices_dict['correspondence'][child.correspondence] if child.correspondence else "No especificado"
-
     fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password',
                                                                     'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
 
@@ -821,7 +818,7 @@ def child_details(request, child_id):
     fields_info = dict(zip([f.verbose_name for f in fields], info))
 
     items = list(fields_info.items())
-    
+
     for item in items:
         if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
             items[items.index(item)] = (item[0], 'Sí')
@@ -832,7 +829,12 @@ def child_details(request, child_id):
             value = [choice[1]
                      for choice in choices if choice[0] == item[1]][0]
             items[items.index(item)] = (item[0], value)
-   
+        elif (item[0] == 'Tipo de correspondencia'):
+            choices = Child._meta.get_field('correspondence').choices
+            value = [choice[1]
+                     for choice in choices if choice[0] == item[1]][0]
+            items[items.index(item)] = (item[0], value)
+
     sponsorships = Sponsorship.objects.filter(child=child)
     if sponsorships:
         godfathers = [sponsorship.godfather.all() for sponsorship in sponsorships if sponsorship.termination_date ==
