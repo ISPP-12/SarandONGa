@@ -73,5 +73,19 @@
         e.preventDefault();
         window.location.href = window.location.pathname;
     });
-  </script>
+</script>
+
+<script>
+    let deleteBtns = document.querySelectorAll('.deleteBtn');
+    deleteBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            let confirmMessage = confirm("¿Estás seguro de que quieres eliminar este producto?");
+            if (!confirmMessage) {
+                e.preventDefault();
+            }
+        });
+    });
+
+
+</script>
 {% endblock %}

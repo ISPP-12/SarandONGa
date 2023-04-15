@@ -19,7 +19,7 @@ class Stock(models.Model):
                             related_name='suministro', verbose_name="ONG")
     #Cantidad de suministros
     quantity = models.IntegerField(validators=[
-                                   MinValueValidator(1)], verbose_name="Cantidad")
+                                   MinValueValidator(0)], verbose_name="Cantidad")
     
     #Precio del suministro
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
@@ -39,8 +39,8 @@ class Stock(models.Model):
             if self.amount < 0:
                 raise ValidationError("El importe no puede ser negativo")
         
-        if self.quantity < 1:
-            raise ValidationError("La cantidad no puede ser menor que 1")
+        if self.quantity < 0:
+            raise ValidationError("La cantidad no puede ser menor que 0")
         super(Stock, self).save(*args, **kwargs)
     def __str__(self):
         return self.name

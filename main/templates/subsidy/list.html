@@ -93,8 +93,8 @@
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
-          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}/update" id="update-button"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete" id="delete-button"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
       
@@ -120,7 +120,6 @@
     const moreInfo = object.querySelector('#moreInfo')
     object.addEventListener('click', () => {
       const isMobile = window.matchMedia("(max-width: 768px)").matches
-      console.log(moreInfo)
       const isExpanded = !moreInfo.classList.contains('d-none')
       const objectId = object.querySelector('.object-id').innerText
       
@@ -162,12 +161,18 @@
         
         <div class="container mt-auto border-dark border-top border-1  p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
-            <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-            <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+            <a href="${ objectData.id }/update" id='update-button'><i class="bi bi-pencil"></i>Editar</a>
+            <a href="${ objectData.id }/delete" id='delete-button'><i class="bi bi-x"></i>Eliminar</a>
           </div>
         </div>
       `
       }
+      let deleteBtn = document.querySelector('#delete-button')
+      deleteBtn.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+          event.preventDefault();
+        }
+      })
 
     })
 
@@ -184,4 +189,13 @@
   })
 
 </script>
+<script>
+  let deleteBtn = document.querySelector('#delete-button')
+    deleteBtn.addEventListener('click', () => {
+      if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+        event.preventDefault();
+      }
+    })
+</script>
+
 {% endblock %}

@@ -91,8 +91,8 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
-          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}/update" id="update-button"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete" id="delete-button"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
     </div>
@@ -165,12 +165,18 @@ displayed in the preview text (e.g. "donación")
 
         <div class="container mt-auto border-dark border-top border-1  p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
-            <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-            <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+            <a id='edit-button' href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+            <a id='delete-button' href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
           </div>
         </div>
       `
       }
+      let deleteBtn = document.querySelector('#delete-button')
+      deleteBtn.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+          event.preventDefault();
+        }
+      })
 
     })
 
@@ -192,5 +198,13 @@ displayed in the preview text (e.g. "donación")
       e.preventDefault();
       window.location.href = window.location.pathname;
   });
+</script>
+<script>
+  let deleteBtn = document.querySelector('#delete-button')
+    deleteBtn.addEventListener('click', () => {
+      if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+        event.preventDefault();
+      }
+    })
 </script>
 {% endblock %}

@@ -60,8 +60,18 @@
           <a href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
           {% endif %}
           <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}/delete" id="delete-button"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
     </div>
 </div>
+
+<script>
+  let deleteBtn = document.getElementById("delete-button");
+  deleteBtn.addEventListener("click", function(e){
+    let confirm = window.confirm("¿Estás seguro de que quieres eliminar este elemento?");
+    if(!confirm){
+      e.preventDefault();
+    }
+  })
+</script>

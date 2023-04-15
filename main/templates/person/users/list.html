@@ -282,6 +282,13 @@
       `
       }
 
+      let deleteBtn = document.querySelector('#delete-button')
+      deleteBtn.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+          event.preventDefault();
+        }
+      })
+
     })
 
     // when resizing the window, the preview will be reset
@@ -305,5 +312,11 @@
       e.preventDefault();
       window.location.href = window.location.pathname;
   });
+</script>
+
+<script>
+
+
+  
 </script>
 {% endblock %}

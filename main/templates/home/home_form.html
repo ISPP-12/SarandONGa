@@ -142,13 +142,24 @@ Añadir casa
   let compare = () => {
     let startDateValue = new Date(startDate.value)
     let terminationDateValue = new Date(terminationDate.value)
+    let currentDate = new Date()
 
     submitButton.disabled = true
+
+    if(startDateValue > currentDate) {
+            startDiv.innerHTML = 'La fecha de alta no puede ser posterior a la fecha actual'
+    } else {
+            startDiv.innerHTML = ''
+    }
 
     if (terminationDateValue && terminationDateValue < startDateValue) {
             terminationDiv.innerHTML = 'La fecha de baja debe ser posterior a la fecha de alta'
     } else {
             terminationDiv.innerHTML = ''
+    }
+    
+    const cond = !!terminationDateValue.valueOf() ? terminationDateValue >= startDateValue : true
+    if (startDateValue <= currentDate && cond) {
             submitButton.disabled = false
     }
 

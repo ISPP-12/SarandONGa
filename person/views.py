@@ -774,7 +774,7 @@ def child_create(request):
         'page_title': 'SarandONGa 💃 - Añadir Niño'
         }
             
-    return render(request, 'person/child/create_child.html', context)
+    return render(request, 'person/child/register.html', context)
 
 
 @login_required
@@ -803,7 +803,7 @@ def child_update(request, child_id):
         'page_title': 'SarandONGa 💃 - Editar Niño'
         }
 
-    return render(request, 'person/child/create_child.html', context)
+    return render(request, 'person/child/register.html', context)
 
 
 @login_required

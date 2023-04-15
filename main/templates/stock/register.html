@@ -8,31 +8,37 @@
 {% block content %} 
 <div id="section-stock">
 
-{% if form.instance.id %}
-    {% include 'components/title.html' with title="Editar producto" %}
-{% else %}
-    {% include 'components/title.html' with title="Añadir producto" %}
-{% endif %}
+    {% if form.instance.id %}
+        {% include 'components/title.html' with title="Editar producto" %}
+    {% else %}
+        {% include 'components/title.html' with title="Añadir producto" %}
+    {% endif %}
 
-    <form method="post"   enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-        <div class="row justify-content-between mx-4">
+        <div class="row justify-content-between mx-4 mt-3">
             <div class="col-12 col-sm-4  mx-2 ">
                 <div class="row pt-1">
-                    {% include "components/inputs.html" with id=form.name.id_for_label label_text="Nombre" input=form.name %}
-
+                    {% with label_text="Nombre"|safe|add:'<span class="text-danger"> *</span>' %}
+                        {% include 'components/inputs.html' with id=form.name.id_for_label label_text=label_text input=form.name %}
+                    {% endwith %}
                 </div>
                 <div class="row pt-4">                  
                     {% include "components/inputs.html" with id=form.model.id_for_label label_text="Modelo" input=form.model %}
                 </div>
-                <div class="row pt-4">                  
-                    {% include "components/inputs.html" with id=form.quantity.id_for_label label_text="Unidades" input=form.quantity %}
+                <div class="row pt-4">        
+                    {% with label_text="Unidades"|safe|add:'<span class="text-danger"> *</span>' %}
+                        {% include 'components/inputs.html' with id=form.quantity.id_for_label label_text=label_text input=form.quantity %}
+                    {% endwith %}          
                 </div>
                 <div class="row pt-4">                  
                     {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Precio (€)" input=form.amount %}
                 </div>
                 <div class="row pt-4 mb-4">                  
                     {% include "components/inputs.html" with id=form.notes.id_for_label label_text="Observaciones" input=form.notes %}
+                </div>
+                <div class="col-12">
+                    <p class="text-danger">* Campos obligatorios</p>
                 </div>
             </div>
             <div class="col-12 col-sm-6 ">
@@ -48,26 +54,29 @@
                     </div>
                 </div>
             </div>
-            </div>
-            <div class="photo" style="display:none">{{form.photo.value}}</div>
         </div>
-        <div class="form-section my-5 mx-5 text-center " >  
+        <div class="photo" style="display:none">{{form.photo.value}}</div>
+        
+        <div class="form-section mt-3 mb-5 col-12 d-flex justify-content-center">
+
             {% if form.instance.id %}
-                {% with button_text="Actualizar" %}
-                    {% include 'components/button.html' with text=button_text variation="SUBMIT" id="submit" %}
-                {% endwith %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Actualizar artículo" id="submit" type="submit" %}
             {% else %}
-                {% with button_text="Registrar artículo" %}
-                    {% include 'components/button.html' with text=button_text variation="SUBMIT" id="submit" %}
-                {% endwith %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Registrar artículo" id="submit" type="submit" %}
             {% endif %}
 
-        </div> 
+
+        </div>
+
     </form>
 
 </div>  
 
 <script>
+    const inputAmount = document.getElementById('id_quantity');
+    // inputAmount should be min 0
+    inputAmount.setAttribute('min', 0);
+
     const inputFoto = document.querySelector('#' + '{{form.photo.id_for_label}}');
     const vistaPrevia = document.querySelector('#vista');
 
@@ -89,7 +98,6 @@
 
     window.addEventListener("load", (event) => {
         let value= document.querySelector('.photo').innerHTML;
-        console.log(value.toString());
         if (value == null || value == "None" || value == ""){
             value = "{% static 'img/img-not-found.svg' %}";
         }

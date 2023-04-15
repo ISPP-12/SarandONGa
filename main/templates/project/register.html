@@ -58,4 +58,33 @@
 </form>
 
 </div>
+
+<script type="text/javascript">
+    let startDate = document.getElementById('id_start_date')
+    let terminationDate = document.getElementById('id_end_date')
+    let submitButton = document.getElementById('id-submitForm')
+  
+    let terminationDiv = document.createElement('div')
+    terminationDiv.setAttribute('class', 'text-danger')
+    terminationDate.parentElement.parentElement.appendChild(terminationDiv)
+
+  
+    let compare = () => {
+        let startDateValue = new Date(startDate.value)
+        let terminationDateValue = new Date(terminationDate.value)    
+        submitButton.disabled = true
+    
+        if (!!terminationDateValue.valueOf() && terminationDateValue < startDateValue) {
+                terminationDiv.innerHTML = 'La fecha de finalización debe ser posterior a la fecha de inicio'
+        } else {
+                terminationDiv.innerHTML = ''
+                submitButton.disabled = false
+        }
+    
+    }
+  
+    startDate.addEventListener('change', compare)
+    terminationDate.addEventListener('change', compare)
+  
+</script>
 {% endblock %}

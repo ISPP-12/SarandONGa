@@ -122,7 +122,6 @@ displayed in the preview text (e.g. "donación")
     const moreInfo = object.querySelector('#moreInfo')
     object.addEventListener('click', () => {
       const isMobile = window.matchMedia("(max-width: 768px)").matches
-      console.log(moreInfo)
       const isExpanded = !moreInfo.classList.contains('d-none')
       const objectId = object.querySelector('.object-id').innerText
       

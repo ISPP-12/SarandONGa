@@ -32,7 +32,7 @@ class CreateNewDonation(forms.ModelForm):
         model = Donation
         exclude = ['id', 'ong']
         widgets = {
-            'created_date': forms.DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d %H:%M'),
+            'created_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'ong': forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "min": 0.1, "placeholder": "Escriba una cantidad"}),
         }
