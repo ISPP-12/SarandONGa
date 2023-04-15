@@ -9,28 +9,15 @@
 {% endblock %}
 
 {% block objectFor %}
-<div class="pagination">
+<div class="row">
   <span class="step-links">
     <form method="GET">   
       {% csrf_token %}   
       {{form}}   
       <input type="submit" value="Filtrar"> 
     </form>
-      {% if objects.has_previous %}
-          <a href="?page=1{{ query_str }}">&laquo; Primera</a>
-          <a href="?page={{ page_obj.previous_page_number }}{{ query_str }}">Anterior</a>
-      {% endif %}
-
-      <span class="current">
-          Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
-      </span>
-
-      {% if objects.has_next %}
-          <a href="?page={{ objects.next_page_number }}{{ query_str}}">Siguiente</a>
-          <a href="?page={{ objects.paginator.num_pages }}{{ query_str }}">Última &raquo;</a>
-      {% endif %}
   </span>
-  
+</div>
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
   <div class="row">
@@ -39,8 +26,9 @@
     <div class="col-lg-3 col-3"><strong>Estado</strong></div>
   </div>
   <hr class="my-1">
-
 </div>
+
+
 {% for object in objects %}
 
 <div class="container-fluid mw-100  card-list rounded px-2 py-1" id="subsidy-{{ object.id }}" tabindex="1">
@@ -90,6 +78,7 @@
 {% endfor %}
 
 {% include 'components/pagination.html' %}
+
 
 {% endblock %}
 
