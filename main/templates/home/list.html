@@ -19,6 +19,18 @@ displayed in the preview text (e.g. "donación")
 
 {% block objectFor %}
 
+<!-- TABLE HEADER -->
+<div id="id-tableHeader" class="container-fluid">
+  <div class="row">
+    <div class="col-lg-5 col-6"><strong>Nombre</strong></div>
+    <div class="col-lg-2 col-6"><strong>Provincia</strong></div>
+    <div class="col-lg-3 col-6"><strong>Cantidad</strong></div>
+    <div class="col-lg-2 col-6"><strong>Frecuencia de pago</strong></div>
+  </div>
+  <hr class="my-1">
+</div>
+
+
 {% for object in objects %}
 <div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
     <span class="object-id d-none">{{ object.id }}</span>
@@ -46,8 +58,7 @@ displayed in the preview text (e.g. "donación")
       <span class="object-description pt-1"><strong>Método de pago: </strong>{{ object.payment_method }}</span>
       <span class="object-donor-name pt-1"><strong>Titular de cuenta bancaria: </strong>{{ object.bank_account_holder  }}</span>
       <span class="object-donor-dni pt-1"><strong>Referencia de la cuenta bancaria: </strong>{{ object.bank_account_reference  }}</span>
-      <span class="object-donor-address pt-1"><strong>Antigüedad: </strong> {{ object.seniority  }}</span>
-      <span class="object-donor-email pt-1"><strong>Observaciones: </strong><span class="d-flex scrollable">{{ object.notes  }}</span></span>
+      <span class="object-donor-email pt-1"><strong>Observaciones: </strong> {{ object.notes  }}</span>
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
@@ -112,11 +123,11 @@ displayed in the preview text (e.g. "donación")
             <p><strong>Frecuencia de pago: </strong>${objectData.frequency}</p>
             <p><strong>Método de pago:  </strong>${objectData.payment_method}</p>
             <p><strong>Titular de cuenta bancaria: </strong>${objectData.bank_account_holder}</p>
+            <p><strong>Observaciones:  </strong>${objectData.notes}</p>
             <p><strong>Referencia de la cuenta bancaria:  </strong>${objectData.bank_account_reference}</p>
             <p><strong>Número de cuenta bancaria:  </strong>${objectData.bank_account_number}</p>
             <p><strong>Fecha de alta:  </strong>${objectData.start_date}</p>
             <p><strong>Fecha de baja:  </strong>${objectData.termination_date}</p>
-            <p style="margin-bottom: 131px;"><strong>Observaciones:  </strong>${objectData.notes}</p>
           </div>
         </div>
 
