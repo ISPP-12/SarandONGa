@@ -3,6 +3,7 @@ from ong.models import Ong
 
 from subsidy.models import Subsidy
 import datetime
+from time import sleep
 from person.models import Worker
 
 # SELENIUM IMPORTS
@@ -283,7 +284,7 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         # The rest of the attributes won't be tested until the display 
         # for null values is fixed
 
-'''
+
     def test_delete_subsidy_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/subsidy/list')
@@ -312,7 +313,12 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         lateral_btns = self.driver.find_element(By.ID, "lateralButtons")
         delete_btn = lateral_btns.find_elements(By.TAG_NAME, "a")[1]
         delete_btn.click()
+
+        confirmation = self.driver.switch_to.alert
+        confirmation.accept()
+        sleep(1)
+
         after_count = Subsidy.objects.count()
 
         self.assertTrue(before_count == after_count+1)           
-'''
+
