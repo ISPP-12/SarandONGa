@@ -71,6 +71,9 @@
 #previewContainerButtons {
   height: 200px;
 }
+.container-side{
+  margin-right: 20px;
+}
 
 @media (max-width: 767px) {
   #previewContainer {
@@ -95,6 +98,7 @@
     width: 100% !important;
     margin-bottom: 1em;
   }
+ 
 }
 
 /* TEXT OVERFLOW */
