@@ -67,7 +67,7 @@ def godfather_list(request):
             excel_file.close()
             return response
         except ValidationErr:
-            message = ("Error in exporting data. There are null data in rows")
+            message = ("Error en la exportación de datos, hay datos vacíos en las columnas")
             messages.error(request, message)
             return render(request, 'users/list.html')
 
@@ -454,11 +454,9 @@ def child_list(request):
             response = HttpResponse(excel_file.read(), content_type='application/vnd.ms-excel')
             response['Content-Disposition'] = 'attachment; filename=childs.xlsx'
             excel_file.close()
-            message = ("Exportado correctamente")
-            messages.success(request, message)
             return response
         except ValidationErr:
-            message = ("Error in exporting data. There are null data in rows")
+            message = ("Error en la exportación de datos, hay datos vacíos en las columnas")
             messages.error(request, message)
             return render(request, 'users/list.html')
 
