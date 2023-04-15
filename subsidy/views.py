@@ -56,7 +56,7 @@ def subsidy_list(request):
 
     # depending of the user type write one title or another
     subsidies_dict = [user for user in subsidies_page]
-    
+
     for s in subsidies_dict:
         s.pop('_state', None)
         # remove null values

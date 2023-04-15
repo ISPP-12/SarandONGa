@@ -24,7 +24,6 @@ class CustomJSONEncoder(json.JSONEncoder):
 
 
 @login_required
-@videssur_required
 def home_create(request):
     form = CreateHomeForm()
     if request.method == 'POST':
@@ -40,7 +39,6 @@ def home_create(request):
     return render(request, 'home/home_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Añadir Casa'})
 
 @login_required
-@videssur_required
 def home_list(request):
     form = FilterHomeForm(request.GET or None)
     homes = Home.objects.all()
@@ -48,7 +46,7 @@ def home_list(request):
     if request.method == 'GET':
         homes = home_filter(homes, form)
 
-    paginator = Paginator(homes, 12)
+    paginator = Paginator(homes, 12)p
     page_number = request.GET.get('page')
     home_page = paginator.get_page(page_number)
 

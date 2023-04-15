@@ -28,6 +28,8 @@
   </div>
   <hr class="my-1">
 </div>
+
+
 {% for object in objects %}
 
 <div class="container-fluid mw-100  card-list rounded px-2 py-1" id="subsidy-{{ object.id }}" tabindex="1">
@@ -73,6 +75,7 @@
 {% endfor %}
 
 {% include 'components/pagination.html' %}
+
 
 {% endblock %}
 
