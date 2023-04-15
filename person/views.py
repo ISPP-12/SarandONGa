@@ -52,7 +52,7 @@ def godfather_list(request):
     objects = godfather_filter(objects, form)
     if request.method == "POST":
         try:
-            queryset = objects
+            queryset = godfather_filter(objects, form)
             data = queryset.values()
             df = pd.DataFrame.from_records(data)
             excel_file = io.BytesIO()
@@ -448,7 +448,7 @@ def child_list(request):
     
     if request.method == "POST":
         try:
-            queryset = objects
+            queryset = child_filter(objects, form)
             data = queryset.values()
             df = pd.DataFrame.from_records(data)
             field_names = df.columns
