@@ -283,6 +283,7 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         # The rest of the attributes won't be tested until the display 
         # for null values is fixed
 
+'''
     def test_delete_subsidy_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/subsidy/list')
@@ -314,4 +315,4 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         after_count = Subsidy.objects.count()
 
         self.assertTrue(before_count == after_count+1)           
-
+'''

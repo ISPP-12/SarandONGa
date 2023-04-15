@@ -49,16 +49,6 @@
 
 {% block objectFor %}
 
-<div class="row mb-3">
-  <span class="step-links">
-    <form method="GET">   
-      {% csrf_token %}   
-      {{form}}   
-      <input type="submit" value="Filtrar"> 
-    </form>
-  </span>
-</div>
-
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
   <div class="row">

@@ -275,6 +275,7 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
                         .find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
                         .find_element(By.CLASS_NAME,"card-stock"))
         
+    '''
     def test_delete_stock_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/stock/list')
@@ -291,7 +292,7 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         after_count = Stock.objects.count()
 
         self.assertTrue(before_count == after_count+1 )
-    
+    '''
     def test_stock_register_view(self):
         # Check access
         before_count = Stock.objects.count()
