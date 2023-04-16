@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator
 from person import models as person_models
 from payment import models as payment_models
 from django.utils import timezone
+from xml.dom import ValidationErr
 # Create your models here.
 
 SERVICES_TYPE = (
@@ -60,7 +61,11 @@ class Service(models.Model):
         return self.service_type + ' - ' + str(self.date) + ' - ' + self.asem_user.surname + ', ' + self.asem_user.name
 
     def save(self, *args, **kwargs):
-       # self.slug = slugify(self.service_type + ' ' + str(self.id))
+       
+        if self.payment is not None:
+                if self.payment.godfather is not None or self.payment.project is not None:
+                    raise ValidationErr(
+                        "El pago debe estar asociado a un usuario de ASEM")
         super(Service, self).save(*args, **kwargs)
 
     class Meta:
