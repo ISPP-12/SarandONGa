@@ -1,3 +1,4 @@
+import io
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -20,6 +21,7 @@ from dateutil.relativedelta import relativedelta
 import math
 from django.http import HttpResponse
 import csv
+import pandas as pd
 
 
 class UpdatePasswordView(PasswordChangeView):
@@ -37,8 +39,7 @@ class CustomJSONEncoder(json.JSONEncoder):
         elif isinstance(obj, Decimal):
             return float(obj)
         return super().default(obj)
-    
-    
+
 def choices_dicts():
     choices_dict = {
         'sex_types': dict(SEX_TYPES),

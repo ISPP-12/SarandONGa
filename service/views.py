@@ -16,7 +16,6 @@ def service_create(request):
     else:
         user = None
     if request.method == "POST":
-        form = CreateNewService(request.POST)
         if form.is_valid():
             service = form.save(commit=False)
             service.save()
@@ -27,7 +26,6 @@ def service_create(request):
     else:
         initial_data = {'asem_user': user}
         form = CreateNewService(initial=initial_data)
-        
         services = Service.objects.all()
         events = []
         for event in services:

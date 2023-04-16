@@ -5,7 +5,6 @@ from django.contrib import messages
 import json
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
-from datetime import datetime
 from django.db.models import Q
 from django.core.paginator import Paginator
 from person.models import GodFather
@@ -30,6 +29,7 @@ def payment_create(request):
         if form.is_valid():
             payment = form.save(commit=False)
             payment.ong = request.user.ong
+
             payment.save()
 
             return redirect('payment_create')
@@ -82,10 +82,14 @@ def payment_update(request, payment_id):
                 event_sub_arr['url'] = f'/payment/{i.id}/update'
                 event_sub_arr['id'] = str(i.id)
                 event_arr.append(event_sub_arr)
-            datatest = json.dumps(event_arr, default=str)
+            events_json = json.dumps(event_arr, default=str)
 
-        context = {'form': form, 'title': 'Actualizar pago',
-                   'events_json': datatest, 'page_title': 'SarandONGa 💃 - Actualizar pago'}
+        context = {
+            'form': form, 
+            'title': 'Actualizar pago',
+            'events_json': events_json, 
+            'page_title': 'SarandONGa 💃 - Actualizar pago'
+            }
     else:
         return custom_403(request)
     return render(request, 'payment/payment_form.html', context)
