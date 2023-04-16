@@ -810,6 +810,7 @@ def child_update(request, child_id):
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
+    
     choices_dict = choices_dicts()
     child.correspondence = choices_dict['correspondence'][child.correspondence] if child.correspondence else "No especificado"
 
