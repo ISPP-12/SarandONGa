@@ -9,7 +9,7 @@
         <strong><h5 title="{{object.surname}}, {{object.name}}">{{object.surname}}, {{object.name}}</h5></strong>
       
       </div>
-      <div class="col-city col-lg-3 col-6 col-sm-2">
+      <div class="col-lg-3 col-6">
 
         {% if object.city %}
         <span>{{object.city}}</span>
@@ -19,7 +19,7 @@
 
       </div>  
 
-      <div class="col-telephone col-md-3 col-lg-2  col-sm-1">
+      <div class="col-lg-2 col-6">
 
         {% if object.telephone %}
         <span>{{object.telephone}}</span>
@@ -29,7 +29,7 @@
 
       </div> 
 
-      <div class="col-email col-md-2 col-sm-1 col-lg-2">
+      <div class="col-lg-3 col-6">
 
         {% if object.email %}
         <span>{{object.email}}</span>
@@ -59,6 +59,7 @@
           {%if object_name == "padrino" or object_name == "niño"%}
           <a href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
           {% endif %}
+          <a href="{{ object.id }}"><i class="bi bi-info-circle"></i>Detalles</a>
           <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
           <a href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>

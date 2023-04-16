@@ -3,6 +3,7 @@
 
 {% block extrahead %} 
 <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -46,6 +47,13 @@
         </div>
     {% endfor %}
 
+    <div class="col-12 mb-5 mt-2">
+
+        <input type="checkbox" id="check" name="policy" value="true" checked>
+        <label for="policy"> Este usuario acepta la <a href="https://sarandonga.vercel.app/politica-privacidad" data-bs-toggle="tooltip" data-bs-placement="top" title="Serás reedirigido a la política de privacidad"> política de privacidad</a> de SarandONGa<span class="text-danger"> *</span></label>
+
+    </div>
+
     <div class="col-12">
         <p class="text-danger">* Campos obligatorios</p>
     </div>
@@ -60,4 +68,18 @@
 </form>
 
 </div>
+
+<script>
+
+    $(function() {
+        var chk = $('#check');
+        var btn = $('#id-submitForm');
+      
+        chk.on('change', function() {
+          btn.prop("disabled", !this.checked);//true: disabled, false: enabled
+        }).trigger('change'); //page load trigger event
+      });
+
+</script>
+
 {% endblock %}

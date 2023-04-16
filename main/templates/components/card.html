@@ -10,7 +10,7 @@ ATTRIBUTES
 <link rel="stylesheet" type="text/css" href="{% static 'styles/components/cards.css' %}">
 
 <div id="id-productDiv-{{item.id}}" class="productDiv">
-    <div class="card {{class_card}}">
+    <div class="card">
         <div class="row g-0">
             <div class="card-img-col col-12">
                
@@ -22,14 +22,31 @@ ATTRIBUTES
                         <h5 class="card-title"><span title="{{item.name}}">{{item.name}}</span></h5>
                     </div>
                     <div class="col-12">
-                        <p class="card-text">{{item.quantity}} unidad{% if item.quantity != 1 %}es{% endif %}</p>
+                        <p class="card-text" title="{{item.quantity}} unidad{% if item.quantity != 1 %}es{% endif %}">{{item.quantity}} unidad{% if item.quantity != 1 %}es{% endif %}</p>
                     </div>
+                    {% if item.model %}
+                    <div class="col-12">
+                        <p class="card-text text-start" title="{{item.model}}"><strong>Modelo: </strong> {{item.model}}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.amount %}
+                    <div class="col-12">
+                        <p class="card-text text-start" title="{{item.amount}} €"><strong>Precio: </strong>{{item.amount}} €</p>
+                    </div>
+                    {% endif %}
+                    {% if item.notes %}
+                    <hr class="mb-0">
+                    <div class="col-12">
+                        <p class="card-text text-start" title="{{item.notes}}">{{item.notes}}</p>
+                    </div>
+                    {% endif %}
+                    <hr class="mb-0">
                     <div class="col-12 pt-3">
-                        <div class="row">
-                            <div class="col-6 px-2 text-center">
+                        <div id="id-div-footer-btn" class="row h-100 align-items-end">
+                            <div id="id-update-div-{{item.id}}" class="col-6 px-2 text-center">
                                 <a id="id-update-{{item.id}}" href="{{item.id}}/update"><i class="bi me-2 bi-pencil-square"></i>Editar</a>
                             </div>
-                            <div class="col-6 px-2 text-center">
+                            <div id="id-delete-div-{{item.id}}" class="col-6 px-2 text-center">
                                 <a id="id-delete-{{item.id}}" href="{{item.id}}/delete"><i class="bi me-2 bi-trash3"></i>Eliminar</a>
                             </div>
                         </div>

@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Stock
 from django.contrib import messages
@@ -136,3 +137,7 @@ def stock_update(request, stock_id):
     else:
         return custom_403(request)
     return render(request, 'stock/register.html', context)
+
+def getStock(request):
+    stock = Stock.objects.filter(ong=request.user.ong).values('name','quantity')
+    return JsonResponse(list(stock), safe=False)

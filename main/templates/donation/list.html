@@ -60,8 +60,7 @@ displayed in the preview text (e.g. "donación")
     </div>
 
     <div class="d-none d-flex flex-column " id="moreInfo">
-      <span class="object-description pt-1"><strong>Descripción: </strong>{{ object.description }}</span>
-
+      <span class="object-description pt-1"><strong>Descripción: </strong><span class="d-flex scrollable">{{ object.description }}</span></span>
       <span class="object-donor-name pt-1"><strong>Nombre donante: </strong>{{ object.donor_name  }} {{object.donor_surname}}</span>
       <span class="object-donor-dni pt-1"><strong>DNI donante: </strong>{{ object.donor_dni  }}</span>
       <span class="object-donor-address pt-1"><strong>Dirección donante: </strong> {{ object.donor_address  }}</span>
@@ -70,8 +69,8 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
-          <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
     </div>
@@ -81,23 +80,7 @@ displayed in the preview text (e.g. "donación")
 <div id="data" data-json='{{ objects_json|safe }}'></div>
 <div id="object-name" data-name='{{ object_name }}'></div>
 
-<div class="pagination">
-  <span class="step-links">
-      {% if objects.has_previous %}
-        <a href="?page=1{{ query_str }}">&laquo; Primera</a>
-        <a href="?page={{ objects.previous_page_number }}{{ query_str}}">Anterior</a>
-      {% endif %}
-
-      <span class="current">
-          Página {{ objects.number }} de {{ objects.paginator.num_pages }}.
-      </span>
-
-      {% if objects.has_next %}
-        <a href="?page={{ objects.next_page_number }}{{ query_str }}">Siguiente</a>
-        <a href="?page={{ objects.paginator.num_pages }}{{ query_str}}">Última &raquo;</a>
-      {% endif %}
-  </span>
-</div>
+{% include 'components/pagination.html' %}
 
 {% endblock %}
 
@@ -141,13 +124,14 @@ displayed in the preview text (e.g. "donación")
             
             <h2 title="${objectData.title}">${objectData.title}</h2>
             <h5>{{object_name}}</h5>
-            <p>${objectData.description}</p>
+            <p><strong>Descripción: </strong><span class="d-flex scrollable">${objectData.description}</span></p>
+            <p><strong>Fecha de presentación: </strong><span>${ objectData.created_date }</span></p>
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
             <p><strong>Nombre donante: </strong>${objectData.donor_name + ' ' + objectData.donor_surname}</p>
             <p><strong>DNI donante:  </strong>${objectData.donor_dni}</p>
-            <p><strong>Dirección donante:  </strong>${objectData.donor_address}</p>
-            <p><strong>Correo donante:  </strong>${objectData.donor_email}</p>
-            <p><strong>Documento: </strong>
+            <p><strong>Dirección donante:  </strong><span>${objectData.donor_address}</span></p>
+            <p><strong>Correo donante:  </strong><span>${objectData.donor_email}</span></p>
+            <p style="margin-bottom: 131px;"><strong>Documento: </strong>
               ${
                 objectData.document && objectData.document.includes("donation/")
                   ? `<a href="/${objectData.document}" target="_blank">${objectData.document.split("donation/")[1]}</a>`
@@ -158,7 +142,7 @@ displayed in the preview text (e.g. "donación")
           </div>
         </div>
 
-        <div class="container mt-auto border-dark border-top border-1  p-0">
+        <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
             <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
             <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
