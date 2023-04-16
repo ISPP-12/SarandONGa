@@ -16,8 +16,8 @@ class Donation(models.Model):
     title = models.CharField(max_length=200, verbose_name="Título")
     description = models.TextField(verbose_name="Descripción", null=True, blank=True)
     # Fecha de creación de la donación (automática)
-    created_date = models.DateTimeField(
-        default=timezone.now, verbose_name="Fecha Creación")
+    created_date = models.DateField(
+        default=timezone.now, verbose_name="Fecha creación")
     # Importe de la donación
     amount = models.DecimalField(max_digits=10, decimal_places=2, validators=[
                                  MinValueValidator(0.1)], verbose_name="Importe")

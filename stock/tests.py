@@ -6,6 +6,7 @@ from .models import Stock
 from decimal import Decimal
 from person.models import Worker
 
+from time import sleep
 from datetime import datetime
 
 # SELENIUM IMPORTS
@@ -275,6 +276,7 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
                         .find_element(By.ID,f"id-productDiv-{self.test_stock_1.id}")
                         .find_element(By.CLASS_NAME,"card-stock"))
         
+    
     def test_delete_stock_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/stock/list')
@@ -288,6 +290,11 @@ class StockListViewTestCaseVidessur(StaticLiveServerTestCase):
         # Check the item is removed
         before_count = Stock.objects.count()
         test_stock_div.find_element(By.ID,f"id-delete-{self.test_stock_1.id}").click()
+
+        confirmation = self.driver.switch_to.alert
+        confirmation.accept()
+        sleep(1)
+
         after_count = Stock.objects.count()
 
         self.assertTrue(before_count == after_count+1 )

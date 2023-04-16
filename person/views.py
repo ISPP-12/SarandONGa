@@ -810,8 +810,7 @@ def child_update(request, child_id):
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
-    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password',
-                                                                    'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
+    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
 
     info = [getattr(child, f.name) for f in fields]
 

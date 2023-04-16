@@ -24,7 +24,7 @@
 {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
 
 
-{%block filters%}
+{% block filters %}
 <form method="GET" class="my-3">
 
   {% csrf_token %}
@@ -280,6 +280,13 @@
       `
       }
 
+      let deleteBtn = document.querySelector('#delete-button')
+      deleteBtn.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+          event.preventDefault();
+        }
+      })
+
     })
 
     // when resizing the window, the preview will be reset
@@ -288,7 +295,7 @@
       prevInfo.classList.remove('d-none')
       preview.classList.add('text-center')
       preview.classList.remove('p-5')
-      preview.innerHTML = `<span id="prev-info">Pulsa sobre una {{ object_name }} para la vista previa</span>`
+      preview.innerHTML = `<span id="prev-info">Pulsa sobre un {{ object_name }} para la vista previa</span>`
 
     })
 
@@ -303,5 +310,11 @@
       e.preventDefault();
       window.location.href = window.location.pathname;
   });
+</script>
+
+<script>
+
+
+  
 </script>
 {% endblock %}

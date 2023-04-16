@@ -29,9 +29,6 @@ class CreateNewStock(forms.ModelForm):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
 
-        # TODO: add file field to form (and model)
-
-
 class FilterStockForm(forms.Form):
     qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
     min_quantity = forms.IntegerField(required=False, widget=forms.NumberInput(
@@ -45,6 +42,15 @@ class FilterStockForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.method = 'GET'
+
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+            else:
+                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
 
         self.fields['qsearch'].initial = self.data.get('qsearch')
         self.fields['min_quantity'].initial = self.data.get('min_quantity')

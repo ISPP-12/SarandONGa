@@ -51,9 +51,9 @@
         <div class="form-section mt-3 mb-5 col-12 d-flex justify-content-center">
 
             {% if form.instance.id %}
-                {% include 'components/button.html' with variation="SUBMIT" text="Actualizar" id="submit" type="submit" %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Actualizar usuario" id="submit" type="submit" %}
             {% else %}
-                {% include 'components/button.html' with variation="SUBMIT" text="Registrar" id="submit" type="submit" %}
+                {% include 'components/button.html' with variation="SUBMIT" text="Registrar usuario" id="submit" type="submit" %}
             {% endif %}
 
 
@@ -64,7 +64,7 @@
 
 <script type="text/javascript">
     let birthDate = document.getElementById('id_birth_date')
-    let submitButton = document.getElementById('id-submitForm')
+    let submitButton = document.getElementById('submit')
     
     let birthDiv = document.createElement('div')
     birthDiv.setAttribute('class', 'text-danger')
@@ -74,9 +74,7 @@
         let birthDateValue = Date.parse(birthDate.value)
         let currentDate = Date.now()
 
-
         submitButton.disabled = true
-
         
         if(birthDateValue >= currentDate) {
             birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha actual'

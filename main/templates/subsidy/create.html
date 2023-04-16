@@ -16,25 +16,25 @@
   {% endif %}
   <form method="post" enctype='multipart/form-data' action="">
     {% csrf_token %}
-      <div class="row my-4 mx-5">
-        <div class="col-sm-12 col-lg-6">
+      <div class="row mx-5">
+        <div class="col-sm-12 col-lg-6 my-3">
         {% include "components/inputs.html" with id=form.name.id_for_label label_text=field.label_tag|safe|add:'Nombre<span class="text-danger"> *</span>' input=form.name %} 
       
         {{ form.name.errors }}
 
         </div>
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-sm-12 col-lg-6 my-3">
           {% include "components/inputs.html" with id=form.organism.id_for_label label_text=field.label_tag|safe|add:'Organismo<span class="text-danger"> *</span>' input=form.organism %} 
           {{ form.organism.errors }}
     
         </div>
       </div>
-      <div class="row my-4 mx-5">
-          <div class="col-sm-12 col-lg-6">
+      <div class="row mx-5">
+          <div class="col-sm-12 col-lg-6 my-3">
             {% include "components/inputs.html" with id=form.presentation_date.id_for_label label_text="Fecha de presentación" input=form.presentation_date %} 
             {{ form.presentation_date.errors }}
           </div>
-          <div class="col-sm-12 col-lg-6">
+          <div class="col-sm-12 col-lg-6 my-3">
             {% include "components/inputs.html" with id=form.payment_date.id_for_label label_text="Fecha de pago" input=form.payment_date %} 
             {{ form.payment_date.errors }}
             <div id="message-dates-pay"></div>
@@ -42,15 +42,15 @@
 
           </div>
       </div>
-      <div class="row my-4 mx-5">
-          <div class="col-sm-12 col-lg-6">
+      <div class="row mx-5">
+          <div class="col-sm-12 col-lg-6 my-3">
             {% include "components/inputs.html" with id=form.provisional_resolution.id_for_label label_text="Fecha de resolución provisional" input=form.provisional_resolution %} 
             {{ form.provisional_resolution.errors }}
             <div id="message-dates-prov"></div>
 
       
           </div>
-          <div class="col-sm-12 col-lg-6">
+          <div class="col-sm-12 col-lg-6 my-3">
             {% include "components/inputs.html" with id=form.final_resolution.id_for_label label_text="Fecha de resolución final" input=form.final_resolution %} 
             {{ form.final_resolution.errors }}
             <div id="message-dates"></div>
@@ -63,15 +63,15 @@
           </div>
       </div>
 
-      <div class="row my-4 mx-5">
-        <div class="col-sm-12 col-lg-6">
+      <div class="row mx-5">
+        <div class="col-sm-12 col-lg-6 my-3">
           {% include "components/inputs.html" with id=form.presentation_justification_date.id_for_label label_text="Fecha de presentación de la justificación" input=form.presentation_justification_date %} 
           {{ form.provisional_resolution.errors }}
           <div id="message-dates-prov"></div>
 
     
         </div>
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-sm-12 col-lg-6 my-3">
           {% include "components/inputs.html" with id=form.notes.id_for_label label_text="Observaciones" input=form.notes %} 
           {{ form.final_resolution.errors }}
           <div id="message-dates"></div>
@@ -83,18 +83,18 @@
   
         </div>
 
-        <div class="col-sm-12 col-lg-6">
+        <div class="col-sm-12 col-lg-6 my-3">
           {% include "components/inputs.html" with id=form.document.id_for_label label_text="Documento" input=form.document %} 
           {{ form.document.errors }}
         </div>
     </div>
 
-      <div class="row my-4 mx-5">
-          <div class="col-sm-12 col-lg-6">
+      <div class="row mx-5">
+          <div class="col-sm-12 col-lg-6 my-3">
             {% include "components/inputs.html" with id=form.amount.id_for_label label_text=field.label_tag|safe|add:'Cantidad<span class="text-danger"> *</span>' input=form.amount %} 
             {{ form.amount.errors }}
           </div>
-          <div class="col-sm-12 col-lg-6">
+          <div class="col-sm-12 col-lg-6 my-3">
             {% include "components/inputs.html" with id=form.status.id_for_label label_text=field.label_tag|safe|add:'Estado<span class="text-danger"> *</span>' input=form.status %} 
             {{ form.status.errors }}
           </div>
@@ -141,7 +141,6 @@
   messageDiv3.setAttribute('class', 'text-danger')
 
   let submitButton = document.getElementById('id-submitForm');
-  console.log(submitButton)
 
   let compare = () => {
     let startValue = (new Date(startInput.value)).getTime();
