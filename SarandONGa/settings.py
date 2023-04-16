@@ -39,7 +39,9 @@ BRAINTREE_CONF = braintree.Configuration(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    
+]
 
 
 # Application definition
@@ -75,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'SarandONGa.middleware.custom_404_middleware.Custom404Middleware',
 ]
 
 ROOT_URLCONF = 'SarandONGa.urls'
