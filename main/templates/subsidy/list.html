@@ -13,23 +13,23 @@
   {% csrf_token %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5 mb-3">
+      <div class="col-12 col-md-12 col-lg-4 mb-3">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
 
-      <div class='col-lg-3 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_presentation_date.id_for_label label_text="Fecha presentación" input=form.min_presentation_date %} 
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.min_presentation_date.id_for_label label_text="Fecha presentación después de..." input=form.min_presentation_date %} 
       </div>
 
-      <div class='col-lg-3 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_payment_date.id_for_label label_text="Fecha pago" input=form.min_payment_date %} 
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.min_payment_date.id_for_label label_text="Fecha de pago después de..." input=form.min_payment_date %} 
       </div>
 
-      <div class='col-lg-3 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_final_resolution_date.id_for_label label_text="Fecha resolución final" input=form.min_final_resolution_date %} 
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.min_final_resolution_date.id_for_label label_text="Fecha resolución final después de..." input=form.min_final_resolution_date %} 
       </div>
       
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
+      <div class="col-lg-2 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad" input=form.amount_min %} 
       </div>
 

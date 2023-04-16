@@ -47,6 +47,9 @@
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/donation/list">Donaciones</a></li>
                     <li><a class="dropdown-item" href="/subsidy/list">Subvenciones</a></li>
+                    {% if request.user.ong.name|lower == "asem" %}
+                    <li><a class="dropdown-item" href="/payment/create">Pagos</a></li>
+                    {% endif %}
                 </ul>
             </li>
             <li class="nav-item dropdown">

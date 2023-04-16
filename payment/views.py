@@ -11,14 +11,18 @@ from person.models import GodFather
 from xml.dom import ValidationErr
 
 
-# Hay que asignar el padrino
 @login_required
 def payment_create(request):
     project = Project.objects.all()
     if 'godfather' in request.GET:
         godfather = GodFather.objects.get(id=request.GET.get("godfather"))
+        project = None
+    elif 'project' in request.GET:
+        project = Project.objects.get(id=request.GET.get("project"))
+        godfather = None
     else:
         godfather = None
+        project = None
     if request.method == 'POST':
         form = CreatePaymentForm(request.user.ong, request.POST, initial={
                                  'project': project, 'godfather': godfather}, )
@@ -40,11 +44,10 @@ def payment_create(request):
     for i in all_events:
         event_sub_arr = {}
         event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
-        # start_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
-        # end_date = datetime.strptime(str(i.payday.date()), "%Y-%m-%d").strftime("%Y-%m-%d")
         start_date = i.payday
         end_date = i.payday
         event_sub_arr['start'] = start_date
+        event_sub_arr['url'] = f'/payment/{i.id}/update'
         event_sub_arr['end'] = end_date
         event_arr.append(event_sub_arr)
     datatest = json.dumps(event_arr, default=str)
@@ -76,6 +79,7 @@ def payment_update(request, payment_id):
                 end_date = i.payday
                 event_sub_arr['start'] = start_date
                 event_sub_arr['end'] = end_date
+                event_sub_arr['url'] = f'/payment/{i.id}/update'
                 event_sub_arr['id'] = str(i.id)
                 event_arr.append(event_sub_arr)
             events_json = json.dumps(event_arr, default=str)
@@ -106,7 +110,6 @@ def payment_list(request):
 
     context = {
         'objects': payment_page,
-        # 'objects_json': json.dumps(list(Payment.objects.all().values())),
         'objects_name': 'Payment',
         'title': 'Gestión de Pagos',
         'page_title': 'SarandONGa 💃 - Gestión de Pagos',

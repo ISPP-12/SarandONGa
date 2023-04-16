@@ -63,21 +63,22 @@ def donation_list(request):
 
     donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
 
-    query_str = "&qsearch="
+    query_str=""
     keys = request.GET.keys()
     if "qsearch" in keys:
+        query_str = "&qsearch="
         query_str += request.GET["qsearch"]
-    query_str += "&min_date="
     if "min_date" in keys:
+        query_str += "&min_date="
         query_str += request.GET["min_date"]
-    query_str += "&max_date="
     if "max_date" in keys:
+        query_str += "&max_date="
         query_str += request.GET["max_date"]
-    query_str += "&min_amount="
     if "min_amount" in keys:
+        query_str += "&min_amount="
         query_str += request.GET["min_amount"]
-    query_str += "&max_amount="
     if "max_amount" in keys:
+        query_str += "&max_amount="
         query_str += request.GET["max_amount"]
 
     for donation in objects:

@@ -23,9 +23,29 @@
 
 <div id="section-user" class="p-2">
 <div class="row">
-  <a href="{{ request.path|slice:'-1'|slice:'0:-1'|add:'/list' }}" id="returnBtn" style="margin: auto;">
+  {% if asem_user %}
+  <a href="{% url 'home' %}user/asem/list" id="returnBtn" style="margin: auto;">
     {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}
-    </a>
+    </a>   
+    {% elif worker %}
+    <a href="{% url 'home' %}user/worker/list" id="returnBtn" style="margin: auto;">
+      {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}
+    </a>     
+    {% elif volunteer %}
+    <a href="{% url 'home' %}user/volunteer/list" id="returnBtn" style="margin: auto;">
+    {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}    
+    </a>   
+    {% elif godfather %}
+    <a href="{% url 'home' %}user/godfather/list" id="returnBtn" style="margin: auto;">
+      {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}    
+      </a>  
+    {% elif child %}
+    <a href="{% url 'home' %}user/child/list" id="returnBtn" style="margin: auto;">
+      {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}    
+      </a>  
+
+    {% else  %}
+    {% endif %}
 </div>
 <div class="row justify-content-between align-items-center">
   <div class="col-12">
@@ -125,7 +145,15 @@
             <a href="/user/godfather/{{ godfather.id }}">{{ godfather.name }} {{ godfather.surname }}</a>
           </li>
         {% endfor %}
-
+        </ul>
+        {% elif key == "Casas" %}
+        <ul>
+        {% for home in value %}
+          <li>
+            <p>{{ home.name }}, {{ home.province }}</p>
+          </li>
+        {% endfor %}
+        </ul>
         {% else %}
           {{ value }}
         {% endif %}
@@ -142,10 +170,10 @@
   
   {% endcomment %}
   {% if asem_user %}
-    <a href="/service/create"><i class="bi bi-plus-lg"></i> Añadir servicio</a>
+    <a href="/service/create?asem_user={{ asem_user.id }}"><i class="bi bi-plus-lg"></i> Añadir servicio</a>
   {% endif %}
   {% if godfather %}
-  <a href="/payment/create"><i class="bi bi bi-wallet2"></i> Añadir pago</a>
+  <a href="/payment/create?godfather={{ godfather.id }}"><i class="bi bi bi-wallet2"></i> Añadir pago</a>
   {% endif %}
   {% if child %}
     <a href="/sponsorship/create?child={{ child.id }}"><i class="bi bi-diagram-2"></i> Añadir apadrinamiento</a>

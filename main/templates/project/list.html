@@ -23,19 +23,19 @@ displayed in the preview text (e.g. "donación")
   <div id="team">
     <div class="row">
       <div class="col-12 col-md-12 col-lg-5 mb-3">
-        {% include "components/inputs.html" with id=form.search.id_for_label label_text="Búsqueda:" input=form.search %} 
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
 
-      <div class='col-lg-3 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.start_date_min.id_for_label label_text="Fecha de inicio" input=form.start_date_min %} 
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.start_date_min.id_for_label label_text="Fecha de inicio después de..." input=form.start_date_min %} 
+      </div>
+
+      <div class="col-lg-4 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.number_of_beneficiaries_min.id_for_label label_text="Número beneficiarios mínimo" input=form.number_of_beneficiaries_min %} 
       </div>
 
       <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.number_of_beneficiaries_min.id_for_label label_text="Número beneficiarios" input=form.number_of_beneficiaries_min %} 
-      </div>
-
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad solicitada" input=form.amount_min %} 
+        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad solicitada mínima" input=form.amount_min %} 
       </div>
     </div>
   </div>
@@ -88,6 +88,7 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          <a id="add-payment" href="../../../payment/create?project={{ objectData.id }}"><i class="bi bi-wallet2"></i>Añadir pago</a>
           <a id='edit-button' href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
           <a id='delete-button' href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
@@ -149,6 +150,7 @@ displayed in the preview text (e.g. "donación")
 
         <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <a id="add-payment" href="../../../payment/create?project=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
             <a id='edit-button' href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
             <a id='delete-button'  href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
           </div>

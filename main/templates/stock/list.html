@@ -27,17 +27,23 @@
                 {% csrf_token %}
                 <div id="team">
                     <div class="row">
-                    <div class="col-12 col-md-12 col-lg-5 mb-3">
-                        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
-                    </div>
+                        <div class="col-12 col-md-12 col-lg-5 mb-3">
+                            {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+                        </div>
 
-                    <div class="col-lg-3 col-md-12 col-12 mb-3">
-                        {% include "components/inputs.html" with id=form.min_quantity.id_for_label label_text="Unidades" input=form.min_quantity %} 
-                    </div>
+                        <div class="col-lg-3 col-md-12 col-12 mb-3">
+                            {% include "components/inputs.html" with id=form.min_quantity.id_for_label label_text="Unidades mínimas" input=form.min_quantity %} 
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-12 mb-3">
+                            {% include "components/inputs.html" with id=form.max_quantity.id_for_label label_text="Unidades máximas" input=form.max_quantity %} 
+                        </div>
 
-                    <div class="col-lg-3 col-md-12 col-12 mb-3">
-                        {% include "components/inputs.html" with id=form.min_amount.id_for_label label_text="Precio" input=form.min_amount %} 
-                    </div>
+                        <div class="col-lg-3 col-md-12 col-12 mb-3">
+                            {% include "components/inputs.html" with id=form.min_amount.id_for_label label_text="Precio mínimo" input=form.min_amount %} 
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-12 mb-3">
+                            {% include "components/inputs.html" with id=form.max_amount.id_for_label label_text="Precio máximo" input=form.max_amount %} 
+                        </div>
                     </div>
                 </div>
                 <div class="col pt-2">

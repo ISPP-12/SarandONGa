@@ -66,10 +66,45 @@ def subsidy_list(request):
 
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
-    query_str = "&qsearch="
+    query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
+        query_str = "&qsearch="
         query_str += request.GET["qsearch"]
+    if "min_presentation_date" in keys:
+        query_str += "&min_presentation_date="
+        query_str += request.GET["min_presentation_date"]
+    if "max_presentation_date" in keys:
+        query_str += "&max_presentation_date="
+        query_str += request.GET["max_presentation_date"]
+    if "min_payment_date" in keys:
+        query_str += "&min_payment_date="
+        query_str += request.GET["min_payment_date"]
+    if "max_payment_date" in keys:
+        query_str += "&max_payment_date="
+        query_str += request.GET["max_payment_date"]
+    if "min_provisional_resolution_date" in keys:
+        query_str += "&min_provisional_resolution_date="
+        query_str += request.GET["min_provisional_resolution_date"]
+    if "max_final_resolution_date" in keys:
+        query_str += "&max_final_resolution_date="
+        query_str += request.GET["max_final_resolution_date"]
+    if "organism" in keys:
+        query_str += "&organism="
+        query_str += request.GET["organism"]
+    if "name" in keys:
+        query_str += "&name="
+        query_str += request.GET["name"]
+    if "status" in keys:
+        query_str += "&status="
+        query_str += request.GET["status"]
+    if "amount_min" in keys:
+        query_str += "&amount_min="
+        query_str +=request.GET["amount_min"]
+    if "amount_max" in keys:
+        query_str += "&amount_max="
+        query_str += request.GET["amount_max"]    
+    
 
     context = {
         'objects': subsidies_page,
@@ -129,7 +164,6 @@ def subsidy_filter(queryset, form):
     max_final_resolution_date = form['max_final_resolution_date'].value()
     organism = form['organism'].value()
     name = form['name'].value()
-    ong = form['ong'].value()
     status = form['status'].value()
     amount_min = form['amount_min'].value()
     amount_max = form['amount_max'].value()
@@ -140,8 +174,7 @@ def subsidy_filter(queryset, form):
                 queryset = queryset.filter(
                     Q(organism__icontains=q) |
                     Q(status__icontains=q) |
-                    Q(name__icontains=q) |
-                    Q(ong__name__icontains=q)
+                    Q(name__icontains=q)
                 )
 
     if is_valid_queryparam(min_presentation_date):
@@ -173,9 +206,6 @@ def subsidy_filter(queryset, form):
 
     if is_valid_queryparam(name):
         queryset = queryset.filter(name=name)
-
-    if is_valid_queryparam(ong):
-        queryset = queryset.filter(ong__name=ong)
 
     if is_valid_queryparam(status):
         queryset = queryset.filter(status=status)
