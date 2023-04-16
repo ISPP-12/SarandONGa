@@ -11,6 +11,17 @@ class CreateHomeForm(forms.ModelForm):
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
         }
+        error_messages = {
+            'bank_account_number': {
+                'required': 'Por favor ingrese su número de cuenta bancaria.',
+            },
+            'bank_account_reference': {
+                'required': 'Por favor ingrese su referencia de cuenta bancaria.',
+            },
+            'bank_account_holder': {
+                'required': 'Por favor ingrese el titular de la cuenta bancaria.',
+            },
+        }
 
     def __init__(self, *args, **kwargs):
         super(CreateHomeForm, self).__init__(*args, **kwargs)
@@ -44,4 +55,15 @@ class FilterHomeForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
+        
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input'})
+            else:
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control'})
 

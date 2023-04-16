@@ -28,21 +28,23 @@ BLOCKS IN THIS LAYOUT
 
 <div id={{"section-"|add:object_name_en}}  class="" >
 
-  <div class="row complete">
+  <div class="row complete h-100">
 
     <div id="previewContainer" class="pt-4 px-0 col-md-4 ">
       <div id="preview" class="w-100 h-100 fs-4 text-center d-flex flex-column justify-content-between">
-        <span id="prev-info" class="p-4">Pulsa sobre una {{ object_name }} para la vista previa</span>
+        {% if object_name == 'donación' or object_name == 'subvención' or object_name == 'casa' %}
+          <span id="prev-info" class="p-4">Pulsa sobre una {{ object_name }} para la vista previa</span>
+        {% else %}
+          <span id="prev-info" class="p-4">Pulsa sobre un {{ object_name }} para la vista previa</span>
+        {% endif %}
       </div>
 
     </div>
 
-    <div class="col-12 col-md-8 border-start border-dark border-1 p-4 " id="rightSectionContainer">
+    <div class="col-12 col-md-8 p-4 border-start border-dark border-1" id="rightSectionContainer">
       <!-- TITULO -->
-      <div class="row ps-5" id="rightSection">
-        <div class="col-12">
-          {% include 'components/title.html' with title=title %}
-        </div>
+      <div class="d-flex flex-column px-4" id="rightSection">
+        {% include 'components/title.html' with title=title %}
 
         <div class="col-12 mb-4">
           <div class="row justify-content-between align-items-center mb-3">

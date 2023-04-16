@@ -142,24 +142,87 @@ Añadir casa
   let compare = () => {
     let startDateValue = new Date(startDate.value)
     let terminationDateValue = new Date(terminationDate.value)
+    let currentDate = new Date()
 
     submitButton.disabled = true
+
+    if(startDateValue > currentDate) {
+            startDiv.innerHTML = 'La fecha de alta no puede ser posterior a la fecha actual'
+    } else {
+            startDiv.innerHTML = ''
+    }
 
     if (terminationDateValue && terminationDateValue < startDateValue) {
             terminationDiv.innerHTML = 'La fecha de baja debe ser posterior a la fecha de alta'
     } else {
             terminationDiv.innerHTML = ''
     }
-
-
-    if((terminationDateValue > startDateValue || !terminationDateValue)) {
+    
+    const cond = !!terminationDateValue.valueOf() ? terminationDateValue >= startDateValue : true
+    if (startDateValue <= currentDate && cond) {
             submitButton.disabled = false
-        }
+    }
+
+
   }
 
   startDate.addEventListener('change', compare)
   terminationDate.addEventListener('change', compare)
 
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        if ($("#id_payment_method").val() == "T") {
+                $('#id_bank_account_number').prop("disabled", false);
+                $('#id_bank_account_holder').prop("disabled", false);
+                $('#id_bank_account_reference').prop("disabled", false);
+                $('#id_bank_account_number').prop("required", true);
+                $('#id_bank_account_holder').prop("required", true);
+                $('#id_bank_account_reference').prop("required", true);
+                $('label[for="id_bank_account_number"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_holder"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_reference"]:last').append('<span class="text-danger">*</span>');
+
+            } else {
+                $('#id_bank_account_number').prop("disabled", true);
+                $('#id_bank_account_holder').prop("disabled", true);
+                $('#id_bank_account_reference').prop("disabled", true);
+                $('#id_bank_account_number').prop("required", false);
+                $('#id_bank_account_holder').prop("required", false);
+                $('#id_bank_account_reference').prop("required", false);
+                $('label[for="id_bank_account_number"] span').remove();
+                $('label[for="id_bank_account_holder"] span').remove();
+                $('label[for="id_bank_account_reference"] span').remove();
+            }
+
+        $("#id_payment_method").change(function(){
+            if ($(this).val() == "T") {
+                $('#id_bank_account_number').prop("disabled", false);
+                $('#id_bank_account_holder').prop("disabled", false);
+                $('#id_bank_account_reference').prop("disabled", false);
+                $('#id_bank_account_number').prop("required", true);
+                $('#id_bank_account_holder').prop("required", true);
+                $('#id_bank_account_reference').prop("required", true);
+                $('label[for="id_bank_account_number"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_holder"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_reference"]:last').append('<span class="text-danger">*</span>');
+
+            } else {
+                $('#id_bank_account_number').prop("disabled", true);
+                $('#id_bank_account_holder').prop("disabled", true);
+                $('#id_bank_account_reference').prop("disabled", true);
+                $('#id_bank_account_number').prop("required", false);
+                $('#id_bank_account_holder').prop("required", false);
+                $('#id_bank_account_reference').prop("required", false);
+                $('label[for="id_bank_account_number"] span').remove();
+                $('label[for="id_bank_account_holder"] span').remove();
+                $('label[for="id_bank_account_reference"] span').remove();
+            }
+        });
+    });
 </script>
 
 {% endblock %}

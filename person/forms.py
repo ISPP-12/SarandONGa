@@ -200,13 +200,13 @@ class CreateNewWorker(forms.ModelForm):
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-select mb-3'})
+                    {'class': 'form-select'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-check-input mb-3'})
+                    {'class': 'form-check-input'})
             else:
                 self.fields[field].widget.attrs.update(
-                    {'class': 'form-control mb-3'})
+                    {'class': 'form-control'})
 
     def clean_password2(self):
         # Check that the two password entries match and meet the validation requirements

@@ -39,7 +39,9 @@ BRAINTREE_CONF = braintree.Configuration(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    
+]
 
 
 # Application definition
@@ -75,6 +77,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'SarandONGa.middleware.custom_404_middleware.Custom404Middleware',
 ]
 
 ROOT_URLCONF = 'SarandONGa.urls'
@@ -154,6 +157,13 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'sarandonga.contact@gmail.com'
+EMAIL_HOST_PASSWORD = config('MAIL_KEY')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

@@ -11,79 +11,71 @@
   {% else %}
       {% include 'components/title.html' with title="Añadir donación" %}
   {% endif %}
-  <form method="post" enctype='multipart/form-data' action="">
-    {% csrf_token %}
-      <div class="row my-4 mx-5">
-        <div class="col-sm-12 col-lg-6">
-        {% include "components/inputs.html" with id=form.title.id_for_label label_text="Título" input=form.title %} 
-      
-        {{ form.title.errors }}
 
-        </div>
-        <div class="col-sm-12 col-lg-6">
-          {% include "components/inputs.html" with id=form.description.id_for_label label_text="Descripción" input=form.description %} 
-          {{ form.description.errors }}
-    
-        </div>
-      </div>
-      <div class="row my-4 mx-5">
-          <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.created_date.id_for_label label_text="Fecha de presentación" input=form.created_date %} 
-            {{ form.created_date.errors }}
-          </div>
-          <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Cantidad" input=form.amount %} 
-            {{ form.amount.errors }}
+  {% if messages %}
+<div class="row">
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
 
-          </div>
-      </div>
-      <div class="row my-4 mx-5">
-          <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.donor_name.id_for_label label_text="Nombre" input=form.donor_name %} 
-            {{ form.donor_name.errors }}
-      
-          </div>
-          <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.donor_surname.id_for_label label_text="Apellidos" input=form.donor_surname %} 
-            {{ form.donor_surname.errors }}
-          </div>
-      </div>
-      <div class="row my-4 mx-5">
-          <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.donor_dni.id_for_label label_text="DNI" input=form.donor_dni %} 
-            {{ form.donor_dni.errors }}
-          </div>
-      
-          <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.donor_email.id_for_label label_text="Correo electrónico" input=form.donor_email %} 
-            {{ form.donor_email.errors }}
-          </div>
+<form method="post" class="mt-3 row">{% csrf_token %}
+    {{ form.non_field_errors }}
+    {% for field in form %}
+        <div class="col-md-6 col-12">
+            <div class="row my-3">
+                {% if field.field.required %}
+                    {% with field.label_tag|safe|add:'<span class="text-danger"> *</span>' as label_tag_required %}
+                        {% include 'components/inputs.html' with id=field.id_for_label label_text=label_tag_required input=field %}
+                    {% endwith %}
+                {% else %}
+                    {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+                {% endif %}
+            </div>
+            <div class="row text-danger">
+                {{ field.errors }}
+            </div>
         </div>
-
-        <div class="row my-4 mx-5">
-          <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.donor_address.id_for_label label_text="Dirección" input=form.donor_address %} 
-            {{ form.donor_address.errors }}
-          </div>
-          <div class="col-sm-12 col-lg-6">
-            {% include "components/inputs.html" with id=form.document.id_for_label label_text="Documento" input=form.document %} 
-            {{ form.document.errors }}
-          </div>
-        </div>
-      <div class="form-section mt-5 mx-5 mb-5 text-center">
+    {% endfor %}
+    <div class="col-12">
+        <p class="text-danger">* Campos obligatorios</p>
+    </div>
+    <div class="form-section mt-3 mb-5 col-12 d-flex justify-content-center">
         {% if form.instance.id %}
-        {% with button_text="Actualizar" %}
-            {% include 'components/button.html'  with type="submit" text=button_text variation="SUBMIT" %}
-        {% endwith %}
+            {% include 'components/button.html' with variation="SUBMIT" text="Actualizar donación" id="id-submitForm" type="submit" %}
         {% else %}
-        {% with button_text="Registrar donación" %}
-            {% include 'components/button.html' with type="submit" text=button_text variation="SUBMIT" %}
-        {% endwith %}
+            {% include 'components/button.html' with variation="SUBMIT" text="Registrar donación" id="id-submitForm" type="submit" %}
         {% endif %}
-      </div>
-  </form>
+    </div>
+</form>
 </div>
 
+<script type="text/javascript">
+    let startDate = document.getElementById('id_created_date')
+    let submitButton = document.getElementById('id-submitForm')
+    let startDiv = document.createElement('div')
+    startDiv.setAttribute('class', 'text-danger')
+    startDate.parentElement.parentElement.appendChild(startDiv)
+  
+    let compare = () => {
+      let startDateValue = new Date(startDate.value)
+      let currentDate = new Date()
+  
+      submitButton.disabled = true
+  
+      if(startDateValue > currentDate) {
+              startDiv.innerHTML = 'La fecha de creación no puede ser posterior a la fecha actual'
+      } else {
+              startDiv.innerHTML = ''
+              submitButton.disabled = false
+      }
 
-
+    }  
+    startDate.addEventListener('change', compare)
+  
+  </script>
 {% endblock %}

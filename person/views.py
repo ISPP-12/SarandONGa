@@ -774,7 +774,7 @@ def child_create(request):
         'page_title': 'SarandONGa 💃 - Añadir Niño'
         }
             
-    return render(request, 'person/child/create_child.html', context)
+    return render(request, 'person/child/register.html', context)
 
 
 @login_required
@@ -803,18 +803,22 @@ def child_update(request, child_id):
         'page_title': 'SarandONGa 💃 - Editar Niño'
         }
 
-    return render(request, 'person/child/create_child.html', context)
+    return render(request, 'person/child/register.html', context)
 
 
 @login_required
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
-    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password',
-                                                                    'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
+
+    choices_dict = choices_dicts()
+    child.correspondence = choices_dict['correspondence'][child.correspondence] if child.correspondence else "No especificado"
+  
+
+    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
+
 
     info = [getattr(child, f.name) for f in fields]
-
     fields_info = dict(zip([f.verbose_name for f in fields], info))
 
     items = list(fields_info.items())

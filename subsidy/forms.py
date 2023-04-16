@@ -43,7 +43,7 @@ class FilterSubsidyForm(forms.Form):
     name = forms.CharField(max_length=100, required=False , label="Nombre")
     ong = forms.CharField(max_length=100, required=False , label="Ong")
     status = forms.ChoiceField(choices=[('', '--Seleccione--'), ('Por presentar', 'Por presentar'),
-    ('Presentada', 'Presentada'), ('Concedida', 'Concedida'), ('Denegada', 'Denegada')], 
+    ('Presentada', 'Presentada'), ('Justificada', 'Justificada'), ('Concedida', 'Concedida'), ('Denegada', 'Denegada')], 
     required=False, label="Método de pago")
     amount_min = forms.IntegerField(required=False, label="Tamaño mínimo de cantidad")
     amount_max = forms.IntegerField(required=False, label="Tamaño máximo de cantidad")
@@ -51,3 +51,11 @@ class FilterSubsidyForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
+
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+            else:
+                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})

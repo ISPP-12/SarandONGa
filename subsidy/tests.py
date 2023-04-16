@@ -3,6 +3,7 @@ from ong.models import Ong
 
 from subsidy.models import Subsidy
 import datetime
+from time import sleep
 from person.models import Worker
 
 # SELENIUM IMPORTS
@@ -277,11 +278,12 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         # Now the preview section should be filled with the test item data
         children = left_section_div.find_elements(By.CSS_SELECTOR, "h2, p")
         self.assertTrue(children[0].text == self.test_subsidy_1.name)
-        self.assertTrue(children[1].text == self.test_subsidy_1.organism)
+        self.assertTrue(children[1].find_element(By.TAG_NAME,'span').text == self.test_subsidy_1.organism)
         self.assertTrue(children[2].text == "Cantidad: " +
                         str(int(self.test_subsidy_1.amount)).replace(".",",") + " €")
         # The rest of the attributes won't be tested until the display 
         # for null values is fixed
+
 
     def test_delete_subsidy_view(self):
         # Check access
@@ -311,6 +313,11 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         lateral_btns = self.driver.find_element(By.ID, "lateralButtons")
         delete_btn = lateral_btns.find_elements(By.TAG_NAME, "a")[1]
         delete_btn.click()
+
+        confirmation = self.driver.switch_to.alert
+        confirmation.accept()
+        sleep(1)
+
         after_count = Subsidy.objects.count()
 
         self.assertTrue(before_count == after_count+1)           

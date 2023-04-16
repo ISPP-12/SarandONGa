@@ -17,14 +17,35 @@ displayed in the preview text (e.g. "donación")
 {% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
 {% endblock %}
 
-{% block objectFor %}
+{% block filters %}
 <form method="GET" class="my-3">
   {% csrf_token %}
-  {{form}}
-  <input type="submit" value="Filtrar">
-  <button type="reset" class="btn btn-secondary">Borrar filtros</button>
-</form>
+  <div id="team">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+      </div>
 
+      <div class='col-lg-3 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.min_date.id_for_label label_text="Fecha presentación" input=form.min_date %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.min_amount.id_for_label label_text="Cantidad" input=form.min_amount %} 
+      </div>
+    </div>
+  </div>
+  <div class="col pt-2">
+    {% include 'components/button.html' with text="Filtrar" id="id-filter" variation="SUBMIT" %}
+
+    {% include 'components/button.html' with text="Borrar" id="reset" type="reset" variation="RESET" %}
+  </div>
+</form>
+{% endblock %}
+
+
+
+{% block objectFor %}
 <!-- TABLE HEADER -->
 <div id="id-tableHeader" class="container-fluid">
   <div class="row">
@@ -60,8 +81,7 @@ displayed in the preview text (e.g. "donación")
     </div>
 
     <div class="d-none d-flex flex-column " id="moreInfo">
-      <span class="object-description pt-1"><strong>Descripción: </strong>{{ object.description }}</span>
-
+      <span class="object-description pt-1"><strong>Descripción: </strong><span class="d-flex scrollable">{{ object.description }}</span></span>
       <span class="object-donor-name pt-1"><strong>Nombre donante: </strong>{{ object.donor_name  }} {{object.donor_surname}}</span>
       <span class="object-donor-dni pt-1"><strong>DNI donante: </strong>{{ object.donor_dni  }}</span>
       <span class="object-donor-address pt-1"><strong>Dirección donante: </strong> {{ object.donor_address  }}</span>
@@ -70,8 +90,8 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
-          <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
-          <a href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
+          <a href="{{ object.id }}/update" id="update-button"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete" id="delete-button"><i class="bi bi-x"></i>Eliminar</a>
         </div>
       </div>
     </div>
@@ -125,13 +145,14 @@ displayed in the preview text (e.g. "donación")
             
             <h2 title="${objectData.title}">${objectData.title}</h2>
             <h5>{{object_name}}</h5>
-            <p>${objectData.description}</p>
+            <p><strong>Descripción: </strong><span class="d-flex scrollable">${objectData.description}</span></p>
+            <p><strong>Fecha de presentación: </strong><span>${ objectData.created_date }</span></p>
             <p><strong>Cantidad:  </strong>${objectData.amount} €</p>
             <p><strong>Nombre donante: </strong>${objectData.donor_name + ' ' + objectData.donor_surname}</p>
             <p><strong>DNI donante:  </strong>${objectData.donor_dni}</p>
-            <p><strong>Dirección donante:  </strong>${objectData.donor_address}</p>
-            <p><strong>Correo donante:  </strong>${objectData.donor_email}</p>
-            <p><strong>Documento: </strong>
+            <p><strong>Dirección donante:  </strong><span>${objectData.donor_address}</span></p>
+            <p><strong>Correo donante:  </strong><span>${objectData.donor_email}</span></p>
+            <p style="margin-bottom: 131px;"><strong>Documento: </strong>
               ${
                 objectData.document && objectData.document.includes("donation/")
                   ? `<a href="/${objectData.document}" target="_blank">${objectData.document.split("donation/")[1]}</a>`
@@ -144,12 +165,18 @@ displayed in the preview text (e.g. "donación")
 
         <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
-            <a href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
-            <a href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+            <a id='edit-button' href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+            <a id='delete-button' href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
           </div>
         </div>
       `
       }
+      let deleteBtn = document.querySelector('#delete-button')
+      deleteBtn.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
+          event.preventDefault();
+        }
+      })
 
     })
 
@@ -171,5 +198,13 @@ displayed in the preview text (e.g. "donación")
       e.preventDefault();
       window.location.href = window.location.pathname;
   });
+</script>
+<script>
+  let deleteBtn = document.querySelector('#delete-button')
+    deleteBtn.addEventListener('click', () => {
+      if (!confirm('¿Estás seguro de que quieres eliminar esta donación?')) {
+        event.preventDefault();
+      }
+    })
 </script>
 {% endblock %}

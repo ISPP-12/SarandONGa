@@ -25,8 +25,8 @@
   transition: all 0.75s ease-in-out;
 }
 
-.card-stock .card-body {
-  height: 100px;
+.card-stock .card-body-col {
+  height: 250px;
 }
 
 .card-stock .card-title {

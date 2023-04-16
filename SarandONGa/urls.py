@@ -54,4 +54,3 @@ if settings.DEBUG:
         re_path(r'^media/(?P<path>.*)$', serve,
                 {'document_root': os.path.join(settings.BASE_DIR, 'media')}),
     ]
-

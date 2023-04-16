@@ -1,5 +1,6 @@
 from django.test import TestCase
 from donation.models import Donation
+from time import sleep
 import datetime
 from ong.models import Ong
 from person.models import Worker
@@ -416,7 +417,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.ong = None
         self.test_donation_1 = None
         super().tearDown()
-
+    
     def test_access_donation_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/donation/list')
@@ -446,19 +447,19 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         # Now the preview section should be filled with the test item data
         children = left_section_div.find_elements(By.CSS_SELECTOR, "h2, p")
         self.assertTrue(children[0].text == self.test_donation_1.title)
-        self.assertTrue(children[1].text == self.test_donation_1.description)
+        self.assertTrue(children[1].find_element(By.TAG_NAME,'span').text == self.test_donation_1.description)
         # 100 € is the text in the html
-        self.assertTrue(children[2].text == "Cantidad: " +
+        self.assertTrue(children[3].text == "Cantidad: " +
                         str(self.test_donation_1.amount) + " €")
-        self.assertTrue(children[3].text == "Nombre donante: " +
+        self.assertTrue(children[4].text == "Nombre donante: " +
                         self.test_donation_1.donor_name + " " + self.test_donation_1.donor_surname)
         self.assertTrue(
-            children[4].text == "DNI donante: " + self.test_donation_1.donor_dni)
+            children[5].text == "DNI donante: " + self.test_donation_1.donor_dni)
         self.assertTrue(
-            children[5].text == "Dirección donante: " + self.test_donation_1.donor_address)
+            children[6].text == "Dirección donante: " + self.test_donation_1.donor_address)
         self.assertTrue(
-            children[6].text == "Correo donante: " + self.test_donation_1.donor_email)
-
+            children[7].text == "Correo donante: " + self.test_donation_1.donor_email)
+    
     def test_delete_donation_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/donation/list')
@@ -490,6 +491,12 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         lateral_btns = self.driver.find_element(By.ID, "lateralButtons")
         delete_btn = lateral_btns.find_elements(By.TAG_NAME, "a")[1]
         delete_btn.click()
+
+        confirmation = self.driver.switch_to.alert
+        confirmation.accept()
+        sleep(1)
+        
         after_count = Donation.objects.count()
 
         self.assertTrue(before_count == after_count+1)
+    

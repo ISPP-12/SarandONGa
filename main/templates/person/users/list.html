@@ -24,7 +24,7 @@
 {% block extrahead %} <link rel="stylesheet" type="text/css" href="{% static 'styles/users.css' %}"> {% endblock %}
 
 
-{%block filters%}
+{% block filters %}
 <form method="GET" class="my-3">
 
   {% csrf_token %}
@@ -221,8 +221,8 @@
           preview.innerHTML = `
         <div class="container p-0">
           <div class="row px-4">
-            <div class="col justify-content-center">
-              <div class=" row justify-content-center ">
+            <div class="col-12 justify-content-center">
+              <div class="row justify-content-center">
                 {%if object_name == "usuario" or object_name == "niño" or object_name == "padrino" or object_name == "trabajador" or object_name == "voluntario"%} 
 
                   <img class="profile-img-big rounded" alt="{{object.photo}}" src=${object_photo}/>
@@ -230,28 +230,26 @@
                 {%endif%}
               </div>
               <div class="row">
-                <h2 class="text-center object-title" title="${objectData.name+ ' '+ objectData.surname}">${objectData.name+ ' '+ objectData.surname}</h1>
+                <h2 class="text-center object-title" title="${objectData.name+ ' '+ objectData.surname}">${objectData.name+ ' '+ objectData.surname}</h2>
               </div>
               
               <div class="row">
-                <p class="text-center">{{ object_name}}</p>
+                <p title="{{object_name}}" class="text-center">{{object_name}}</p>
               </div>
               <div class="row">
-                <h5>{{object_names}}</h5>
-
+                <h5 title="{{object_names}}">{{object_names}}</h5>
               </div>
+
               <div class="row ">
-                <p><strong>Teléfono: </strong>${objectData.telephone?objectData.telephone:'No especificado'}</p>
-
+                <p><strong>Teléfono: </strong><span>${objectData.telephone?objectData.telephone:'No especificado'}</span></p>
               </div>
-              <div class="row">
-                <p><strong>Direción:  </strong>${objectData.address?objectData.address:'No especificado'}</p>
 
-              </div>
               <div class="row">
-                <div class="col-12 col-email2">
-      
-                  <span><strong>Correo:  </strong>${objectData.email?objectData.email:'No especificado'}</span>
+                <p><strong>Direción:  </strong><span>${objectData.address?objectData.address:'No especificado'}</span></p>
+              </div>
+
+              <div class="row" style="margin-bottom: 131px;">
+                  <p><strong>E-mail:  </strong><span>${objectData.email?objectData.email:'No especificado'}</span></p>
                 </div>
 
               </div>
@@ -282,6 +280,13 @@
       `
       }
 
+      let deleteBtn = document.querySelector('#delete-button')
+      deleteBtn.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+          event.preventDefault();
+        }
+      })
+
     })
 
     // when resizing the window, the preview will be reset
@@ -290,7 +295,7 @@
       prevInfo.classList.remove('d-none')
       preview.classList.add('text-center')
       preview.classList.remove('p-5')
-      preview.innerHTML = `<span id="prev-info">Pulsa sobre una {{ object_name }} para la vista previa</span>`
+      preview.innerHTML = `<span id="prev-info">Pulsa sobre un {{ object_name }} para la vista previa</span>`
 
     })
 
@@ -305,5 +310,11 @@
       e.preventDefault();
       window.location.href = window.location.pathname;
   });
+</script>
+
+<script>
+
+
+  
 </script>
 {% endblock %}
