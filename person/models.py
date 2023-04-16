@@ -121,6 +121,8 @@ class Person(models.Model):
     photo = models.ImageField(
         verbose_name="Foto", upload_to="./static/img/person/", null=True, blank=True)
 
+
+
     def save(self, *args, **kwargs):
        # self.slug = slugify( str(self.id)+' '+self.name + ' ' + self.surname)
         super(Person, self).save(*args, **kwargs)
@@ -301,7 +303,6 @@ class Volunteer(Person):
 
     dni = models.CharField(
         max_length=9,
-        unique=True,
         validators=[DNI_VALIDATOR],
         verbose_name='DNI'
     )
@@ -334,10 +335,12 @@ class Volunteer(Person):
     document = models.FileField(
         verbose_name="Contrato", upload_to="./media/docs/volunteer/", null=True, blank=True)
 
+  
     class Meta:
         ordering = ['surname', 'name']
         verbose_name = 'Voluntario'
         verbose_name_plural = 'Voluntarios'
+        unique_together = ('dni', 'ong')
 
     def __str__(self):
         return self.surname + ', ' + self.name
