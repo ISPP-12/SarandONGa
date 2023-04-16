@@ -125,7 +125,15 @@
             <a href="/user/godfather/{{ godfather.id }}">{{ godfather.name }} {{ godfather.surname }}</a>
           </li>
         {% endfor %}
-
+        </ul>
+        {% elif key == "Casas" %}
+        <ul>
+        {% for home in value %}
+          <li>
+            <p>{{ home.name }}, {{ home.province }}</p>
+          </li>
+        {% endfor %}
+        </ul>
         {% else %}
           {{ value }}
         {% endif %}

@@ -68,10 +68,35 @@ def home_list(request):
     # json
     homes_json = json.dumps(homes_dict, cls=CustomJSONEncoder)
 
-    query_str = "&qsearch="
+    query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
+        query_str = "&qsearch="
         query_str += request.GET["qsearch"]
+    if "min_start_date" in keys:
+        query_str += "&min_start_date="
+        query_str += request.GET["min_start_date"]
+    if "max_start_date" in keys:
+        query_str += "&max_date="
+        query_str += request.GET["max_start_date"]
+    if "min_termination_date" in keys:
+        query_str += "&min_termination_date="
+        query_str += request.GET["min_termination_date"]
+    if "max_termination_date" in keys:
+        query_str += "&max_termination_date="
+        query_str += request.GET["max_termination_date"]
+    if "amount_min" in keys:
+        query_str += "&amount_min="
+        query_str += request.GET["amount_min"]
+    if "amount_max" in keys:
+        query_str += "&amount_max="
+        query_str += request.GET["amount_max"]
+    if "frequency" in keys:
+        query_str += "&frequency="
+        query_str += request.GET["frequency"]
+    if "payment_method" in keys:
+        query_str += "&payment_method="
+        query_str += request.GET["payment_method"]
 
     context = {
         'objects': home_page,
@@ -128,9 +153,6 @@ def home_filter(queryset, form):
     max_start_date = form['max_start_date'].value()
     min_termination_date = form['min_termination_date'].value()
     max_termination_date = form['max_termination_date'].value()
-    province = form['province'].value()
-    bank_account_holder = form['bank_account_holder'].value()
-    bank_account_reference = form['bank_account_reference'].value()
     payment_method = form['payment_method'].value()
     frequency = form['frequency'].value()
     amount_min = form['amount_min'].value()
@@ -158,15 +180,6 @@ def home_filter(queryset, form):
 
     if is_valid_queryparam(max_termination_date):
         queryset = queryset.filter(termination_date__lte=max_termination_date)
-
-    if is_valid_queryparam(province):
-        queryset = queryset.filter(province=province)
-
-    if is_valid_queryparam(bank_account_holder):
-        queryset = queryset.filter(bank_account_holder=bank_account_holder)
-
-    if is_valid_queryparam(bank_account_reference):
-        queryset = queryset.filter(bank_account_reference=bank_account_reference)
 
     if is_valid_queryparam(payment_method):
         queryset = queryset.filter(payment_method=payment_method)

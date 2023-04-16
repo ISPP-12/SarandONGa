@@ -32,7 +32,12 @@ def sponsorship_create(request):
             sponsorship = form.save(commit=False)
             sponsorship.save()
             form.save_m2m()
-            return redirect('sponsorship_list')
+            if(godfather):
+                return redirect('godfather_details', godfather.id)
+            elif(child):
+                return redirect('child_details', child.id)
+            else:
+                return redirect('child_details', form['child'].value())
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
@@ -80,7 +85,7 @@ def sponsorship_edit(request, sponsorship_id):
         if form.is_valid():
             try:
                 form.save()
-                return redirect('sponsorship_list')
+                return redirect('child_details', form['child'].value())
             except ValidationErr as v:
                 messages.error(request, str(v.args[0]))
         else:

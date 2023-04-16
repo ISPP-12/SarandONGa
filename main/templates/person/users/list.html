@@ -38,7 +38,7 @@
       </div>
     
       <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %} 
       </div>
       <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
@@ -67,7 +67,7 @@
       </div>
     
       <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %} 
       </div>
       <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %} 
@@ -84,7 +84,7 @@
       </div>
     
       <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %} 
       </div>
 
       <div class="col-lg-3 col-md-12 col-12 mb-3">
@@ -110,7 +110,7 @@
       </div>
     
       <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %} 
       </div>
 
       <div class="col-lg-3 col-md-12 col-12 mb-3">
@@ -132,7 +132,7 @@
       </div>
     
       <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento" input=form.birth_date_min %} 
+        {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %} 
       </div>
 
       <div class="col-lg-3 col-md-12 col-12 mb-3">
@@ -141,6 +141,10 @@
 
       <div class="col-lg-3 col-md-12 col-12 mb-3">
         {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado Civil" input=form.status %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad mínima" input=form.amount_min %} 
       </div>
     </div>
   </div>
@@ -261,9 +265,9 @@
           <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panelcol-md-4 p-0 fixed-panel">
             <div class="buttons row d-flex flex-column text-center p-3" id="lateralButtons">
               {%if object_name == "usuario"%}
-              <a id="add-service" href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
+              <a id="add-service" href="../../../service/create?asem_user=${ objectData.id }""><i class="bi bi-bandaid"></i>Añadir servicio</a>
               {%elif object_name == "padrino" or object_name == "donante"%}
-              <a id="add-payment" href="../../../payment/create?godfather=${ objectData.id }""><i class="bi bi-wallet2"></i>Añadir pago</a>
+              <a id="add-payment" href="../../../payment/create?godfather=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
               {% endif %}
               {%if object_name == "niño"%}
               <a id="add-godfather" href="../../../sponsorship/create?child=${ objectData.id }"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>

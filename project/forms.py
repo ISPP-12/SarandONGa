@@ -3,7 +3,7 @@ from project.models import Project
 
 
 class FilterProjectForm(forms.Form):
-    search = forms.CharField(max_length=100, required=False , label="Búsqueda")
+    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
     start_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de inicio mínima")
     start_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de inicio máxima")
     end_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Con fecha de fin mínima")
@@ -26,7 +26,7 @@ class FilterProjectForm(forms.Form):
             else:
                 self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
 
-        self.fields['search'].initial = self.data.get('search')
+        self.fields['qsearch'].initial = self.data.get('qsearch')
         self.fields['start_date_min'].initial = self.data.get('start_date_min')
         self.fields['start_date_max'].initial = self.data.get('start_date_max')
         self.fields['end_date_min'].initial = self.data.get('end_date_min')

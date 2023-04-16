@@ -58,6 +58,8 @@ class FilterGodfatherForm(forms.Form):
     sex = forms.ChoiceField(choices=sex_choices, required=False, label="Género")
     status_choices = [('', '--Seleccione--')] + list(STATUS)
     status = forms.ChoiceField(choices=status_choices, required=False, label="Estado civil")
+    amount_min = forms.FloatField(required=False, widget=forms.NumberInput(attrs={'min': 0}), label="Precio mínimo de donación")
+    amount_max = forms.FloatField(required=False, widget=forms.NumberInput(attrs={'min': 0}), label="Precio máximo de donación")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -74,6 +76,8 @@ class FilterGodfatherForm(forms.Form):
         self.fields['qsearch'].initial = self.data.get('qsearch')
         self.fields['birth_date_min'].initial = self.data.get('birth_date_min')
         self.fields['birth_date_max'].initial = self.data.get('birth_date_max')
+        self.fields['amount_min'].initial = self.data.get('amount_min')
+        self.fields['amount_max'].initial = self.data.get('amount_max')
         self.fields['sex'].initial = self.data.get('sex')
         self.fields['status'].initial = self.data.get('status')
 

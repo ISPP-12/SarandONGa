@@ -36,21 +36,22 @@ def stock_list(request):
 
     stock_json = json.dumps(stock_dict, cls=CustomJSONEncoder)
 
-    query_str = "&qsearch="
+    query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
+        query_str = "&qsearch="
         query_str += request.GET["qsearch"]
-    query_str += "&min_quantity="
     if "min_quantity" in keys:
+        query_str += "&min_quantity="
         query_str += request.GET["min_quantity"]
-    query_str += "&max_quantity="
     if "max_quantity" in keys:
+        query_str += "&max_quantity="
         query_str += request.GET["max_quantity"]
-    query_str += "&min_amount="
     if "min_amount" in keys:
+        query_str += "&min_amount="
         query_str += request.GET["min_amount"]
-    query_str += "&max_amount="
     if "max_amount" in keys:
+        query_str += "&max_amount="
         query_str += request.GET["max_amount"]
 
     context = {
