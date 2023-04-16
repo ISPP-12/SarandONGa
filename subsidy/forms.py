@@ -43,7 +43,7 @@ class FilterSubsidyForm(forms.Form):
     name = forms.CharField(max_length=100, required=False , label="Nombre")
     ong = forms.CharField(max_length=100, required=False , label="Ong")
     status = forms.ChoiceField(choices=[('', '--Seleccione--'), ('Por presentar', 'Por presentar'),
-    ('Presentada', 'Presentada'), ('Concedida', 'Concedida'), ('Denegada', 'Denegada')], 
+    ('Presentada', 'Presentada'), ('Justificada', 'Justificada'), ('Concedida', 'Concedida'), ('Denegada', 'Denegada')], 
     required=False, label="Método de pago")
     amount_min = forms.IntegerField(required=False, label="Tamaño mínimo de cantidad")
     amount_max = forms.IntegerField(required=False, label="Tamaño máximo de cantidad")
