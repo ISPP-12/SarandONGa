@@ -17,6 +17,7 @@ in order fot the switch to work properly
 
 <script>
     function toList(){
+        sessionStorage.setItem('display_state','list');
         let rowdiv = document.getElementById('{{id}}');
         if(rowdiv !== null) {
             rowdiv.classList.remove('row-cols-md-3');
@@ -32,12 +33,17 @@ in order fot the switch to work properly
                     let elBodyCol = element.querySelector('.card-body-col')
                     elBodyCol.classList.add('col-8','col-md-9');
                     elBodyCol.classList.remove('col-12');
+                    let footer = element.querySelectorAll('#id-div-footer-btn .col-6');
+                    Array.from(footer).forEach(btn => {
+                        btn.classList = ['col-12'];
+                    });
                 });
             }
         }
     }
 
     function toGrid(){
+        sessionStorage.setItem('display_state','grid');
         let rowdiv = document.getElementById('{{id}}');
         if(rowdiv !== null) {
             rowdiv.classList.add('row-cols-md-3');
@@ -53,8 +59,13 @@ in order fot the switch to work properly
                     let elBodyCol = element.querySelector('.card-body-col')
                     elBodyCol.classList.add('col-12');
                     elBodyCol.classList.remove('col-8','col-md-9');
+                    let footer = element.querySelectorAll('#id-div-footer-btn .col-12');
+                    Array.from(footer).forEach(btn => {
+                        btn.classList = ["col-6 px-2 text-center"];
+                    });
                 });
             }
         }
     }
+
 </script>

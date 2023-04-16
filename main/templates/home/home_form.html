@@ -41,11 +41,11 @@ Añadir casa
     <div class="col-md-6 col-12">
       <div class="row my-3">
         {% if field.field.required %}
-        {% with label_text=field.label_tag|safe|add:'<span class="text-danger"> *</span>' %}
-        {% include 'components/inputs.html' with id=field.id_for_label label_text=label_text input=field %}
-        {% endwith %}
+          {% with label_text=field.label_tag|safe|add:'<span class="text-danger"> *</span>' %}
+            {% include 'components/inputs.html' with id=field.id_for_label label_text=label_text input=field %}
+          {% endwith %}
         {% else %}
-        {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+          {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
         {% endif %}
       </div>
       <div class="row text-danger">
@@ -71,6 +71,61 @@ Añadir casa
     </div>
   </form>
 </div>
+
+{% comment %} Handle payment methods {% endcomment %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script  type="text/javascript">
+    $(document).ready(function() {
+
+        if ($("#id_payment_method").val() == "T") {
+                $('#id_bank_account_number').prop("disabled", false);
+                $('#id_bank_account_holder').prop("disabled", false);
+                $('#id_bank_account_reference').prop("disabled", false);
+                $('#id_bank_account_number').prop("required", true);
+                $('#id_bank_account_holder').prop("required", true);
+                $('#id_bank_account_reference').prop("required", true);
+                $('label[for="id_bank_account_number"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_holder"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_reference"]:last').append('<span class="text-danger">*</span>');
+
+            } else {
+                $('#id_bank_account_number').prop("disabled", true);
+                $('#id_bank_account_holder').prop("disabled", true);
+                $('#id_bank_account_reference').prop("disabled", true);
+                $('#id_bank_account_number').prop("required", false);
+                $('#id_bank_account_holder').prop("required", false);
+                $('#id_bank_account_reference').prop("required", false);
+                $('label[for="id_bank_account_number"] span').remove();
+                $('label[for="id_bank_account_holder"] span').remove();
+                $('label[for="id_bank_account_reference"] span').remove();
+            }
+
+        $("#id_payment_method").change(function(){
+            if ($(this).val() == "T") {
+                $('#id_bank_account_number').prop("disabled", false);
+                $('#id_bank_account_holder').prop("disabled", false);
+                $('#id_bank_account_reference').prop("disabled", false);
+                $('#id_bank_account_number').prop("required", true);
+                $('#id_bank_account_holder').prop("required", true);
+                $('#id_bank_account_reference').prop("required", true);
+                $('label[for="id_bank_account_number"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_holder"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_reference"]:last').append('<span class="text-danger">*</span>');
+
+            } else {
+                $('#id_bank_account_number').prop("disabled", true);
+                $('#id_bank_account_holder').prop("disabled", true);
+                $('#id_bank_account_reference').prop("disabled", true);
+                $('#id_bank_account_number').prop("required", false);
+                $('#id_bank_account_holder').prop("required", false);
+                $('#id_bank_account_reference').prop("required", false);
+                $('label[for="id_bank_account_number"] span').remove();
+                $('label[for="id_bank_account_holder"] span').remove();
+                $('label[for="id_bank_account_reference"] span').remove();
+            }
+        });
+    });
+</script>
 
 <script type="text/javascript">
   let startDate = document.getElementById('id_start_date')
@@ -105,6 +160,60 @@ Añadir casa
   startDate.addEventListener('change', compare)
   terminationDate.addEventListener('change', compare)
 
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+
+        if ($("#id_payment_method").val() == "T") {
+                $('#id_bank_account_number').prop("disabled", false);
+                $('#id_bank_account_holder').prop("disabled", false);
+                $('#id_bank_account_reference').prop("disabled", false);
+                $('#id_bank_account_number').prop("required", true);
+                $('#id_bank_account_holder').prop("required", true);
+                $('#id_bank_account_reference').prop("required", true);
+                $('label[for="id_bank_account_number"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_holder"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_reference"]:last').append('<span class="text-danger">*</span>');
+
+            } else {
+                $('#id_bank_account_number').prop("disabled", true);
+                $('#id_bank_account_holder').prop("disabled", true);
+                $('#id_bank_account_reference').prop("disabled", true);
+                $('#id_bank_account_number').prop("required", false);
+                $('#id_bank_account_holder').prop("required", false);
+                $('#id_bank_account_reference').prop("required", false);
+                $('label[for="id_bank_account_number"] span').remove();
+                $('label[for="id_bank_account_holder"] span').remove();
+                $('label[for="id_bank_account_reference"] span').remove();
+            }
+
+        $("#id_payment_method").change(function(){
+            if ($(this).val() == "T") {
+                $('#id_bank_account_number').prop("disabled", false);
+                $('#id_bank_account_holder').prop("disabled", false);
+                $('#id_bank_account_reference').prop("disabled", false);
+                $('#id_bank_account_number').prop("required", true);
+                $('#id_bank_account_holder').prop("required", true);
+                $('#id_bank_account_reference').prop("required", true);
+                $('label[for="id_bank_account_number"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_holder"]:last').append('<span class="text-danger">*</span>');
+                $('label[for="id_bank_account_reference"]:last').append('<span class="text-danger">*</span>');
+
+            } else {
+                $('#id_bank_account_number').prop("disabled", true);
+                $('#id_bank_account_holder').prop("disabled", true);
+                $('#id_bank_account_reference').prop("disabled", true);
+                $('#id_bank_account_number').prop("required", false);
+                $('#id_bank_account_holder').prop("required", false);
+                $('#id_bank_account_reference').prop("required", false);
+                $('label[for="id_bank_account_number"] span').remove();
+                $('label[for="id_bank_account_holder"] span').remove();
+                $('label[for="id_bank_account_reference"] span').remove();
+            }
+        });
+    });
 </script>
 
 {% endblock %}

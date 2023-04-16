@@ -27,11 +27,11 @@ class Home(models.Model):
         max_length=50, choices=PAYMENT_METHOD, verbose_name='Método de pago',)
     bank_account_number = models.CharField(max_length=24, verbose_name='Número de cuenta bancaria',
                                            validators=[RegexValidator(regex=r'^ES\d{2}\s?\d{4}\s?\d{4}\s?\d{1}\d{1}\d{10}$',
-                                                                      message='El número de cuenta no es válido.')])
+                                                                      message='El número de cuenta no es válido.')], null=True, blank=True)
     bank_account_holder = models.CharField(
-        max_length=100, verbose_name='Titular de cuenta bancaria')
+        max_length=100, verbose_name='Titular de cuenta bancaria', null=True, blank= True)
     bank_account_reference = models.CharField(
-        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')])
+        max_length=100, verbose_name='Referencia de cuenta bancaria', validators=[RegexValidator(r'^[0-9]+$')], blank= True, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2,
                                  verbose_name='Cantidad', validators=[MinValueValidator(1)])
     frequency = models.CharField(
@@ -59,7 +59,6 @@ class Home(models.Model):
                 raise ValidationErr(
                     "La cantidad debe ser mayor a 1.")
             else:
-               # self.slug = slugify(self.name + ' ' + self.province)
                 super(Home, self).save(*args, **kwargs)
         else:
          #   self.slug = slugify(self.name + ' ' + self.province)

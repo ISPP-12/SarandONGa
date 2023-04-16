@@ -16,5 +16,80 @@
         {% include 'components/button.html' with id="login" text="Acceder" href="/login" variation="SUBMIT" %}
     </div>
 </div>
+<div>
+    <section class="demo ">
+        <div class="container">
+          <div class="row text-center">
+            <h1 class="heading-title">Planes SarandONGa</h1>
+          </div>
+      
+          <div class="row demo">
+            <div class="col-md-4 col-sm-6 mx-2">
+              <div class="pricingTable">
+                <div class="pricingTable-header">
+                  <span class="heading">
+                    Estándar
+                  </span>
+                </div>
+                <div class="pricing-plans">
+                  <span class="price-value"><span>0€ </span></span>
+                  <span class="subtitle"><b>Plan básico</b></span>
+                </div>
+                <div class="pricingContent">
+                  <ul>
+                    <li>Soporte de lunes a viernes</li>
+                    <li>Aseguramos un 90% de disponibilidad</li>
+                    <li><b>Sin</b> compensaciones</li>
+                    <li><b>Sin</b> garantía de SLA</li>
+                    <li>  
+                      <br/><b>&zwnj; </b></li>
+
+
+                  </ul>
+                </div><!-- /  CONTENT BOX-->
+      
+                <div class="pricingTable-sign-up"><!-- BUTTON BOX-->
+                    {% include 'components/button.html' with href='login/' id='getway' variation='SUBMIT' text='Acceder'%}
+                </div><!-- BUTTON BOX-->
+              </div>
+            </div>
+      
+            <div class="col-md-4 col-sm-6  mx-2">
+              <div class="pricingTable">
+                <div class="pricingTable-header">
+                  <span class="heading">
+                    Premium
+                  </span>
+                </div>
+                <div class="pricing-plans">
+                  <span class="price-value"><span>315€</span></span>
+                  <span class="subtitle"><b>Plan Profesional</b></span>
+                </div>
+                <div class="pricingContent">
+                  <ul>
+                    <li>Soporte todos los días</li>
+                    <li>Aseguramos un 95% de disponibilidad</li>
+                    <li><b>Incluye</b> compensaciones</li>
+                    <li><b>Garantía</b> de SLA</li>
+                    <li>Desarrollo de funcionalidades 
+                        <br/><b>personalizadas</b></li>
+                  </ul>
+                </div><!-- /  CONTENT BOX-->
+      
+                <div class="pricingTable-sign-up"><!-- BUTTON BOX-->
+                    {% include 'components/button.html' with href='gateway/' id='getway' variation='SUBMIT' text='Contratar'%}
+
+                </div><!-- BUTTON BOX-->
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+ 
+ 
 </section>
         {% endblock %}
+
+
+

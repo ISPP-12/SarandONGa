@@ -11,6 +11,17 @@ class CreateHomeForm(forms.ModelForm):
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'amount': forms.NumberInput(attrs={'step': "0.01"}),
         }
+        error_messages = {
+            'bank_account_number': {
+                'required': 'Por favor ingrese su número de cuenta bancaria.',
+            },
+            'bank_account_reference': {
+                'required': 'Por favor ingrese su referencia de cuenta bancaria.',
+            },
+            'bank_account_holder': {
+                'required': 'Por favor ingrese el titular de la cuenta bancaria.',
+            },
+        }
 
     def __init__(self, *args, **kwargs):
         super(CreateHomeForm, self).__init__(*args, **kwargs)

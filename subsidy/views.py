@@ -5,10 +5,11 @@ from datetime import date
 import json
 from decimal import Decimal
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from main.views import custom_403
 from django.db.models import Q
-
+from django.core.paginator import Paginator
 
 
 class CustomJSONEncoder(json.JSONEncoder):
@@ -48,22 +49,37 @@ def subsidy_list(request):
 
     if request.method == 'GET':
         subsidies = subsidy_filter(subsidies, form)
+        
+    paginator = Paginator(subsidies, 12)
+    page_number = request.GET.get('page')
+    subsidies_page = paginator.get_page(page_number)
 
+    # depending of the user type write one title or another
+    subsidies_dict = [user for user in subsidies_page]
 
-    subsidies_dict = [obj for obj in subsidies]
     for s in subsidies_dict:
         s.pop('_state', None)
+        # remove null values
+        for key, value in list(s.items()):
+            if value is None or value == '':
+                s[key] = '-'
 
     subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
 
+    query_str = "&qsearch="
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str += request.GET["qsearch"]
+
     context = {
-        'objects': subsidies,
+        'objects': subsidies_page,
         'objects_json': subsidies_json,
         'object_name': 'subvención',
         'object_name_en': 'subsidy',
         'title': 'Gestión de Subvenciones',
         'page_title': 'SarandONGa 💃 - Gestión de Subvenciones',
         'form': form,
+        'query_str': query_str
     }
 
     return render(request, 'subsidy/list.html', context)
@@ -82,7 +98,6 @@ def subsidy_delete(request, subsidy_id):
  
 def subsidy_update(request, subsidy_id):
     subsidy = get_object_or_404(Subsidy, id=subsidy_id)
-    
     
     if request.user.ong == subsidy.ong:
         form= CreateNewSubsidy(instance=subsidy)

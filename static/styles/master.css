@@ -66,3 +66,14 @@ body {
   src: url("/static/typographies/ABCWhyte-Black-Trial.otf");
   font-weight: bold;
 }
+
+p {
+  word-wrap: break-word;
+}
+
+.scrollable {
+  max-height: 200px;
+  word-wrap: break-word;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}

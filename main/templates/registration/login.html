@@ -44,9 +44,16 @@
                 </div>
             </div>
         {% endfor %}
-
-      
-      <div class="form-section mt-5 mb-5 col-12 d-flex justify-content-center">
+      <div class="form-section mb-3 col-12 d-flex justify-content-center">
+        <a href="https://sarandonga.vercel.app/#contact" data-bs-toggle="tooltip" data-bs-placement="top" title="Serás reedirigido a un formulario para poder ayudarte">
+          He olvidado mi contraseña
+        </a>
+      </div>
+            <div class="form-section mb-3 col-12 d-flex justify-content-center">
+        Al iniciar sesión, aceptas la <a href="https://sarandonga.vercel.app/politica-privacidad" class="ms-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Serás reedirigido a la política de privacidad"> política de privacidad</a>
+        
+      </div>
+      <div class="form-section mt-2 mb-5 col-12 d-flex justify-content-center">
         {% include 'components/button.html' with variation="SUBMIT" text="Iniciar sesión" id="id-submitForm" type="submit" %}  
       </div>
     </form>
@@ -62,6 +69,11 @@
   // add placeholder to inputs
   usernameInput.setAttribute("placeholder", "Escribe tu nombre de usuario ...")
   passwordInput.setAttribute("placeholder", "Escribe tu contraseña ...")
+
+  var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 </script>
 
 {% endblock %}

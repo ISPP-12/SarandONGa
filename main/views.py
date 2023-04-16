@@ -1,9 +1,54 @@
 import json
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from functools import wraps
 from django.contrib import messages
 from person.models import ASEMUser, Worker, Volunteer, GodFather
 from donation.models import Donation
+import braintree
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+import datetime
+
+# instancia Braintree payment gateway
+gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
+
+@login_required
+def payment_done(request):
+    return render(request, 'done.html')
+
+@login_required
+def payment_canceled(request):
+    return render(request, 'canceled.html')
+
+@login_required
+def payment_process(request):
+    # create and submit transaction
+    if request.method == 'POST':
+        # retrieve nonce
+        ong = request.user.ong
+        nonce = request.POST.get('payment_method_nonce', None)
+        total_cost = 150.00
+        result = gateway.transaction.sale({
+            'amount': f'{total_cost:.2f}',
+            'payment_method_nonce': nonce,
+            'options': {
+            'submit_for_settlement': True
+            }
+        })
+        if result.is_success:
+            if ong.plan == "B":
+                ong.plan = "P"
+                ong.premium_payment_date = datetime.date.today()
+                ong.save()
+                return redirect('done')
+            else:
+                return redirect('canceled')
+        else:
+            return redirect('canceled')
+    else:
+        # generate token
+        client_token = gateway.client_token.generate()
+        return render(request,'process.html',{'client_token': client_token})
 
 def index(request):
     if request.user.is_authenticated:
