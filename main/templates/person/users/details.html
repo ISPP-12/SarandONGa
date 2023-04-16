@@ -170,10 +170,10 @@
   
   {% endcomment %}
   {% if asem_user %}
-    <a href="/service/create"><i class="bi bi-plus-lg"></i> Añadir servicio</a>
+    <a href="/service/create?asem_user={{ asem_user.id }}"><i class="bi bi-plus-lg"></i> Añadir servicio</a>
   {% endif %}
   {% if godfather %}
-  <a href="/payment/create"><i class="bi bi bi-wallet2"></i> Añadir pago</a>
+  <a href="/payment/create?godfather={{ godfather.id }}"><i class="bi bi bi-wallet2"></i> Añadir pago</a>
   {% endif %}
   {% if child %}
     <a href="/sponsorship/create?child={{ child.id }}"><i class="bi bi-diagram-2"></i> Añadir apadrinamiento</a>
