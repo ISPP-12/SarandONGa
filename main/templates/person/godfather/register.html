@@ -151,13 +151,15 @@
             birthDiv.innerHTML = 'La fecha de nacimiento debe ser anterior a la fecha actual'
         } else {
             birthDiv.innerHTML = ''
-        }
-  
+        }  
         if (startDateValue > currentDate) {
             startDiv.innerHTML = 'La fecha de alta debe ser anterior a la fecha actual'
+        } else if(startDateValue < birthDateValue) {
+            startDiv.innerHTML = 'La fecha de alta debe ser posterior a la fecha de nacimiento'
         } else {
             startDiv.innerHTML = ''
         }
+
         if (terminationDateValue && terminationDateValue < startDateValue) {
             terminationDiv.innerHTML = 'La fecha de baja debe ser posterior a la fecha de alta'
         } else {
@@ -165,7 +167,7 @@
         }
         
         
-        if(birthDateValue <= currentDate && startDateValue <= currentDate && (terminationDateValue > startDateValue || !terminationDateValue)) {
+        if(birthDateValue <= currentDate && startDateValue <= currentDate && birthDateValue <= startDateValue && (terminationDateValue > startDateValue || !terminationDateValue)) {
             submitButton.disabled = false
         }
 

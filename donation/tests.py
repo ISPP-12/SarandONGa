@@ -1,5 +1,6 @@
 from django.test import TestCase
 from donation.models import Donation
+from time import sleep
 import datetime
 from ong.models import Ong
 from person.models import Worker
@@ -416,7 +417,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.ong = None
         self.test_donation_1 = None
         super().tearDown()
-
+    
     def test_access_donation_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/donation/list')
@@ -458,7 +459,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
             children[6].text == "Dirección donante: " + self.test_donation_1.donor_address)
         self.assertTrue(
             children[7].text == "Correo donante: " + self.test_donation_1.donor_email)
-
+    
     def test_delete_donation_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/donation/list')
@@ -490,6 +491,12 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         lateral_btns = self.driver.find_element(By.ID, "lateralButtons")
         delete_btn = lateral_btns.find_elements(By.TAG_NAME, "a")[1]
         delete_btn.click()
+
+        confirmation = self.driver.switch_to.alert
+        confirmation.accept()
+        sleep(1)
+        
         after_count = Donation.objects.count()
 
         self.assertTrue(before_count == after_count+1)
+    

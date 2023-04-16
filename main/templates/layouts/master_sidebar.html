@@ -30,9 +30,13 @@ BLOCKS IN THIS LAYOUT
 
   <div class="row complete h-100">
 
-    <div id="previewContainer" class="pt-4 px-0 col-md-4">
-      <div id="preview" class="fs-4 text-center d-flex flex-column justify-content-between">
-        <span id="prev-info" class="p-4">Pulsa sobre una {{ object_name }} para la vista previa</span>
+    <div id="previewContainer" class="pt-4 px-0 col-md-4 ">
+      <div id="preview" class="w-100 h-100 fs-4 text-center d-flex flex-column justify-content-between">
+        {% if object_name == 'donación' or object_name == 'subvención' or object_name == 'casa' %}
+          <span id="prev-info" class="p-4">Pulsa sobre una {{ object_name }} para la vista previa</span>
+        {% else %}
+          <span id="prev-info" class="p-4">Pulsa sobre un {{ object_name }} para la vista previa</span>
+        {% endif %}
       </div>
 
     </div>

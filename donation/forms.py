@@ -10,6 +10,14 @@ class FilterDonationForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.method = 'GET'
+        for field in self.fields:
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            elif (isinstance(self.fields[field], forms.BooleanField)):
+                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+            else:
+                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
 
         # Asignamos los valores de los filtros como valores iniciales
         self.fields['qsearch'].initial = self.data.get('qsearch')
@@ -24,7 +32,7 @@ class CreateNewDonation(forms.ModelForm):
         model = Donation
         exclude = ['id', 'ong']
         widgets = {
-            'created_date': forms.DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d %H:%M'),
+            'created_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'ong': forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
             'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "min": 0.1, "placeholder": "Escriba una cantidad"}),
         }

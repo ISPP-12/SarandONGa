@@ -810,10 +810,13 @@ def child_update(request, child_id):
 @videssur_required
 def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
+
     choices_dict = choices_dicts()
     child.correspondence = choices_dict['correspondence'][child.correspondence] if child.correspondence else "No especificado"
-    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password',
-                                                                    'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
+  
+
+    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
+
 
     info = [getattr(child, f.name) for f in fields]
     fields_info = dict(zip([f.verbose_name for f in fields], info))
