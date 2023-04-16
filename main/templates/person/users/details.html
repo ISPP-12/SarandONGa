@@ -23,9 +23,29 @@
 
 <div id="section-user" class="p-2">
 <div class="row">
-  <a href="{{ request.path|slice:'-1'|slice:'0:-1'|add:'/list' }}" id="returnBtn" style="margin: auto;">
+  {% if asem_user %}
+  <a href="{% url 'home' %}user/asem/list" id="returnBtn" style="margin: auto;">
     {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}
-    </a>
+    </a>   
+    {% elif worker %}
+    <a href="{% url 'home' %}user/worker/list" id="returnBtn" style="margin: auto;">
+      {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}
+    </a>     
+    {% elif volunteer %}
+    <a href="{% url 'home' %}user/volunteer/list" id="returnBtn" style="margin: auto;">
+    {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}    
+    </a>   
+    {% elif godfather %}
+    <a href="{% url 'home' %}user/godfather/list" id="returnBtn" style="margin: auto;">
+      {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}    
+      </a>  
+    {% elif child %}
+    <a href="{% url 'home' %}user/child/list" id="returnBtn" style="margin: auto;">
+      {% include 'components/button.html' with variation='RETURN' text='Volver al listado' %}    
+      </a>  
+
+    {% else  %}
+    {% endif %}
 </div>
 <div class="row justify-content-between align-items-center">
   <div class="col-12">
