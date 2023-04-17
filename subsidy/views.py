@@ -177,13 +177,12 @@ def subsidy_filter(queryset, form):
     amount_min = form['amount_min'].value()
     amount_max = form['amount_max'].value()
 
-    if q is not None:
-        if q.strip() != "":
-            queryset = queryset.filter(
-                Q(organism__icontains=q) |
-                Q(status__icontains=q) |
-                Q(name__icontains=q)
-            )
+    if q is not None and q.strip() != "":
+        queryset = queryset.filter(
+            Q(organism__icontains=q) |
+            Q(status__icontains=q) |
+            Q(name__icontains=q)
+        )
 
     if is_valid_queryparam(min_presentation_date):
         queryset = queryset.filter(

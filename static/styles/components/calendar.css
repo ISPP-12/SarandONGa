@@ -31,12 +31,12 @@
 }
 
 /* title (first child) */
-.fc .fc-toolbar.fc-header-toolbar>*:first-child {
+.fc .fc-toolbar.fc-header-toolbar > *:first-child {
   flex: 1 1 100%;
   text-transform: capitalize;
 }
 
-.fc .fc-toolbar.fc-header-toolbar>*:first-child h2 {
+.fc .fc-toolbar.fc-header-toolbar > *:first-child h2 {
   font-weight: 600;
 }
 

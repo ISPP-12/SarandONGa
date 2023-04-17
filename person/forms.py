@@ -117,9 +117,11 @@ class FilterVolunteerForm(forms.Form):
     is_contributor = forms.ChoiceField(choices=[(
         '', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False, label="¿Es colaborador?")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, ong, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
+        if ong.name != "ASEM":
+            self.fields.pop('is_contributor')
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
@@ -137,7 +139,6 @@ class FilterVolunteerForm(forms.Form):
         self.fields['birth_date_max'].initial = self.data.get('birth_date_max')
         self.fields['sex'].initial = self.data.get('sex')
         self.fields['volunteer_type'].initial = self.data.get('volunteer_type')
-        self.fields['is_contributor'].initial = self.data.get('is_contributor')
 
 
 class CreateNewGodFather(forms.ModelForm):

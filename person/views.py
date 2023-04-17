@@ -737,9 +737,9 @@ def asem_user_details(request, asem_user_id):
     items = list(fields_info.items())
 
     for item in items:
-        if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
+        if ((item[1] == True or item[1] == 'True') and not isinstance(item[1], int)):
             items[items.index(item)] = (item[0], 'Sí')
-        elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+        elif ((item[1] == False or item[1] == 'False') and not isinstance(item[1], int)):
             items[items.index(item)] = (item[0], 'No')
         elif (item[0] == 'Género' and item[1] != None):
             choices = ASEMUser._meta.get_field('sex').choices
@@ -863,7 +863,7 @@ def get_volunteer_query_str(request):
 def volunteer_list(request):
     objects = Volunteer.objects.filter(ong=request.user.ong).values()
 
-    form = FilterVolunteerForm(request.GET or None)
+    form = FilterVolunteerForm(request.user.ong, request.GET or None)
     if request.method == 'GET':
         objects = volunteer_filter(objects, form)
 
@@ -933,7 +933,8 @@ def volunteer_filter(queryset, form):
     birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
     volunteer_type = form['volunteer_type'].value()
-    is_contributor = form['is_contributor'].value()
+    if ('is_contributor' in form.fields.keys()):
+        is_contributor = form['is_contributor'].value()
 
     if q is not None:
         if q.strip() != "":
@@ -965,8 +966,9 @@ def volunteer_filter(queryset, form):
     if is_valid_queryparam(volunteer_type):
         queryset = queryset.filter(volunteer_type=volunteer_type)
 
-    if is_valid_queryparam(is_contributor):
-        queryset = queryset.filter(is_contributor=is_contributor)
+    if ('is_contributor' in form.fields.keys()):
+        if is_valid_queryparam(is_contributor):
+            queryset = queryset.filter(is_contributor=is_contributor)
 
     return queryset
 
@@ -995,9 +997,9 @@ def volunteer_details(request, volunteer_id):
         items = list(fields_info.items())
 
         for item in items:
-            if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
+            if ((item[1] == True or item[1] == 'True') and not isinstance(item[1], int)):
                 items[items.index(item)] = (item[0], 'Sí')
-            elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            elif ((item[1] == False or item[1] == 'False') and not isinstance(item[1], int)):
                 items[items.index(item)] = (item[0], 'No')
             elif (item[0] == 'Género' and item[1] != None):
                 choices = Volunteer._meta.get_field('sex').choices
@@ -1265,9 +1267,9 @@ def child_details(request, child_id):
     items = list(fields_info.items())
 
     for item in items:
-        if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
+        if ((item[1] == True or item[1] == 'True') and not isinstance(item[1], int)):
             items[items.index(item)] = (item[0], 'Sí')
-        elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+        elif ((item[1] == False or item[1] == 'False') and not isinstance(item[1], int)):
             items[items.index(item)] = (item[0], 'No')
         elif (item[0] == 'Género' and item[1] != None):
             choices = Child._meta.get_field('sex').choices

@@ -24,12 +24,12 @@
   color: #000;
 }
 
-#lateralButtons>a {
+#lateralButtons > a {
   font-size: 18px;
   margin: 3px 0;
 }
 
-#lateralButtons>a>i {
+#lateralButtons > a > i {
   margin-right: 5px;
 }
 
