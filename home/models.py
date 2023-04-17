@@ -4,7 +4,6 @@ from django.core.validators import MinValueValidator
 from django.core.validators import RegexValidator
 #from django.utils.text import slugify
 from django.utils import timezone
-from xml.dom import ValidationErr
 
 PAYMENT_METHOD = (
     ('T', 'Transferencia'),
