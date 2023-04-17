@@ -40,32 +40,7 @@ def subsidy_create(request):
     return render(request, 'subsidy/create.html', {"form": form, "object_name": "subvención",  "title": "Añadir Subvención", 'page_title': 'SarandONGa 💃 - Añadir Subvención'})
 
 
-@login_required
-def subsidy_list(request):
-    subsidies = Subsidy.objects.filter(
-        ong=request.user.ong).order_by('-presentation_date').values()
-
-    form = FilterSubsidyForm(request.GET or None)
-
-    if request.method == 'GET':
-        subsidies = subsidy_filter(subsidies, form)
-
-    paginator = Paginator(subsidies, 12)
-    page_number = request.GET.get('page')
-    subsidies_page = paginator.get_page(page_number)
-
-    # depending of the user type write one title or another
-    subsidies_dict = [user for user in subsidies_page]
-
-    for s in subsidies_dict:
-        s.pop('_state', None)
-        # remove null values
-        for key, value in list(s.items()):
-            if value is None or value == '':
-                s[key] = '-'
-
-    subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
-
+def get_query_str(request):
     query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
@@ -104,6 +79,37 @@ def subsidy_list(request):
     if "amount_max" in keys:
         query_str += "&amount_max="
         query_str += request.GET["amount_max"]
+
+    return query_str
+
+
+@login_required
+def subsidy_list(request):
+    subsidies = Subsidy.objects.filter(
+        ong=request.user.ong).order_by('-presentation_date').values()
+
+    form = FilterSubsidyForm(request.GET or None)
+
+    if request.method == 'GET':
+        subsidies = subsidy_filter(subsidies, form)
+
+    paginator = Paginator(subsidies, 12)
+    page_number = request.GET.get('page')
+    subsidies_page = paginator.get_page(page_number)
+
+    # depending of the user type write one title or another
+    subsidies_dict = [user for user in subsidies_page]
+
+    for s in subsidies_dict:
+        s.pop('_state', None)
+        # remove null values
+        for key, value in list(s.items()):
+            if value is None or value == '':
+                s[key] = '-'
+
+    subsidies_json = json.dumps(subsidies_dict, cls=CustomJSONEncoder)
+
+    query_str = get_query_str(request)
 
     context = {
         'objects': subsidies_page,

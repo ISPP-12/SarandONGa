@@ -330,8 +330,6 @@ class FilterWorkerForm(forms.Form):
 
 
 class CreateNewChild(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        self.fields['email'].required = False
 
     class Meta:
         model = Child
@@ -345,6 +343,7 @@ class CreateNewChild(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CreateNewChild, self).__init__(*args, **kwargs)
+        self.fields['email'].required = False
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(

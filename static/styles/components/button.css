@@ -4,7 +4,7 @@
   scale: 1;
 }
 
-button[type="submit"] > span {
+button[type="submit"]>span {
   font-size: 20px;
   font-weight: 500;
 }

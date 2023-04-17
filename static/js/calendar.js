@@ -1,4 +1,3 @@
-
 // CALENDAR OPTIONS
 
 let buttonText = {
@@ -119,7 +118,6 @@ let addButtonsEventListeners = () => {
 // MAIN FUNCTION
 
 document.addEventListener('DOMContentLoaded', function () {
-    console.log(events);
 
     setupCalendar();
     disableToolbarButtons();

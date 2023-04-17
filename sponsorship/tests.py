@@ -80,7 +80,6 @@ class SponsorshipTestCase(TestCase):
     def test_sponsorship_fail_attributes_dateEnd(self):
         god_test = GodFather.objects.get(email='emailja@gmail.com')
         child_test = Child.objects.get(email="test1@test.com")
-        home_test = Home.objects.get(name='Casa Paco')
 
         with self.assertRaises(Exception):
             sponsorship = Sponsorship(sponsorship_date=date.today(
@@ -187,7 +186,6 @@ class SponsorshipUpdateTestCase(TestCase):
         sponsorship.save()
 
     def test_sponsorship_update_incorrect_dates(self):
-        god_test = GodFather.objects.get(email='emailja@gmail.com')
         sponsorship = Sponsorship.objects.get(id=2)
         with self.assertRaises(Exception):
             sponsorship.sponsorship_date = date.today()
@@ -195,14 +193,12 @@ class SponsorshipUpdateTestCase(TestCase):
             sponsorship.save()
 
     def test_sponsorship_update_incorrect_sponsorship_date(self):
-        god_test = GodFather.objects.get(email='emailja@gmail.com')
         sponsorship = Sponsorship.objects.get(id=2)
         with self.assertRaises(Exception):
             sponsorship.sponsorship_date = "prueba"
             sponsorship.save()
 
     def test_sponsorship_update_incorrect_termination_date(self):
-        god_test = GodFather.objects.get(email='emailja@gmail.com')
         sponsorship = Sponsorship.objects.get(id=2)
         with self.assertRaises(Exception):
             sponsorship.termination_date = "prueba"

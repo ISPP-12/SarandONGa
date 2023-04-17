@@ -8,7 +8,6 @@ from main.views import custom_403
 from django.db.models import Q
 from django.core.paginator import Paginator
 from person.models import GodFather
-from xml.dom import ValidationErr
 
 
 @login_required

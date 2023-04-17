@@ -4,7 +4,6 @@
   --stock-main-color-light: var(--clr-accent-1-light);
 }
 
-
 /* Button */
 #section-stock .section-btn:not(.secondary) {
   background-color: var(--stock-main-color) !important;

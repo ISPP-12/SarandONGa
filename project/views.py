@@ -73,30 +73,7 @@ def project_details(request, project_id):  # TODO
     return render(request, 'project/project_details.html', {'project': project})
 
 
-@login_required
-@videssur_required
-def project_list(request):
-    # get projects dict from database
-    objects = Project.objects.filter(ong=request.user.ong).values()
-
-    form = FilterProjectForm(request.GET or None)
-    if request.method == 'GET':
-        objects = project_filter(objects, form)
-
-    paginator = Paginator(objects, 12)
-    page_number = request.GET.get('page')
-    project_page = paginator.get_page(page_number)
-
-    projects_dict = [project for project in project_page]
-    for p in projects_dict:
-        p.pop('_state', None)
-        # remove null values
-        for key, value in list(p.items()):
-            if value is None or value == '':
-                p[key] = '-'
-
-    project_json = json.dumps(projects_dict, cls=CustomJSONEncoder)
-
+def get_query_str(request):
     query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
@@ -132,6 +109,35 @@ def project_list(request):
     if "announcement_date_max" in keys:
         query_str += "&announcement_date_max="
         query_str += request.GET["announcement_date_max"]
+
+    return query_str
+
+
+@login_required
+@videssur_required
+def project_list(request):
+    # get projects dict from database
+    objects = Project.objects.filter(ong=request.user.ong).values()
+
+    form = FilterProjectForm(request.GET or None)
+    if request.method == 'GET':
+        objects = project_filter(objects, form)
+
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    project_page = paginator.get_page(page_number)
+
+    projects_dict = [project for project in project_page]
+    for p in projects_dict:
+        p.pop('_state', None)
+        # remove null values
+        for key, value in list(p.items()):
+            if value is None or value == '':
+                p[key] = '-'
+
+    project_json = json.dumps(projects_dict, cls=CustomJSONEncoder)
+
+    query_str = get_query_str(request)
 
     context = {
         'objects': project_page,

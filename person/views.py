@@ -206,9 +206,9 @@ def worker_details(request, worker_id):
         items = list(fields_info.items())
 
         for item in items:
-            if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
+            if ((item[1] == True or item[1] == 'True') and not isinstance(item[1], int)):
                 items[items.index(item)] = (item[0], 'Sí')
-            elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+            elif ((item[1] == False or item[1] == 'False') and not isinstance(item[1], int)):
                 items[items.index(item)] = (item[0], 'No')
             elif (item[0] == 'Género' and item[1] != None):
                 choices = Worker._meta.get_field('sex').choices
@@ -301,6 +301,33 @@ def godfather_update(request, godfather_id):
     return render(request, 'person/godfather/register.html', context)
 
 
+def get_godfather_query_str(request):
+    keys = request.GET.keys()
+    if "qsearch" in keys:
+        query_str = "&qsearch="
+        query_str += request.GET["qsearch"]
+    if "birth_date_min" in keys:
+        query_str += "&birth_date_min="
+        query_str += request.GET["birth_date_min"]
+    if "birth_date_max" in keys:
+        query_str += "&birth_date_max="
+        query_str += request.GET["birth_date_max"]
+    if "sex" in keys:
+        query_str += "&sex="
+        query_str += request.GET["sex"]
+    if "status" in keys:
+        query_str += "&status="
+        query_str += request.GET["status"]
+    if "amount_min" in keys:
+        query_str += "&amount_min="
+        query_str += request.GET["amount_min"]
+    if "amount_max" in keys:
+        query_str += "&amount_max="
+        query_str += request.GET["amount_max"]
+
+    return query_str
+
+
 @login_required
 @videssur_required
 def godfather_list(request):
@@ -350,29 +377,7 @@ def godfather_list(request):
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
 
-    query_str = ""
-    keys = request.GET.keys()
-    if "qsearch" in keys:
-        query_str = "&qsearch="
-        query_str += request.GET["qsearch"]
-    if "birth_date_min" in keys:
-        query_str += "&birth_date_min="
-        query_str += request.GET["birth_date_min"]
-    if "birth_date_max" in keys:
-        query_str += "&birth_date_max="
-        query_str += request.GET["birth_date_max"]
-    if "sex" in keys:
-        query_str += "&sex="
-        query_str += request.GET["sex"]
-    if "status" in keys:
-        query_str += "&status="
-        query_str += request.GET["status"]
-    if "amount_min" in keys:
-        query_str += "&amount_min="
-        query_str += request.GET["amount_min"]
-    if "amount_max" in keys:
-        query_str += "&amount_max="
-        query_str += request.GET["amount_max"]
+    query_str = get_godfather_query_str(request)
 
     context = {
         'objects': godfather_page,
@@ -828,57 +833,7 @@ def volunteer_update(request, volunteer_id):
     return render(request, 'person/volunteers/register.html', context)
 
 
-@login_required
-def volunteer_list(request):
-    objects = Volunteer.objects.filter(ong=request.user.ong).values()
-
-    form = FilterVolunteerForm(request.GET or None)
-    if request.method == 'GET':
-        objects = volunteer_filter(objects, form)
-
-    if request.method == "POST":
-        try:
-            queryset = volunteer_filter(objects, form)
-            data = queryset.values()
-            df = pd.DataFrame.from_records(data)
-            field_names = df.columns
-            verbose_names = [Volunteer._meta.get_field(
-                field_name).verbose_name for field_name in field_names]
-
-            # Map the field names to the verbose names in the DataFrame columns
-            df.columns = verbose_names
-            excel_file = io.BytesIO()
-            df.to_excel(excel_file, index=False)
-            excel_file.seek(0)
-            response = HttpResponse(
-                excel_file.read(), content_type='application/vnd.ms-excel')
-            response['Content-Disposition'] = 'attachment; filename=volunteers.xlsx'
-            excel_file.close()
-            return response
-        except ValidationErr:
-            message = (
-                "Error en la exportación de datos, hay datos vacíos en las columnas")
-            messages.error(request, message)
-            return render(request, 'users/list.html')
-
-    paginator = Paginator(objects, 12)
-    page_number = request.GET.get('page')
-    user_page = paginator.get_page(page_number)
-
-    page_title = 'SarandONGa 💃 - Gestión de Voluntarios'
-
-    # depending of the user type write one title or another
-    persons_dict = [user for user in user_page]
-    for person in persons_dict:
-        person.pop('_state', None)
-        # remove null values
-        for key, value in list(person.items()):
-            if value is None or value == '':
-                person[key] = '-'
-
-    persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-
-    query_str = ""
+def get_volunteer_query_str(request):
     keys = request.GET.keys()
     if "qsearch" in keys:
         query_str = "&qsearch="
@@ -940,6 +895,61 @@ def volunteer_list(request):
     if "is_contributor" in keys:
         query_str += "&is_contributor="
         query_str += request.GET["is_contributor"]
+
+    return query_str
+
+
+@login_required
+def volunteer_list(request):
+    objects = Volunteer.objects.filter(ong=request.user.ong).values()
+
+    form = FilterVolunteerForm(request.GET or None)
+    if request.method == 'GET':
+        objects = volunteer_filter(objects, form)
+
+    if request.method == "POST":
+        try:
+            queryset = volunteer_filter(objects, form)
+            data = queryset.values()
+            df = pd.DataFrame.from_records(data)
+            field_names = df.columns
+            verbose_names = [Volunteer._meta.get_field(
+                field_name).verbose_name for field_name in field_names]
+
+            # Map the field names to the verbose names in the DataFrame columns
+            df.columns = verbose_names
+            excel_file = io.BytesIO()
+            df.to_excel(excel_file, index=False)
+            excel_file.seek(0)
+            response = HttpResponse(
+                excel_file.read(), content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=volunteers.xlsx'
+            excel_file.close()
+            return response
+        except ValidationErr:
+            message = (
+                "Error en la exportación de datos, hay datos vacíos en las columnas")
+            messages.error(request, message)
+            return render(request, 'users/list.html')
+
+    paginator = Paginator(objects, 12)
+    page_number = request.GET.get('page')
+    user_page = paginator.get_page(page_number)
+
+    page_title = 'SarandONGa 💃 - Gestión de Voluntarios'
+
+    # depending of the user type write one title or another
+    persons_dict = [user for user in user_page]
+    for person in persons_dict:
+        person.pop('_state', None)
+        # remove null values
+        for key, value in list(person.items()):
+            if value is None or value == '':
+                person[key] = '-'
+
+    persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
+
+    query_str = get_volunteer_query_str(request)
 
     context = {
         'objects': user_page,
