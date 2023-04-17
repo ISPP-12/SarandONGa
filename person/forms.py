@@ -39,7 +39,7 @@ class FilterAsemUserForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
@@ -82,7 +82,7 @@ class FilterGodfatherForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
@@ -114,12 +114,14 @@ class FilterVolunteerForm(forms.Form):
     volunteer_type_choices = [('', '--Seleccione--')] + list(VOLUNTEER_TYPE)
     volunteer_type = forms.ChoiceField(
         choices=volunteer_type_choices, required=False, label="Tipo de voluntario")
+    is_contributor = forms.ChoiceField(choices=[(
+        '', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False, label="¿Es colaborador?")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
@@ -135,6 +137,7 @@ class FilterVolunteerForm(forms.Form):
         self.fields['birth_date_max'].initial = self.data.get('birth_date_max')
         self.fields['sex'].initial = self.data.get('sex')
         self.fields['volunteer_type'].initial = self.data.get('volunteer_type')
+        self.fields['is_contributor'].initial = self.data.get('is_contributor')
 
 
 class CreateNewGodFather(forms.ModelForm):
@@ -312,7 +315,7 @@ class FilterWorkerForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
@@ -375,7 +378,7 @@ class FilterChildForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):

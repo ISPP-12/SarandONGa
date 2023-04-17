@@ -214,12 +214,10 @@ h1.first-title {
 
 
 .demo {
-  margin-top: 60px;
-  display: flex;
+  margin-top: 40px;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding: 50px 0;
+  padding: 30px 0;
 
   /* Altura del contenedor, puedes ajustarla según tus necesidades */
 }

@@ -17,7 +17,7 @@ class FilterDonationForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):

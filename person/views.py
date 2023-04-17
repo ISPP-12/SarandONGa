@@ -303,6 +303,7 @@ def godfather_update(request, godfather_id):
 
 def get_godfather_query_str(request):
     keys = request.GET.keys()
+    query_str = ""
     if "qsearch" in keys:
         query_str = "&qsearch="
         query_str += request.GET["qsearch"]
@@ -464,9 +465,9 @@ def godfather_details(request, godfather_id):
     items = list(fields_info.items())
 
     for item in items:
-        if ((item[1] == True or item[1] == 'True') and type(item[1]) != int):
+        if ((item[1] == True or item[1] == 'True') and not isinstance(item[1], int)):
             items[items.index(item)] = (item[0], 'Sí')
-        elif ((item[1] == False or item[1] == 'False') and type(item[1]) != int):
+        elif ((item[1] == False or item[1] == 'False') and not isinstance(item[1], int)):
             items[items.index(item)] = (item[0], 'No')
         elif (item[0] == 'Género' and item[1] != None):
             choices = GodFather._meta.get_field('sex').choices
@@ -835,10 +836,10 @@ def volunteer_update(request, volunteer_id):
 
 def get_volunteer_query_str(request):
     keys = request.GET.keys()
+    query_str = ""
     if "qsearch" in keys:
         query_str = "&qsearch="
         query_str += request.GET["qsearch"]
-
     if "birth_date_min" in keys:
         query_str += "&birth_date_min="
         query_str += request.GET["birth_date_min"]
@@ -851,47 +852,6 @@ def get_volunteer_query_str(request):
     if "volunteer_type" in keys:
         query_str += "&volunteer_type="
         query_str += request.GET["volunteer_type"]
-
-    if "min_dedication_time" in keys:
-        query_str += "&min_dedication_time="
-        query_str += request.GET["min_dedication_time"]
-
-    if "max_dedication_time" in keys:
-        query_str += "&max_dedication_time="
-        query_str += request.GET["max_dedication_time"]
-
-    if "min_contract_start" in keys:
-        query_str += "&min_contract_start="
-        query_str += request.GET["min_contract_start"]
-
-    if "max_contract_start" in keys:
-        query_str += "&max_contract_start="
-        query_str += request.GET["max_contract_start"]
-
-    if "min_contract_end" in keys:
-        query_str += "&min_contract_end="
-        query_str += request.GET["min_contract_end"]
-
-    if "max_contract_end" in keys:
-        query_str += "&max_contract_end="
-        query_str += request.GET["max_contract_end"]
-
-    if "raffle" in keys:
-        query_str += "&raffle="
-        query_str += request.GET["raffle"]
-
-    if "lottery" in keys:
-        query_str += "&lottery="
-        query_str += request.GET["lottery"]
-
-    if "is_member" in keys:
-        query_str += "&is_member="
-        query_str += request.GET["is_member"]
-
-    if "pres_table" in keys:
-        query_str += "&pres_table="
-        query_str += request.GET["pres_table"]
-
     if "is_contributor" in keys:
         query_str += "&is_contributor="
         query_str += request.GET["is_contributor"]
@@ -973,6 +933,7 @@ def volunteer_filter(queryset, form):
     birth_date_max = form['birth_date_max'].value()
     sex = form['sex'].value()
     volunteer_type = form['volunteer_type'].value()
+    is_contributor = form['is_contributor'].value()
 
     if q is not None:
         if q.strip() != "":
@@ -1003,6 +964,9 @@ def volunteer_filter(queryset, form):
 
     if is_valid_queryparam(volunteer_type):
         queryset = queryset.filter(volunteer_type=volunteer_type)
+
+    if is_valid_queryparam(is_contributor):
+        queryset = queryset.filter(is_contributor=is_contributor)
 
     return queryset
 

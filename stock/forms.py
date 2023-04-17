@@ -19,7 +19,7 @@ class CreateNewStock(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateNewStock, self).__init__(*args, **kwargs)
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-select'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
