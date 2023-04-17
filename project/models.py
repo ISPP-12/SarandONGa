@@ -1,7 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
 from ong.models import Ong
-#from django.utils.text import slugify
+# from django.utils.text import slugify
 
 
 # Create your models here.
@@ -24,7 +24,7 @@ class Project(models.Model):
         null=True, blank=True, verbose_name="Fecha de convocatoria")
     ong = models.ForeignKey(
         Ong, on_delete=models.CASCADE, related_name='project')
-    #slug = models.SlugField(max_length=200, unique=True, editable=False)
+    # slug = models.SlugField(max_length=200, unique=True, editable=False)
 
     def __str__(self):
         return self.title

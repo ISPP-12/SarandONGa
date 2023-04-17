@@ -35,27 +35,37 @@ class CreateHomeForm(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
-                
+
+
 class FilterHomeForm(forms.Form):
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    min_start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fecha de incio después del")
-    max_start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fecha de incio antes del")
-    min_termination_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fecha de fin después del")
-    max_termination_date = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Fecha de fin antes del")
-    province = forms.CharField(max_length=100, required=False , label="Provincia")
-    bank_account_holder = forms.CharField(max_length=100, required=False , label="Titular cuenta bancaria")
-    bank_account_reference = forms.CharField(max_length=100, required=False , label="Referencia de cuenta bancaria")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    min_start_date = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Fecha de incio después del")
+    max_start_date = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Fecha de incio antes del")
+    min_termination_date = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Fecha de fin después del")
+    max_termination_date = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Fecha de fin antes del")
+    province = forms.CharField(
+        max_length=100, required=False, label="Provincia")
+    bank_account_holder = forms.CharField(
+        max_length=100, required=False, label="Titular cuenta bancaria")
+    bank_account_reference = forms.CharField(
+        max_length=100, required=False, label="Referencia de cuenta bancaria")
     payment_method = forms.ChoiceField(choices=[('', '--Seleccione--'), ('T', 'Transferencia'),
-    ('TB', 'Tarjeta Bancaria'), ('E', 'Efectivo')], required=False, label="Método de pago")
+                                                ('TB', 'Tarjeta Bancaria'), ('E', 'Efectivo')], required=False, label="Método de pago")
     frequency = forms.ChoiceField(choices=[('', '--Seleccione--'), ('A', 'Anual'),
-    ('M', 'Mensual'), ('T', 'Trimestral'), ('S', 'Semestral')], required=False, label="Frecuencia de pago")
-    amount_min = forms.IntegerField(required=False, label="Tamaño mínimo de cantidad")
-    amount_max = forms.IntegerField(required=False, label="Tamaño máximo de cantidad")
-    
+                                           ('M', 'Mensual'), ('T', 'Trimestral'), ('S', 'Semestral')], required=False, label="Frecuencia de pago")
+    amount_min = forms.IntegerField(
+        required=False, label="Tamaño mínimo de cantidad")
+    amount_max = forms.IntegerField(
+        required=False, label="Tamaño máximo de cantidad")
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = "get"
-        
+
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
@@ -66,4 +76,3 @@ class FilterHomeForm(forms.Form):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
-

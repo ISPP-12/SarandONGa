@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .alert,
 .form-outline input,
 .form-section button {
@@ -20,6 +21,7 @@
 }
 
 @media (min-width: 768px) {
+
   .alert,
   .form-outline input,
   .form-section button {

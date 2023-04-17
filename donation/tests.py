@@ -417,7 +417,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         self.ong = None
         self.test_donation_1 = None
         super().tearDown()
-    
+
     def test_access_donation_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/donation/list')
@@ -447,7 +447,8 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         # Now the preview section should be filled with the test item data
         children = left_section_div.find_elements(By.CSS_SELECTOR, "h2, p")
         self.assertTrue(children[0].text == self.test_donation_1.title)
-        self.assertTrue(children[1].find_element(By.TAG_NAME,'span').text == self.test_donation_1.description)
+        self.assertTrue(children[1].find_element(
+            By.TAG_NAME, 'span').text == self.test_donation_1.description)
         # 100 € is the text in the html
         self.assertTrue(children[3].text == "Cantidad: " +
                         str(self.test_donation_1.amount) + " €")
@@ -459,7 +460,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
             children[6].text == "Dirección donante: " + self.test_donation_1.donor_address)
         self.assertTrue(
             children[7].text == "Correo donante: " + self.test_donation_1.donor_email)
-    
+
     def test_delete_donation_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/donation/list')
@@ -495,8 +496,7 @@ class DonationListViewTestCaseAsem(StaticLiveServerTestCase):
         confirmation = self.driver.switch_to.alert
         confirmation.accept()
         sleep(1)
-        
+
         after_count = Donation.objects.count()
 
         self.assertTrue(before_count == after_count+1)
-    

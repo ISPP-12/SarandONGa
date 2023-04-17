@@ -51,7 +51,7 @@ class SponsorshipTestCase(TestCase):
         child_test = Child.objects.get(email="test1@test.com")
         home_test = Home.objects.get(name='Casa Paco')
 
-        sponsorship = Sponsorship(id=1,sponsorship_date=date.today(), termination_date=date.today(
+        sponsorship = Sponsorship(id=1, sponsorship_date=date.today(), termination_date=date.today(
         ), child=child_test)
         sponsorship.godfather.add(god_test)
         sponsorship.home.add(home_test)
@@ -70,7 +70,6 @@ class SponsorshipTestCase(TestCase):
     def test_sponsorship_fail_attributes_dateStart(self):
         god_test = GodFather.objects.get(email='emailja@gmail.com')
         child_test = Child.objects.get(email="test1@test.com")
-        home_test = Home.objects.get(name='Casa Paco')
 
         with self.assertRaises(Exception):
             sponsorship = Sponsorship(id=2, sponsorship_date="prueba", termination_date=date.today(
@@ -88,7 +87,6 @@ class SponsorshipTestCase(TestCase):
             ), termination_date="prueba", child=child_test)
             sponsorship.godfather.add(god_test)
             sponsorship.save()
-
 
 
 class SponsorshipUpdateTestCase(TestCase):
@@ -177,11 +175,10 @@ class SponsorshipUpdateTestCase(TestCase):
         sponsorship.save()
 
     def test_sponsorship_update_correct(self):
-        god_test = GodFather.objects.get(email='emailja@gmail.com')
         god2_test = GodFather.objects.get(email='emailja2@gmail.com')
         child2_test = Child.objects.get(email="test2@test.com")
         home2_test = Home.objects.get(name='Casa Pili')
-        sponsorship= Sponsorship.objects.get(id=2)
+        sponsorship = Sponsorship.objects.get(id=2)
         sponsorship.sponsorship_date = date(2022, 1, 1)
         sponsorship.termination_date = date.today()
         sponsorship.child = child2_test
@@ -191,7 +188,7 @@ class SponsorshipUpdateTestCase(TestCase):
 
     def test_sponsorship_update_incorrect_dates(self):
         god_test = GodFather.objects.get(email='emailja@gmail.com')
-        sponsorship= Sponsorship.objects.get(id=2)
+        sponsorship = Sponsorship.objects.get(id=2)
         with self.assertRaises(Exception):
             sponsorship.sponsorship_date = date.today()
             sponsorship.termination_date = date(2022, 1, 1)
@@ -199,15 +196,14 @@ class SponsorshipUpdateTestCase(TestCase):
 
     def test_sponsorship_update_incorrect_sponsorship_date(self):
         god_test = GodFather.objects.get(email='emailja@gmail.com')
-        sponsorship= Sponsorship.objects.get(id=2)
+        sponsorship = Sponsorship.objects.get(id=2)
         with self.assertRaises(Exception):
-            sponsorship.sponsorship_date ="prueba"
+            sponsorship.sponsorship_date = "prueba"
             sponsorship.save()
 
     def test_sponsorship_update_incorrect_termination_date(self):
         god_test = GodFather.objects.get(email='emailja@gmail.com')
-        sponsorship= Sponsorship.objects.get(id=2)
+        sponsorship = Sponsorship.objects.get(id=2)
         with self.assertRaises(Exception):
-            sponsorship.termination_date ="prueba"
+            sponsorship.termination_date = "prueba"
             sponsorship.save()
-

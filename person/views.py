@@ -20,7 +20,6 @@ from django.urls import reverse_lazy
 from dateutil.relativedelta import relativedelta
 import math
 from django.http import HttpResponse
-import csv
 import pandas as pd
 from django.db import IntegrityError
 

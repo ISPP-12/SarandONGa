@@ -64,7 +64,7 @@ class SubsidyTestCase(TestCase):
 
     def test_subsidy_create_presentation_justification_date_incorrect(self):
         with self.assertRaises(Exception):
-            Subsidy.objects.create(presentation_date="2021-01-01",presentation_justification_date="This is a date incorrect", payment_date="2021-01-02", organism="ONG2",
+            Subsidy.objects.create(presentation_date="2021-01-01", presentation_justification_date="This is a date incorrect", payment_date="2021-01-02", organism="ONG2",
                                    provisional_resolution="2017-07-18", final_resolution="2017-07-19", amount=1000, name="Pedro", ong=self.ong)
 
     def test_subsidy_create_payment_date_incorrect(self):
@@ -104,7 +104,8 @@ class SubsidyTestCase(TestCase):
 
     def test_subsidy_create_final_resolution_before_provisional(self):
         with self.assertRaises(Exception):
-            Subsidy.objects.create(presentation_date="2021-01-01", payment_date="2021-01-02", organism="ONG2",provisional_resolution="2017-07-19", final_resolution="2017-07-18", amount=1000, name="Pedro",ong=self.ong)
+            Subsidy.objects.create(presentation_date="2021-01-01", payment_date="2021-01-02", organism="ONG2",
+                                   provisional_resolution="2017-07-19", final_resolution="2017-07-18", amount=1000, name="Pedro", ong=self.ong)
 
     def test_subsidy_create_status_max_length_incorrect(self):
         with self.assertRaises(Exception):
@@ -124,65 +125,65 @@ class SubsidyTestCase(TestCase):
 # TESTS UPDATE SUBSIDY
 
     def test_incorrect_amount_null(self):
-            with self.assertRaises(Exception):
-                self.subsidy.amount = None
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.amount = None
+            self.subsidy.save()
 
     def test_incorrect_amount_negative(self):
-            with self.assertRaises(Exception):
-                self.subsidy.amount = -1000
-                self.subsidy.save()
-    
+        with self.assertRaises(Exception):
+            self.subsidy.amount = -1000
+            self.subsidy.save()
+
     def test_incorrect_amount_string(self):
-            with self.assertRaises(Exception):
-                self.subsidy.amount = "Juan"
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.amount = "Juan"
+            self.subsidy.save()
 
     def test_incorrect_amount_bool(self):
-            with self.assertRaises(Exception):
-                self.subsidy.amount = True
-                self.subsidy.save()
-    
+        with self.assertRaises(Exception):
+            self.subsidy.amount = True
+            self.subsidy.save()
+
     def test_incorrect_payment_date_value_string_format(self):
-            with self.assertRaises(Exception):
-                self.subsidy.payment_date = "2010-23-12"
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.payment_date = "2010-23-12"
+            self.subsidy.save()
 
     def test_incorrect_payment_date_value_string_format2(self):
-            with self.assertRaises(Exception):
-                self.subsidy.payment_date = "23/12/23"
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.payment_date = "23/12/23"
+            self.subsidy.save()
 
     def test_incorrect_payment_date_value_string_format3(self):
-            with self.assertRaises(Exception):
-                self.subsidy.payment_date = "23-12-23"
-                self.subsidy.save()
-    
+        with self.assertRaises(Exception):
+            self.subsidy.payment_date = "23-12-23"
+            self.subsidy.save()
+
     def test_incorrect_organism_null(self):
-            with self.assertRaises(Exception):
-                self.subsidy.organism = None
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.organism = None
+            self.subsidy.save()
 
     def test_incorrect_organism_max_length(self):
-            with self.assertRaises(Exception):
-                self.subsidy.organism = "ONG2"*100
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.organism = "ONG2"*100
+            self.subsidy.save()
 
     def test_incorrect_name_null(self):
-            with self.assertRaises(Exception):
-                self.subsidy.name = None
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.name = None
+            self.subsidy.save()
 
     def test_incorrect_name_max_length(self):
-            with self.assertRaises(Exception):
-                self.subsidy.name = "Juan"*1000
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.name = "Juan"*1000
+            self.subsidy.save()
 
     def test_incorrect_final_resolution_before_provisional(self):
-            with self.assertRaises(Exception):
-                self.subsidy.provisional_resolution = "2017-07-17"
-                self.subsidy.final_resolution = "2017-07-18"
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.provisional_resolution = "2017-07-17"
+            self.subsidy.final_resolution = "2017-07-18"
+            self.subsidy.save()
 
     def test_incorrect_presentation_justification_date_before_presentation_date(self):
         with self.assertRaises(Exception):
@@ -191,25 +192,28 @@ class SubsidyTestCase(TestCase):
             self.subsidy.save()
 
     def test_incorrect_ong_null(self):
-            with self.assertRaises(Exception):
-                self.subsidy.ong = None
-                self.subsidy.save()
-    
+        with self.assertRaises(Exception):
+            self.subsidy.ong = None
+            self.subsidy.save()
+
     def test_incorrect_ong_value(self):
-            with self.assertRaises(Exception):
-                self.subsidy.ong = "ONG1"
-                self.subsidy.save()
+        with self.assertRaises(Exception):
+            self.subsidy.ong = "ONG1"
+            self.subsidy.save()
+
 
 class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
     def setUp(self):
         super().setUp()
 
         self.ong = Ong(name='ASEM')
-        self.test_subsidy_1 = Subsidy(presentation_date=datetime.date(2022,12,4),
-                                      payment_date=datetime.date(2023,5,1),
+        self.test_subsidy_1 = Subsidy(presentation_date=datetime.date(2022, 12, 4),
+                                      payment_date=datetime.date(2023, 5, 1),
                                       organism='Spanish State',
-                                      provisional_resolution=datetime.date(2023,3,24),
-                                      final_resolution=datetime.date(2023,4,1),
+                                      provisional_resolution=datetime.date(
+                                          2023, 3, 24),
+                                      final_resolution=datetime.date(
+                                          2023, 4, 1),
                                       amount=12000.0,
                                       name='Test Subsidy 1',
                                       status='Por presentar',
@@ -270,7 +274,8 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
 
         #  Check the left section is still empty
         left_section_div = self.driver.find_element(By.ID, "preview")
-        self.assertTrue(len(left_section_div.find_elements(By.CLASS_NAME, "row")) == 0)
+        self.assertTrue(
+            len(left_section_div.find_elements(By.CLASS_NAME, "row")) == 0)
 
         # Check the item div is clickable
         test_subsidy_div.click()
@@ -278,12 +283,12 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
         # Now the preview section should be filled with the test item data
         children = left_section_div.find_elements(By.CSS_SELECTOR, "h2, p")
         self.assertTrue(children[0].text == self.test_subsidy_1.name)
-        self.assertTrue(children[1].find_element(By.TAG_NAME,'span').text == self.test_subsidy_1.organism)
+        self.assertTrue(children[1].find_element(
+            By.TAG_NAME, 'span').text == self.test_subsidy_1.organism)
         self.assertTrue(children[2].text == "Cantidad: " +
-                        str(int(self.test_subsidy_1.amount)).replace(".",",") + " €")
-        # The rest of the attributes won't be tested until the display 
+                        str(int(self.test_subsidy_1.amount)).replace(".", ",") + " €")
+        # The rest of the attributes won't be tested until the display
         # for null values is fixed
-
 
     def test_delete_subsidy_view(self):
         # Check access
@@ -303,7 +308,8 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
 
         # Check the left section is still empty
         left_section_div = self.driver.find_element(By.ID, "preview")
-        self.assertTrue(len(left_section_div.find_elements(By.CLASS_NAME, "row")) == 0)
+        self.assertTrue(
+            len(left_section_div.find_elements(By.CLASS_NAME, "row")) == 0)
 
         # Check the item div is clickable
         test_subsidy_div.click()
@@ -320,5 +326,4 @@ class SubsidyListViewTestCaseAsem(StaticLiveServerTestCase):
 
         after_count = Subsidy.objects.count()
 
-        self.assertTrue(before_count == after_count+1)           
-
+        self.assertTrue(before_count == after_count+1)

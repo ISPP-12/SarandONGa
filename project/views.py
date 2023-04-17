@@ -3,12 +3,13 @@ from .forms import CreateNewProject, FilterProjectForm
 from django.contrib import messages
 from .models import Project
 from django.contrib.auth.decorators import login_required
-from main.views import  videssur_required
+from main.views import videssur_required
 import json
 from datetime import date
 from decimal import Decimal
 from django.db.models import Q
 from django.core.paginator import Paginator
+
 
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -30,9 +31,10 @@ def project_delete(request, project_id):
 @login_required
 @videssur_required
 def project_create(request):
-    form = CreateNewProject(initial={'ong':request.user.ong})
+    form = CreateNewProject(initial={'ong': request.user.ong})
     if request.method == "POST":
-        form = CreateNewProject(request.POST, initial={'ong':request.user.ong})
+        form = CreateNewProject(request.POST, initial={
+                                'ong': request.user.ong})
         if form.is_valid():
             project = form.save(commit=False)
             project.ong = request.user.ong
@@ -56,7 +58,7 @@ def project_update(request, project_id):
             form.save()
             return redirect('project_list')
         else:
-           for field, errors in form.errors.items():
+            for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f"{field}: {error}")
 
@@ -66,7 +68,7 @@ def project_update(request, project_id):
 
 @login_required
 @videssur_required
-def project_details(request, project_id):   #TODO
+def project_details(request, project_id):  # TODO
     project = get_object_or_404(Project, id=project_id)
     return render(request, 'project/project_details.html', {'project': project})
 
@@ -94,7 +96,7 @@ def project_list(request):
                 p[key] = '-'
 
     project_json = json.dumps(projects_dict, cls=CustomJSONEncoder)
-    
+
     query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
@@ -133,7 +135,7 @@ def project_list(request):
 
     context = {
         'objects': project_page,
-        'objects_json' : project_json,
+        'objects_json': project_json,
         'object_name': 'proyecto',
         'object_name_en': 'project',
         'title': 'Gestión de Proyectos',
@@ -163,26 +165,29 @@ def project_filter(queryset, form):
     announcement_date_max = form['announcement_date_max'].value()
 
     if qsearch is not None:
-            if qsearch.strip() != "":
-                queryset = queryset.filter(Q(title__icontains=qsearch) | Q(country__icontains=qsearch))
+        if qsearch.strip() != "":
+            queryset = queryset.filter(
+                Q(title__icontains=qsearch) | Q(country__icontains=qsearch))
 
     if is_valid_queryparam(start_date_min):
         queryset = queryset.filter(start_date__gte=start_date_min)
-    
+
     if is_valid_queryparam(start_date_max):
         queryset = queryset.filter(start_date__lte=start_date_max)
 
     if is_valid_queryparam(end_date_min):
         queryset = queryset.filter(end_date__gte=end_date_min)
-    
+
     if is_valid_queryparam(end_date_max):
         queryset = queryset.filter(end_date__lte=end_date_max)
 
     if is_valid_queryparam(number_of_beneficiaries_min):
-        queryset = queryset.filter(number_of_beneficiaries__gte=number_of_beneficiaries_min)
+        queryset = queryset.filter(
+            number_of_beneficiaries__gte=number_of_beneficiaries_min)
 
     if is_valid_queryparam(number_of_beneficiaries_max):
-        queryset = queryset.filter(number_of_beneficiaries__lte=number_of_beneficiaries_max)
+        queryset = queryset.filter(
+            number_of_beneficiaries__lte=number_of_beneficiaries_max)
 
     if is_valid_queryparam(amount_min):
         queryset = queryset.filter(amount__gte=amount_min)
@@ -191,9 +196,11 @@ def project_filter(queryset, form):
         queryset = queryset.filter(amount__lte=amount_max)
 
     if is_valid_queryparam(announcement_date_min):
-        queryset = queryset.filter(announcement_date__gte=announcement_date_min)
+        queryset = queryset.filter(
+            announcement_date__gte=announcement_date_min)
 
     if is_valid_queryparam(announcement_date_max):
-        queryset = queryset.filter(announcement_date__lte=announcement_date_max)
+        queryset = queryset.filter(
+            announcement_date__lte=announcement_date_max)
 
     return queryset

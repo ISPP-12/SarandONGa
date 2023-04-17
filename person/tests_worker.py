@@ -103,7 +103,7 @@ class WorkerTestCase(TestCase):
                                   postal_code="41015",
                                   photo="",
                                   is_active=True,
-                                  is_admin=True,ong=self.ong)
+                                  is_admin=True, ong=self.ong)
 
     def test_worker_create_name_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -119,7 +119,7 @@ class WorkerTestCase(TestCase):
                                   postal_code="41015",
                                   photo="",
                                   is_active=True,
-                                  is_admin=True,ong=self.ong)
+                                  is_admin=True, ong=self.ong)
 
     def test_worker_create_email_incorrect(self):
         with self.assertRaises(Exception):
@@ -135,7 +135,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_email_incorrect_null(self):
@@ -152,7 +152,7 @@ class WorkerTestCase(TestCase):
                                   postal_code="41015",
                                   photo="",
                                   is_active=True,
-                                  is_admin=True,ong=self.ong)
+                                  is_admin=True, ong=self.ong)
 
     def test_worker_create_surname_incorrect_null(self):
         with self.assertRaises(Exception):
@@ -168,7 +168,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_surname_incorrect_max(self):
@@ -185,7 +185,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_birth_date_incorrect(self):
@@ -201,7 +201,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_sex_incorrect_max(self):
@@ -218,7 +218,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_sex_incorrect(self):
@@ -235,7 +235,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_city_incorrect_max(self):
@@ -252,7 +252,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_address_incorrect(self):
@@ -269,7 +269,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_telephone_incorrect(self):
@@ -286,7 +286,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="41015",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_create_postal_code_incorrect(self):
@@ -303,7 +303,7 @@ class WorkerTestCase(TestCase):
                                            postal_code="bad_postal_code",
                                            photo="",
                                            is_active=True,
-                                           is_admin=True,ong=self.ong)
+                                           is_admin=True, ong=self.ong)
             worker.full_clean()
 
     def test_worker_update_name_incorrect_max(self):
@@ -351,13 +351,13 @@ class WorkerTestCase(TestCase):
     def test_worker_update_sex_incorrect_max(self):
         worker = Worker.objects.get(name="Worker2")
         with self.assertRaises(Exception):
-            worker.sex ="Masculino"*50
+            worker.sex = "Masculino"*50
             worker.full_clean()
 
     def test_worker_update_sex_incorrect(self):
         worker = Worker.objects.get(name="Worker2")
         with self.assertRaises(Exception):
-            worker.sex ="bad_sex"
+            worker.sex = "bad_sex"
             worker.full_clean()
 
     def test_worker_update_city_incorrect_max(self):
@@ -394,14 +394,15 @@ class UpdatePasswordTest(TestCase):
         # Utiliza 'unittest.mock.patch' para modificar la función 'input'
         with patch('builtins.input', side_effect=[1, 1]):
             # Crea dos trabajadores con privilegios de superusuario
-            self.worker1 = Worker.objects.create_superuser(email='worker1@example.com', password='worker1password')
+            self.worker1 = Worker.objects.create_superuser(
+                email='worker1@example.com', password='worker1password')
 
     def test_user_can_change_own_password(self):
-        self.client.login(username='worker1@example.com', password='worker1password')
+        self.client.login(username='worker1@example.com',
+                          password='worker1password')
         response = self.client.get(reverse('update_password'))
         self.assertEqual(response.status_code, 200)
-        
-        
+
         data = {
             'old_password': 'worker1password',
             'new_password1': 'new_password',
@@ -409,14 +410,17 @@ class UpdatePasswordTest(TestCase):
         }
 
         # Agrega el argumento `follow=True`
-        response = self.client.post(reverse('update_password'), data, follow=True)
+        response = self.client.post(
+            reverse('update_password'), data, follow=True)
 
         # Comprueba si la URL de la respuesta es la correcta
         self.assertTrue(response.redirect_chain)
-        self.assertTrue(response.redirect_chain[0][0].endswith(reverse('worker_list')))  # URL correcta
+        self.assertTrue(response.redirect_chain[0][0].endswith(
+            reverse('worker_list')))  # URL correcta
 
     def test_password_similar_to_personal_info(self):
-        self.client.login(username='worker1@example.com', password='worker1password')
+        self.client.login(username='worker1@example.com',
+                          password='worker1password')
         response = self.client.get(reverse('update_password'))
         self.assertEqual(response.status_code, 200)
         data = {
@@ -424,11 +428,14 @@ class UpdatePasswordTest(TestCase):
             'new_password1': 'worker1@example.com',
             'new_password2': 'worker1@example.com',
         }
-        response = self.client.post(reverse('update_password'), data, follow=True)
-        self.assertContains(response, "La contraseña es demasiado similar a la de E-Mail.")
+        response = self.client.post(
+            reverse('update_password'), data, follow=True)
+        self.assertContains(
+            response, "La contraseña es demasiado similar a la de E-Mail.")
 
     def test_password_too_short(self):
-        self.client.login(username='worker1@example.com', password='worker1password')
+        self.client.login(username='worker1@example.com',
+                          password='worker1password')
         response = self.client.get(reverse('update_password'))
         self.assertEqual(response.status_code, 200)
         data = {
@@ -436,11 +443,14 @@ class UpdatePasswordTest(TestCase):
             'new_password1': 'short',
             'new_password2': 'short',
         }
-        response = self.client.post(reverse('update_password'), data, follow=True)
-        self.assertContains(response, "Esta contraseña es demasiado corta. Debe contener al menos 8 caracteres.")
+        response = self.client.post(
+            reverse('update_password'), data, follow=True)
+        self.assertContains(
+            response, "Esta contraseña es demasiado corta. Debe contener al menos 8 caracteres.")
 
     def test_password_commonly_used(self):
-        self.client.login(username='worker1@example.com', password='worker1password')
+        self.client.login(username='worker1@example.com',
+                          password='worker1password')
         response = self.client.get(reverse('update_password'))
         self.assertEqual(response.status_code, 200)
         data = {
@@ -448,11 +458,13 @@ class UpdatePasswordTest(TestCase):
             'new_password1': 'password123',
             'new_password2': 'password123',
         }
-        response = self.client.post(reverse('update_password'), data, follow=True)
+        response = self.client.post(
+            reverse('update_password'), data, follow=True)
         self.assertContains(response, "Esta contraseña es demasiado común.")
 
     def test_password_all_numeric(self):
-        self.client.login(username='worker1@example.com', password='worker1password')
+        self.client.login(username='worker1@example.com',
+                          password='worker1password')
         response = self.client.get(reverse('update_password'))
         self.assertEqual(response.status_code, 200)
         data = {
@@ -460,19 +472,20 @@ class UpdatePasswordTest(TestCase):
             'new_password1': '12345678',
             'new_password2': '12345678',
         }
-        response = self.client.post(reverse('update_password'), data, follow=True)
-        self.assertContains(response, "Esta contraseña es completamente numérica.")
+        response = self.client.post(
+            reverse('update_password'), data, follow=True)
+        self.assertContains(
+            response, "Esta contraseña es completamente numérica.")
 
     def test_password_same_as_old_password(self):
-        self.client.login(username='worker1@example.com', password='worker1password')
+        self.client.login(username='worker1@example.com',
+                          password='worker1password')
         data = {
             'old_password': 'worker1password',
             'new_password1': 'worker1password',
             'new_password2': 'worker1password',
         }
         self.client.post(reverse('update_password'), data, follow=True)
-            
+
         # Comprueba si el usuario sigue autenticándose con la contraseña antigua
         self.assertTrue(self.worker1.check_password('worker1password'))
-
-

@@ -43,12 +43,12 @@ class Subsidy(models.Model):
     # Estado de la Subvención
     status = models.CharField(
         max_length=50, choices=SUBSIDY_STATUS, verbose_name="Estado")
-    #Observaciones
+    # Observaciones
     notes = models.TextField(blank=True, verbose_name='Observaciones')
-    #Documentos referentes
+    # Documentos referentes
     document = models.FileField(
         verbose_name="Documento", upload_to="docs/subsidy/", null=True, blank=True)
-    #Relacione con la etidad Ong
+    # Relacione con la etidad Ong
     ong = models.ForeignKey(Ong, on_delete=models.CASCADE,
                             related_name='subvencion', verbose_name="ONG")
     # slug = models.SlugField(max_length=200, unique=True, editable=False)
@@ -60,7 +60,7 @@ class Subsidy(models.Model):
 
         if self.amount < 0:
             raise ValidationError("El importe no puede ser negativo")
-        
+
         if self.presentation_date and self.presentation_justification_date:
             if self.presentation_date > self.presentation_justification_date:
                 raise ValidationError(
