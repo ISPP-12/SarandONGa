@@ -22,6 +22,7 @@ import math
 from django.http import HttpResponse
 import csv
 import pandas as pd
+from django.db import IntegrityError
 
 
 class UpdatePasswordView(PasswordChangeView):
@@ -40,6 +41,7 @@ class CustomJSONEncoder(json.JSONEncoder):
             return float(obj)
         return super().default(obj)
 
+
 def choices_dicts():
     choices_dict = {
         'sex_types': dict(SEX_TYPES),
@@ -55,10 +57,12 @@ def choices_dicts():
     }
     return choices_dict
 
+
 def is_valid_queryparam(param):
     return param != '' and param is not None
 
 ### WORKER ###
+
 
 @login_required
 def worker_create(request):
@@ -77,16 +81,16 @@ def worker_create(request):
             messages.error(request, 'Formulario con errores')
 
     context = {
-        "form": form, 
-        "title": "Añadir trabajador", 
+        "form": form,
+        "title": "Añadir trabajador",
         'page_title': 'SarandONGa 💃 - Añadir Trabajador'
-        }
+    }
 
     return render(request, 'person/workers/register.html', context)
 
 
 @login_required
-def worker_update(request, worker_id): 
+def worker_update(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if request.user.ong == worker.ong:
         if request.method == 'POST':
@@ -98,7 +102,8 @@ def worker_update(request, worker_id):
                 messages.error(request, 'Formulario con errores')
 
         form = UpdateWorker(instance=worker)
-        context = {'form': form, 'title': 'Actualizar Trabajador', 'page_title': 'SarandONGa 💃 - Actualizar Trabajador'}
+        context = {'form': form, 'title': 'Actualizar Trabajador',
+                   'page_title': 'SarandONGa 💃 - Actualizar Trabajador'}
     else:
         return custom_403(request)
     return render(request, 'person/workers/register.html', context)
@@ -112,7 +117,7 @@ def worker_list(request):
 
     if request.method == 'GET':
         objects = worker_filter(objects, form)
-    
+
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     worker_page = paginator.get_page(page_number)
@@ -125,9 +130,9 @@ def worker_list(request):
         for key, value in list(person.items()):
             if value is None or value == '':
                 person[key] = '-'
-    
+
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-    
+
     query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
@@ -189,7 +194,7 @@ def worker_filter(queryset, form):
 
 
 @login_required
-def worker_details(request, worker_id): 
+def worker_details(request, worker_id):
     worker = get_object_or_404(Worker, id=worker_id)
     if worker.ong == request.user.ong:
         fields = [f for f in Worker._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type',
@@ -220,8 +225,9 @@ def worker_details(request, worker_id):
             page_title = 'SarandONGa 💃 - ' + worker.name + ' ' + worker.surname
         else:
             page_title = 'SarandONGa 💃 - Trabajador'
-        
-        context = {'worker': worker, 'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
+
+        context = {'worker': worker,
+                   'info_left': items[:mid], 'info_right': items[mid:], 'page_title': page_title}
 
         return render(request, 'person/users/details.html', context)
     else:
@@ -236,8 +242,10 @@ def worker_delete(request, worker_id):
         return redirect('worker_list')
     else:
         return custom_403(request)
-    
-### GODFATHER ###    
+
+### GODFATHER ###
+
+
 @login_required
 @videssur_required
 def godfather_create(request):
@@ -257,10 +265,10 @@ def godfather_create(request):
             messages.error(request, 'Formulario con errores')
 
     context = {
-        'form': form, 
-        'title': 'Añadir Padrino', 
+        'form': form,
+        'title': 'Añadir Padrino',
         'page_title': 'SarandONGa 💃 - Añadir Padrino'
-        }
+    }
 
     return render(request, 'person/godfather/register.html', context)
 
@@ -284,16 +292,16 @@ def godfather_update(request, godfather_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    
+
     context = {
-        'form': form, 
-        'title': "Editar Padrino", 
+        'form': form,
+        'title': "Editar Padrino",
         'page_title': 'SarandONGa 💃 - Editar Padrino'
-        }
-    
+    }
+
     return render(request, 'person/godfather/register.html', context)
 
-    
+
 @login_required
 @videssur_required
 def godfather_list(request):
@@ -335,14 +343,13 @@ def godfather_list(request):
         query_str += request.GET["sex"]
     if "status" in keys:
         query_str += "&status="
-        query_str += request.GET["status"]  
+        query_str += request.GET["status"]
     if "amount_min" in keys:
         query_str += "&amount_min="
         query_str += request.GET["amount_min"]
     if "amount_max" in keys:
         query_str += "&amount_max="
         query_str += request.GET["amount_max"]
-    
 
     context = {
         'objects': godfather_page,
@@ -462,18 +469,19 @@ def godfather_details(request, godfather_id):
                     None or sponsorship.termination_date > datetime.date(datetime.now())]
         items.append(('Niños apadrinados', children))
 
-    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+    items = [item for item in items if item[1] !=
+             None and item[1] != '' and item[1] != []]
 
     mid = math.ceil(len(items) / 2)
 
     page_title = 'SarandONGa 💃 - ' + godfather.name + ' ' + godfather.surname
-    
+
     context = {
-        'godfather': godfather, 
-        'info_left': items[:mid], 
-        'info_right': items[mid:], 
+        'godfather': godfather,
+        'info_left': items[:mid],
+        'info_right': items[mid:],
         'page_title': page_title
-        }
+    }
 
     return render(request, 'person/users/details.html', context)
 
@@ -486,6 +494,7 @@ def godfather_delete(request, godfather_id):
     return redirect('godfather_list')
 
 ### ASEM USER ###
+
 
 @login_required
 @asem_required
@@ -503,17 +512,17 @@ def user_create(request):
             messages.error(request, 'Formulario con errores')
 
     context = {
-        "form": form, 
-        "title": "Añadir Usuario ASEM", 
+        "form": form,
+        "title": "Añadir Usuario ASEM",
         'page_title': 'SarandONGa 💃 - Añadir Usuario ASEM'
-        }
+    }
 
     return render(request, 'person/asem_user/register.html', context)
 
 
 @login_required
 @asem_required
-def user_update(request, asem_user_id): 
+def user_update(request, asem_user_id):
     asem_user = get_object_or_404(ASEMUser, id=asem_user_id)
     if request.method == 'POST':
         form = CreateNewASEMUser(
@@ -527,10 +536,10 @@ def user_update(request, asem_user_id):
     form = CreateNewASEMUser(instance=asem_user)
 
     context = {
-        'form': form, 
-        'page_title': 'SarandONGa 💃 - Editar Usuario ASEM', 
+        'form': form,
+        'page_title': 'SarandONGa 💃 - Editar Usuario ASEM',
         'title': 'Editar Usuario ASEM'
-        }
+    }
 
     return render(request, 'person/asem_user/register.html', context)
 
@@ -546,11 +555,12 @@ def user_list(request):
     if request.method == 'POST':
         try:
             response = HttpResponse()
-            response['Content-Disposition'] = 'attachment; filename=asem_users.xlsx'
+            response['Content-Disposition'] = 'attachment; filename=asem_users.xls'
             writer = csv.writer(response)
             writer.writerow(['id', 'email', 'nombre', 'apellido', 'fecha_nacimiento', 'sexo', 'ciudad', 'direccion', 'telefono', 'codigo_postal', 'foto', 'tipo_usuario',
                             'es_miembro', 'condicion', 'tipo_correspondencia', 'estado', 'tamaño_unidad_familiar', 'casa_propia', 'vehiculo_propio', 'numero_cuenta_bancaria', 'ong'])
-            asemUser_fields = objects.values_list('id', 'email', 'name', 'surname', 'birth_date', 'sex', 'city', 'address', 'telephone', 'postal_code', 'photo', 'user_type', 'member', 'condition', 'correspondence', 'status', 'family_unit_size', 'own_home', 'own_vehicle', 'bank_account_number', 'ong')
+            asemUser_fields = objects.values_list('id', 'email', 'name', 'surname', 'birth_date', 'sex', 'city', 'address', 'telephone', 'postal_code', 'photo',
+                                                  'user_type', 'member', 'condition', 'correspondence', 'status', 'family_unit_size', 'own_home', 'own_vehicle', 'bank_account_number', 'ong')
             for a in asemUser_fields:
                 writer.writerow(a)
             message = ("Exportado correctamente")
@@ -577,7 +587,7 @@ def user_list(request):
                 person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-    
+
     query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
@@ -604,8 +614,6 @@ def user_list(request):
     if "condition" in keys:
         query_str += "&condition="
         query_str += request.GET["condition"]
-        
-    
 
     context = {
         'objects': user_page,
@@ -662,7 +670,7 @@ def asemuser_filter(queryset, form):
 
     if is_valid_queryparam(user_type):
         queryset = queryset.filter(user_type=user_type)
-        
+
     if is_valid_queryparam(status):
         queryset = queryset.filter(status=status)
 
@@ -712,13 +720,13 @@ def asem_user_details(request, asem_user_id):
     mid = math.ceil(len(items) / 2)
 
     page_title = 'SarandONGa 💃 - ' + asem_user.name + ' ' + asem_user.surname
-    
+
     context = {
-        'asem_user': asem_user, 
-        'info_left': items[:mid], 
-        'info_right': items[mid:], 
+        'asem_user': asem_user,
+        'info_left': items[:mid],
+        'info_right': items[mid:],
         'page_title': page_title
-        }
+    }
 
     return render(request, 'person/users/details.html', context)
 
@@ -731,6 +739,8 @@ def asem_user_delete(request, asem_user_id):
     return redirect('user_list')
 
 ### VOLUNTEER ###
+
+
 @login_required
 def volunteer_create(request):
     form = CreateNewVolunteer(initial={'ong': request.user.ong})
@@ -741,16 +751,20 @@ def volunteer_create(request):
             # if the user is anonymous, the ong is not set yet. Actually, it won't be possible to create a volunteer unless the user is logged in
             volunteer = form.save(commit=False)
             volunteer.ong = ong
-            volunteer.save()
-            return redirect('volunteer_list')
+            try:
+                volunteer.save()
+                return redirect('volunteer_list')
+            except IntegrityError:
+                form._errors["dni"] = "Ya se ha registrado un voluntario con ese DNI."
+                del form.cleaned_data["dni"]
         else:
             messages.error(request, 'Formulario con errores')
 
     context = {
-        'form': form, 
-        'title': 'Añadir Voluntario', 
+        'form': form,
+        'title': 'Añadir Voluntario',
         'page_title': 'SarandONGa 💃 - Añadir Voluntario'
-        }
+    }
 
     return render(request, 'person/volunteers/register.html', context)
 
@@ -765,19 +779,23 @@ def volunteer_update(request, volunteer_id):
                 request.POST, request.FILES, instance=volunteer)
 
             if form.is_valid():
-                form.save()
-                return redirect('volunteer_list')
+                try:
+                    form.save()
+                    return redirect('volunteer_list')
+                except IntegrityError:
+                    form._errors["dni"] = "Ya se ha registrado un voluntario con ese DNI."
+                    del form.cleaned_data["dni"]
             else:
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    
+
     context = {
-        'form': form, 
-        'title': 'Editar Voluntario', 
+        'form': form,
+        'title': 'Editar Voluntario',
         'page_title': 'SarandONGa 💃 - Editar Voluntario'
-        }
-    
+    }
+
     return render(request, 'person/volunteers/register.html', context)
 
 
@@ -788,13 +806,13 @@ def volunteer_list(request):
     form = FilterVolunteerForm(request.GET or None)
     if request.method == 'GET':
         objects = volunteer_filter(objects, form)
-    
+
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     user_page = paginator.get_page(page_number)
 
     page_title = 'SarandONGa 💃 - Gestión de Voluntarios'
-    
+
     # depending of the user type write one title or another
     persons_dict = [user for user in user_page]
     for person in persons_dict:
@@ -811,7 +829,7 @@ def volunteer_list(request):
     if "qsearch" in keys:
         query_str = "&qsearch="
         query_str += request.GET["qsearch"]
-    
+
     if "birth_date_min" in keys:
         query_str += "&birth_date_min="
         query_str += request.GET["birth_date_min"]
@@ -877,7 +895,7 @@ def volunteer_list(request):
         'title': 'Gestión de Voluntarios',
         'objects_json': persons_json,
         'search_text': 'Buscar voluntario...',
-        'form' : form,
+        'form': form,
         'query_str': query_str
     }
 
@@ -931,16 +949,16 @@ def volunteer_details(request, volunteer_id):
     this_ong = request.user.ong
     if volunteer.ong == this_ong:
         fields = []
-        
+
         if str(this_ong).lower() == "asem":
             fields = [f for f in Volunteer._meta.get_fields() if f.name not in [
-            'id', 'photo', 'password', 'user_type', 'name', 'surname',
-            'service', 'ong', 'person_ptr']]
+                'id', 'photo', 'password', 'user_type', 'name', 'surname',
+                'service', 'ong', 'person_ptr']]
         elif str(this_ong).lower() == "videssur":
             fields = [f for f in Volunteer._meta.get_fields() if f.name not in [
-            'id', 'photo', 'password', 'user_type', 'name', 'surname',
-            'service', 'ong', 'person_ptr','raffle','lottery','is_member',
-            'pres_table','is_contributor','entity','table']]
+                'id', 'photo', 'password', 'user_type', 'name', 'surname',
+                'service', 'ong', 'person_ptr', 'raffle', 'lottery', 'is_member',
+                'pres_table', 'is_contributor', 'entity', 'table']]
 
         info = [getattr(volunteer, f.name) for f in fields]
 
@@ -972,14 +990,14 @@ def volunteer_details(request, volunteer_id):
         mid = math.ceil(len(items) / 2)
 
         page_title = 'SarandONGa 💃 - ' + volunteer.name + ' ' + volunteer.surname
-        
+
         context = {
-            'volunteer': volunteer, 
-            'info_left': items[:mid], 
-            'info_right': items[mid:], 
+            'volunteer': volunteer,
+            'info_left': items[:mid],
+            'info_right': items[mid:],
             'page_title': page_title
-            }
-        
+        }
+
         return render(request, 'person/users/details.html', context)
     else:
         return custom_403(request)
@@ -996,6 +1014,7 @@ def volunteer_delete(request, volunteer_id):
 
 ### CHILD ###
 
+
 @login_required
 @videssur_required
 def child_create(request):
@@ -1010,13 +1029,13 @@ def child_create(request):
             return redirect('child_list')
         else:
             messages.error(request, 'Formulario con errores')
-    
+
     context = {
-        'form': form, 
-        'title': 'Añadir Niño', 
+        'form': form,
+        'title': 'Añadir Niño',
         'page_title': 'SarandONGa 💃 - Añadir Niño'
-        }
-            
+    }
+
     return render(request, 'person/child/register.html', context)
 
 
@@ -1041,10 +1060,10 @@ def child_update(request, child_id):
         return custom_403(request)
 
     context = {
-        'form': form, 
-        'title': "Editar Niño", 
+        'form': form,
+        'title': "Editar Niño",
         'page_title': 'SarandONGa 💃 - Editar Niño'
-        }
+    }
 
     return render(request, 'person/child/register.html', context)
 
@@ -1074,7 +1093,7 @@ def child_list(request):
                 person[key] = '-'
 
     persons_json = json.dumps(persons_dict, cls=CustomJSONEncoder)
-    
+
     query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
@@ -1181,10 +1200,11 @@ def child_details(request, child_id):
     child = get_object_or_404(Child, id=child_id)
 
     choices_dict = choices_dicts()
-    child.correspondence = choices_dict['correspondence'][child.correspondence] if child.correspondence else "No especificado"
+    child.correspondence = choices_dict['correspondence'][
+        child.correspondence] if child.correspondence else "No especificado"
 
-    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password', 'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
-
+    fields = [f for f in Child._meta.get_fields() if f.name not in ['id', 'photo', 'password',
+                                                                    'user_type', 'name', 'surname', 'service', 'ong', 'person_ptr', 'sponsorship']]
 
     info = [getattr(child, f.name) for f in fields]
     fields_info = dict(zip([f.verbose_name for f in fields], info))
@@ -1209,26 +1229,27 @@ def child_details(request, child_id):
         godfathers = [g for godfather in godfathers for g in godfather]
         items.append(('Padrinos', godfathers))
         homes = [sponsorship.home.all() for sponsorship in sponsorships if sponsorship.termination_date ==
-                      None or sponsorship.termination_date > datetime.date(datetime.now())]
+                 None or sponsorship.termination_date > datetime.date(datetime.now())]
         homes = [h for home in homes for h in home]
         items.append(('Casas', homes))
 
     items = [item for item in items if item[1] !=
              None and item[1] != '' and item[1] != []]
 
-    items = [item for item in items if item[1] != None and item[1] != '' and item[1] != []]
+    items = [item for item in items if item[1] !=
+             None and item[1] != '' and item[1] != []]
 
     mid = math.ceil(len(items) / 2)
 
     page_title = 'SarandONGa 💃 - ' + child.name + ' ' + child.surname
-    
+
     context = {
-        'child': child, 
-        'info_left': items[:mid], 
-        'info_right': items[mid:], 
+        'child': child,
+        'info_left': items[:mid],
+        'info_right': items[mid:],
         'page_title': page_title
-        }
-    
+    }
+
     return render(request, 'person/users/details.html', context)
 
 
