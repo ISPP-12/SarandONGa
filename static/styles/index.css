@@ -193,7 +193,7 @@ h1.first-title {
   transition: 0.3s ease;
 }
 
-.pricingTable .btn-block:after {
+.pricingTable .btn-block::after {
   content: "\f090";
   font-family: 'FontAwesome', sans-serif;
   padding-left: 10px;
@@ -211,7 +211,6 @@ h1.first-title {
     margin: 0 0 30px 0;
   }
 }
-
 
 .demo {
   margin-top: 40px;
