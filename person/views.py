@@ -312,6 +312,30 @@ def godfather_list(request):
     form = FilterGodfatherForm(request.GET or None)
     objects = godfather_filter(objects, form)
 
+    if request.method == "POST":
+        try:
+            queryset = godfather_filter(objects, form)
+            data = queryset.values()
+            df = pd.DataFrame.from_records(data)
+            excel_file = io.BytesIO()
+            field_names = df.columns
+            verbose_names = [GodFather._meta.get_field(
+                field_name).verbose_name for field_name in field_names]
+            # Map the field names to the verbose names in the DataFrame columns
+            df.columns = verbose_names
+            df.to_excel(excel_file, index=False)
+            excel_file.seek(0)
+            response = HttpResponse(
+                excel_file.read(), content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=padrinos.xlsx'
+            excel_file.close()
+            return response
+        except ValidationErr:
+            message = (
+                "Error en la exportación de datos, hay datos vacíos en las columnas")
+            messages.error(request, message)
+            return render(request, 'users/list.html')
+
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
     godfather_page = paginator.get_page(page_number)
@@ -552,24 +576,30 @@ def user_list(request):
     form = FilterAsemUserForm(request.GET or None)
     objects = asemuser_filter(objects, form)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
-            response = HttpResponse()
-            response['Content-Disposition'] = 'attachment; filename=asem_users.xls'
-            writer = csv.writer(response)
-            writer.writerow(['id', 'email', 'nombre', 'apellido', 'fecha_nacimiento', 'sexo', 'ciudad', 'direccion', 'telefono', 'codigo_postal', 'foto', 'tipo_usuario',
-                            'es_miembro', 'condicion', 'tipo_correspondencia', 'estado', 'tamaño_unidad_familiar', 'casa_propia', 'vehiculo_propio', 'numero_cuenta_bancaria', 'ong'])
-            asemUser_fields = objects.values_list('id', 'email', 'name', 'surname', 'birth_date', 'sex', 'city', 'address', 'telephone', 'postal_code', 'photo',
-                                                  'user_type', 'member', 'condition', 'correspondence', 'status', 'family_unit_size', 'own_home', 'own_vehicle', 'bank_account_number', 'ong')
-            for a in asemUser_fields:
-                writer.writerow(a)
-            message = ("Exportado correctamente")
-            messages.success(request, message)
+            queryset = asemuser_filter(objects, form)
+            data = queryset.values()
+            df = pd.DataFrame.from_records(data)
+            field_names = df.columns
+            verbose_names = [ASEMUser._meta.get_field(
+                field_name).verbose_name for field_name in field_names]
+
+            # Map the field names to the verbose names in the DataFrame columns
+            df.columns = verbose_names
+            excel_file = io.BytesIO()
+            df.to_excel(excel_file, index=False)
+            excel_file.seek(0)
+            response = HttpResponse(
+                excel_file.read(), content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=asem_users.xlsx'
+            excel_file.close()
             return response
         except ValidationErr:
-            message = ("Error in exporting data. There are null data in rows")
+            message = (
+                "Error en la exportación de datos, hay datos vacíos en las columnas")
             messages.error(request, message)
-            return render(request, 'person/users/list.html')
+            return render(request, 'users/list.html')
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -806,6 +836,31 @@ def volunteer_list(request):
     form = FilterVolunteerForm(request.GET or None)
     if request.method == 'GET':
         objects = volunteer_filter(objects, form)
+
+    if request.method == "POST":
+        try:
+            queryset = volunteer_filter(objects, form)
+            data = queryset.values()
+            df = pd.DataFrame.from_records(data)
+            field_names = df.columns
+            verbose_names = [Volunteer._meta.get_field(
+                field_name).verbose_name for field_name in field_names]
+
+            # Map the field names to the verbose names in the DataFrame columns
+            df.columns = verbose_names
+            excel_file = io.BytesIO()
+            df.to_excel(excel_file, index=False)
+            excel_file.seek(0)
+            response = HttpResponse(
+                excel_file.read(), content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=volunteers.xlsx'
+            excel_file.close()
+            return response
+        except ValidationErr:
+            message = (
+                "Error en la exportación de datos, hay datos vacíos en las columnas")
+            messages.error(request, message)
+            return render(request, 'users/list.html')
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
@@ -1078,6 +1133,31 @@ def child_list(request):
 
     if request.method == "GET":
         objects = child_filter(objects, form)
+
+    if request.method == "POST":
+        try:
+            queryset = child_filter(objects, form)
+            data = queryset.values()
+            df = pd.DataFrame.from_records(data)
+            field_names = df.columns
+            verbose_names = [Child._meta.get_field(
+                field_name).verbose_name for field_name in field_names]
+
+            # Map the field names to the verbose names in the DataFrame columns
+            df.columns = verbose_names
+            excel_file = io.BytesIO()
+            df.to_excel(excel_file, index=False)
+            excel_file.seek(0)
+            response = HttpResponse(
+                excel_file.read(), content_type='application/vnd.ms-excel')
+            response['Content-Disposition'] = 'attachment; filename=childs.xlsx'
+            excel_file.close()
+            return response
+        except ValidationErr:
+            message = (
+                "Error en la exportación de datos, hay datos vacíos en las columnas")
+            messages.error(request, message)
+            return render(request, 'users/list.html')
 
     paginator = Paginator(objects, 12)
     page_number = request.GET.get('page')
