@@ -1,1917 +1,1749 @@
 [
-{
-    "model": "auth.permission",
-    "pk": 1,
-    "fields": {
-        "name": "Can add log entry",
-        "content_type": 1,
-        "codename": "add_logentry"
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 4,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 4,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 4,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 4,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 5,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 5,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 5,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 5,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add person",
+            "content_type": 6,
+            "codename": "add_person"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change person",
+            "content_type": 6,
+            "codename": "change_person"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete person",
+            "content_type": 6,
+            "codename": "delete_person"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view person",
+            "content_type": 6,
+            "codename": "view_person"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add Trabajador",
+            "content_type": 7,
+            "codename": "add_worker"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change Trabajador",
+            "content_type": 7,
+            "codename": "change_worker"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete Trabajador",
+            "content_type": 7,
+            "codename": "delete_worker"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view Trabajador",
+            "content_type": 7,
+            "codename": "view_worker"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add Padrino",
+            "content_type": 8,
+            "codename": "add_godfather"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change Padrino",
+            "content_type": 8,
+            "codename": "change_godfather"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete Padrino",
+            "content_type": 8,
+            "codename": "delete_godfather"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view Padrino",
+            "content_type": 8,
+            "codename": "view_godfather"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add NiÃ±o",
+            "content_type": 9,
+            "codename": "add_child"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change NiÃ±o",
+            "content_type": 9,
+            "codename": "change_child"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete NiÃ±o",
+            "content_type": 9,
+            "codename": "delete_child"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view NiÃ±o",
+            "content_type": 9,
+            "codename": "view_child"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 37,
+        "fields": {
+            "name": "Can add Usuario de ASEM",
+            "content_type": 10,
+            "codename": "add_asemuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 38,
+        "fields": {
+            "name": "Can change Usuario de ASEM",
+            "content_type": 10,
+            "codename": "change_asemuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 39,
+        "fields": {
+            "name": "Can delete Usuario de ASEM",
+            "content_type": 10,
+            "codename": "delete_asemuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 40,
+        "fields": {
+            "name": "Can view Usuario de ASEM",
+            "content_type": 10,
+            "codename": "view_asemuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 41,
+        "fields": {
+            "name": "Can add Voluntario",
+            "content_type": 11,
+            "codename": "add_volunteer"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 42,
+        "fields": {
+            "name": "Can change Voluntario",
+            "content_type": 11,
+            "codename": "change_volunteer"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 43,
+        "fields": {
+            "name": "Can delete Voluntario",
+            "content_type": 11,
+            "codename": "delete_volunteer"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 44,
+        "fields": {
+            "name": "Can view Voluntario",
+            "content_type": 11,
+            "codename": "view_volunteer"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 45,
+        "fields": {
+            "name": "Can add DonaciÃ³n",
+            "content_type": 12,
+            "codename": "add_donation"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 46,
+        "fields": {
+            "name": "Can change DonaciÃ³n",
+            "content_type": 12,
+            "codename": "change_donation"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 47,
+        "fields": {
+            "name": "Can delete DonaciÃ³n",
+            "content_type": 12,
+            "codename": "delete_donation"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 48,
+        "fields": {
+            "name": "Can view DonaciÃ³n",
+            "content_type": 12,
+            "codename": "view_donation"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 49,
+        "fields": {
+            "name": "Can add Subvenciones",
+            "content_type": 13,
+            "codename": "add_subsidy"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 50,
+        "fields": {
+            "name": "Can change Subvenciones",
+            "content_type": 13,
+            "codename": "change_subsidy"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 51,
+        "fields": {
+            "name": "Can delete Subvenciones",
+            "content_type": 13,
+            "codename": "delete_subsidy"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 52,
+        "fields": {
+            "name": "Can view Subvenciones",
+            "content_type": 13,
+            "codename": "view_subsidy"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 53,
+        "fields": {
+            "name": "Can add Inventario",
+            "content_type": 14,
+            "codename": "add_stock"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 54,
+        "fields": {
+            "name": "Can change Inventario",
+            "content_type": 14,
+            "codename": "change_stock"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 55,
+        "fields": {
+            "name": "Can delete Inventario",
+            "content_type": 14,
+            "codename": "delete_stock"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 56,
+        "fields": {
+            "name": "Can view Inventario",
+            "content_type": 14,
+            "codename": "view_stock"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 57,
+        "fields": {
+            "name": "Can add Cantidad de servicio",
+            "content_type": 15,
+            "codename": "add_serviceamount"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 58,
+        "fields": {
+            "name": "Can change Cantidad de servicio",
+            "content_type": 15,
+            "codename": "change_serviceamount"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 59,
+        "fields": {
+            "name": "Can delete Cantidad de servicio",
+            "content_type": 15,
+            "codename": "delete_serviceamount"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 60,
+        "fields": {
+            "name": "Can view Cantidad de servicio",
+            "content_type": 15,
+            "codename": "view_serviceamount"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 61,
+        "fields": {
+            "name": "Can add Sevicio",
+            "content_type": 16,
+            "codename": "add_service"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 62,
+        "fields": {
+            "name": "Can change Sevicio",
+            "content_type": 16,
+            "codename": "change_service"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 63,
+        "fields": {
+            "name": "Can delete Sevicio",
+            "content_type": 16,
+            "codename": "delete_service"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 64,
+        "fields": {
+            "name": "Can view Sevicio",
+            "content_type": 16,
+            "codename": "view_service"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 65,
+        "fields": {
+            "name": "Can add Pago",
+            "content_type": 17,
+            "codename": "add_payment"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 66,
+        "fields": {
+            "name": "Can change Pago",
+            "content_type": 17,
+            "codename": "change_payment"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 67,
+        "fields": {
+            "name": "Can delete Pago",
+            "content_type": 17,
+            "codename": "delete_payment"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 68,
+        "fields": {
+            "name": "Can view Pago",
+            "content_type": 17,
+            "codename": "view_payment"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 69,
+        "fields": {
+            "name": "Can add Proyecto",
+            "content_type": 18,
+            "codename": "add_project"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 70,
+        "fields": {
+            "name": "Can change Proyecto",
+            "content_type": 18,
+            "codename": "change_project"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 71,
+        "fields": {
+            "name": "Can delete Proyecto",
+            "content_type": 18,
+            "codename": "delete_project"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 72,
+        "fields": {
+            "name": "Can view Proyecto",
+            "content_type": 18,
+            "codename": "view_project"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 73,
+        "fields": {
+            "name": "Can add Casa",
+            "content_type": 19,
+            "codename": "add_home"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 74,
+        "fields": {
+            "name": "Can change Casa",
+            "content_type": 19,
+            "codename": "change_home"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 75,
+        "fields": {
+            "name": "Can delete Casa",
+            "content_type": 19,
+            "codename": "delete_home"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 76,
+        "fields": {
+            "name": "Can view Casa",
+            "content_type": 19,
+            "codename": "view_home"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 77,
+        "fields": {
+            "name": "Can add ONG",
+            "content_type": 20,
+            "codename": "add_ong"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 78,
+        "fields": {
+            "name": "Can change ONG",
+            "content_type": 20,
+            "codename": "change_ong"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 79,
+        "fields": {
+            "name": "Can delete ONG",
+            "content_type": 20,
+            "codename": "delete_ong"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 80,
+        "fields": {
+            "name": "Can view ONG",
+            "content_type": 20,
+            "codename": "view_ong"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 81,
+        "fields": {
+            "name": "Can add Apadrinamiento",
+            "content_type": 21,
+            "codename": "add_sponsorship"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 82,
+        "fields": {
+            "name": "Can change Apadrinamiento",
+            "content_type": 21,
+            "codename": "change_sponsorship"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 83,
+        "fields": {
+            "name": "Can delete Apadrinamiento",
+            "content_type": 21,
+            "codename": "delete_sponsorship"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 84,
+        "fields": {
+            "name": "Can view Apadrinamiento",
+            "content_type": 21,
+            "codename": "view_sponsorship"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "alixh3kvrt9cnftmujt3surjhvy1et2q",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2pACA4hL9z0DGZhBqoYmpV0Z765NutDtf-_9l4i4rTVunZc4kbgILU6_W8L84LYDumO7zTLPbV2mJHdFHrTLcSZ-Xg_376Bir99amYxsfHLeUh4MMqScAINTEIBV8ZhJq-KKtU4nbwCchRIAKBAP5SzeH_JGOAo:1poSVX:zQap2fXWxxIfLd27XP65t1VNTIOTeM11V99z-tCcjb8",
+            "expire_date": "2023-05-01T17:19:15.517Z"
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 1,
+        "fields": {
+            "email": "sara@gmail.com",
+            "name": "Sara",
+            "surname": "DomÃ­nguez SuÃ¡rez",
+            "birth_date": "1995-01-12",
+            "sex": "F",
+            "city": "Sevilla",
+            "address": "Calle Echegaray nÂº 15",
+            "telephone": "123456789",
+            "postal_code": "41015",
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 2,
+        "fields": {
+            "email": "ad@gmail.com",
+            "name": "Adolfo",
+            "surname": "GarcÃ­a Prada",
+            "birth_date": "1970-05-30",
+            "sex": "M",
+            "city": "Sevilla",
+            "address": "Calle Luque nÂº 10",
+            "telephone": "123456781",
+            "postal_code": "41015",
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 3,
+        "fields": {
+            "email": "alb@gmail.com",
+            "name": "Alberto",
+            "surname": "MartÃ­nez",
+            "birth_date": "2000-05-12",
+            "sex": "M",
+            "city": "Sevilla",
+            "address": "Calle Elche nÂº7",
+            "telephone": "123456786",
+            "postal_code": "12346",
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 4,
+        "fields": {
+            "email": "lucas@gmail.com",
+            "name": "Lucas",
+            "surname": "De la Torre",
+            "birth_date": "2007-03-12",
+            "sex": "M",
+            "city": "Buenos Aires",
+            "address": "Calle Esperanza de Triana nÂº 20",
+            "telephone": "123456787",
+            "postal_code": "12345",
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 5,
+        "fields": {
+            "email": "luciano@gmail.com",
+            "name": "Luciano",
+            "surname": "Salas",
+            "birth_date": "2012-12-10",
+            "sex": "M",
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 6,
+        "fields": {
+            "email": "koral@gmail.com",
+            "name": "Koral",
+            "surname": "Suthing",
+            "birth_date": "2006-10-20",
+            "sex": "F",
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 7,
+        "fields": {
+            "email": "alfredo@gmail.com",
+            "name": "Alfredo",
+            "surname": "Gil",
+            "birth_date": "1980-12-28",
+            "sex": "M",
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 8,
+        "fields": {
+            "email": "bea@gmail.com",
+            "name": "Beatriz",
+            "surname": "GonzÃ¡lez",
+            "birth_date": "1980-02-10",
+            "sex": null,
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 9,
+        "fields": {
+            "email": null,
+            "name": "Rosa",
+            "surname": "Aguilera JimÃ©nez",
+            "birth_date": "2000-02-26",
+            "sex": null,
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 10,
+        "fields": {
+            "email": null,
+            "name": "Lucas",
+            "surname": "JimÃ©nez Santo",
+            "birth_date": "1994-08-10",
+            "sex": null,
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 11,
+        "fields": {
+            "email": null,
+            "name": "Antonio",
+            "surname": "RamÃ­rez",
+            "birth_date": "2004-08-30",
+            "sex": "M",
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.person",
+        "pk": 12,
+        "fields": {
+            "email": null,
+            "name": "Maria",
+            "surname": "Sosa",
+            "birth_date": "2005-09-10",
+            "sex": null,
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": ""
+        }
+    },
+    {
+        "model": "person.worker",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$390000$sfUzolX7mTdGgr0fcjiYHU$8bVVVyX2TCpcN7X844phSUliEBBXD67sdw4Fblxjs+g=",
+            "last_login": "2023-04-17T16:47:10.351Z",
+            "email": "admin@videssur.com",
+            "name": "",
+            "surname": "",
+            "birth_date": null,
+            "sex": null,
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": "",
+            "is_active": true,
+            "is_admin": true,
+            "ong": 1
+        }
+    },
+    {
+        "model": "person.worker",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$390000$DD0j99sabst8EJugAxofew$WVxafS7pr9tLUbg1c+npRjWj5MxtGDZlUZvMZ6TlS0k=",
+            "last_login": "2023-04-17T17:19:15.514Z",
+            "email": "admin@asem.com",
+            "name": "",
+            "surname": "",
+            "birth_date": null,
+            "sex": null,
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": "",
+            "is_active": true,
+            "is_admin": true,
+            "ong": 2
+        }
+    },
+    {
+        "model": "person.worker",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$390000$WoSXYd8Yzpgd1HRb6vvFVy$fmOBOXDZ6wVDSEo9vIn2VwjLTmJf3X1aNH92IyXQ6EM=",
+            "last_login": null,
+            "email": "luciv@gmail.com",
+            "name": "LucÃ­a",
+            "surname": "Ventura",
+            "birth_date": null,
+            "sex": null,
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": "",
+            "is_active": true,
+            "is_admin": true,
+            "ong": 2
+        }
+    },
+    {
+        "model": "person.worker",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$390000$uHv3TuBDMqIMGHx59CJHXL$xk2aho0tBuTwuGZSJXwoFkJhJsTwyNbHid/wAjl2KLc=",
+            "last_login": null,
+            "email": "pep@admin.com",
+            "name": "Pepe",
+            "surname": "",
+            "birth_date": null,
+            "sex": null,
+            "city": null,
+            "address": null,
+            "telephone": null,
+            "postal_code": null,
+            "photo": "",
+            "is_active": true,
+            "is_admin": true,
+            "ong": 2
+        }
+    },
+    {
+        "model": "person.godfather",
+        "pk": 7,
+        "fields": {
+            "dni": "45659127T",
+            "payment_method": "E",
+            "bank_account_number": null,
+            "bank_account_holder": null,
+            "bank_account_reference": null,
+            "amount": "200.00",
+            "frequency": "T",
+            "start_date": "2023-04-17",
+            "termination_date": null,
+            "notes": "",
+            "status": "C",
+            "ong": 1
+        }
+    },
+    {
+        "model": "person.godfather",
+        "pk": 8,
+        "fields": {
+            "dni": "20433867V",
+            "payment_method": "E",
+            "bank_account_number": null,
+            "bank_account_holder": null,
+            "bank_account_reference": null,
+            "amount": "200.00",
+            "frequency": "T",
+            "start_date": "2023-04-17",
+            "termination_date": null,
+            "notes": "",
+            "status": "S",
+            "ong": 1
+        }
+    },
+    {
+        "model": "person.asemuser",
+        "pk": 11,
+        "fields": {
+            "condition": null,
+            "member": null,
+            "user_type": null,
+            "correspondence": null,
+            "status": null,
+            "family_unit_size": 0,
+            "own_home": null,
+            "own_vehicle": false,
+            "bank_account_number": null,
+            "ong": 2
+        }
+    },
+    {
+        "model": "person.asemuser",
+        "pk": 12,
+        "fields": {
+            "condition": null,
+            "member": null,
+            "user_type": null,
+            "correspondence": null,
+            "status": null,
+            "family_unit_size": 0,
+            "own_home": null,
+            "own_vehicle": false,
+            "bank_account_number": null,
+            "ong": 2
+        }
+    },
+    {
+        "model": "person.volunteer",
+        "pk": 1,
+        "fields": {
+            "dni": "27648765Y",
+            "job": "Administrativa",
+            "dedication_time": 20.0,
+            "contract_start_date": "2023-01-12",
+            "contract_end_date": "2025-01-12",
+            "raffle": false,
+            "lottery": false,
+            "is_member": false,
+            "pres_table": false,
+            "is_contributor": false,
+            "entity": null,
+            "table": null,
+            "volunteer_type": "AP",
+            "notes": "",
+            "ong": 1,
+            "document": ""
+        }
+    },
+    {
+        "model": "person.volunteer",
+        "pk": 2,
+        "fields": {
+            "dni": "45659126T",
+            "job": "Tesorero",
+            "dedication_time": 60.0,
+            "contract_start_date": "2010-06-25",
+            "contract_end_date": "2026-06-28",
+            "raffle": false,
+            "lottery": false,
+            "is_member": false,
+            "pres_table": false,
+            "is_contributor": false,
+            "entity": null,
+            "table": null,
+            "volunteer_type": "O",
+            "notes": "",
+            "ong": 1,
+            "document": ""
+        }
+    },
+    {
+        "model": "person.volunteer",
+        "pk": 3,
+        "fields": {
+            "dni": "49446135E",
+            "job": "Administrativo",
+            "dedication_time": 20.0,
+            "contract_start_date": "2023-06-10",
+            "contract_end_date": "2024-06-10",
+            "raffle": false,
+            "lottery": false,
+            "is_member": false,
+            "pres_table": false,
+            "is_contributor": false,
+            "entity": null,
+            "table": null,
+            "volunteer_type": "AP",
+            "notes": "",
+            "ong": 1,
+            "document": ""
+        }
+    },
+    {
+        "model": "person.volunteer",
+        "pk": 9,
+        "fields": {
+            "dni": "41353508Z",
+            "job": null,
+            "dedication_time": 50.0,
+            "contract_start_date": "2023-04-26",
+            "contract_end_date": "2025-04-26",
+            "raffle": false,
+            "lottery": false,
+            "is_member": false,
+            "pres_table": false,
+            "is_contributor": false,
+            "entity": null,
+            "table": null,
+            "volunteer_type": "AP",
+            "notes": "",
+            "ong": 2,
+            "document": ""
+        }
+    },
+    {
+        "model": "person.volunteer",
+        "pk": 10,
+        "fields": {
+            "dni": "28765409P",
+            "job": null,
+            "dedication_time": 40.0,
+            "contract_start_date": "2023-04-18",
+            "contract_end_date": "2023-09-30",
+            "raffle": false,
+            "lottery": false,
+            "is_member": false,
+            "pres_table": false,
+            "is_contributor": false,
+            "entity": null,
+            "table": null,
+            "volunteer_type": "O",
+            "notes": "",
+            "ong": 2,
+            "document": ""
+        }
+    },
+    {
+        "model": "person.child",
+        "pk": 4,
+        "fields": {
+            "start_date": "2023-04-17",
+            "termination_date": "2023-07-12",
+            "educational_level": "Primaria",
+            "expected_mission_time": "20",
+            "mission_house": "Casa 1",
+            "site": "Sede central",
+            "subsite": null,
+            "father_name": null,
+            "father_profession": null,
+            "mother_name": null,
+            "mother_profession": null,
+            "number_brothers_siblings": null,
+            "correspondence": "E",
+            "ong": 1
+        }
+    },
+    {
+        "model": "person.child",
+        "pk": 5,
+        "fields": {
+            "start_date": "2023-04-17",
+            "termination_date": null,
+            "educational_level": null,
+            "expected_mission_time": null,
+            "mission_house": null,
+            "site": null,
+            "subsite": null,
+            "father_name": null,
+            "father_profession": null,
+            "mother_name": null,
+            "mother_profession": null,
+            "number_brothers_siblings": null,
+            "correspondence": null,
+            "ong": 1
+        }
+    },
+    {
+        "model": "person.child",
+        "pk": 6,
+        "fields": {
+            "start_date": "2023-04-17",
+            "termination_date": null,
+            "educational_level": null,
+            "expected_mission_time": null,
+            "mission_house": null,
+            "site": null,
+            "subsite": null,
+            "father_name": null,
+            "father_profession": null,
+            "mother_name": null,
+            "mother_profession": null,
+            "number_brothers_siblings": null,
+            "correspondence": null,
+            "ong": 1
+        }
+    },
+    {
+        "model": "donation.donation",
+        "pk": 1,
+        "fields": {
+            "title": "DonaciÃ³n Pepe",
+            "description": "",
+            "created_date": "2023-04-17",
+            "amount": "50.00",
+            "donor_name": "Pepe",
+            "donor_surname": "Dominguez",
+            "donor_dni": "12345678Y",
+            "donor_address": null,
+            "donor_email": "pepecas@gmail.com",
+            "ong": 1,
+            "document": ""
+        }
+    },
+    {
+        "model": "donation.donation",
+        "pk": 2,
+        "fields": {
+            "title": "DonaciÃ³n Juan Pedro",
+            "description": "",
+            "created_date": "2023-04-17",
+            "amount": "75.00",
+            "donor_name": "Juan Pedro",
+            "donor_surname": "Alonso",
+            "donor_dni": "12345678Y",
+            "donor_address": null,
+            "donor_email": "juanpe@gmail.com",
+            "ong": 1,
+            "document": ""
+        }
+    },
+    {
+        "model": "donation.donation",
+        "pk": 3,
+        "fields": {
+            "title": "DonaciÃ³n MarÃ­a",
+            "description": "",
+            "created_date": "2023-04-17",
+            "amount": "67.00",
+            "donor_name": "Sara",
+            "donor_surname": "Mariscal",
+            "donor_dni": "29765432B",
+            "donor_address": null,
+            "donor_email": "saramar@gmail.com",
+            "ong": 1,
+            "document": ""
+        }
+    },
+    {
+        "model": "donation.donation",
+        "pk": 4,
+        "fields": {
+            "title": "DonaciÃ³n Esteban",
+            "description": "",
+            "created_date": "2023-04-17",
+            "amount": "300.00",
+            "donor_name": "Esteban",
+            "donor_surname": "GarcÃ­a",
+            "donor_dni": "21349768B",
+            "donor_address": null,
+            "donor_email": "esteb@gmail.com",
+            "ong": 2,
+            "document": ""
+        }
+    },
+    {
+        "model": "donation.donation",
+        "pk": 5,
+        "fields": {
+            "title": "DonaciÃ³n Carla",
+            "description": "",
+            "created_date": "2023-04-17",
+            "amount": "40.00",
+            "donor_name": "Carla",
+            "donor_surname": "San Eufrasio",
+            "donor_dni": "21349768L",
+            "donor_address": null,
+            "donor_email": "carla@gmail.com",
+            "ong": 2,
+            "document": ""
+        }
+    },
+    {
+        "model": "subsidy.subsidy",
+        "pk": 1,
+        "fields": {
+            "presentation_date": "2023-04-20",
+            "payment_date": "2023-05-25",
+            "organism": "Ministerio de EspaÃ±a",
+            "presentation_justification_date": "2023-09-23",
+            "provisional_resolution": "2023-06-30",
+            "final_resolution": "2023-07-21",
+            "amount": 30000.0,
+            "name": "Contra la pobreza infantil",
+            "status": "Por presentar",
+            "notes": "",
+            "document": "",
+            "ong": 1
+        }
+    },
+    {
+        "model": "subsidy.subsidy",
+        "pk": 2,
+        "fields": {
+            "presentation_date": null,
+            "payment_date": null,
+            "organism": "Ministerio de EspaÃ±a",
+            "presentation_justification_date": null,
+            "provisional_resolution": null,
+            "final_resolution": null,
+            "amount": 27000.0,
+            "name": "Educa",
+            "status": "Presentada",
+            "notes": "",
+            "document": "",
+            "ong": 1
+        }
+    },
+    {
+        "model": "subsidy.subsidy",
+        "pk": 3,
+        "fields": {
+            "presentation_date": null,
+            "payment_date": null,
+            "organism": "LaCaixa",
+            "presentation_justification_date": null,
+            "provisional_resolution": null,
+            "final_resolution": null,
+            "amount": 10000.0,
+            "name": "Convocatoria de Proyectos Sociales de CooperaciÃ³n internacional",
+            "status": "Justificada",
+            "notes": "",
+            "document": "",
+            "ong": 1
+        }
+    },
+    {
+        "model": "subsidy.subsidy",
+        "pk": 4,
+        "fields": {
+            "presentation_date": null,
+            "payment_date": null,
+            "organism": "BBVA",
+            "presentation_justification_date": null,
+            "provisional_resolution": null,
+            "final_resolution": null,
+            "amount": 27000.0,
+            "name": "Juntos contra la esclerÃ³sis",
+            "status": "Presentada",
+            "notes": "",
+            "document": "",
+            "ong": 2
+        }
+    },
+    {
+        "model": "subsidy.subsidy",
+        "pk": 5,
+        "fields": {
+            "presentation_date": null,
+            "payment_date": null,
+            "organism": "Ministerio de EspaÃ±a",
+            "presentation_justification_date": null,
+            "provisional_resolution": null,
+            "final_resolution": null,
+            "amount": 34000.0,
+            "name": "SubvenciÃ³n Ictus",
+            "status": "Presentada",
+            "notes": "",
+            "document": "",
+            "ong": 2
+        }
+    },
+    {
+        "model": "subsidy.subsidy",
+        "pk": 6,
+        "fields": {
+            "presentation_date": null,
+            "payment_date": null,
+            "organism": "Ministerio de EspaÃ±a",
+            "presentation_justification_date": null,
+            "provisional_resolution": null,
+            "final_resolution": null,
+            "amount": 5000.0,
+            "name": "Sanidad de EspaÃ±a",
+            "status": "Justificada",
+            "notes": "",
+            "document": "",
+            "ong": 2
+        }
+    },
+    {
+        "model": "stock.stock",
+        "pk": 1,
+        "fields": {
+            "name": "Libros Primaria Lengua Castellana",
+            "model": "Libro",
+            "ong": 1,
+            "quantity": 10,
+            "amount": "60.00",
+            "photo": "static/img/stock/91maboAiIRL.jpg",
+            "notes": ""
+        }
+    },
+    {
+        "model": "stock.stock",
+        "pk": 2,
+        "fields": {
+            "name": "Collares artesanales",
+            "model": "Modelo collar 1",
+            "ong": 1,
+            "quantity": 3,
+            "amount": "5.00",
+            "photo": "static/img/stock/collier-7-chakras-au-pendentif-en-forme-de-triangle-597_900x.jpg",
+            "notes": ""
+        }
+    },
+    {
+        "model": "stock.stock",
+        "pk": 3,
+        "fields": {
+            "name": "Pulseras artesanas",
+            "model": "Modelo pulseras 1",
+            "ong": 1,
+            "quantity": 7,
+            "amount": "5.50",
+            "photo": "static/img/stock/418guxXn7ZL.jpg",
+            "notes": ""
+        }
+    },
+    {
+        "model": "stock.stock",
+        "pk": 4,
+        "fields": {
+            "name": "Silla ergonÃ³mica de oficina",
+            "model": "Silla",
+            "ong": 2,
+            "quantity": 5,
+            "amount": "160.00",
+            "photo": "static/img/stock/silla-ergonomica-de-oficina-sofia-de-euromof-cabecero-y-brazos-regulables.jpg",
+            "notes": ""
+        }
+    },
+    {
+        "model": "stock.stock",
+        "pk": 5,
+        "fields": {
+            "name": "Paquetes de pintura",
+            "model": "Pintura",
+            "ong": 2,
+            "quantity": 10,
+            "amount": "40.00",
+            "photo": "static/img/stock/91HM6xsSX-L._AC_SX450_.jpg",
+            "notes": ""
+        }
+    },
+    {
+        "model": "stock.stock",
+        "pk": 6,
+        "fields": {
+            "name": "Libros de colegio",
+            "model": "Libro Santillana",
+            "ong": 2,
+            "quantity": 30,
+            "amount": "50.00",
+            "photo": "static/img/stock/1349937997_1.jpg",
+            "notes": ""
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 1,
+        "fields": {
+            "service_type": "Fisioterapia",
+            "date": "2023-04-17T17:36:00Z",
+            "attendance": true,
+            "payment": 1,
+            "asem_user": 11
+        }
+    },
+    {
+        "model": "service.service",
+        "pk": 2,
+        "fields": {
+            "service_type": "Fisioterapia",
+            "date": "2023-04-17T17:37:00Z",
+            "attendance": true,
+            "payment": 2,
+            "asem_user": 11
+        }
+    },
+    {
+        "model": "payment.payment",
+        "pk": 1,
+        "fields": {
+            "payday": "2023-04-17",
+            "amount": "40.00",
+            "concept": "Pago Servicios abril",
+            "ong": 2,
+            "paid": true,
+            "godfather": null,
+            "project": null
+        }
+    },
+    {
+        "model": "payment.payment",
+        "pk": 2,
+        "fields": {
+            "payday": "2023-04-17",
+            "amount": "50.00",
+            "concept": "Pago Servicios abril Pepe",
+            "ong": 2,
+            "paid": true,
+            "godfather": null,
+            "project": null
+        }
+    },
+    {
+        "model": "payment.payment",
+        "pk": 3,
+        "fields": {
+            "payday": "2023-04-29",
+            "amount": "27.00",
+            "concept": "Servicios abril Juanma",
+            "ong": 2,
+            "paid": false,
+            "godfather": null,
+            "project": null
+        }
+    },
+    {
+        "model": "project.project",
+        "pk": 1,
+        "fields": {
+            "title": "Lucha por la vida",
+            "country": "EtiopÃ­a",
+            "start_date": "2023-04-14",
+            "end_date": "2025-04-10",
+            "number_of_beneficiaries": 250,
+            "amount": 20000,
+            "announcement_date": null,
+            "ong": 1
+        }
+    },
+    {
+        "model": "project.project",
+        "pk": 2,
+        "fields": {
+            "title": "Proyecto EducaciÃ³n Infantil",
+            "country": "Argentina",
+            "start_date": "2023-02-15",
+            "end_date": "2023-08-29",
+            "number_of_beneficiaries": 100,
+            "amount": 3800,
+            "announcement_date": null,
+            "ong": 1
+        }
+    },
+    {
+        "model": "project.project",
+        "pk": 3,
+        "fields": {
+            "title": "Contra la guerra",
+            "country": "camerÃºn",
+            "start_date": "2023-04-22",
+            "end_date": "2023-07-26",
+            "number_of_beneficiaries": 50,
+            "amount": 1000,
+            "announcement_date": null,
+            "ong": 1
+        }
+    },
+    {
+        "model": "home.home",
+        "pk": 1,
+        "fields": {
+            "name": "Colegio NerviÃ³n",
+            "payment_method": "E",
+            "bank_account_number": null,
+            "bank_account_holder": null,
+            "bank_account_reference": null,
+            "amount": "200.00",
+            "frequency": "T",
+            "start_date": "2023-04-17",
+            "termination_date": null,
+            "province": "Sevilla",
+            "notes": ""
+        }
+    },
+    {
+        "model": "home.home",
+        "pk": 2,
+        "fields": {
+            "name": "Colegio Claret",
+            "payment_method": "E",
+            "bank_account_number": null,
+            "bank_account_holder": null,
+            "bank_account_reference": null,
+            "amount": "200.00",
+            "frequency": "T",
+            "start_date": "2023-04-17",
+            "termination_date": null,
+            "province": "Sevilla",
+            "notes": ""
+        }
+    },
+    {
+        "model": "home.home",
+        "pk": 3,
+        "fields": {
+            "name": "Ntra SeÃ±ora de Gracia",
+            "payment_method": "E",
+            "bank_account_number": null,
+            "bank_account_holder": null,
+            "bank_account_reference": null,
+            "amount": "75.00",
+            "frequency": "M",
+            "start_date": "2023-04-17",
+            "termination_date": null,
+            "province": "Sevilla",
+            "notes": ""
+        }
+    },
+    {
+        "model": "ong.ong",
+        "pk": 1,
+        "fields": {
+            "name": "VidesSur",
+            "plan": "B",
+            "premium_payment_date": null
+        }
+    },
+    {
+        "model": "ong.ong",
+        "pk": 2,
+        "fields": {
+            "name": "ASEM",
+            "plan": "B",
+            "premium_payment_date": null
+        }
+    },
+    {
+        "model": "sponsorship.sponsorship",
+        "pk": 1,
+        "fields": {
+            "sponsorship_date": "2023-04-17",
+            "termination_date": null,
+            "child": 6,
+            "godfather": [
+                7
+            ],
+            "home": []
+        }
+    },
+    {
+        "model": "sponsorship.sponsorship",
+        "pk": 2,
+        "fields": {
+            "sponsorship_date": "2023-04-17",
+            "termination_date": null,
+            "child": 5,
+            "godfather": [
+                8
+            ],
+            "home": []
+        }
     }
-},
-{
-    "model": "auth.permission",
-    "pk": 2,
-    "fields": {
-        "name": "Can change log entry",
-        "content_type": 1,
-        "codename": "change_logentry"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 3,
-    "fields": {
-        "name": "Can delete log entry",
-        "content_type": 1,
-        "codename": "delete_logentry"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 4,
-    "fields": {
-        "name": "Can view log entry",
-        "content_type": 1,
-        "codename": "view_logentry"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 5,
-    "fields": {
-        "name": "Can add permission",
-        "content_type": 2,
-        "codename": "add_permission"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 6,
-    "fields": {
-        "name": "Can change permission",
-        "content_type": 2,
-        "codename": "change_permission"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 7,
-    "fields": {
-        "name": "Can delete permission",
-        "content_type": 2,
-        "codename": "delete_permission"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 8,
-    "fields": {
-        "name": "Can view permission",
-        "content_type": 2,
-        "codename": "view_permission"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 9,
-    "fields": {
-        "name": "Can add group",
-        "content_type": 3,
-        "codename": "add_group"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 10,
-    "fields": {
-        "name": "Can change group",
-        "content_type": 3,
-        "codename": "change_group"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 11,
-    "fields": {
-        "name": "Can delete group",
-        "content_type": 3,
-        "codename": "delete_group"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 12,
-    "fields": {
-        "name": "Can view group",
-        "content_type": 3,
-        "codename": "view_group"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 13,
-    "fields": {
-        "name": "Can add content type",
-        "content_type": 4,
-        "codename": "add_contenttype"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 14,
-    "fields": {
-        "name": "Can change content type",
-        "content_type": 4,
-        "codename": "change_contenttype"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 15,
-    "fields": {
-        "name": "Can delete content type",
-        "content_type": 4,
-        "codename": "delete_contenttype"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 16,
-    "fields": {
-        "name": "Can view content type",
-        "content_type": 4,
-        "codename": "view_contenttype"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 17,
-    "fields": {
-        "name": "Can add session",
-        "content_type": 5,
-        "codename": "add_session"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 18,
-    "fields": {
-        "name": "Can change session",
-        "content_type": 5,
-        "codename": "change_session"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 19,
-    "fields": {
-        "name": "Can delete session",
-        "content_type": 5,
-        "codename": "delete_session"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 20,
-    "fields": {
-        "name": "Can view session",
-        "content_type": 5,
-        "codename": "view_session"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 21,
-    "fields": {
-        "name": "Can add person",
-        "content_type": 6,
-        "codename": "add_person"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 22,
-    "fields": {
-        "name": "Can change person",
-        "content_type": 6,
-        "codename": "change_person"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 23,
-    "fields": {
-        "name": "Can delete person",
-        "content_type": 6,
-        "codename": "delete_person"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 24,
-    "fields": {
-        "name": "Can view person",
-        "content_type": 6,
-        "codename": "view_person"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 25,
-    "fields": {
-        "name": "Can add Trabajador",
-        "content_type": 7,
-        "codename": "add_worker"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 26,
-    "fields": {
-        "name": "Can change Trabajador",
-        "content_type": 7,
-        "codename": "change_worker"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 27,
-    "fields": {
-        "name": "Can delete Trabajador",
-        "content_type": 7,
-        "codename": "delete_worker"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 28,
-    "fields": {
-        "name": "Can view Trabajador",
-        "content_type": 7,
-        "codename": "view_worker"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 29,
-    "fields": {
-        "name": "Can add Padrino",
-        "content_type": 8,
-        "codename": "add_godfather"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 30,
-    "fields": {
-        "name": "Can change Padrino",
-        "content_type": 8,
-        "codename": "change_godfather"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 31,
-    "fields": {
-        "name": "Can delete Padrino",
-        "content_type": 8,
-        "codename": "delete_godfather"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 32,
-    "fields": {
-        "name": "Can view Padrino",
-        "content_type": 8,
-        "codename": "view_godfather"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 33,
-    "fields": {
-        "name": "Can add Niño",
-        "content_type": 9,
-        "codename": "add_child"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 34,
-    "fields": {
-        "name": "Can change Niño",
-        "content_type": 9,
-        "codename": "change_child"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 35,
-    "fields": {
-        "name": "Can delete Niño",
-        "content_type": 9,
-        "codename": "delete_child"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 36,
-    "fields": {
-        "name": "Can view Niño",
-        "content_type": 9,
-        "codename": "view_child"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 37,
-    "fields": {
-        "name": "Can add Usuario de ASEM",
-        "content_type": 10,
-        "codename": "add_asemuser"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 38,
-    "fields": {
-        "name": "Can change Usuario de ASEM",
-        "content_type": 10,
-        "codename": "change_asemuser"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 39,
-    "fields": {
-        "name": "Can delete Usuario de ASEM",
-        "content_type": 10,
-        "codename": "delete_asemuser"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 40,
-    "fields": {
-        "name": "Can view Usuario de ASEM",
-        "content_type": 10,
-        "codename": "view_asemuser"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 41,
-    "fields": {
-        "name": "Can add Voluntario",
-        "content_type": 11,
-        "codename": "add_volunteer"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 42,
-    "fields": {
-        "name": "Can change Voluntario",
-        "content_type": 11,
-        "codename": "change_volunteer"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 43,
-    "fields": {
-        "name": "Can delete Voluntario",
-        "content_type": 11,
-        "codename": "delete_volunteer"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 44,
-    "fields": {
-        "name": "Can view Voluntario",
-        "content_type": 11,
-        "codename": "view_volunteer"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 45,
-    "fields": {
-        "name": "Can add Donación",
-        "content_type": 12,
-        "codename": "add_donation"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 46,
-    "fields": {
-        "name": "Can change Donación",
-        "content_type": 12,
-        "codename": "change_donation"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 47,
-    "fields": {
-        "name": "Can delete Donación",
-        "content_type": 12,
-        "codename": "delete_donation"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 48,
-    "fields": {
-        "name": "Can view Donación",
-        "content_type": 12,
-        "codename": "view_donation"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 49,
-    "fields": {
-        "name": "Can add Subvenciones",
-        "content_type": 13,
-        "codename": "add_subsidy"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 50,
-    "fields": {
-        "name": "Can change Subvenciones",
-        "content_type": 13,
-        "codename": "change_subsidy"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 51,
-    "fields": {
-        "name": "Can delete Subvenciones",
-        "content_type": 13,
-        "codename": "delete_subsidy"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 52,
-    "fields": {
-        "name": "Can view Subvenciones",
-        "content_type": 13,
-        "codename": "view_subsidy"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 53,
-    "fields": {
-        "name": "Can add Inventario",
-        "content_type": 14,
-        "codename": "add_stock"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 54,
-    "fields": {
-        "name": "Can change Inventario",
-        "content_type": 14,
-        "codename": "change_stock"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 55,
-    "fields": {
-        "name": "Can delete Inventario",
-        "content_type": 14,
-        "codename": "delete_stock"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 56,
-    "fields": {
-        "name": "Can view Inventario",
-        "content_type": 14,
-        "codename": "view_stock"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 57,
-    "fields": {
-        "name": "Can add Cantidad de servicio",
-        "content_type": 15,
-        "codename": "add_serviceamount"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 58,
-    "fields": {
-        "name": "Can change Cantidad de servicio",
-        "content_type": 15,
-        "codename": "change_serviceamount"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 59,
-    "fields": {
-        "name": "Can delete Cantidad de servicio",
-        "content_type": 15,
-        "codename": "delete_serviceamount"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 60,
-    "fields": {
-        "name": "Can view Cantidad de servicio",
-        "content_type": 15,
-        "codename": "view_serviceamount"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 61,
-    "fields": {
-        "name": "Can add Sevicio",
-        "content_type": 16,
-        "codename": "add_service"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 62,
-    "fields": {
-        "name": "Can change Sevicio",
-        "content_type": 16,
-        "codename": "change_service"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 63,
-    "fields": {
-        "name": "Can delete Sevicio",
-        "content_type": 16,
-        "codename": "delete_service"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 64,
-    "fields": {
-        "name": "Can view Sevicio",
-        "content_type": 16,
-        "codename": "view_service"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 65,
-    "fields": {
-        "name": "Can add Pago",
-        "content_type": 17,
-        "codename": "add_payment"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 66,
-    "fields": {
-        "name": "Can change Pago",
-        "content_type": 17,
-        "codename": "change_payment"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 67,
-    "fields": {
-        "name": "Can delete Pago",
-        "content_type": 17,
-        "codename": "delete_payment"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 68,
-    "fields": {
-        "name": "Can view Pago",
-        "content_type": 17,
-        "codename": "view_payment"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 69,
-    "fields": {
-        "name": "Can add Proyecto",
-        "content_type": 18,
-        "codename": "add_project"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 70,
-    "fields": {
-        "name": "Can change Proyecto",
-        "content_type": 18,
-        "codename": "change_project"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 71,
-    "fields": {
-        "name": "Can delete Proyecto",
-        "content_type": 18,
-        "codename": "delete_project"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 72,
-    "fields": {
-        "name": "Can view Proyecto",
-        "content_type": 18,
-        "codename": "view_project"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 73,
-    "fields": {
-        "name": "Can add Casa",
-        "content_type": 19,
-        "codename": "add_home"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 74,
-    "fields": {
-        "name": "Can change Casa",
-        "content_type": 19,
-        "codename": "change_home"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 75,
-    "fields": {
-        "name": "Can delete Casa",
-        "content_type": 19,
-        "codename": "delete_home"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 76,
-    "fields": {
-        "name": "Can view Casa",
-        "content_type": 19,
-        "codename": "view_home"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 77,
-    "fields": {
-        "name": "Can add ONG",
-        "content_type": 20,
-        "codename": "add_ong"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 78,
-    "fields": {
-        "name": "Can change ONG",
-        "content_type": 20,
-        "codename": "change_ong"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 79,
-    "fields": {
-        "name": "Can delete ONG",
-        "content_type": 20,
-        "codename": "delete_ong"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 80,
-    "fields": {
-        "name": "Can view ONG",
-        "content_type": 20,
-        "codename": "view_ong"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 81,
-    "fields": {
-        "name": "Can add Apadrinamiento",
-        "content_type": 21,
-        "codename": "add_sponsorship"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 82,
-    "fields": {
-        "name": "Can change Apadrinamiento",
-        "content_type": 21,
-        "codename": "change_sponsorship"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 83,
-    "fields": {
-        "name": "Can delete Apadrinamiento",
-        "content_type": 21,
-        "codename": "delete_sponsorship"
-    }
-},
-{
-    "model": "auth.permission",
-    "pk": 84,
-    "fields": {
-        "name": "Can view Apadrinamiento",
-        "content_type": 21,
-        "codename": "view_sponsorship"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 1,
-    "fields": {
-        "app_label": "admin",
-        "model": "logentry"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 2,
-    "fields": {
-        "app_label": "auth",
-        "model": "permission"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 3,
-    "fields": {
-        "app_label": "auth",
-        "model": "group"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 4,
-    "fields": {
-        "app_label": "contenttypes",
-        "model": "contenttype"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 5,
-    "fields": {
-        "app_label": "sessions",
-        "model": "session"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 6,
-    "fields": {
-        "app_label": "person",
-        "model": "person"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 7,
-    "fields": {
-        "app_label": "person",
-        "model": "worker"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 8,
-    "fields": {
-        "app_label": "person",
-        "model": "godfather"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 9,
-    "fields": {
-        "app_label": "person",
-        "model": "child"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 10,
-    "fields": {
-        "app_label": "person",
-        "model": "asemuser"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 11,
-    "fields": {
-        "app_label": "person",
-        "model": "volunteer"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 12,
-    "fields": {
-        "app_label": "donation",
-        "model": "donation"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 13,
-    "fields": {
-        "app_label": "subsidy",
-        "model": "subsidy"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 14,
-    "fields": {
-        "app_label": "stock",
-        "model": "stock"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 15,
-    "fields": {
-        "app_label": "service",
-        "model": "serviceamount"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 16,
-    "fields": {
-        "app_label": "service",
-        "model": "service"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 17,
-    "fields": {
-        "app_label": "payment",
-        "model": "payment"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 18,
-    "fields": {
-        "app_label": "project",
-        "model": "project"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 19,
-    "fields": {
-        "app_label": "home",
-        "model": "home"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 20,
-    "fields": {
-        "app_label": "ong",
-        "model": "ong"
-    }
-},
-{
-    "model": "contenttypes.contenttype",
-    "pk": 21,
-    "fields": {
-        "app_label": "sponsorship",
-        "model": "sponsorship"
-    }
-},
-{
-    "model": "sessions.session",
-    "pk": "alixh3kvrt9cnftmujt3surjhvy1et2q",
-    "fields": {
-        "session_data": ".eJxVjEEOwiAQRe_C2pACA4hL9z0DGZhBqoYmpV0Z765NutDtf-_9l4i4rTVunZc4kbgILU6_W8L84LYDumO7zTLPbV2mJHdFHrTLcSZ-Xg_376Bir99amYxsfHLeUh4MMqScAINTEIBV8ZhJq-KKtU4nbwCchRIAKBAP5SzeH_JGOAo:1poSVX:zQap2fXWxxIfLd27XP65t1VNTIOTeM11V99z-tCcjb8",
-        "expire_date": "2023-05-01T17:19:15.517Z"
-    }
-},
-{
-    "model": "person.person",
-    "pk": 1,
-    "fields": {
-        "email": "sara@gmail.com",
-        "name": "Sara",
-        "surname": "Domínguez Suárez",
-        "birth_date": "1995-01-12",
-        "sex": "F",
-        "city": "Sevilla",
-        "address": "Calle Echegaray nº 15",
-        "telephone": "123456789",
-        "postal_code": "41015",
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 2,
-    "fields": {
-        "email": "ad@gmail.com",
-        "name": "Adolfo",
-        "surname": "García Prada",
-        "birth_date": "1970-05-30",
-        "sex": "M",
-        "city": "Sevilla",
-        "address": "Calle Luque nº 10",
-        "telephone": "123456781",
-        "postal_code": "41015",
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 3,
-    "fields": {
-        "email": "alb@gmail.com",
-        "name": "Alberto",
-        "surname": "Martínez",
-        "birth_date": "2000-05-12",
-        "sex": "M",
-        "city": "Sevilla",
-        "address": "Calle Elche nº7",
-        "telephone": "123456786",
-        "postal_code": "12346",
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 4,
-    "fields": {
-        "email": "lucas@gmail.com",
-        "name": "Lucas",
-        "surname": "De la Torre",
-        "birth_date": "2007-03-12",
-        "sex": "M",
-        "city": "Buenos Aires",
-        "address": "Calle Esperanza de Triana nº 20",
-        "telephone": "123456787",
-        "postal_code": "12345",
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 5,
-    "fields": {
-        "email": "luciano@gmail.com",
-        "name": "Luciano",
-        "surname": "Salas",
-        "birth_date": "2012-12-10",
-        "sex": "M",
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 6,
-    "fields": {
-        "email": "koral@gmail.com",
-        "name": "Koral",
-        "surname": "Suthing",
-        "birth_date": "2006-10-20",
-        "sex": "F",
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 7,
-    "fields": {
-        "email": "alfredo@gmail.com",
-        "name": "Alfredo",
-        "surname": "Gil",
-        "birth_date": "1980-12-28",
-        "sex": "M",
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 8,
-    "fields": {
-        "email": "bea@gmail.com",
-        "name": "Beatriz",
-        "surname": "González",
-        "birth_date": "1980-02-10",
-        "sex": null,
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 9,
-    "fields": {
-        "email": null,
-        "name": "Rosa",
-        "surname": "Aguilera Jiménez",
-        "birth_date": "2000-02-26",
-        "sex": null,
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 10,
-    "fields": {
-        "email": null,
-        "name": "Lucas",
-        "surname": "Jiménez Santo",
-        "birth_date": "1994-08-10",
-        "sex": null,
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 11,
-    "fields": {
-        "email": null,
-        "name": "Antonio",
-        "surname": "Ramírez",
-        "birth_date": "2004-08-30",
-        "sex": "M",
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": ""
-    }
-},
-{
-    "model": "person.person",
-    "pk": 12,
-    "fields": {
-        "email": null,
-        "name": "Maria",
-        "surname": "Sosa",
-        "birth_date": "2005-09-10",
-        "sex": null,
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": ""
-    }
-},
-{
-    "model": "person.worker",
-    "pk": 1,
-    "fields": {
-        "password": "pbkdf2_sha256$390000$sfUzolX7mTdGgr0fcjiYHU$8bVVVyX2TCpcN7X844phSUliEBBXD67sdw4Fblxjs+g=",
-        "last_login": "2023-04-17T16:47:10.351Z",
-        "email": "vide@gmail.com",
-        "name": "",
-        "surname": "",
-        "birth_date": null,
-        "sex": null,
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": "",
-        "is_active": true,
-        "is_admin": true,
-        "ong": 1
-    }
-},
-{
-    "model": "person.worker",
-    "pk": 2,
-    "fields": {
-        "password": "pbkdf2_sha256$390000$DD0j99sabst8EJugAxofew$WVxafS7pr9tLUbg1c+npRjWj5MxtGDZlUZvMZ6TlS0k=",
-        "last_login": "2023-04-17T17:19:15.514Z",
-        "email": "asem@gmail.com",
-        "name": "",
-        "surname": "",
-        "birth_date": null,
-        "sex": null,
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": "",
-        "is_active": true,
-        "is_admin": true,
-        "ong": 2
-    }
-},
-{
-    "model": "person.worker",
-    "pk": 3,
-    "fields": {
-        "password": "pbkdf2_sha256$390000$WoSXYd8Yzpgd1HRb6vvFVy$fmOBOXDZ6wVDSEo9vIn2VwjLTmJf3X1aNH92IyXQ6EM=",
-        "last_login": null,
-        "email": "luciv@gmail.com",
-        "name": "Lucía",
-        "surname": "Ventura",
-        "birth_date": null,
-        "sex": null,
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": "",
-        "is_active": true,
-        "is_admin": true,
-        "ong": 2
-    }
-},
-{
-    "model": "person.worker",
-    "pk": 4,
-    "fields": {
-        "password": "pbkdf2_sha256$390000$uHv3TuBDMqIMGHx59CJHXL$xk2aho0tBuTwuGZSJXwoFkJhJsTwyNbHid/wAjl2KLc=",
-        "last_login": null,
-        "email": "pep@admin.com",
-        "name": "Pepe",
-        "surname": "",
-        "birth_date": null,
-        "sex": null,
-        "city": null,
-        "address": null,
-        "telephone": null,
-        "postal_code": null,
-        "photo": "",
-        "is_active": true,
-        "is_admin": true,
-        "ong": 2
-    }
-},
-{
-    "model": "person.godfather",
-    "pk": 7,
-    "fields": {
-        "dni": "45659127T",
-        "payment_method": "E",
-        "bank_account_number": null,
-        "bank_account_holder": null,
-        "bank_account_reference": null,
-        "amount": "200.00",
-        "frequency": "T",
-        "start_date": "2023-04-17",
-        "termination_date": null,
-        "notes": "",
-        "status": "C",
-        "ong": 1
-    }
-},
-{
-    "model": "person.godfather",
-    "pk": 8,
-    "fields": {
-        "dni": "20433867V",
-        "payment_method": "E",
-        "bank_account_number": null,
-        "bank_account_holder": null,
-        "bank_account_reference": null,
-        "amount": "200.00",
-        "frequency": "T",
-        "start_date": "2023-04-17",
-        "termination_date": null,
-        "notes": "",
-        "status": "S",
-        "ong": 1
-    }
-},
-{
-    "model": "person.asemuser",
-    "pk": 11,
-    "fields": {
-        "condition": null,
-        "member": null,
-        "user_type": null,
-        "correspondence": null,
-        "status": null,
-        "family_unit_size": 0,
-        "own_home": null,
-        "own_vehicle": false,
-        "bank_account_number": null,
-        "ong": 2
-    }
-},
-{
-    "model": "person.asemuser",
-    "pk": 12,
-    "fields": {
-        "condition": null,
-        "member": null,
-        "user_type": null,
-        "correspondence": null,
-        "status": null,
-        "family_unit_size": 0,
-        "own_home": null,
-        "own_vehicle": false,
-        "bank_account_number": null,
-        "ong": 2
-    }
-},
-{
-    "model": "person.volunteer",
-    "pk": 1,
-    "fields": {
-        "dni": "27648765Y",
-        "job": "Administrativa",
-        "dedication_time": 20.0,
-        "contract_start_date": "2023-01-12",
-        "contract_end_date": "2025-01-12",
-        "raffle": false,
-        "lottery": false,
-        "is_member": false,
-        "pres_table": false,
-        "is_contributor": false,
-        "entity": null,
-        "table": null,
-        "volunteer_type": "AP",
-        "notes": "",
-        "ong": 1,
-        "document": ""
-    }
-},
-{
-    "model": "person.volunteer",
-    "pk": 2,
-    "fields": {
-        "dni": "45659126T",
-        "job": "Tesorero",
-        "dedication_time": 60.0,
-        "contract_start_date": "2010-06-25",
-        "contract_end_date": "2026-06-28",
-        "raffle": false,
-        "lottery": false,
-        "is_member": false,
-        "pres_table": false,
-        "is_contributor": false,
-        "entity": null,
-        "table": null,
-        "volunteer_type": "O",
-        "notes": "",
-        "ong": 1,
-        "document": ""
-    }
-},
-{
-    "model": "person.volunteer",
-    "pk": 3,
-    "fields": {
-        "dni": "49446135E",
-        "job": "Administrativo",
-        "dedication_time": 20.0,
-        "contract_start_date": "2023-06-10",
-        "contract_end_date": "2024-06-10",
-        "raffle": false,
-        "lottery": false,
-        "is_member": false,
-        "pres_table": false,
-        "is_contributor": false,
-        "entity": null,
-        "table": null,
-        "volunteer_type": "AP",
-        "notes": "",
-        "ong": 1,
-        "document": ""
-    }
-},
-{
-    "model": "person.volunteer",
-    "pk": 9,
-    "fields": {
-        "dni": "41353508Z",
-        "job": null,
-        "dedication_time": 50.0,
-        "contract_start_date": "2023-04-26",
-        "contract_end_date": "2025-04-26",
-        "raffle": false,
-        "lottery": false,
-        "is_member": false,
-        "pres_table": false,
-        "is_contributor": false,
-        "entity": null,
-        "table": null,
-        "volunteer_type": "AP",
-        "notes": "",
-        "ong": 2,
-        "document": ""
-    }
-},
-{
-    "model": "person.volunteer",
-    "pk": 10,
-    "fields": {
-        "dni": "28765409P",
-        "job": null,
-        "dedication_time": 40.0,
-        "contract_start_date": "2023-04-18",
-        "contract_end_date": "2023-09-30",
-        "raffle": false,
-        "lottery": false,
-        "is_member": false,
-        "pres_table": false,
-        "is_contributor": false,
-        "entity": null,
-        "table": null,
-        "volunteer_type": "O",
-        "notes": "",
-        "ong": 2,
-        "document": ""
-    }
-},
-{
-    "model": "person.child",
-    "pk": 4,
-    "fields": {
-        "start_date": "2023-04-17",
-        "termination_date": "2023-07-12",
-        "educational_level": "Primaria",
-        "expected_mission_time": "20",
-        "mission_house": "Casa 1",
-        "site": "Sede central",
-        "subsite": null,
-        "father_name": null,
-        "father_profession": null,
-        "mother_name": null,
-        "mother_profession": null,
-        "number_brothers_siblings": null,
-        "correspondence": "E",
-        "ong": 1
-    }
-},
-{
-    "model": "person.child",
-    "pk": 5,
-    "fields": {
-        "start_date": "2023-04-17",
-        "termination_date": null,
-        "educational_level": null,
-        "expected_mission_time": null,
-        "mission_house": null,
-        "site": null,
-        "subsite": null,
-        "father_name": null,
-        "father_profession": null,
-        "mother_name": null,
-        "mother_profession": null,
-        "number_brothers_siblings": null,
-        "correspondence": null,
-        "ong": 1
-    }
-},
-{
-    "model": "person.child",
-    "pk": 6,
-    "fields": {
-        "start_date": "2023-04-17",
-        "termination_date": null,
-        "educational_level": null,
-        "expected_mission_time": null,
-        "mission_house": null,
-        "site": null,
-        "subsite": null,
-        "father_name": null,
-        "father_profession": null,
-        "mother_name": null,
-        "mother_profession": null,
-        "number_brothers_siblings": null,
-        "correspondence": null,
-        "ong": 1
-    }
-},
-{
-    "model": "donation.donation",
-    "pk": 1,
-    "fields": {
-        "title": "Donación Pepe",
-        "description": "",
-        "created_date": "2023-04-17",
-        "amount": "50.00",
-        "donor_name": "Pepe",
-        "donor_surname": "Dominguez",
-        "donor_dni": "12345678Y",
-        "donor_address": null,
-        "donor_email": "pepecas@gmail.com",
-        "ong": 1,
-        "document": ""
-    }
-},
-{
-    "model": "donation.donation",
-    "pk": 2,
-    "fields": {
-        "title": "Donación Juan Pedro",
-        "description": "",
-        "created_date": "2023-04-17",
-        "amount": "75.00",
-        "donor_name": "Juan Pedro",
-        "donor_surname": "Alonso",
-        "donor_dni": "12345678Y",
-        "donor_address": null,
-        "donor_email": "juanpe@gmail.com",
-        "ong": 1,
-        "document": ""
-    }
-},
-{
-    "model": "donation.donation",
-    "pk": 3,
-    "fields": {
-        "title": "Donación María",
-        "description": "",
-        "created_date": "2023-04-17",
-        "amount": "67.00",
-        "donor_name": "Sara",
-        "donor_surname": "Mariscal",
-        "donor_dni": "29765432B",
-        "donor_address": null,
-        "donor_email": "saramar@gmail.com",
-        "ong": 1,
-        "document": ""
-    }
-},
-{
-    "model": "donation.donation",
-    "pk": 4,
-    "fields": {
-        "title": "Donación Esteban",
-        "description": "",
-        "created_date": "2023-04-17",
-        "amount": "300.00",
-        "donor_name": "Esteban",
-        "donor_surname": "García",
-        "donor_dni": "21349768B",
-        "donor_address": null,
-        "donor_email": "esteb@gmail.com",
-        "ong": 2,
-        "document": ""
-    }
-},
-{
-    "model": "donation.donation",
-    "pk": 5,
-    "fields": {
-        "title": "Donación Carla",
-        "description": "",
-        "created_date": "2023-04-17",
-        "amount": "40.00",
-        "donor_name": "Carla",
-        "donor_surname": "San Eufrasio",
-        "donor_dni": "21349768L",
-        "donor_address": null,
-        "donor_email": "carla@gmail.com",
-        "ong": 2,
-        "document": ""
-    }
-},
-{
-    "model": "subsidy.subsidy",
-    "pk": 1,
-    "fields": {
-        "presentation_date": "2023-04-20",
-        "payment_date": "2023-05-25",
-        "organism": "Ministerio de España",
-        "presentation_justification_date": "2023-09-23",
-        "provisional_resolution": "2023-06-30",
-        "final_resolution": "2023-07-21",
-        "amount": 30000.0,
-        "name": "Contra la pobreza infantil",
-        "status": "Por presentar",
-        "notes": "",
-        "document": "",
-        "ong": 1
-    }
-},
-{
-    "model": "subsidy.subsidy",
-    "pk": 2,
-    "fields": {
-        "presentation_date": null,
-        "payment_date": null,
-        "organism": "Ministerio de España",
-        "presentation_justification_date": null,
-        "provisional_resolution": null,
-        "final_resolution": null,
-        "amount": 27000.0,
-        "name": "Educa",
-        "status": "Presentada",
-        "notes": "",
-        "document": "",
-        "ong": 1
-    }
-},
-{
-    "model": "subsidy.subsidy",
-    "pk": 3,
-    "fields": {
-        "presentation_date": null,
-        "payment_date": null,
-        "organism": "LaCaixa",
-        "presentation_justification_date": null,
-        "provisional_resolution": null,
-        "final_resolution": null,
-        "amount": 10000.0,
-        "name": "Convocatoria de Proyectos Sociales de Cooperación internacional",
-        "status": "Justificada",
-        "notes": "",
-        "document": "",
-        "ong": 1
-    }
-},
-{
-    "model": "subsidy.subsidy",
-    "pk": 4,
-    "fields": {
-        "presentation_date": null,
-        "payment_date": null,
-        "organism": "BBVA",
-        "presentation_justification_date": null,
-        "provisional_resolution": null,
-        "final_resolution": null,
-        "amount": 27000.0,
-        "name": "Juntos contra la esclerósis",
-        "status": "Presentada",
-        "notes": "",
-        "document": "",
-        "ong": 2
-    }
-},
-{
-    "model": "subsidy.subsidy",
-    "pk": 5,
-    "fields": {
-        "presentation_date": null,
-        "payment_date": null,
-        "organism": "Ministerio de España",
-        "presentation_justification_date": null,
-        "provisional_resolution": null,
-        "final_resolution": null,
-        "amount": 34000.0,
-        "name": "Subvención Ictus",
-        "status": "Presentada",
-        "notes": "",
-        "document": "",
-        "ong": 2
-    }
-},
-{
-    "model": "subsidy.subsidy",
-    "pk": 6,
-    "fields": {
-        "presentation_date": null,
-        "payment_date": null,
-        "organism": "Ministerio de España",
-        "presentation_justification_date": null,
-        "provisional_resolution": null,
-        "final_resolution": null,
-        "amount": 5000.0,
-        "name": "Sanidad de España",
-        "status": "Justificada",
-        "notes": "",
-        "document": "",
-        "ong": 2
-    }
-},
-{
-    "model": "stock.stock",
-    "pk": 1,
-    "fields": {
-        "name": "Libros Primaria Lengua Castellana",
-        "model": "Libro",
-        "ong": 1,
-        "quantity": 10,
-        "amount": "60.00",
-        "photo": "static/img/stock/91maboAiIRL.jpg",
-        "notes": ""
-    }
-},
-{
-    "model": "stock.stock",
-    "pk": 2,
-    "fields": {
-        "name": "Collares artesanales",
-        "model": "Modelo collar 1",
-        "ong": 1,
-        "quantity": 3,
-        "amount": "5.00",
-        "photo": "static/img/stock/collier-7-chakras-au-pendentif-en-forme-de-triangle-597_900x.jpg",
-        "notes": ""
-    }
-},
-{
-    "model": "stock.stock",
-    "pk": 3,
-    "fields": {
-        "name": "Pulseras artesanas",
-        "model": "Modelo pulseras 1",
-        "ong": 1,
-        "quantity": 7,
-        "amount": "5.50",
-        "photo": "static/img/stock/418guxXn7ZL.jpg",
-        "notes": ""
-    }
-},
-{
-    "model": "stock.stock",
-    "pk": 4,
-    "fields": {
-        "name": "Silla ergonómica de oficina",
-        "model": "Silla",
-        "ong": 2,
-        "quantity": 5,
-        "amount": "160.00",
-        "photo": "static/img/stock/silla-ergonomica-de-oficina-sofia-de-euromof-cabecero-y-brazos-regulables.jpg",
-        "notes": ""
-    }
-},
-{
-    "model": "stock.stock",
-    "pk": 5,
-    "fields": {
-        "name": "Paquetes de pintura",
-        "model": "Pintura",
-        "ong": 2,
-        "quantity": 10,
-        "amount": "40.00",
-        "photo": "static/img/stock/91HM6xsSX-L._AC_SX450_.jpg",
-        "notes": ""
-    }
-},
-{
-    "model": "stock.stock",
-    "pk": 6,
-    "fields": {
-        "name": "Libros de colegio",
-        "model": "Libro Santillana",
-        "ong": 2,
-        "quantity": 30,
-        "amount": "50.00",
-        "photo": "static/img/stock/1349937997_1.jpg",
-        "notes": ""
-    }
-},
-{
-    "model": "service.service",
-    "pk": 1,
-    "fields": {
-        "service_type": "Fisioterapia",
-        "date": "2023-04-17T17:36:00Z",
-        "attendance": true,
-        "payment": 1,
-        "asem_user": 11
-    }
-},
-{
-    "model": "service.service",
-    "pk": 2,
-    "fields": {
-        "service_type": "Fisioterapia",
-        "date": "2023-04-17T17:37:00Z",
-        "attendance": true,
-        "payment": 2,
-        "asem_user": 11
-    }
-},
-{
-    "model": "payment.payment",
-    "pk": 1,
-    "fields": {
-        "payday": "2023-04-17",
-        "amount": "40.00",
-        "concept": "Pago Servicios abril",
-        "ong": 2,
-        "paid": true,
-        "godfather": null,
-        "project": null
-    }
-},
-{
-    "model": "payment.payment",
-    "pk": 2,
-    "fields": {
-        "payday": "2023-04-17",
-        "amount": "50.00",
-        "concept": "Pago Servicios abril Pepe",
-        "ong": 2,
-        "paid": true,
-        "godfather": null,
-        "project": null
-    }
-},
-{
-    "model": "payment.payment",
-    "pk": 3,
-    "fields": {
-        "payday": "2023-04-29",
-        "amount": "27.00",
-        "concept": "Servicios abril Juanma",
-        "ong": 2,
-        "paid": false,
-        "godfather": null,
-        "project": null
-    }
-},
-{
-    "model": "project.project",
-    "pk": 1,
-    "fields": {
-        "title": "Lucha por la vida",
-        "country": "Etiopía",
-        "start_date": "2023-04-14",
-        "end_date": "2025-04-10",
-        "number_of_beneficiaries": 250,
-        "amount": 20000,
-        "announcement_date": null,
-        "ong": 1
-    }
-},
-{
-    "model": "project.project",
-    "pk": 2,
-    "fields": {
-        "title": "Proyecto Educación Infantil",
-        "country": "Argentina",
-        "start_date": "2023-02-15",
-        "end_date": "2023-08-29",
-        "number_of_beneficiaries": 100,
-        "amount": 3800,
-        "announcement_date": null,
-        "ong": 1
-    }
-},
-{
-    "model": "project.project",
-    "pk": 3,
-    "fields": {
-        "title": "Contra la guerra",
-        "country": "camerún",
-        "start_date": "2023-04-22",
-        "end_date": "2023-07-26",
-        "number_of_beneficiaries": 50,
-        "amount": 1000,
-        "announcement_date": null,
-        "ong": 1
-    }
-},
-{
-    "model": "home.home",
-    "pk": 1,
-    "fields": {
-        "name": "Colegio Nervión",
-        "payment_method": "E",
-        "bank_account_number": null,
-        "bank_account_holder": null,
-        "bank_account_reference": null,
-        "amount": "200.00",
-        "frequency": "T",
-        "start_date": "2023-04-17",
-        "termination_date": null,
-        "province": "Sevilla",
-        "notes": ""
-    }
-},
-{
-    "model": "home.home",
-    "pk": 2,
-    "fields": {
-        "name": "Colegio Claret",
-        "payment_method": "E",
-        "bank_account_number": null,
-        "bank_account_holder": null,
-        "bank_account_reference": null,
-        "amount": "200.00",
-        "frequency": "T",
-        "start_date": "2023-04-17",
-        "termination_date": null,
-        "province": "Sevilla",
-        "notes": ""
-    }
-},
-{
-    "model": "home.home",
-    "pk": 3,
-    "fields": {
-        "name": "Ntra Señora de Gracia",
-        "payment_method": "E",
-        "bank_account_number": null,
-        "bank_account_holder": null,
-        "bank_account_reference": null,
-        "amount": "75.00",
-        "frequency": "M",
-        "start_date": "2023-04-17",
-        "termination_date": null,
-        "province": "Sevilla",
-        "notes": ""
-    }
-},
-{
-    "model": "ong.ong",
-    "pk": 1,
-    "fields": {
-        "name": "VidesSur",
-        "plan": "B",
-        "premium_payment_date": null
-    }
-},
-{
-    "model": "ong.ong",
-    "pk": 2,
-    "fields": {
-        "name": "ASEM",
-        "plan": "B",
-        "premium_payment_date": null
-    }
-},
-{
-    "model": "sponsorship.sponsorship",
-    "pk": 1,
-    "fields": {
-        "sponsorship_date": "2023-04-17",
-        "termination_date": null,
-        "child": 6,
-        "godfather": [
-            7
-        ],
-        "home": []
-    }
-},
-{
-    "model": "sponsorship.sponsorship",
-    "pk": 2,
-    "fields": {
-        "sponsorship_date": "2023-04-17",
-        "termination_date": null,
-        "child": 5,
-        "godfather": [
-            8
-        ],
-        "home": []
-    }
-}
 ]
