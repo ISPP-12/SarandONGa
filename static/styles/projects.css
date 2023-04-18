@@ -4,7 +4,6 @@
   --projects-main-color-light: var(--clr-accent-3-light);
 }
 
-
 /* Button */
 #section-project .section-btn {
   background-color: var(--projects-main-color);

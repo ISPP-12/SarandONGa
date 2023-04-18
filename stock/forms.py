@@ -19,7 +19,7 @@ class CreateNewStock(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateNewStock, self).__init__(*args, **kwargs)
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-select'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
@@ -28,6 +28,7 @@ class CreateNewStock(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
+
 
 class FilterStockForm(forms.Form):
     qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
@@ -46,11 +47,14 @@ class FilterStockForm(forms.Form):
 
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
-                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
-                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input'})
             else:
-                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control', 'style': 'display:block'})
 
         self.fields['qsearch'].initial = self.data.get('qsearch')
         self.fields['min_quantity'].initial = self.data.get('min_quantity')

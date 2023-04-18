@@ -15,7 +15,6 @@ class CreatePaymentForm(forms.ModelForm):
 
     def __init__(self, ong, *args, **kwargs):
         super(CreatePaymentForm, self).__init__(*args, **kwargs)
-        print(ong)
         if ong.name == "ASEM":
             self.fields.pop('godfather')
             self.fields.pop('project')

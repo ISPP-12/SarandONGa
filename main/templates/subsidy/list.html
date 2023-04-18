@@ -158,6 +158,13 @@
             <p><strong>Estado: </strong><span>${objectData.status}</span></p>
             <p><strong>Presentación de justificación: </strong><span>${objectData.presentation_justification_date}</span></p>
             <p style="margin-bottom: 131px;"><strong>Observaciones: </strong><span class="d-flex scrollable">${objectData.notes}</span></p>
+            <p style="margin-bottom: 131px;"><strong>Documento: </strong>
+              ${
+                objectData.document && objectData.document.includes("subsidy/")
+                  ? `<a href="/${objectData.document}" target="_blank">${objectData.document.split("subsidy/")[1]}</a>`
+                  : "Sin documento asociado"
+              }
+            </p>
           </div>
         </div>
 
@@ -199,6 +206,12 @@
         event.preventDefault();
       }
     })
+</script>
+<script>
+  document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = window.location.pathname;
+  });
 </script>
 
 {% endblock %}

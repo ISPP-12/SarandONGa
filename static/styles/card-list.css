@@ -16,18 +16,21 @@
 a {
   color: #000;
 }
+
 .col-email {
   width: 250px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .col-email2 {
   width: 400px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .col-surname {
   justify-content: center;
   overflow-wrap: break-word;

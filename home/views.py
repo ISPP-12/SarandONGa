@@ -39,6 +39,7 @@ def home_create(request):
             messages.error(request, 'El formulario presenta errores')
     return render(request, 'home/home_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Añadir Casa'})
 
+
 @login_required
 @videssur_required
 def home_list(request):
@@ -126,9 +127,10 @@ def home_details(request, home_id):
     home = get_object_or_404(Home, id=home_id)
     return render(request, 'home/home_details.html', {'home': home})
 
+
 @login_required
 @videssur_required
-def home_update(request,home_id):
+def home_update(request, home_id):
     home_to_update = Home.objects.get(id=home_id)
     form = CreateHomeForm(instance=home_to_update)
     if request.method == "POST":
@@ -138,16 +140,18 @@ def home_update(request,home_id):
                 form.save()
                 return redirect('home_list')
             except ValidationErr as v:
-                    messages.error(request, str(v.args[0]))
+                messages.error(request, str(v.args[0]))
         else:
             messages.error(request, 'Formulario con errores')
     return render(request, 'home/home_form.html', {"form": form, "page_title": "SarandONGa 💃 - Editar Casa"})
 
+
 def is_valid_queryparam(param):
     return param != "" and param is not None
 
+
 def home_filter(queryset, form):
-    
+
     q = form['qsearch'].value()
     min_start_date = form['min_start_date'].value()
     max_start_date = form['max_start_date'].value()
@@ -157,17 +161,16 @@ def home_filter(queryset, form):
     frequency = form['frequency'].value()
     amount_min = form['amount_min'].value()
     amount_max = form['amount_max'].value()
-    
 
     if q is not None:
-            if q.strip() != "":
-                queryset = queryset.filter(
-                    Q(name__icontains=q) |
-                    Q(bank_account_number__icontains=q) |
-                    Q(province__icontains=q) |
-                    Q(bank_account_holder__icontains=q) |
-                    Q(bank_account_reference__icontains=q)
-                )
+        if q.strip() != "":
+            queryset = queryset.filter(
+                Q(name__icontains=q) |
+                Q(bank_account_number__icontains=q) |
+                Q(province__icontains=q) |
+                Q(bank_account_holder__icontains=q) |
+                Q(bank_account_reference__icontains=q)
+            )
 
     if is_valid_queryparam(min_start_date):
         queryset = queryset.filter(start_date__gte=min_start_date)
@@ -192,7 +195,5 @@ def home_filter(queryset, form):
 
     if is_valid_queryparam(amount_max):
         queryset = queryset.filter(amount__lte=amount_max)
-
-    
 
     return queryset

@@ -5,13 +5,13 @@
 }
 
 .step-links {
-    display: flex;
+  display: flex;
 }
 
 .pagination a,
 .pagination span.current {
-    padding: 0.5em 1em;
-    border: 1px solid var(--gray-200);
+  padding: 0.5em 1em;
+  border: 1px solid var(--gray-200);
 }
 
 .pagination a {
@@ -21,8 +21,8 @@
 }
 
 .pagination span.current {
-    color: var(--clr-black);
-    background-color: var(--clr-white);
+  color: var(--clr-black);
+  background-color: var(--clr-white);
 }
 
 .pagination a:hover {
