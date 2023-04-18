@@ -114,6 +114,7 @@ def stock_create(request):
             return custom_403(request)
     return render(request, 'stock/register.html', {'form': form, 'title': 'Registrar artículo', 'page_title': 'SarandONGa 💃 - Registrar artículo'})
 
+
 @login_required
 def stock_delete(request, stock_id):
     stock = get_object_or_404(Stock, id=stock_id)
@@ -134,11 +135,14 @@ def stock_update(request, stock_id):
                 messages.error(request, 'Formulario con errores')
 
         form = CreateNewStock(instance=stock)
-        context = {'form': form, 'title': 'Actualizar artículo', 'page_title': 'SarandONGa 💃 - Actualizar artículo'}
+        context = {'form': form, 'title': 'Actualizar artículo',
+                   'page_title': 'SarandONGa 💃 - Actualizar artículo'}
     else:
         return custom_403(request)
     return render(request, 'stock/register.html', context)
 
+
 def getStock(request):
-    stock = Stock.objects.filter(ong=request.user.ong).values('name','quantity')
+    stock = Stock.objects.filter(
+        ong=request.user.ong).values('name', 'quantity')
     return JsonResponse(list(stock), safe=False)

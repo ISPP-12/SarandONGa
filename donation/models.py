@@ -10,11 +10,14 @@ DNI_VALIDATOR = RegexValidator(
     regex=DNI_REGEX,
     message='Introduce un DNI válido (8 números y 1 letra).'
 )
+
+
 class Donation(models.Model):
     id = models.AutoField(primary_key=True)
     # Titulo y descripción de la donación
     title = models.CharField(max_length=200, verbose_name="Título")
-    description = models.TextField(verbose_name="Descripción", null=True, blank=True)
+    description = models.TextField(
+        verbose_name="Descripción", null=True, blank=True)
     # Fecha de creación de la donación (automática)
     created_date = models.DateField(
         default=timezone.now, verbose_name="Fecha creación")
@@ -29,7 +32,8 @@ class Donation(models.Model):
         validators=[DNI_VALIDATOR],
         verbose_name='DNI'
     )
-    donor_address = models.CharField(max_length=200, verbose_name="Dirección", null=True, blank=True)
+    donor_address = models.CharField(
+        max_length=200, verbose_name="Dirección", null=True, blank=True)
     donor_email = models.EmailField(verbose_name="Correo Electrónico")
     ong = models.ForeignKey(
         Ong, on_delete=models.CASCADE, related_name='donacion', verbose_name="ONG")

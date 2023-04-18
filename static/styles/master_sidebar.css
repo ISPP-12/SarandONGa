@@ -104,6 +104,7 @@
   word-break: break-word;
 }
 
-h2, h5 {
+h2,
+h5 {
   word-break: break-all;
 }

@@ -49,7 +49,7 @@ urlpatterns = [
     path("", include("django.contrib.auth.urls")),
 ]
 
-if settings.DEBUG:     
+if settings.DEBUG:
     urlpatterns += [
         re_path(r'^media/(?P<path>.*)$', serve,
                 {'document_root': os.path.join(settings.BASE_DIR, 'media')}),

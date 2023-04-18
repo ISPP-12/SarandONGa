@@ -1,5 +1,4 @@
-
-  /* TOOLBAR */
+/* TOOLBAR */
 
 .fc .fc-toolbar.fc-header-toolbar {
   flex-wrap: wrap;
@@ -41,7 +40,7 @@
   font-weight: 600;
 }
 
-  /* EVENTS */
+/* EVENTS */
 
 .fc-daygrid-event {
   background-color: var(--clr-accent-5-light);
@@ -58,7 +57,7 @@
   font-weight: 600;
 }
 
-  /* DAYS */
+/* DAYS */
 
 .fc .fc-daygrid-day-top {
   flex-direction: row;
@@ -78,7 +77,7 @@
   min-height: 3em;
 }
 
-  /* WEEK DAYS */
+/* WEEK DAYS */
 
 .fc .fc-col-header-cell a {
   color: var(--gray-600);
@@ -88,7 +87,7 @@
   text-transform: uppercase;
 }
 
-  /* GRID */
+/* GRID */
 
 .fc-theme-standard .fc-scrollgrid {
   border: none;
@@ -118,15 +117,15 @@
 }
 
 .fc-scrollgrid-section-header .fc-scroller {
-    overflow: visible !important;
+  overflow: visible !important;
 }
 
-.fc-theme-standard td, 
+.fc-theme-standard td,
 .fc-theme-standard th {
   border: none;
 }
 
-  /* LIST VIEW */
+/* LIST VIEW */
 
 .fc-list .fc-list-day-text,
 .fc-list .fc-list-day-side-text {

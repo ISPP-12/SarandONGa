@@ -1,4 +1,3 @@
-
 // CALENDAR OPTIONS
 
 let buttonText = {
@@ -11,17 +10,17 @@ let buttonText = {
 
 let customButtons = {
     calendarButton: {
-      icon: 'bi bi-calendar',
-      click: function() {
-        alert('clicked the custom button!');
-      },
-      disabled: true,
+        icon: 'bi bi-calendar',
+        click: function () {
+            alert('clicked the custom button!');
+        },
+        disabled: true,
     },
     listButton: {
-      icon: 'bi bi-list-ul',
-      click: function() {
-        alert('clicked the custom button!');
-      }, 
+        icon: 'bi bi-list-ul',
+        click: function () {
+            alert('clicked the custom button!');
+        },
     },
 }
 
@@ -57,7 +56,7 @@ let onEventClick = (info) => {
     console.log('Cantidad: ' + info.event.extendedProps.amount);
     console.log('Observaciones: ' + info.event.extendedProps.observations);
     console.log('Pagado: ' + info.event.extendedProps.paid);
-    
+
     // Properties from service model
     console.log('SERVICIO');
     console.log('Asistencia: ' + info.event.extendedProps.attendance);
@@ -72,19 +71,19 @@ let onEventClick = (info) => {
 
 let setupCalendar = () => {
     let calendarEl = document.getElementById('calendar');
-    
+
     let calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
-    locale: 'es',
-    themeSystem: 'bootstrap5',
-    firstDay: 1,
-    buttonText: buttonText,
-    headerToolbar: headerToolbar,
-    fixedWeekCount: false,
-    events: events,
-    views: specificViewOptions,
-    customButtons: customButtons,  
-    eventClick: onEventClick,
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        themeSystem: 'bootstrap5',
+        firstDay: 1,
+        buttonText: buttonText,
+        headerToolbar: headerToolbar,
+        fixedWeekCount: false,
+        events: events,
+        views: specificViewOptions,
+        customButtons: customButtons,
+        eventClick: onEventClick,
     });
     calendar.render();
 }
@@ -118,8 +117,7 @@ let addButtonsEventListeners = () => {
 
 // MAIN FUNCTION
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log(events);
+document.addEventListener('DOMContentLoaded', function () {
 
     setupCalendar();
     disableToolbarButtons();

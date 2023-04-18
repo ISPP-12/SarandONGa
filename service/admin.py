@@ -4,6 +4,8 @@ from django.contrib import admin
 from .models import Service, ServiceAmount
 admin.site.register(ServiceAmount)
 
+
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ('service_type', 'date', 'attendance', 'amount', 'asem_user', 'amount')
+    list_display = ('service_type', 'date', 'attendance',
+                    'amount', 'asem_user', 'amount')

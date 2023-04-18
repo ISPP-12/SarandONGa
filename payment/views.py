@@ -8,7 +8,6 @@ from main.views import custom_403
 from django.db.models import Q
 from django.core.paginator import Paginator
 from person.models import GodFather
-from xml.dom import ValidationErr
 
 
 @login_required
@@ -85,11 +84,11 @@ def payment_update(request, payment_id):
             events_json = json.dumps(event_arr, default=str)
 
         context = {
-            'form': form, 
+            'form': form,
             'title': 'Actualizar pago',
-            'events_json': events_json, 
+            'events_json': events_json,
             'page_title': 'SarandONGa 💃 - Actualizar pago'
-            }
+        }
     else:
         return custom_403(request)
     return render(request, 'payment/payment_form.html', context)
