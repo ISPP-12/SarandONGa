@@ -21,7 +21,6 @@ class CustomJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 @login_required
- 
 def subsidy_create(request):
     form = CreateNewSubsidy(initial={'ong': request.user.ong})
     if request.method == "POST":
