@@ -207,5 +207,11 @@
       }
     })
 </script>
+<script>
+  document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = window.location.pathname;
+  });
+</script>
 
 {% endblock %}
