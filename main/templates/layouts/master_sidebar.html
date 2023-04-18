@@ -1,0 +1,100 @@
+{% extends 'layouts/master.html' %}
+
+{% comment %} 
+ATTRIBUTES:
+- object_name: name of the object to be displayed in the preview text (e.g. "donación")
+- title: title of the page (e.g. "Gestión de donaciones")
+- text: text of the button (e.g. "Añadir donación")
+
+PS: the text inside the button is displayed exactly as it is written. You can either write the text directly or use the "add" filter to concatenate strings (e.g. "Añadir "|add:object_name|safe)
+
+BLOCKS IN THIS LAYOUT
+- head (inherited)
+- content (inherited)
+- filters: for all the filter buttons in the bar
+- objectFor: to show all the objects
+- scripts
+
+{% endcomment %}
+
+{% block head %}
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/master_sidebar.css' %}">
+  {% block extrahead %}
+  {% endblock %}
+{% endblock %}
+
+{% block content %}
+
+<div id={{"section-"|add:object_name_en}}  class="" >
+
+  <div class="row complete h-100">
+
+    <div id="previewContainer" class="pt-4 px-0 col-md-4 ">
+      <div id="preview" class="w-100 h-100 fs-4 text-center d-flex flex-column justify-content-between">
+        {% if object_name == 'donación' or object_name == 'subvención' or object_name == 'casa' %}
+          <span id="prev-info" class="p-4">Pulsa sobre una {{ object_name }} para la vista previa</span>
+        {% else %}
+          <span id="prev-info" class="p-4">Pulsa sobre un {{ object_name }} para la vista previa</span>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <div class="col-12 col-md-8 p-4 border-start border-dark border-1" id="rightSectionContainer">
+      <!-- TITULO -->
+      <div class="d-flex flex-column px-4" id="rightSection">
+        {% include 'components/title.html' with title=title %}
+
+        <div class="col-12 mb-4">
+          <div class="row justify-content-between align-items-center mb-3">
+            <div class="col-12 col-md-6 justify-content-end mb-md-0 mb-3">
+              
+              {%block botonPrimario%}{%endblock%}
+
+
+              
+
+
+            </div>
+            {% if object_name_en == "user" or object_name_en == "child" or object_name_en == "godfather" or object_name_en == "volunteer" %}
+            <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
+                <div class="px-1">
+                  
+                <form method="POST" class="my-3">
+                  {% csrf_token %}
+                  {% include "components/button.html" with variation="EXCEL" text="Descargar" type="submit" onclick="" secondary=True %}
+              </form>            
+              </div>
+            </div>
+            {% endif %}
+
+            
+
+
+          <div class="row">
+              <div class="col-12 col-md-12 mb-3">
+                {% block filters %}
+                {% endblock %}
+              </div>
+
+
+
+              
+          </div>
+        </div>
+        
+        <div class="col-12 d-flex flex-column align-items-center justify-content-center 3">
+          {% block objectFor %}
+          {% endblock %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% block scripts %}
+{% endblock %}
+
+{% endblock %}

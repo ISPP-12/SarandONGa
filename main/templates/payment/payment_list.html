@@ -1,0 +1,16 @@
+{% load static %}
+
+{% block content %}
+<form method="GET">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Filtrar">
+</form>
+
+{% for payment in objects %}
+<p>{{payment.amount}}</p>
+{% endfor %}
+
+{% include 'components/pagination.html' %}
+
+{% endblock %}

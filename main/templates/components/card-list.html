@@ -1,0 +1,78 @@
+{% load static %}
+<div id="card-list-item-{{object.id}}" class="container-fluid card-list mw-100 px-2 card-list rounded py-1" tabindex="1">
+  <span class="object-id  d-none">{{ object.id }}</span>
+   
+
+      
+    <div class="row">
+      <div class="col-lg-4 col-6">
+        <strong><h5 title="{{object.surname}}, {{object.name}}">{{object.surname}}, {{object.name}}</h5></strong>
+      
+      </div>
+      <div class="col-lg-3 col-6">
+
+        {% if object.city %}
+        <span>{{object.city}}</span>
+        {% else %}
+        <span>No especificado</span>
+        {% endif %}
+
+      </div>  
+
+      <div class="col-lg-2 col-6">
+
+        {% if object.telephone %}
+        <span>{{object.telephone}}</span>
+        {% else %}
+        <span>No especificado</span>
+        {% endif %}
+
+      </div> 
+
+      <div class="col-lg-3 col-6">
+
+        {% if object.email %}
+        <span>{{object.email}}</span>
+        {% else %}
+        <span>No especificado</span>
+        {% endif %}
+      </div> 
+
+  </div>
+
+    <div class="d-none d-flex flex-column" id="moreInfo">
+      <span class="object-description"><strong>Teléfono: </strong>{{ object.telephone }}</span>
+
+      <span class="object-description"><strong>Dirección: </strong>{{ object.address }}</span>
+      <span class="object-birthdate"><strong>Fecha de nacimiento: </strong>{{ object.birth_date  }}</span>
+      <span class="object-city"><strong>Ciudad: </strong>{{ object.city  }}</span>
+      <span class="object-postalcode"><strong>Código postal: </strong>{{ object.postal_code  }}</span>
+      <span class="object-telephone"><strong>Teléfono: </strong>{{ object.telephone  }}</span>
+
+      <div class="container mt-2 border-dark border-top border-1  p-0">
+        <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          {%if object_name == "usuario"%}
+          <a href="../../../service/create"><i class="bi bi-bandaid"></i>Añadir servicio</a>
+          {%elif object_name == "padrino" or object_name == "donante"%}
+          <a href="../../../payment/create"><i class="bi bi-wallet2"></i>Añadir pago</a>
+          {% endif %}
+          {%if object_name == "padrino" or object_name == "niño"%}
+          <a href="../../../sponsorship/create"><i class="bi bi-diagram-2"></i>Añadir apadrinamiento</a>
+          {% endif %}
+          <a href="{{ object.id }}"><i class="bi bi-info-circle"></i>Detalles</a>
+          <a href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a href="{{ object.id }}/delete" id="delete-button"><i class="bi bi-x"></i>Eliminar</a>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+  let deleteBtn = document.getElementById("delete-button");
+  deleteBtn.addEventListener("click", function(e){
+    let confirm = window.confirm("¿Estás seguro de que quieres eliminar este elemento?");
+    if(!confirm){
+      e.preventDefault();
+    }
+  })
+</script>

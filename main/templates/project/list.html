@@ -1,0 +1,191 @@
+{% extends "layouts/master_sidebar.html" %}
+
+{% comment %}
+ATTENTION FOR THE SCRIPT: you must include the divs with the id "data" and "object-name" in order to make the script
+work. The first one must contain the data in json format and the second one must contain the name of the object to be
+displayed in the preview text (e.g. "donación")
+{% endcomment %}
+
+{% load static %}
+
+{% block extrahead %}
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/projects.css' %}">
+{% endblock %}
+
+{% block botonPrimario %}
+<a  href="/project/create">
+{% include 'components/button.html' with variation='PLUS' text='Añadir '|add:object_name|safe %}</a>
+{% endblock %}
+
+{% block filters %}
+<form method="GET" class="my-3">
+  {% csrf_token %}
+  <div id="team">
+    <div class="row">
+      <div class="col-12 col-md-12 col-lg-5 mb-3">
+        {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+      </div>
+
+      <div class='col-lg-4 col-md-12 col-12 mb-3'>
+        {% include "components/inputs.html" with id=form.start_date_min.id_for_label label_text="Fecha de inicio después de..." input=form.start_date_min %} 
+      </div>
+
+      <div class="col-lg-4 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.number_of_beneficiaries_min.id_for_label label_text="Número beneficiarios mínimo" input=form.number_of_beneficiaries_min %} 
+      </div>
+
+      <div class="col-lg-3 col-md-12 col-12 mb-3">
+        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad solicitada mínima" input=form.amount_min %} 
+      </div>
+    </div>
+  </div>
+  <div class="col pt-2">
+    {% include 'components/button.html' with text="Filtrar" id="id-filter" variation="SUBMIT" %}
+
+    {% include 'components/button.html' with text="Borrar" id="reset" type="reset" variation="RESET" %}
+  </div>
+</form>
+{% endblock %}
+
+{% block objectFor %}
+<!-- TABLE HEADER -->
+<div id="id-tableHeader" class="container-fluid">
+  <div class="row">
+    <div class="col-6"><strong>T&iacute;tulo</strong></div>
+    <div class="col-3"><strong>Pa&iacute;s</strong></div>
+    <div class="col-3"><strong>Fecha de inicio</strong></div>
+  </div>
+  <hr class="my-1">
+</div>
+
+{% for object in objects %}
+
+<div class="container-fluid mw-100 px-2 card-list rounded py-1" tabindex="1">
+  <span class="object-id d-none">{{ object.id }}</span>
+    <div class="row">
+
+      <div class="col-6">
+        <strong><h5 title="{{object.title}}">{{object.title}}</h5></strong>
+      </div>
+
+      <div class="col-3">
+        <span>{{object.country}}</span>
+      </div> 
+
+      <div class="col-3">
+        <span>{{object.start_date}}</span>
+      </div> 
+        
+    </div>
+
+    <div class="d-none d-flex flex-column " id="moreInfo">
+      <span class="object-description pt-1"><strong>Pa&iacute;s:&nbsp;</strong>{{ object.country }}</span>
+      <span class="object-donor-name pt-1"><strong>Fecha de inicio:&nbsp;</strong>{{ object.start_date  }}</span>
+      <span class="object-donor-dni pt-1"><strong>Fecha de fin:&nbsp;</strong>{{ object.end_date  }}</span>
+      <span class="object-donor-address pt-1"><strong>N&uacute;mero de beneficiarios:&nbsp;</strong>{{ object.number_of_beneficiaries  }}</span>
+      <span class="object-donor-email pt-1"><strong>Cantidad:&nbsp;</strong>{{ object.amount  }} €</span>
+      <span class="object-donor-email pt-1"><strong>Fecha de anuncio:&nbsp;</strong>{{ object.announcement_date  }}</span>
+
+      <div class="container mt-2 border-dark border-top border-1  p-0">
+        <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          <a id="add-payment" href="../../../payment/create?project={{ objectData.id }}"><i class="bi bi-wallet2"></i>Añadir pago</a>
+          <a id='edit-button' href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
+          <a id='delete-button' href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
+        </div>
+      </div>
+    </div>
+    
+</div>
+{% endfor %}
+
+{% include 'components/pagination.html' %}
+
+<div id="data" data-json='{{ objects_json|safe }}'></div>
+<div id="object-name" data-name='{{ object_name }}'></div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script id="object-data">
+  const objectList = document.querySelectorAll('.card-list')
+  const objetos = JSON.parse('{{ objects_json|escapejs }}')
+  const preview = document.querySelector('#preview')
+  const prevInfo = document.querySelector('#prev-info')
+
+  objectList.forEach(object => {
+    const moreInfo = object.querySelector('#moreInfo')
+    object.addEventListener('click', () => {
+      const isMobile = window.matchMedia("(max-width: 768px)").matches
+      const isExpanded = !moreInfo.classList.contains('d-none')
+      const objectId = object.querySelector('.object-id').innerText
+      
+      const objectData = objetos.find(object => object.id == objectId)
+
+      if (isMobile) {
+        if (isExpanded) {
+          moreInfo.classList.add('d-none')
+        } else {
+          moreInfo.classList.remove('d-none')
+        }
+
+  } else {
+
+        prevInfo.classList.add('d-none')
+        preview.classList.remove('text-center')
+          preview.innerHTML = `
+        <div class="row ">
+          <div class="col-12  px-4">
+            
+            <h2 title="${objectData.title}">${objectData.title ? objectData.title : 'No especificado' }</h2>
+            <h5>{{object_name}}</h5>
+            <p><strong>Pa&iacute;s:&nbsp;</strong>${objectData.country}</p>
+            <p><strong>Fecha de inicio:&nbsp;</strong>${objectData.start_date}</p>
+            <p><strong>Fecha de fin:&nbsp;</strong>${objectData.end_date}</p>
+            <p><strong>N&uacute;mero de beneficiarios:&nbsp;</strong>${objectData.number_of_beneficiaries}</p>
+            <p><strong>Cantidad:&nbsp;</strong>${objectData.amount} €</p>
+            <p style="margin-bottom: 131px;"><strong>Fecha de anuncio:&nbsp;</strong>${objectData.announcement_date}</p>
+          </div>
+        </div>
+
+        <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
+          <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <a id="add-payment" href="../../../payment/create?project=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
+            <a id='edit-button' href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
+            <a id='delete-button'  href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
+          </div>
+        </div>
+      `
+      }
+
+      let deleteBtn = document.querySelector('#delete-button')
+      deleteBtn.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+          event.preventDefault();
+        }
+      })
+
+    })
+
+    // when resizing the window, the preview will be reset
+    window.addEventListener('resize', () => {
+      moreInfo.classList.add('d-none')
+      prevInfo.classList.remove('d-none')
+      preview.classList.add('text-center')
+      preview.classList.remove('p-5')
+      preview.innerHTML = `<span id="prev-info">Pulsa sobre un {{ object_name }} para la vista previa</span>`
+
+    })
+
+  })
+
+</script>
+
+<script>
+  document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = window.location.pathname;
+  });
+</script>
+
+{% endblock %}

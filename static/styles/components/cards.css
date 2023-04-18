@@ -1,0 +1,90 @@
+/* GENERAL */
+.card {
+  border-color: var(--gray-900);
+}
+
+.card-title,
+.card-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* GRID CARDS */
+.card-stock .card-img-col {
+  height: 250px;
+  overflow: hidden;
+}
+
+.card-img-top {
+  object-fit: cover;
+}
+
+.card-stock .card-img-top {
+  height: 250px;
+  transition: all 0.75s ease-in-out;
+}
+
+.card-stock .card-body-col {
+  height: 250px;
+}
+
+.card-stock .card-title {
+  font-weight: bold;
+}
+
+.card-stock a,
+.card-stock p,
+.card-stock-list a,
+.card-stock-list p {
+  color: var(--clr-black) !important;
+}
+
+.card-stock .card-title,
+.card-stock .card-text {
+  text-align: center;
+}
+
+/* LIST CARDS */
+.card-stock-list {
+  border-color: var(--gray-900);
+}
+
+.card-stock-list .card-img-top {
+  max-width: 150px;
+  height: 150px;
+  padding: 5% 5%;
+  border-radius: 25px;
+}
+
+.card-stock-list .card-title,
+.card-stock-list .card-text {
+  text-align: start;
+}
+
+/* ANIMATION FOR CARD-STOCK (CODACY IS STUPID) */
+.card-stock .card-img-top:hover {
+  transform: scale(1.05);
+}
+
+/* THIS COMMENT FOR CODACY, HATE YOU */
+
+/* CARD BUTTONS */
+.btn {
+  transition: background-color 0.2s ease-in-out;
+}
+
+.section-btn {
+  background-color: #eaeaea;
+  color: black;
+}
+
+.section-btn:hover,
+.section-btn:active {
+  background-color: #f1d746;
+  color: black;
+}
+
+.card .section-btn {
+  width: 100%;
+}

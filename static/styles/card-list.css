@@ -1,0 +1,49 @@
+.profile-img-big {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-list {
+  border: 1px solid #fff;
+}
+
+.card-list:active,
+.card-list:focus {
+  border: 1px solid #000;
+}
+
+a {
+  color: #000;
+}
+
+.col-email {
+  width: 250px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.col-email2 {
+  width: 400px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.col-surname {
+  justify-content: center;
+  overflow-wrap: break-word;
+  width: 250px;
+}
+
+.object-title {
+  font-size: larger;
+  font-weight: bold;
+  color: #000;
+}
+
+span {
+  word-wrap: normal;
+  word-break: break-word;
+}

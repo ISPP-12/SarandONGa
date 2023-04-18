@@ -6,9 +6,19 @@ __pycache__
 /db.sqlite3
 media
 /**/migrations/*.py
-
+sara/**
 # Backup files #
 *.bak
+
+#Images
+
+./static/img
+
+#Delete migrations .bat file
+delete_migrations.bat
+
+#Delete migrations .sh file
+delete_migrations.sh
 
 # If you are using PyCharm #
 # User-specific stuff
@@ -90,6 +100,7 @@ coverage.xml
 
 # pyenv
 .python-version
+Pipfile
 
 # celery
 celerybeat-schedule.*
@@ -128,6 +139,7 @@ Control.ca-list
 Control.ca-bundle
 Control.system-ca-bundle
 GitHub.sublime-settings
+Pipfile
 
 # Visual Studio Code #
 .vscode/*
@@ -136,3 +148,12 @@ GitHub.sublime-settings
 .vscode/launch.json
 !.vscode/extensions.json
 .history
+
+# Virtual environment
+Pipfile
+
+# Delete migrations (gonmarfer2)
+delete_migrations.bat
+
+#Worker images
+static/img/worker/*

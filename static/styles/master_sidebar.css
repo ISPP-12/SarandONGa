@@ -1,0 +1,110 @@
+:root {
+  --main-color: #f5e2d8;
+  --main-color-hover: #e4b399;
+  --main-color-light: #f9ebe3;
+}
+
+.complete {
+  height: 85vh;
+}
+
+.bg-object {
+  background-color: var(--main-color);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.bg-object:hover {
+  background-color: var(--main-color-hover);
+  transition: background-color 0.2s ease-in-out;
+}
+
+.object-title {
+  font-size: larger;
+  font-weight: bold;
+  color: #000;
+}
+
+#lateralButtons > a {
+  font-size: 18px;
+  margin: 3px 0;
+}
+
+#lateralButtons > a > i {
+  margin-right: 5px;
+}
+
+.object {
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.object:hover {
+  cursor: pointer;
+  background-color: var(--main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.selected {
+  background-color: var(--main-color-light);
+}
+
+.object-amount {
+  font-weight: thin;
+  font-size: medium;
+}
+
+.fixed-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+}
+
+#rightSectionContainer {
+  height: 100%;
+  min-height: calc(100vh - 55px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#previewContainerButtons {
+  height: 200px;
+}
+
+@media (max-width: 767px) {
+  #previewContainer {
+    display: none !important;
+  }
+
+  #rightSectionContainer {
+    border: 0 !important;
+    height: auto;
+  }
+
+  #rightSection {
+    padding-left: 0 !important;
+  }
+
+  #lateralButtons > a {
+    font-size: 15px;
+    margin: 1px 0;
+  }
+
+  #filterContainer {
+    width: 100% !important;
+    margin-bottom: 1em;
+  }
+}
+
+/* TEXT OVERFLOW */
+
+#id-tableHeader {
+  word-wrap: normal;
+  word-break: break-word;
+}
+
+h2,
+h5 {
+  word-break: break-all;
+}

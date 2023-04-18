@@ -1,0 +1,48 @@
+:root {
+  --subsidies-main-color: var(--clr-accent-4);
+  --subsidies-main-color-hover: var(--clr-accent-4-dark);
+  --subsidies-main-color-light: var(--clr-accent-4-light);
+}
+
+/* Button */
+#section-subsidy .section-btn {
+  background-color: var(--subsidies-main-color);
+  color: var(--clr-black);
+}
+
+#section-subsidy .section-btn:hover {
+  background-color: var(--subsidies-main-color-hover);
+  color: var(--clr-black);
+}
+
+/* override bootstrap */
+#section-subsidy .section-btn:active {
+  background-color: var(--subsidies-main-color-hover) !important;
+  color: var(--clr-black);
+}
+
+/* Title */
+#section-subsidy .title {
+  border-color: var(--subsidies-main-color);
+}
+
+/* Selection */
+.selected {
+  background-color: var(--subsidies-main-color-light);
+}
+
+.object-amount {
+  opacity: 60%;
+}
+
+/* cards hover */
+
+.card-list:hover {
+  cursor: pointer;
+  background-color: var(--subsidies-main-color-light);
+  transition: background-color 0.5s ease-in-out;
+}
+
+.card-list:focus {
+  background-color: var(--subsidies-main-color-light);
+}

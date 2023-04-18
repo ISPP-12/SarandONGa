@@ -1,0 +1,76 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/components/navbar.css' %}">
+
+<nav class="navbar navbar-expand-md border-bottom border-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">SARANDONGA</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse px-md-5" id="navbarNav">
+        <ul class="navbar-nav d-flex {% if user.is_authenticated %}justify-content-between{% else %}justify-content-end{% endif %} w-100">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/">Inicio</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'stock' in request.path %}active{% endif %}" href="/stock/list">Inventario</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle {% if 'user' in request.path %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Usuarios
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/user/volunteer/list">Voluntarios</a></li>
+                    <li><a class="dropdown-item" href="/user/worker/list">Trabajadores</a></li>
+                    {% if request.user.ong.name|lower == "asem" %}
+                    <li><a class="dropdown-item" href="/user/asem/list">Usuarios ASEM</a></li>
+                    {% elif request.user.ong.name|lower == "videssur" %}
+                    <li><a class="dropdown-item" href="/user/child/list">Niños</a></li>
+                    <li><a class="dropdown-item" href="/user/godfather/list">Padrinos</a></li>
+                    {% endif %}
+                </ul>
+            </li>
+            {% if request.user.ong.name|lower == "videssur" %}
+            <li class="nav-item">
+                <a class="nav-link {% if 'home' in request.path %}active{% endif %}"  href="/home/list">Casas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'project' in request.path %}active{% endif %}"  href="/project/list">Proyectos</a>
+            </li>
+            {% endif %}
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle {% if 'donation' in request.path or 'subsidy' in request.path %}active{% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Apoyo financiero
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/donation/list">Donaciones</a></li>
+                    <li><a class="dropdown-item" href="/subsidy/list">Subvenciones</a></li>
+                    <li><a class="dropdown-item" href="/payment/create">Pagos</a></li>
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Sesión
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/update_password">Actualizar contraseña</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </li>
+
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+            </li>
+            {% endif %}
+            
+        </ul>
+        </div>
+    </div>
+</nav>

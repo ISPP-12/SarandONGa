@@ -1,0 +1,124 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+{% block extrahead %}<link rel="stylesheet" type="text/css" href="{% static 'styles/stock.css' %}">{% endblock %}
+
+{% block content %} 
+<div id="section-stock">
+{% include 'components/title.html' with title=title %}
+
+<!-- FILTERS -->
+<div class="row h-100 my-4">
+    <div class="col-12">
+        <div id="id-menuDiv" class="row justify-content-between align-items-center mb-3">
+            <div class="btn-more-stock d-flex justify-content-between flex-wrap gap-4">
+                <div class="">
+                    {% include "components/button.html" with variation="PLUS" text="A&ntilde;adir producto" href="/stock/create" id="create-button" type="button" %}
+                </div>
+                {% comment %} <div class="">
+                    {% include "components/button.html" with variation="EXCEL" text="Descargar" type="button" onclick="" secondary=True %}
+                </div> {% endcomment %}
+            </div>
+            
+            <div class="mt-3 mb-3 mb-md-0 col-12 col-md-2 col-lg-2">
+                {% include "components/card-display.html" with id="id-cardsDiv" class_card="card-stock" class_card_list="card-stock-list" %}
+            </div>
+            {% comment %} FILTROS {% endcomment %}
+            <form method="GET" class="my-3">
+                {% csrf_token %}
+                <div id="team">
+                    <div class="row">
+                        <div class="col-12 col-md-12 col-lg-5 mb-3">
+                            {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+                        </div>
+
+                        <div class="col-lg-3 col-md-12 col-12 mb-3">
+                            {% include "components/inputs.html" with id=form.min_quantity.id_for_label label_text="Unidades mínimas" input=form.min_quantity %} 
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-12 mb-3">
+                            {% include "components/inputs.html" with id=form.max_quantity.id_for_label label_text="Unidades máximas" input=form.max_quantity %} 
+                        </div>
+
+                        <div class="col-lg-3 col-md-12 col-12 mb-3">
+                            {% include "components/inputs.html" with id=form.min_amount.id_for_label label_text="Precio mínimo" input=form.min_amount %} 
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-12 mb-3">
+                            {% include "components/inputs.html" with id=form.max_amount.id_for_label label_text="Precio máximo" input=form.max_amount %} 
+                        </div>
+                    </div>
+                </div>
+                <div class="col pt-2">
+                    {% include 'components/button.html' with text="Filtrar" id="id-filter" variation="SUBMIT" %}
+
+                    {% include 'components/button.html' with text="Borrar" id="reset" type="reset" variation="RESET" %}
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<!-- CARDS -->
+<div class="row h-100 mb-4">
+    <div class="col-12">
+        <div id="id-cardsDiv" class="row row-cols-1 row-cols-md-3 g-4">
+            {% for product in objects %}
+                {% include "components/card.html" with item=product %}
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+<div class="row mb-5 d-flex justify-content-center">
+    {% include 'components/pagination.html' %}
+</div>
+
+<script>
+    document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = window.location.pathname;
+    });
+
+    var display_state = sessionStorage.getItem('display_state');
+    if(display_state == null){
+        sessionStorage.setItem('display_state','grid');
+        display_state = 'grid';
+    }
+    let elements = document.getElementsByClassName('card');
+    if(elements !== null) {
+        if(display_state==="list") {
+            let cardDiv = document.querySelector('#id-cardsDiv');
+            cardDiv.classList.remove('row-cols-md-3');
+            Array.from(elements).forEach(element => {
+                element.classList.add('card-stock-list');
+                element.classList.remove('card-stock');
+                let elImgCol = element.querySelector('.card-img-col')
+                elImgCol.classList.add('col-4', 'col-md-3');
+                elImgCol.classList.remove('col-12');
+                let elBodyCol = element.querySelector('.card-body-col')
+                elBodyCol.classList.add('col-8','col-md-9');
+                elBodyCol.classList.remove('col-12');
+            });
+        } else if (display_state==="grid") {
+            Array.from(elements).forEach(element => {
+                element.classList.add('card-stock');
+            });
+        }
+    }
+
+</script>
+
+<script>
+    let deleteBtns = document.querySelectorAll('.deleteBtn');
+    deleteBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            let confirmMessage = confirm("¿Estás seguro de que quieres eliminar este producto?");
+            if (!confirmMessage) {
+                e.preventDefault();
+            }
+        });
+    });
+
+
+</script>
+{% endblock %}

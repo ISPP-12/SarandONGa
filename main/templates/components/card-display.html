@@ -1,0 +1,71 @@
+{% comment %}
+ATTRIBUTES
+- id: for the div that contains the cards/elements
+- class_card: class of the cards inside the div
+- class_card_list: class of the cards in their list form
+
+NOTE
+cards must be inside an element, such as a div, with the following classes:
+row row-cols-1 row-cols-md-3 g-4
+in order fot the switch to work properly
+{% endcomment %}
+
+<div class="btn-group m-auto w-100 " role="group" aria-label="showStock">
+    <button id="id-toGrid" class="btn btn-outline-dark" onclick="toGrid()"><i class="bi bi-grid"></i></button>
+    <button id="id-toList" class="btn btn-outline-dark" onclick="toList()"><i class="bi bi-list-ul"></i></button>
+</div>
+
+<script>
+    function toList(){
+        sessionStorage.setItem('display_state','list');
+        let rowdiv = document.getElementById('{{id}}');
+        if(rowdiv !== null) {
+            rowdiv.classList.remove('row-cols-md-3');
+    
+            let elements = document.getElementsByClassName('{{class_card}}');
+            if(elements !== null) {
+                Array.from(elements).forEach(element => {
+                    element.classList.add('{{class_card_list}}');
+                    element.classList.remove('{{class_card}}');
+                    let elImgCol = element.querySelector('.card-img-col')
+                    elImgCol.classList.add('col-4', 'col-md-3');
+                    elImgCol.classList.remove('col-12');
+                    let elBodyCol = element.querySelector('.card-body-col')
+                    elBodyCol.classList.add('col-8','col-md-9');
+                    elBodyCol.classList.remove('col-12');
+                    let footer = element.querySelectorAll('#id-div-footer-btn .col-6');
+                    Array.from(footer).forEach(btn => {
+                        btn.classList = ['col-12'];
+                    });
+                });
+            }
+        }
+    }
+
+    function toGrid(){
+        sessionStorage.setItem('display_state','grid');
+        let rowdiv = document.getElementById('{{id}}');
+        if(rowdiv !== null) {
+            rowdiv.classList.add('row-cols-md-3');
+
+            let elements = document.getElementsByClassName('{{class_card_list}}');
+            if(elements !== null) {
+                Array.from(elements).forEach(element => {
+                    element.classList.add('{{class_card}}');
+                    element.classList.remove('{{class_card_list}}');
+                    let elImgCol = element.querySelector('.card-img-col')
+                    elImgCol.classList.add('col-12');
+                    elImgCol.classList.remove('col-4', 'col-md-3');
+                    let elBodyCol = element.querySelector('.card-body-col')
+                    elBodyCol.classList.add('col-12');
+                    elBodyCol.classList.remove('col-8','col-md-9');
+                    let footer = element.querySelectorAll('#id-div-footer-btn .col-12');
+                    Array.from(footer).forEach(btn => {
+                        btn.classList = ["col-6 px-2 text-center"];
+                    });
+                });
+            }
+        }
+    }
+
+</script>

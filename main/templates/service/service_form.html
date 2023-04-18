@@ -1,0 +1,77 @@
+{% extends 'layouts/master_clean_sidebar.html' %} {% block titulo %} Añadir Servicio {% endblock %} 
+{% block extrahead %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/calendar_view.css' %}">
+{% endblock %}
+{% block leftSide %}
+{% include 'components/title2.html' with title=title %}
+
+<form method="post" action="">
+  {% csrf_token %}
+    <div class="row my-4 mx-5 justify-content-center">
+      
+      <div class="my-2 mx-5 d-flex flex-column text-start">
+      
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        <div class="mt-3">
+          {% if field.field.required %}
+            {% with label_text=field.label_tag|safe|add:'<span class="text-danger"> *</span>' %}
+              {% include 'components/inputs.html' with id=field.id_for_label label_text=label_text input=field %}
+            {% endwith %}
+          {% else %}
+            {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+          {% endif %}
+        </div>
+
+      {% endfor %}
+
+      </div> 
+
+      <div class="col-12">
+        <p class="text-danger">* Campos obligatorios</p>
+      </div>
+
+      {% comment %} 
+      <div class="my-2 mx-5 d-flex flex-column text-start">
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.concept.id_for_label label_text=form.concept.label_tag input=form.concept %} 
+          {{ form.concept.errors }}
+        </div>
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.amount.id_for_label label_text=form.amount.label_tag input=form.amount %} 
+          {{ form.amount.errors }}
+        </div>
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.date.id_for_label label_text=form.date.label_tag input=form.date  %}
+          {{ form.date.errors }}
+        </div>
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.paid.id_for_label label_text=form.paid.label_tag input=form.paid  %}
+          {{ form.paid.errors }}
+        </div>
+      </div> 
+      {% endcomment %}
+      <div class="form-section mt-5 mx-5 text-center">
+        {% if form.instance.id %}
+          {% with button_text="Actualizar" %}
+            {% include 'components/button.html' with id="submit" text=button_text variation="SUBMIT" %}
+          {% endwith %}
+        {% else %}
+          {% with button_text="Añadir servicio" %}
+            {% include 'components/button.html' with id="submit" text=button_text variation="SUBMIT" %}
+          {% endwith %}
+        {% endif %}
+      </div>
+    </div>
+</form>
+{% if form.instance.id %}
+    {% include 'components/button.html'  with id="delete" href="./delete" text="Eliminar servicio" %}
+{% endif %}
+{% endblock %}
+
+{% block rightSide %}
+<div id="calendar">
+  {% include 'components/calendar.html' %}
+</div>
+{% endblock %}

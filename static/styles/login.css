@@ -1,0 +1,30 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.alert,
+.form-outline input,
+.form-section button {
+  width: 300px;
+  transition: width 0.3s ease-in-out;
+}
+
+.title {
+  border-bottom: none !important;
+}
+
+.fit-width {
+  width: fit-content;
+}
+
+@media (min-width: 768px) {
+  .alert,
+  .form-outline input,
+  .form-section button {
+    width: 450px;
+    transition: width 0.3s ease-in-out;
+  }
+}

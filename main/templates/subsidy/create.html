@@ -1,0 +1,195 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block content %}
+<div id="section-subsidy">
+  {% for message in messages %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endfor %}
+  {% if form.instance.id %}
+      {% include 'components/title.html' with title="Editar subvención" %}
+  {% else %}
+      {% include 'components/title.html' with title="Añadir subvención" %}
+  {% endif %}
+  <form method="post" enctype='multipart/form-data' action="">
+    {% csrf_token %}
+      <div class="row mx-5">
+        <div class="col-sm-12 col-lg-6 my-3">
+        {% include "components/inputs.html" with id=form.name.id_for_label label_text=field.label_tag|safe|add:'Nombre<span class="text-danger"> *</span>' input=form.name %} 
+      
+        {{ form.name.errors }}
+
+        </div>
+        <div class="col-sm-12 col-lg-6 my-3">
+          {% include "components/inputs.html" with id=form.organism.id_for_label label_text=field.label_tag|safe|add:'Organismo<span class="text-danger"> *</span>' input=form.organism %} 
+          {{ form.organism.errors }}
+    
+        </div>
+      </div>
+      <div class="row mx-5">
+          <div class="col-sm-12 col-lg-6 my-3">
+            {% include "components/inputs.html" with id=form.presentation_date.id_for_label label_text="Fecha de presentación" input=form.presentation_date %} 
+            {{ form.presentation_date.errors }}
+          </div>
+          <div class="col-sm-12 col-lg-6 my-3">
+            {% include "components/inputs.html" with id=form.payment_date.id_for_label label_text="Fecha de pago" input=form.payment_date %} 
+            {{ form.payment_date.errors }}
+            <div id="message-dates-pay"></div>
+
+
+          </div>
+      </div>
+      <div class="row mx-5">
+          <div class="col-sm-12 col-lg-6 my-3">
+            {% include "components/inputs.html" with id=form.provisional_resolution.id_for_label label_text="Fecha de resolución provisional" input=form.provisional_resolution %} 
+            {{ form.provisional_resolution.errors }}
+            <div id="message-dates-prov"></div>
+
+      
+          </div>
+          <div class="col-sm-12 col-lg-6 my-3">
+            {% include "components/inputs.html" with id=form.final_resolution.id_for_label label_text="Fecha de resolución final" input=form.final_resolution %} 
+            {{ form.final_resolution.errors }}
+            <div id="message-dates"></div>
+            <div id="message-dates-2"></div>
+            <div id="message-dates-3"></div>
+
+
+
+    
+          </div>
+      </div>
+
+      <div class="row mx-5">
+        <div class="col-sm-12 col-lg-6 my-3">
+          {% include "components/inputs.html" with id=form.presentation_justification_date.id_for_label label_text="Fecha de presentación de la justificación" input=form.presentation_justification_date %} 
+          {{ form.provisional_resolution.errors }}
+          <div id="message-dates-prov"></div>
+
+    
+        </div>
+        <div class="col-sm-12 col-lg-6 my-3">
+          {% include "components/inputs.html" with id=form.notes.id_for_label label_text="Observaciones" input=form.notes %} 
+          {{ form.final_resolution.errors }}
+          <div id="message-dates"></div>
+          <div id="message-dates-2"></div>
+          <div id="message-dates-3"></div>
+
+
+
+  
+        </div>
+
+        <div class="col-sm-12 col-lg-6 my-3">
+          {% include "components/inputs.html" with id=form.document.id_for_label label_text="Documento" input=form.document %} 
+          {{ form.document.errors }}
+        </div>
+    </div>
+
+      <div class="row mx-5">
+          <div class="col-sm-12 col-lg-6 my-3">
+            {% include "components/inputs.html" with id=form.amount.id_for_label label_text=field.label_tag|safe|add:'Cantidad<span class="text-danger"> *</span>' input=form.amount %} 
+            {{ form.amount.errors }}
+          </div>
+          <div class="col-sm-12 col-lg-6 my-3">
+            {% include "components/inputs.html" with id=form.status.id_for_label label_text=field.label_tag|safe|add:'Estado<span class="text-danger"> *</span>' input=form.status %} 
+            {{ form.status.errors }}
+          </div>
+
+          <div class="col-12 pt-1">
+            <p class="text-danger">* Campos obligatorios</p>
+        </div>  
+      
+         
+        </div>
+      <div class="form-section mt-5 mx-5 text-center">
+        {% if form.instance.id %}
+        {% with button_text="Actualizar" %}
+            {% include 'components/button.html' with text=button_text id="id-submitForm" variation="SUBMIT" %}
+        {% endwith %}
+        {% else %}
+        {% with button_text="Registrar subvención" %}
+            {% include 'components/button.html' with text=button_text id="id-submitForm" variation="SUBMIT" %}
+        {% endwith %}
+        {% endif %}
+      </div>
+  </form>
+</div>
+
+
+<script type="text/javascript">
+  let startInput = document.getElementById('id_provisional_resolution');
+  let endInput = document.getElementById('id_final_resolution');
+  let presentationInput = document.getElementById('id_presentation_date');
+  let paymentInput = document.getElementById('id_payment_date');
+  let provisionalInput = document.getElementById('id_provisional_resolution');
+
+  let messageDiv = document.getElementById('message-dates');
+  let messageDiv2 = document.getElementById('message-dates-2');
+  let messageDiv3 = document.getElementById('message-dates-3');
+
+  let messagePayDiv = document.getElementById('message-dates-pay');
+  let messageProvDiv = document.getElementById('message-dates-prov');
+
+  messageDiv.setAttribute('class', 'text-danger')
+  messagePayDiv.setAttribute('class', 'text-danger')
+  messageProvDiv.setAttribute('class', 'text-danger')
+  messageDiv2.setAttribute('class', 'text-danger')
+  messageDiv3.setAttribute('class', 'text-danger')
+
+  let submitButton = document.getElementById('id-submitForm');
+
+  let compare = () => {
+    let startValue = (new Date(startInput.value)).getTime();
+    let endValue = (new Date(endInput.value)).getTime();
+    let presentationValue = (new Date(presentationInput.value)).getTime();
+    let paymentValue = (new Date(paymentInput.value)).getTime();
+    let provisionalValue = (new Date(provisionalInput.value)).getTime();
+
+    submitButton.disabled = true
+
+
+
+    if (paymentValue < presentationValue) {
+      messagePayDiv.innerHTML = 'La fecha de pago debe ser posterior a la fecha de presentación';
+    } else {
+      messagePayDiv.innerHTML = '';
+    }
+    if (endValue < presentationValue) {
+      messageDiv.innerHTML = 'La fecha de resolución final debe ser posterior a la fecha de presentación';
+    } else {
+      messageDiv.innerHTML = '';
+    }
+    if (provisionalValue < presentationValue ) {
+      messageProvDiv.innerHTML = 'La fecha de resolución provisional no puede ser anterior a la fecha de presentación ';
+    } else {
+      messageProvDiv.innerHTML = '';
+    }
+   
+    if (provisionalValue > endValue) {
+      messageDiv2.innerHTML = 'La fecha de resolución final debe ser posterior a la fecha de resolución provisional';
+    }else{
+      messageDiv2.innerHTML = '';
+    }
+
+
+    if(((endValue > presentationValue) || !endInput.value) && ((paymentValue > presentationValue) || !paymentInput.value)  && ((provisionalValue > presentationInput) || !provisionalValue.value) &&(( endValue >  presentationValue) || !endInput.value) ) {
+            submitButton.disabled = false
+        }
+    
+  }
+
+  startInput.addEventListener('change', compare);
+  endInput.addEventListener('change', compare);
+  paymentInput.addEventListener('change', compare);
+  presentationInput.addEventListener('change', compare);
+  provisionalInput.addEventListener('change', compare);
+
+
+
+</script>
+{% endblock %}
+

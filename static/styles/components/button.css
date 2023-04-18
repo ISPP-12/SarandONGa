@@ -1,0 +1,65 @@
+.btn {
+  /* Background color should be added based on the section */
+  transition: background-color 0.2s ease-in-out, scale 0.05s ease-in-out;
+  scale: 1;
+}
+
+button[type="submit"] > span {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+.section-btn:active {
+  scale: 0.95;
+}
+
+/* BASE COLORS FOR SECONDARY BUTTONS */
+.secondary {
+  background-color: var(--clr-white) !important;
+}
+
+.secondary:hover,
+.secondary:active {
+  background-color: var(--gray-300) !important;
+}
+
+/* Example section
+
+.example-section .section-btn {
+  background-color: var(--main-color);
+}
+
+.example-section .section-btn:hover {
+  background-color: var(--main-color-hover);
+}
+
+.example-section .section-btn:active {
+  background-color: var(--main-color-hover) !important;
+}
+*/
+
+.form-section .section-btn {
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  transition: all 0.2s ease-out;
+}
+
+.form-section .section-btn:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-black);
+  transition: all 0.2s ease-out;
+}
+
+/* override bootstrap */
+.form-section .section-btn:active {
+  background-color: var(--clr-white) !important;
+  color: var(--clr-black);
+}

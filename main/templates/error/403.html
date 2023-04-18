@@ -1,0 +1,33 @@
+{% extends "layouts/master_full_width.html" %}
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/login.css' %}">
+<title>SarandONGa 💃 - Error 403</title>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-column justify-content-center align-items-center form-section" style="height: 85vh;">
+    <span style="width: 100px; margin-bottom: 20px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path
+                d="M367.2 412.5L99.5 144.8C77.1 176.1 64 214.5 64 256c0 106 86 192 192 192c41.5 0 79.9-13.1 111.2-35.5zm45.3-45.3C434.9 335.9 448 297.5 448 256c0-106-86-192-192-192c-41.5 0-79.9 13.1-111.2 35.5L412.5 367.2zM0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256z" />
+        </svg>
+    </span>
+
+    {% include 'components/title.html' with title="Error 403" %}
+
+    <div class="container text-center">
+        <span class="fs-5">Lo sentimos, no tienes permiso para acceder a esta página.
+            <br>
+            Si crees que esto es un error, por favor contacta al administrador del sitio.</span>
+    </div>
+
+
+    <div class=" mt-5 mb-5 col-12 d-flex justify-content-center">
+        {% include 'components/button.html' with variation="RETURN" text="Volver a la página principal" id="id-submitForm" type="submit" href='/' %}
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+nav a {
+  color: var(--clr-black) !important;
+}
+
+.navbar-brand {
+  font-family: var(--font-header);
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.navbar {
+  height: 55px;
+}
+
+.dropdown-toggle::after {
+  content: "\F282";
+  display: inline;
+  margin-left: 0;
+  vertical-align: bottom;
+  border: 0;
+  font-family: bootstrap-icons, sans-serif;
+  font-style: normal;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    height: auto;
+  }
+}
