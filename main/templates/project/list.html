@@ -162,9 +162,10 @@ displayed in the preview text (e.g. "donación")
       deleteBtn.addEventListener('click', () => {
         if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
           event.preventDefault();
+        }else{
+          sessionStorage.setItem("query", window.location.search);
         }
       })
-
     })
 
     // when resizing the window, the preview will be reset
@@ -174,9 +175,7 @@ displayed in the preview text (e.g. "donación")
       preview.classList.add('text-center')
       preview.classList.remove('p-5')
       preview.innerHTML = `<span id="prev-info">Pulsa sobre un {{ object_name }} para la vista previa</span>`
-
     })
-
   })
 
 </script>
@@ -185,6 +184,15 @@ displayed in the preview text (e.g. "donación")
   document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
       e.preventDefault();
       window.location.href = window.location.pathname;
+  });
+</script>
+
+<script>
+  window.addEventListener('load', (event) => {
+      if(sessionStorage.getItem("query")) {
+          window.location.href = window.location.href + sessionStorage.getItem("query")
+      }
+      sessionStorage.removeItem("query")
   });
 </script>
 
