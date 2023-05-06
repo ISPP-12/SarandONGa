@@ -175,8 +175,9 @@ displayed in the preview text (e.g. "donación")
       deleteBtn.addEventListener('click', () => {
         if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
           event.preventDefault();
+        }else{
+          sessionStorage.setItem("query", window.location.search);
         }
-      })
 
     })
 
@@ -190,6 +191,7 @@ displayed in the preview text (e.g. "donación")
 
     })
 
+    })
   })
 
 </script>
@@ -204,7 +206,16 @@ displayed in the preview text (e.g. "donación")
     deleteBtn.addEventListener('click', () => {
       if (!confirm('¿Estás seguro de que quieres eliminar esta donación?')) {
         event.preventDefault();
-      }
+    }else
+      sessionStorage.setItem("query", window.location.search);      
     })
+</script>
+<script>
+  window.addEventListener('load', (event) => {
+    if(sessionStorage.getItem("query")) {
+        window.location.href = window.location.href + sessionStorage.getItem("query")
+    }
+    sessionStorage.removeItem("query")
+});
 </script>
 {% endblock %}
