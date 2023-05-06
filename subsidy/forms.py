@@ -13,7 +13,7 @@ class CreateNewSubsidy(forms.ModelForm):
             'provisional_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'ong': forms.Select(attrs={'class': 'form-select w-100 mb-3', 'disabled': True}),
             'final_resolution': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'amount': forms.NumberInput(attrs={'step': "0.1", 'min': '0'}),
+            'amount': forms.NumberInput(attrs={'step': "0.01", 'min': '0'}),
         }
 
     def __init__(self, *args, **kwargs):

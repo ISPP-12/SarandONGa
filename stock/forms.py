@@ -10,7 +10,7 @@ class CreateNewStock(forms.ModelForm):
             'name': forms.TextInput(attrs={'placeholder': 'Nombre del producto', 'maxlength': '200', 'required': 'true'}),
             'model': forms.TextInput(attrs={'placeholder': 'Modelo del producto', 'maxlength': '200'}),
             'quantity': forms.NumberInput(attrs={'placeholder': 'Cantidad', 'step': '1', 'required': 'true', 'min': '0'}),
-            'amount': forms.NumberInput(attrs={'placeholder': 'Precio', 'step': "0.1", 'min': '0'}),
+            'amount': forms.NumberInput(attrs={'placeholder': 'Precio', 'step': "0.01", 'min': '0'}),
             'notes': forms.TextInput(attrs={'placeholder': 'Observaciones'})
             # 'file': forms.FileInput(attrs={'class': 'form-control-file'}),
 
