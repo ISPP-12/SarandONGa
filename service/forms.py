@@ -24,3 +24,6 @@ class CreateNewService(forms.ModelForm):
             else:
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
+        
+        # filter payments by godfather or project
+        self.fields['payment'].queryset = self.fields['payment'].queryset.filter(godfather__isnull=True) & self.fields['payment'].queryset.filter(project__isnull=True)

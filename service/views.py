@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from .forms import CreateNewService
 from .models import Service
 from person.models import ASEMUser
@@ -20,13 +21,14 @@ def service_create(request):
         if form.is_valid():
             service = form.save(commit=False)
             service.save()
-            return redirect('service_create')
+            return redirect(reverse('service_create') + '?' + request.GET.urlencode())
         else:
             messages.error(request, 'El formulario presenta errores')
 
     else:
         initial_data = {'asem_user': user}
         form = CreateNewService(initial=initial_data)
+        # filter (if self.payment.godfather is not None or self.payment.project is not None)
         services = Service.objects.all()
         events = []
         for event in services:
@@ -77,11 +79,11 @@ def service_update(request, service_id):
         form = CreateNewService(request.POST, request.FILES, instance=service)
         if form.is_valid():
             form.save()
-            return redirect('/service/create')
+            return redirect(reverse('service_create') + '?' + request.GET.urlencode())
         else:
             messages.error(request, 'Formulario con errores')
     else:
-        services = Service.objects.all()
+        services = Service.objects.all().filter(ong=request.user.ong)
         events = []
         for event in services:
             event_sub_arr = {}
