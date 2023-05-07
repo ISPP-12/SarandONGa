@@ -1,6 +1,5 @@
 from ong.models import Ong
 from person.models import Worker
-from person.views import godfather_create
 from .models import Payment, Project, GodFather
 
 from datetime import datetime, timezone
@@ -17,7 +16,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class PaymentViewTestCase(StaticLiveServerTestCase):
-    
+
     def setUp(self):
         super().setUp()
         self.usersuper = Worker(
@@ -41,7 +40,7 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
             ong=self.ong,
             paid=True,
         )
-        
+
         self.godfather = GodFather.objects.create(
             name='Johny',
             surname='Deep',

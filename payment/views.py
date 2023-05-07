@@ -23,11 +23,11 @@ def payment_create(request):
     else:
         godfather = None
         project = None
-    
+
     if request.method == 'POST':
-        form = CreatePaymentForm(request.user.ong, request.POST, 
+        form = CreatePaymentForm(request.user.ong, request.POST,
                                  initial={'ong': request.user.ong, 'project': project, 'godfather': godfather})
-        
+
         if form.is_valid():
             payment = form.save(commit=False)
             payment.ong = request.user.ong
