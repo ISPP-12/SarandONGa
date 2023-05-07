@@ -70,7 +70,7 @@ def payment_update(request, payment_id):
                                      request.POST, request.FILES, instance=payment)
             if form.is_valid():
                 form.save()
-                return redirect('payment_create')
+                return redirect(reverse('payment_create') + '?' + request.GET.urlencode())
         else:
             all_events = Payment.objects.filter(ong=request.user.ong)
             event_arr = []
