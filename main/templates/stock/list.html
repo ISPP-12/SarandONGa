@@ -9,7 +9,7 @@
 <!-- FILTERS -->
 <div class="row h-100 my-4">
     <div class="col-12">
-        <div id="id-menuDiv" class="row justify-content-between align-items-center mb-3">
+        <div id="id-menuDiv" class="row justify-content-between align-items-center">
             <div class="btn-more-stock d-flex justify-content-between flex-wrap gap-4">
                 <div class="">
                     {% include "components/button.html" with variation="PLUS" text="A&ntilde;adir producto" href="/stock/create" id="create-button" type="button" %}
@@ -32,17 +32,17 @@
                         </div>
 
                         <div class="col-lg-3 col-md-12 col-12 mb-3">
-                            {% include "components/inputs.html" with id=form.min_quantity.id_for_label label_text="Unidades mínimas" input=form.min_quantity %} 
+                            {% include "components/inputs.html" with id=form.min_quantity.id_for_label label_text="Unidades mínimas:" input=form.min_quantity %} 
                         </div>
                         <div class="col-lg-3 col-md-12 col-12 mb-3">
-                            {% include "components/inputs.html" with id=form.max_quantity.id_for_label label_text="Unidades máximas" input=form.max_quantity %} 
+                            {% include "components/inputs.html" with id=form.max_quantity.id_for_label label_text="Unidades máximas:" input=form.max_quantity %} 
                         </div>
 
                         <div class="col-lg-3 col-md-12 col-12 mb-3">
-                            {% include "components/inputs.html" with id=form.min_amount.id_for_label label_text="Precio mínimo" input=form.min_amount %} 
+                            {% include "components/inputs.html" with id=form.min_amount.id_for_label label_text="Precio mínimo:" input=form.min_amount %} 
                         </div>
                         <div class="col-lg-3 col-md-12 col-12 mb-3">
-                            {% include "components/inputs.html" with id=form.max_amount.id_for_label label_text="Precio máximo" input=form.max_amount %} 
+                            {% include "components/inputs.html" with id=form.max_amount.id_for_label label_text="Precio máximo:" input=form.max_amount %} 
                         </div>
                     </div>
                 </div>

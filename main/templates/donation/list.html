@@ -22,16 +22,16 @@ displayed in the preview text (e.g. "donación")
   {% csrf_token %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5 mb-3">
+      <div class="col-12 col-md-12 col-lg-5">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
 
-      <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_date.id_for_label label_text="Fecha presentación después de..." input=form.min_date %} 
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.min_date.id_for_label label_text="Fecha presentación después de:" input=form.min_date %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.min_amount.id_for_label label_text="Cantidad mínima" input=form.min_amount %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.min_amount.id_for_label label_text="Cantidad mínima:" input=form.min_amount %} 
       </div>
     </div>
   </div>

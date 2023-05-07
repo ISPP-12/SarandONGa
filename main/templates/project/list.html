@@ -22,20 +22,20 @@ displayed in the preview text (e.g. "donación")
   {% csrf_token %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5 mb-3">
+      <div class="col-12 col-md-12 col-lg-5">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
 
-      <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.start_date_min.id_for_label label_text="Fecha de inicio después de..." input=form.start_date_min %} 
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.start_date_min.id_for_label label_text="Fecha de inicio después de:" input=form.start_date_min %} 
       </div>
 
-      <div class="col-lg-4 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.number_of_beneficiaries_min.id_for_label label_text="Número beneficiarios mínimo" input=form.number_of_beneficiaries_min %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.number_of_beneficiaries_min.id_for_label label_text="Número beneficiarios mínimo:" input=form.number_of_beneficiaries_min %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad solicitada mínima" input=form.amount_min %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad solicitada mínima:" input=form.amount_min %} 
       </div>
     </div>
   </div>

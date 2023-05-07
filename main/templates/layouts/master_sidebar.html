@@ -31,7 +31,7 @@ BLOCKS IN THIS LAYOUT
   <div class="row complete h-100">
 
     <div id="previewContainer" class="pt-4 px-0 col-md-4 ">
-      <div id="preview" class="w-100 h-100 fs-4 text-center d-flex flex-column justify-content-between">
+      <div id="preview">
         {% if object_name == 'donación' or object_name == 'subvención' or object_name == 'casa' %}
           <span id="prev-info" class="p-4">Pulsa sobre una {{ object_name }} para la vista previa</span>
         {% else %}
@@ -47,40 +47,34 @@ BLOCKS IN THIS LAYOUT
         {% include 'components/title.html' with title=title %}
 
         <div class="col-12 mb-4">
-          <div class="row justify-content-between align-items-center mb-3">
-            <div class="col-12 col-md-6 justify-content-end mb-md-0 mb-3">
-              
-              {%block botonPrimario%}{%endblock%}
+          <div class="over-list-section">
 
-
-              
-
-
+            <div class="main-buttons">
+              {% comment %} PRIMARY BTN {% endcomment %}
+              {% comment %} <div class="col-12 col-md-6 justify-content-end mb-md-0"> {% endcomment %}
+                  {%block botonPrimario%}{%endblock%}
+              {% comment %} </div> {% endcomment %}
+              {% comment %} DOWNLOAD BTN {% endcomment %}
+              {% if object_name_en == "user" or object_name_en == "child" or object_name_en == "godfather" or object_name_en == "volunteer" %}
+              {% comment %} <div class="col-4 col-md-4 d-flex justify-content-end">
+                  <div class="px-1"> {% endcomment %}
+                    
+                  <form method="POST">
+                    {% csrf_token %}
+                    {% include "components/button.html" with variation="EXCEL" text="Descargar" type="submit" onclick="" secondary=True %}
+                </form>            
+                {% comment %} </div>
+              </div> {% endcomment %}
+              {% endif %}
             </div>
-            {% if object_name_en == "user" or object_name_en == "child" or object_name_en == "godfather" or object_name_en == "volunteer" %}
-            <div class="col-4 col-md-4 d-flex justify-content-end mb-3">
-                <div class="px-1">
-                  
-                <form method="POST" class="my-3">
-                  {% csrf_token %}
-                  {% include "components/button.html" with variation="EXCEL" text="Descargar" type="submit" onclick="" secondary=True %}
-              </form>            
-              </div>
-            </div>
-            {% endif %}
 
-            
-
-
-          <div class="row">
-              <div class="col-12 col-md-12 mb-3">
+            <div class="filters row">
+              <div class="col-12 col-md-12">
                 {% block filters %}
                 {% endblock %}
               </div>
-
-
-
-              
+            </div>
+          
           </div>
         </div>
         
