@@ -111,10 +111,16 @@
     
                       </ul>
                     </div><!-- /  CONTENT BOX-->
-          
-                    <div class="pricingTable-sign-up"><!-- BUTTON BOX-->
-                        {% include 'components/button.html' with href='login/' id='getway' variation='SUBMIT' text='Acceder'%}
+
+                    {% if plan == 'B' %}
+                    <div class="pricingTable-sign-up " style="margin: 3px;"><!-- BUTTON BOX-->
+                      <span class="heading">Adquirido</span>
                     </div><!-- BUTTON BOX-->
+                    {% else %}
+                    <div class="pricingTable-sign-up " style="margin: 19px;"><!-- BUTTON BOX-->
+                    </div><!-- BUTTON BOX-->
+                    {% endif %}
+
                   </div>
                 </div>
           
@@ -140,10 +146,15 @@
                       </ul>
                     </div><!-- /  CONTENT BOX-->
           
+                    {% if plan == 'B' %}
                     <div class="pricingTable-sign-up"><!-- BUTTON BOX-->
                         {% include 'components/button.html' with href='gateway/' id='getway' variation='SUBMIT' text='Contratar'%}
-    
                     </div><!-- BUTTON BOX-->
+                    {% else %}
+                    <div class="pricingTable-sign-up " style="margin: 3px;"><!-- BUTTON BOX-->
+                      <span class="heading">Adquirido</span>
+                    </div><!-- BUTTON BOX-->
+                    {% endif %}
                   </div>
                 </div>
               </div>
