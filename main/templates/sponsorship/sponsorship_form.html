@@ -47,6 +47,11 @@
                         {% endwith %}
                     {% else %}
                         {% include 'components/inputs.html' with id=field.id_for_label label_text=field.label_tag input=field %}
+                        {% if field.field.widget.input_type == 'select' %}
+                            <span class="text-muted fst-italic">
+                                Para seleccionar varias opciones o deseleccionar mantenga presionada la tecla Ctrl y seleccione las opciones deseadas.
+                            </span>
+                        {% endif %}
                     {% endif %}
                 </div>
                 <div class="row text-danger">
