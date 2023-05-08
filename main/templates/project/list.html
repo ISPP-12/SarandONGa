@@ -157,16 +157,16 @@ displayed in the preview text (e.g. "donación")
         </div>
       `
       }
-
-      let deleteBtn = document.querySelector('#delete-button')
-      deleteBtn.addEventListener('click', () => {
+      let deleteBtn = document.querySelectorAll('#delete-button')
+      deleteBtn.forEach(e => e.addEventListener('click', () => {
         if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
           event.preventDefault();
         }else{
           sessionStorage.setItem("query", window.location.search);
         }
-      })
+      }))
     })
+
 
     // when resizing the window, the preview will be reset
     window.addEventListener('resize', () => {
@@ -186,7 +186,16 @@ displayed in the preview text (e.g. "donación")
       window.location.href = window.location.pathname;
   });
 </script>
-
+<script>
+  let deleteBtn = document.querySelectorAll('#delete-button')
+  deleteBtn.forEach(e => e.addEventListener('click', () => {
+    if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+      event.preventDefault();
+    }else{
+      sessionStorage.setItem("query", window.location.search);
+    }
+  }))
+</script>
 <script>
   window.addEventListener('load', (event) => {
       if(sessionStorage.getItem("query")) {
