@@ -112,6 +112,8 @@
   width: 100%;
   align-items: stretch;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5em;
 }
 
 /* TEXT OVERFLOW */
