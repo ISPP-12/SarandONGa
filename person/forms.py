@@ -150,7 +150,7 @@ class CreateNewGodFather(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'amount': forms.NumberInput(attrs={'step': "0.01"}),
+            'amount': forms.NumberInput(attrs={'step': "0.01", 'min': '1'}),
             'sex': forms.Select(attrs={'step': "0.01"}),
             'payment_method': forms.Select(choices=PAYMENT_METHOD),
         }
@@ -202,6 +202,7 @@ class CreateNewASEMUser(forms.ModelForm):
         exclude = ['id', 'ong']  # ong should be ASEM
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'family_unit_size': forms.NumberInput(attrs={'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -407,7 +408,7 @@ class CreateNewVolunteer(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'dedication_time': forms.NumberInput(attrs={'step': "0.01", 'min': 0}),
+            'dedication_time': forms.NumberInput(attrs={'step': "0.1", 'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):
