@@ -64,6 +64,8 @@ class CreateNewProject(forms.ModelForm):
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'end_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'announcement_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'amount': forms.NumberInput(attrs={'step': '0.1', 'min': 1}),
+            'number_of_beneficiaries': forms.NumberInput(attrs={'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):
