@@ -46,8 +46,15 @@ def payment_create(request):
     else:
         form = CreatePaymentForm(request.user.ong,
                                  initial={'ong': request.user.ong, 'project': project, 'godfather': godfather, 'home': home})
-
-    all_events = Payment.objects.filter(ong=request.user.ong)
+    all_events = None
+    if 'godfather' in request.GET:
+        all_events = Payment.objects.filter(ong=request.user.ong, godfather=request.GET.get("godfather"))
+    elif 'project' in request.GET:
+        all_events = Payment.objects.filter(ong=request.user.ong, project=request.GET.get("project"))
+    elif 'home' in request.GET:
+        all_events = Payment.objects.filter(ong=request.user.ong, home=request.GET.get("home"))
+    else:
+        all_events = Payment.objects.filter(ong=request.user.ong)
     event_arr = []
     for i in all_events:
         event_sub_arr = {}
@@ -78,7 +85,15 @@ def payment_update(request, payment_id):
                 form.save()
                 return redirect(reverse('payment_create') + '?' + request.GET.urlencode())
         else:
-            all_events = Payment.objects.filter(ong=request.user.ong)
+            all_events = None
+            if 'godfather' in request.GET:
+                all_events = Payment.objects.filter(ong=request.user.ong, godfather=request.GET.get("godfather"))
+            elif 'project' in request.GET:
+                all_events = Payment.objects.filter(ong=request.user.ong, project=request.GET.get("project"))
+            elif 'home' in request.GET:
+                all_events = Payment.objects.filter(ong=request.user.ong, home=request.GET.get("home"))
+            else:
+                all_events = Payment.objects.filter(ong=request.user.ong)
             event_arr = []
             for i in all_events:
                 event_sub_arr = {}
