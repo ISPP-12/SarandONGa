@@ -8,14 +8,13 @@ class CreatePaymentForm(forms.ModelForm):
         exclude = ['id', 'ong']
         widgets = {
             'payday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.01", "min": 0, "placeholder": "Escriba una cantidad"}),
+            'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.1", "min": 0, "placeholder": "Escriba una cantidad"}),
             'concept': forms.TextInput(attrs={"placeholder": "Introduzca un concepto"}),
 
         }
 
     def __init__(self, ong, *args, **kwargs):
         super(CreatePaymentForm, self).__init__(*args, **kwargs)
-        print(ong)
         if ong.name == "ASEM":
             self.fields.pop('godfather')
             self.fields.pop('project')

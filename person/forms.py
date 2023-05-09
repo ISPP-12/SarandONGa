@@ -1,5 +1,5 @@
 from django import forms
-from .models import ASEMUSER_TYPE, CONDITION, MEMBER, STATUS, VOLUNTEER_TYPE, GodFather, ASEMUser, Worker, Child, SEX_TYPES, CORRESPONDENCE, Volunteer
+from .models import ASEMUSER_TYPE, CONDITION, MEMBER, STATUS, VOLUNTEER_TYPE, GodFather, ASEMUser, Worker, Child, SEX_TYPES, Volunteer
 from localflavor.es.forms import ESIdentityCardNumberField
 from localflavor.generic.forms import IBANFormField
 from localflavor.generic.countries.sepa import IBAN_SEPA_COUNTRIES
@@ -11,32 +11,43 @@ PAYMENT_METHOD = (
     ('E', 'Efectivo'),
 )
 
+
 class FilterAsemUserForm(forms.Form):
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
-    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a después del")
+    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a antes del")
     sex_choices = [('', '--Seleccione--')] + list(SEX_TYPES)
-    sex = forms.ChoiceField(choices=sex_choices, required=False, label="Género")
+    sex = forms.ChoiceField(choices=sex_choices,
+                            required=False, label="Género")
     status_choices = [('', '--Seleccione--')] + list(STATUS)
-    status = forms.ChoiceField(choices=status_choices, required=False, label="Estado civil")
+    status = forms.ChoiceField(
+        choices=status_choices, required=False, label="Estado civil")
     condition_choices = [('', '--Seleccione--')] + list(CONDITION)
-    condition = forms.ChoiceField(choices=condition_choices, required=False, label="Condición")
+    condition = forms.ChoiceField(
+        choices=condition_choices, required=False, label="Condición")
     member_choices = [('', '--Seleccione--')] + list(MEMBER)
-    member = forms.ChoiceField(choices=member_choices, required=False, label="Miembro")
+    member = forms.ChoiceField(
+        choices=member_choices, required=False, label="Miembro")
     user_type_choices = [('', '--Seleccione--')] + list(ASEMUSER_TYPE)
-    user_type = forms.ChoiceField(choices=user_type_choices, required=False, label="Tipo de usuario")
+    user_type = forms.ChoiceField(
+        choices=user_type_choices, required=False, label="Tipo de usuario")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
-                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
-                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input'})
             else:
-                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control', 'style': 'display:block'})
 
         # We assign the values ​​of the filters as initial values
         self.fields['qsearch'].initial = self.data.get('qsearch')
@@ -48,29 +59,38 @@ class FilterAsemUserForm(forms.Form):
         self.fields['member'].initial = self.data.get('member')
         self.fields['user_type'].initial = self.data.get('user_type')
 
-    
+
 class FilterGodfatherForm(forms.Form):
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
-    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a después del")
+    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a antes del")
     sex_choices = [('', '--Seleccione--')] + list(SEX_TYPES)
-    sex = forms.ChoiceField(choices=sex_choices, required=False, label="Género")
+    sex = forms.ChoiceField(choices=sex_choices,
+                            required=False, label="Género")
     status_choices = [('', '--Seleccione--')] + list(STATUS)
-    status = forms.ChoiceField(choices=status_choices, required=False, label="Estado civil")
-    amount_min = forms.FloatField(required=False, widget=forms.NumberInput(attrs={'min': 0}), label="Precio mínimo de donación")
-    amount_max = forms.FloatField(required=False, widget=forms.NumberInput(attrs={'min': 0}), label="Precio máximo de donación")
+    status = forms.ChoiceField(
+        choices=status_choices, required=False, label="Estado civil")
+    amount_min = forms.FloatField(required=False, widget=forms.NumberInput(
+        attrs={'min': 0}), label="Precio mínimo de donación")
+    amount_max = forms.FloatField(required=False, widget=forms.NumberInput(
+        attrs={'min': 0}), label="Precio máximo de donación")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
-                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
-                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input'})
             else:
-                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control', 'style': 'display:block'})
 
         # We assign the values ​​of the filters as initial values
         self.fields['qsearch'].initial = self.data.get('qsearch')
@@ -83,24 +103,35 @@ class FilterGodfatherForm(forms.Form):
 
 
 class FilterVolunteerForm(forms.Form):
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
-    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a después del")
+    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a antes del")
     sex_choices = [('', '--Seleccione--')] + list(SEX_TYPES)
-    sex = forms.ChoiceField(choices=sex_choices, required=False, label="Género")
+    sex = forms.ChoiceField(choices=sex_choices,
+                            required=False, label="Género")
     volunteer_type_choices = [('', '--Seleccione--')] + list(VOLUNTEER_TYPE)
-    volunteer_type = forms.ChoiceField(choices=volunteer_type_choices, required=False, label="Tipo de voluntario")
+    volunteer_type = forms.ChoiceField(
+        choices=volunteer_type_choices, required=False, label="Tipo de voluntario")
+    is_contributor = forms.ChoiceField(choices=[(
+        '', '--Seleccione--'), (True, 'Sí'), (False, 'No')], required=False, label="¿Es colaborador?")
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, ong, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
+        if ong.name != "ASEM":
+            self.fields.pop('is_contributor')
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
-                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
-                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input'})
             else:
-                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control', 'style': 'display:block'})
 
         # We assign the values ​​of the filters as initial values
         self.fields['qsearch'].initial = self.data.get('qsearch')
@@ -119,7 +150,7 @@ class CreateNewGodFather(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'start_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
             'termination_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'amount': forms.NumberInput(attrs={'step': "0.01"}),
+            'amount': forms.NumberInput(attrs={'step': "0.01", 'min': '1'}),
             'sex': forms.Select(attrs={'step': "0.01"}),
             'payment_method': forms.Select(choices=PAYMENT_METHOD),
         }
@@ -145,10 +176,14 @@ class CreateNewGodFather(forms.ModelForm):
         self.fields['bank_account_reference'].required = False
         self.fields['bank_account_holder'].required = False
         self.fields['email'].required = True
-        self.fields['bank_account_number'].widget.attrs.update({'class': 'form-control'})
-        self.fields['bank_account_reference'].widget.attrs.update({'class': 'form-control'})
-        self.fields['bank_account_holder'].widget.attrs.update({'class': 'form-control'})
-        self.fields['payment_method'].widget.attrs.update({'class': 'form-control', 'id': 'id_payment_method'})
+        self.fields['bank_account_number'].widget.attrs.update(
+            {'class': 'form-control'})
+        self.fields['bank_account_reference'].widget.attrs.update(
+            {'class': 'form-control'})
+        self.fields['bank_account_holder'].widget.attrs.update(
+            {'class': 'form-control'})
+        self.fields['payment_method'].widget.attrs.update(
+            {'class': 'form-control', 'id': 'id_payment_method'})
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
@@ -167,6 +202,7 @@ class CreateNewASEMUser(forms.ModelForm):
         exclude = ['id', 'ong']  # ong should be ASEM
         widgets = {
             'birth_date': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'family_unit_size': forms.NumberInput(attrs={'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -187,7 +223,8 @@ class CreateNewWorker(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirmar contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Confirmar contraseña', widget=forms.PasswordInput)
 
     class Meta:
         model = Worker
@@ -219,12 +256,13 @@ class CreateNewWorker(forms.ModelForm):
         regex = r"^(?=.*[A-Za-z]).{8,}$"
         if password1 and password2 and password1 != password2:
             raise forms.ValidationError("Las contraseñas no coinciden.")
-        
+
         if re.match(regex, password2):
             return password2
         else:
-            raise forms.ValidationError("La contraseña debe tener 8 caracteres o más, y no debe ser exclusivamente numérica.")
-        
+            raise forms.ValidationError(
+                "La contraseña debe tener 8 caracteres o más, y no debe ser exclusivamente numérica.")
+
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(CreateNewWorker, self).save(commit=False)
@@ -264,23 +302,30 @@ class UpdateWorker(forms.ModelForm):
             user.save()
         return user
 
+
 class FilterWorkerForm(forms.Form):
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
-    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a después del")
+    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a antes del")
     sex_choices = [('', '--Seleccione--')] + list(SEX_TYPES)
-    sex = forms.ChoiceField(choices=sex_choices, required=False, label="Género")
+    sex = forms.ChoiceField(choices=sex_choices,
+                            required=False, label="Género")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
-                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
-                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input'})
             else:
-                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control', 'style': 'display:block'})
 
         # We assign the values ​​of the filters as initial values
         self.fields['qsearch'].initial = self.data.get('qsearch')
@@ -290,8 +335,6 @@ class FilterWorkerForm(forms.Form):
 
 
 class CreateNewChild(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        self.fields['email'].required = False
 
     class Meta:
         model = Child
@@ -305,6 +348,7 @@ class CreateNewChild(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CreateNewChild, self).__init__(*args, **kwargs)
+        self.fields['email'].required = False
         for field in self.fields:
             if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
                 self.fields[field].widget.attrs.update(
@@ -316,26 +360,35 @@ class CreateNewChild(forms.ModelForm):
                 self.fields[field].widget.attrs.update(
                     {'class': 'form-control'})
 
+
 class FilterChildForm(forms.Form):
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    qsearch = forms.CharField(max_length=100, required=False , label="Búsqueda")
-    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a después del")
-    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(attrs={'type': 'date'}), label="Nacido/a antes del")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    qsearch = forms.CharField(max_length=100, required=False, label="Búsqueda")
+    birth_date_min = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a después del")
+    birth_date_max = forms.DateField(required=False, widget=forms.DateInput(
+        attrs={'type': 'date'}), label="Nacido/a antes del")
     sex_choices = [('', '--Seleccione--')] + list(SEX_TYPES)
-    sex = forms.ChoiceField(choices=sex_choices, required=False, label="Género")
-    is_older = forms.ChoiceField(choices=[('', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Es mayor de edad?")
-    is_sponsored = forms.ChoiceField(choices=[('', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Está apadrinado/a?")
+    sex = forms.ChoiceField(choices=sex_choices,
+                            required=False, label="Género")
+    is_older = forms.ChoiceField(choices=[(
+        '', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Es mayor de edad?")
+    is_sponsored = forms.ChoiceField(choices=[(
+        '', '--Seleccione--'), ('S', 'Sí'), ('N', 'No')], required=False, label="¿Está apadrinado/a?")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.method = 'GET'
         for field in self.fields:
-            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ModelChoiceField)):
-                self.fields[field].widget.attrs.update({'class': 'form-select', 'style': 'display:block'})
+            if (isinstance(self.fields[field], forms.TypedChoiceField) or isinstance(self.fields[field], forms.ChoiceField)):
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-select', 'style': 'display:block'})
             elif (isinstance(self.fields[field], forms.BooleanField)):
-                self.fields[field].widget.attrs.update({'class': 'form-check-input'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-check-input'})
             else:
-                self.fields[field].widget.attrs.update({'class': 'form-control', 'style': 'display:block'})
+                self.fields[field].widget.attrs.update(
+                    {'class': 'form-control', 'style': 'display:block'})
 
         # We assign the values ​​of the filters as initial values
         self.fields['qsearch'].initial = self.data.get('qsearch')
@@ -355,7 +408,7 @@ class CreateNewVolunteer(forms.ModelForm):
             'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_start_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
             'contract_end_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}, format='%Y-%m-%d'),
-            'dedication_time': forms.NumberInput(attrs={'step': "0.01", 'min': 0}),
+            'dedication_time': forms.NumberInput(attrs={'step': "0.1", 'min': 0}),
         }
 
     def __init__(self, *args, **kwargs):

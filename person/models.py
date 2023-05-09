@@ -257,9 +257,6 @@ class GodFather(Person):
                     "la fecha de terminación no puede ser menor que la fecha de nacimiento")
         super(GodFather, self).save(*args, **kwargs)
 
-    def __str__(self):
-        return self.surname + ', ' + self.name
-
     class Meta:
         ordering = ['name']
         verbose_name = 'Padrino'

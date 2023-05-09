@@ -2,20 +2,21 @@ from datetime import date
 from time import sleep
 import datetime
 from ong.models import Ong
-from .models import Volunteer,Worker
+from .models import Volunteer, Worker
 # SELENIUM IMPORTS
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+
 class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
     def setUp(self):
         super().setUp()
-        
+
         self.ong = Ong(name='VidesSur')
         self.ong.save()
 
-        self.test_volunteer_1 =  Volunteer(
+        self.test_volunteer_1 = Volunteer(
             name='John',
             surname='Smith',
             email='johnsmith@gmail.com',
@@ -38,8 +39,8 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
             volunteer_type='Otro',
             ong=self.ong
         )
-       
-        self.test_volunteer_2 =  Volunteer(
+
+        self.test_volunteer_2 = Volunteer(
             name='Gabriel',
             surname='Moreno',
             email='gabrimoreno@gmail.com',
@@ -62,17 +63,15 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
             volunteer_type='Otro',
             ong=self.ong
         )
-        
 
         self.test_volunteer_1.save()
         self.test_volunteer_2.save()
-
 
         self.usersuper = Worker(
             email="test@email.com",
             name="Test Person",
             surname="Test Apellido",
-            birth_date=datetime.datetime(2001,3,14),
+            birth_date=datetime.datetime(2001, 3, 14),
             sex='F',
             city='Test Ciudad',
             address='Test Calle',
@@ -87,13 +86,13 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
         options = webdriver.ChromeOptions()
         options.headless = True
         self.driver = webdriver.Chrome(options=options)
-        self.driver.set_window_size(1920,1080)
+        self.driver.set_window_size(1920, 1080)
 
         self.driver.get(f'{self.live_server_url}/login/')
-        self.driver.find_element(By.ID,"id_username").send_keys('test@email.com')
-        self.driver.find_element(By.ID,"id_password").send_keys('adminTest')
-        self.driver.find_element(By.ID,"id-submitForm").click()
-
+        self.driver.find_element(
+            By.ID, "id_username").send_keys('test@email.com')
+        self.driver.find_element(By.ID, "id_password").send_keys('adminTest')
+        self.driver.find_element(By.ID, "id-submitForm").click()
 
     def tearDown(self):
         self.driver.quit()
@@ -105,37 +104,37 @@ class UserListViewTestCaseVidessur(StaticLiveServerTestCase):
     def test_access_volunteer_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/user/volunteer/list')
-        volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{self.test_volunteer_2.id}")
+        volunteer_div = self.driver.find_element(
+            By.ID, f"card-list-item-{self.test_volunteer_2.id}")
         self.assertTrue(volunteer_div)
 
         # Check the test item appears
-        #test_volunteer_email = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-email").text
-        #self.assertTrue(test_volunteer_email == self.test_volunteer_2.email)
-        #test_volunteer_phone = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-telephone").text
-        #self.assertTrue(test_volunteer_phone == self.test_volunteer_2.telephone)
-        #test_volunteer_city = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-city").text
-        #self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
+        # test_volunteer_email = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-email").text
+        # self.assertTrue(test_volunteer_email == self.test_volunteer_2.email)
+        # test_volunteer_phone = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-telephone").text
+        # self.assertTrue(test_volunteer_phone == self.test_volunteer_2.telephone)
+        # test_volunteer_city = volunteer_div.find_element(By.CSS_SELECTOR,"div.col-city").text
+        # self.assertTrue(test_volunteer_city == self.test_volunteer_2.city)
 
-    
     def test_delete_volunteer_view(self):
         # Check access
         self.driver.get(f'{self.live_server_url}/user/volunteer/list')
-        volunteer_div=self.driver.find_element(By.ID,"section-volunteer")
+        volunteer_div = self.driver.find_element(By.ID, "section-volunteer")
 
         # Check the test item appears
-        volunteer_div=self.driver.find_element(By.ID,f"card-list-item-{self.test_volunteer_2.id}")
-     
+        volunteer_div = self.driver.find_element(
+            By.ID, f"card-list-item-{self.test_volunteer_2.id}")
+
         self.assertTrue(volunteer_div)
         volunteer_div.click()
 
         # Check the item is removed
         before_count = Volunteer.objects.count()
-        self.driver.find_element(By.ID,"delete-button").click()
+        self.driver.find_element(By.ID, "delete-button").click()
 
         confirmation = self.driver.switch_to.alert
         confirmation.accept()
         sleep(1)
 
         after_count = Volunteer.objects.count()
-        self.assertTrue(before_count == after_count+1 )
-    
+        self.assertTrue(before_count == after_count+1)

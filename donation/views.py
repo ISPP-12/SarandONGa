@@ -10,6 +10,7 @@ from main.views import custom_403
 from django.core.paginator import Paginator
 from django.db.models import Q
 
+
 class CustomJSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime):
@@ -36,7 +37,7 @@ def donation_create(request):
         else:
             messages.error(request, 'Formulario con errores')
 
-    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Registrar donación", "page_title": "SarandONGa 💃 - Añadir donación"})
+    return render(request, 'donation/create.html', {"form": form, 'object_name': 'donación', "button_text": "Registrar donación", "page_title": "SarandONGa 💃 - Añadir donación"})
 
 
 @login_required
@@ -63,7 +64,7 @@ def donation_list(request):
 
     donations_json = json.dumps(donations_dict, cls=CustomJSONEncoder)
 
-    query_str=""
+    query_str = ""
     keys = request.GET.keys()
     if "qsearch" in keys:
         query_str = "&qsearch="
@@ -99,8 +100,10 @@ def donation_list(request):
 
     return render(request, 'donation/list.html', context)
 
+
 def is_valid_queryparam(param):
     return param != '' and param is not None
+
 
 def donation_filter(queryset, form):
 
@@ -109,28 +112,28 @@ def donation_filter(queryset, form):
     max_date = form['max_date'].value()
     min_amount = form['min_amount'].value()
     max_amount = form['max_amount'].value()
-    
+
     if q is not None:
-            if q.strip() != '':
-                queryset = queryset.filter(
-                    Q(title__icontains=q) |
-                    Q(description__icontains=q) |
-                    Q(donor_name__icontains=q) |
-                    Q(donor_surname__icontains=q) |
-                    Q(donor_dni__icontains=q) |
-                    Q(donor_address__icontains=q) |
-                    Q(donor_email__icontains=q)
-                )
+        if q.strip() != '':
+            queryset = queryset.filter(
+                Q(title__icontains=q) |
+                Q(description__icontains=q) |
+                Q(donor_name__icontains=q) |
+                Q(donor_surname__icontains=q) |
+                Q(donor_dni__icontains=q) |
+                Q(donor_address__icontains=q) |
+                Q(donor_email__icontains=q)
+            )
 
     if is_valid_queryparam(min_date):
         queryset = queryset.filter(created_date__gte=min_date)
-    
+
     if is_valid_queryparam(max_date):
         queryset = queryset.filter(created_date__lte=max_date)
-    
+
     if is_valid_queryparam(min_amount):
         queryset = queryset.filter(amount__gte=min_amount)
-    
+
     if is_valid_queryparam(max_amount):
         queryset = queryset.filter(amount__lte=max_amount)
 
@@ -152,7 +155,7 @@ def donation_update(request, donation_id):
                 messages.error(request, 'Formulario con errores')
     else:
         return custom_403(request)
-    return render(request, 'donation/create.html', {'object_name': 'donate', "form": form, "button_text": "Actualizar", 'page_title': 'SarandONGa 💃 - Actualizar Donación'})
+    return render(request, 'donation/create.html', {'object_name': 'donación', "form": form, "button_text": "Actualizar", 'page_title': 'SarandONGa 💃 - Actualizar Donación'})
 
 
 @login_required

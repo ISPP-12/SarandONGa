@@ -6,18 +6,20 @@ from person.models import Child, GodFather
 from .models import Sponsorship
 from .forms import CreateSponsorshipForm
 from xml.dom import ValidationErr
-from main.views import  videssur_required
+from main.views import videssur_required
 
 
 @login_required
 @videssur_required
 def sponsorship_create(request):
-    #check if "child" is in the request:
+    # check if "child" is in the request:
     if 'child' in request.GET:
         child = Child.objects.get(id=request.GET.get('child'))
-        active_sponsorship_exist = Sponsorship.objects.filter(child=child, termination_date=None).exists()
+        active_sponsorship_exist = Sponsorship.objects.filter(
+            child=child, termination_date=None).exists()
         if active_sponsorship_exist:
-            sponsorship_id = Sponsorship.objects.filter(child=child, termination_date=None).get().id
+            sponsorship_id = Sponsorship.objects.filter(
+                child=child, termination_date=None).get().id
             return sponsorship_edit(request, sponsorship_id)
     else:
         child = None
@@ -32,9 +34,9 @@ def sponsorship_create(request):
             sponsorship = form.save(commit=False)
             sponsorship.save()
             form.save_m2m()
-            if(godfather):
+            if (godfather):
                 return redirect('godfather_details', godfather.id)
-            elif(child):
+            elif (child):
                 return redirect('child_details', child.id)
             else:
                 return redirect('child_details', form['child'].value())
@@ -45,7 +47,6 @@ def sponsorship_create(request):
         form = CreateSponsorshipForm(initial=initial_data)
 
     return render(request, 'sponsorship/sponsorship_form.html', {'form': form, 'page_title': 'SarandONGa 💃 - Crear Apadrinamiento'})
-
 
 
 @login_required
@@ -70,7 +71,7 @@ def sponsorship_delete(request, sponsorship_id):
 
 @login_required
 @videssur_required
-def sponsorship_details(request, sponsorship_id):   #TODO
+def sponsorship_details(request, sponsorship_id):  # TODO
     sponsorship = get_object_or_404(Sponsorship, id=sponsorship_id)
     return render(request, 'sponsorship/sponsorship_details.html', {'sponsorship': sponsorship})
 

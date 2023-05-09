@@ -40,7 +40,7 @@ class Payment(models.Model):
             raise Exception(
                 "La cantidad del pago no puede ser superior a 10 dígitos")
         # check that self.amount is decimal:
-        if type(self.paid) is not bool:
+        if not isinstance(self.paid, bool):
             raise Exception("El pago debe ser un booleano")
       #  self.slug = slugify(self.project.title + ' ' + str(self.amount))
         super(Payment, self).save(*args, **kwargs)

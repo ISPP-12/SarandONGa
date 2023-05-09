@@ -45,7 +45,7 @@ class Service(models.Model):
     date = models.DateTimeField(default=timezone.now, verbose_name="Fecha")
     attendance = models.BooleanField(verbose_name="Asistencia")
     payment = models.ForeignKey(
-        payment_models.Payment, verbose_name="Pago", on_delete=models.SET_NULL, null=True, blank = True)
+        payment_models.Payment, verbose_name="Pago", on_delete=models.SET_NULL, null=True, blank=True)
     asem_user = models.ForeignKey(
         person_models.ASEMUser, verbose_name="Usuario ASEM", on_delete=models.CASCADE)
    # slug = models.SlugField(max_length=200, unique=True, editable=False)
@@ -61,14 +61,13 @@ class Service(models.Model):
         return self.service_type + ' - ' + str(self.date) + ' - ' + self.asem_user.surname + ', ' + self.asem_user.name
 
     def save(self, *args, **kwargs):
-       
+
         if self.payment is not None:
-                if self.payment.godfather is not None or self.payment.project is not None:
-                    raise ValidationErr(
-                        "El pago debe estar asociado a un usuario de ASEM")
+            if self.payment.godfather is not None or self.payment.project is not None:
+                raise ValidationErr(
+                    "El pago debe estar asociado a un usuario de ASEM")
         super(Service, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Sevicio'
         verbose_name_plural = 'Servicios'
-
