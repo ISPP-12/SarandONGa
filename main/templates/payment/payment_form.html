@@ -52,11 +52,10 @@
         </div>
         {% endif %}
       </div>
-      <div class="form-section mt-5 mx-5 text-center">
+      <div class="form-section mt-2 mx-5 text-center">
         {% if form.instance.id %}
-          {% with button_text="Actualizar" %}
-            {% include 'components/button.html' with id="submit" text=button_text variation="SUBMIT" %}
-          {% endwith %}
+          {% include 'components/button.html' with id="submit" text="Actualizar" variation="SUBMIT" %}
+          {% include 'components/button.html'  with id="delete" href="./delete" text="Eliminar pago" secondary=True %}
         {% else %}
           {% with button_text="Añadir pago" %}
             {% include 'components/button.html' with id="submit" text=button_text variation="SUBMIT" %}
@@ -65,9 +64,6 @@
       </div>
     </div>
 </form>
-{% if form.instance.id %}
-    {% include 'components/button.html'  with id="delete" href="./delete" text="Eliminar pago" %}
-{% endif %}
 {% endblock %}
 
 {% block rightSide %}
