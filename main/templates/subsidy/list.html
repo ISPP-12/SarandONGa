@@ -177,13 +177,14 @@
         </div>
       `
       }
-      let deleteBtn = document.querySelector('#delete-button')
-      deleteBtn.addEventListener('click', () => {
-        if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
+      let deleteBtn = document.querySelectorAll('#delete-button')
+      deleteBtn.forEach(e => e.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
           event.preventDefault();
-        }
-      })
-
+        }else{
+          sessionStorage.setItem("query", window.location.search);
+      } 
+      }))
     })
 
     // when resizing the window, the preview will be reset
@@ -200,12 +201,22 @@
 
 </script>
 <script>
-  let deleteBtn = document.querySelector('#delete-button')
-    deleteBtn.addEventListener('click', () => {
-      if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
-        event.preventDefault();
-      }
-    })
+  let deleteBtn = document.querySelectorAll('#delete-button')
+  deleteBtn.forEach(e => e.addEventListener('click', () => {
+    if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
+      event.preventDefault();
+    }else{
+      sessionStorage.setItem("query", window.location.search);
+    }
+  }))
+</script>
+<script>
+  window.addEventListener('load', (event) => {
+    if(sessionStorage.getItem("query")) {
+        window.location.href = window.location.href + sessionStorage.getItem("query")
+    }
+    sessionStorage.removeItem("query")
+});
 </script>
 <script>
   document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
@@ -213,5 +224,4 @@
       window.location.href = window.location.pathname;
   });
 </script>
-
 {% endblock %}
