@@ -6,8 +6,20 @@
 {% block leftSide %}
 {% include 'components/title2.html' with title=title %}
 
+{% if messages %}
+<div class="row">
+    {% for message in messages %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
 <form method="post" action="">
   {% csrf_token %}
+  {{ form.non_field_errors }}
     <div class="row my-4 mx-5 justify-content-center">
       
       <div class="my-2 mx-5 d-flex flex-column text-start">
