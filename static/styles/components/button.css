@@ -23,11 +23,12 @@ button:hover {
 /* BASE COLORS FOR SECONDARY BUTTONS */
 .secondary {
   background-color: var(--clr-white) !important;
+  color: var(--clr-black) !important;
 }
 
 .secondary:hover,
 .secondary:active {
-  background-color: var(--gray-300) !important;
+  background-color: var(--gray-10) !important;
 }
 
 /* Example section

@@ -157,6 +157,7 @@ displayed in the preview text (e.g. "donación")
         </div>
       `
       }
+
       let deleteBtn = document.querySelectorAll('#delete-button')
       deleteBtn.forEach(e => e.addEventListener('click', () => {
         if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
