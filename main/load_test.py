@@ -1,4 +1,4 @@
-from locust import HttpUser, SequentialTaskSet, TaskSet, task, between
+from locust import HttpUser, TaskSet, task, between
 
 """
 Para ejecutar los tests de carga:
@@ -22,11 +22,9 @@ class DefLogin(TaskSet):
 
     @task
     def login_post(self):
-        payload = {
-            "username": "admin@videssur.com",
-            "password": "admin"
-        }
+        payload = {"username": "admin@videssur.com", "password": "admin"}
         self.client.post("/login", data=payload)
+
 
 class DefStock(TaskSet):
     @task
@@ -44,6 +42,7 @@ class DefStock(TaskSet):
         }
         self.client.post("/stock/create", data=payload)
 
+
 class Home(HttpUser):
     host = HOST
     tasks = [DefHome]
@@ -54,6 +53,3 @@ class Login(HttpUser):
     host = HOST
     tasks = [DefLogin]
     wait_time = between(3, 5)
-
-
-

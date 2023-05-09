@@ -130,7 +130,7 @@ h5 {
 
 /* PREVIEW */
 
-#preview:has(> #prev-info ) {
+#preview:has(> #prev-info) {
   width: 100%;
   height: 100%;
   display: flex;
