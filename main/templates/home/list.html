@@ -96,6 +96,7 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          <a id="add-payment" href="../../../payment/create?home=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
           <a id='edit-button' href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
           <a id='delete-button' href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
@@ -166,6 +167,7 @@ displayed in the preview text (e.g. "donación")
 
         <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <a id="add-payment" href="../../../payment/create?home=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
             <a id='edit-button' href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
             <a id='delete-button' href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
           </div>

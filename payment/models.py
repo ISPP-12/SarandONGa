@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator
 from ong.models import Ong
 from person.models import GodFather
 from project.models import Project
+from home.models import Home
 
 
 class Payment(models.Model):
@@ -24,6 +25,9 @@ class Payment(models.Model):
 
     godfather = models.ForeignKey(
         GodFather, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Padrino")
+    
+    home = models.ForeignKey(
+        Home, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Casa")
 
     project = models.OneToOneField(
         Project, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Proyecto")
@@ -39,6 +43,9 @@ class Payment(models.Model):
         if self.amount > 9999999999:
             raise Exception(
                 "La cantidad del pago no puede ser superior a 10 dígitos")
+        if self.godfather and self.home:
+            raise Exception(
+                "No puedes elegir a la vez un padrino y una casa")
         # check that self.amount is decimal:
         if not isinstance(self.paid, bool):
             raise Exception("El pago debe ser un booleano")

@@ -8,23 +8,30 @@ from main.views import custom_403
 from django.db.models import Q
 from django.core.paginator import Paginator
 from person.models import GodFather
+from home.models import Home
 
 
 @login_required
 def payment_create(request):
-    project = Project.objects.all()
     if 'godfather' in request.GET:
         godfather = GodFather.objects.get(id=request.GET.get("godfather"))
         project = None
+        home = None
     elif 'project' in request.GET:
         project = Project.objects.get(id=request.GET.get("project"))
         godfather = None
+        home = None
+    elif 'home' in request.GET:
+        home = Home.objects.get(id=request.GET.get("home"))
+        godfather = None
+        project = None
     else:
         godfather = None
         project = None
+        home = None
     if request.method == 'POST':
         form = CreatePaymentForm(request.user.ong, request.POST, initial={
-                                 'project': project, 'godfather': godfather}, )
+                                 'project': project, 'godfather': godfather, 'home': home}, )
         if form.is_valid():
             payment = form.save(commit=False)
             payment.ong = request.user.ong
@@ -37,12 +44,12 @@ def payment_create(request):
             messages.error(request, 'El formulario presenta errores')
     else:
         form = CreatePaymentForm(request.user.ong,
-                                 initial={'ong': request.user.ong, 'project': project, 'godfather': godfather})
+                                 initial={'ong': request.user.ong, 'project': project, 'godfather': godfather, 'home': home})
     all_events = Payment.objects.filter(ong=request.user.ong)
     event_arr = []
     for i in all_events:
         event_sub_arr = {}
-        event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
+        event_sub_arr['title'] = "{} - {}€".format(i.concept, i.amount)
         start_date = i.payday
         end_date = i.payday
         event_sub_arr['start'] = start_date
@@ -73,7 +80,7 @@ def payment_update(request, payment_id):
             event_arr = []
             for i in all_events:
                 event_sub_arr = {}
-                event_sub_arr['title'] = "{} - {}".format(i.concept, i.amount)
+                event_sub_arr['title'] = "{} - {}€".format(i.concept, i.amount)
                 start_date = i.payday
                 end_date = i.payday
                 event_sub_arr['start'] = start_date

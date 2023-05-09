@@ -33,6 +33,12 @@
           {{ form.godfather.errors }}
         </div>
         {% endif %}
+        {% if form.home %}
+        <div class="mt-3">
+          {% include "components/inputs.html" with id=form.home.id_for_label label_text=form.home.label_tag input=form.home  %}
+          {{ form.home.errors }}
+        </div>
+        {% endif %}
         {% if form.project %}
         <div class="mt-3">
           {% include "components/inputs.html" with id=form.project.id_for_label label_text=form.project.label_tag input=form.project  %}
@@ -62,4 +68,27 @@
 <div id="calendar">
   {% include 'components/calendar.html' %}
 </div>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const inputs = Array.from(
+        document.querySelectorAll('select[name=godfather], select[name=home]')
+      );
+
+      const selectListener = e => {
+        inputs
+          .filter(i => i !== e.target)
+          .forEach(i => {
+              i.required = !e.target.value;
+              i.disabled = e.target.value;
+              }
+          );
+      };
+
+      inputs.forEach(i => i.addEventListener('input', selectListener));
+    });
+</script>
 {% endblock %}
