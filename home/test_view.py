@@ -1,12 +1,8 @@
 # SELENIUM IMPORTS
-from time import sleep
 import datetime
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from home.models import Home
 from ong.models import Ong
 from payment.models import Payment
