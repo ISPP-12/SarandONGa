@@ -4,13 +4,12 @@
   scale: 1;
 }
 
-button[type="submit"] > span {
-  font-size: 20px;
-  font-weight: 500;
-}
-
 button {
   cursor: pointer;
+}
+
+button span {
+  font-size: 14px;
 }
 
 button:hover {
@@ -62,4 +61,10 @@ button:hover {
 .form-section .section-btn:active {
   background-color: var(--clr-white) !important;
   color: var(--clr-black);
+}
+
+/* FORMS */
+#id-submitForm > span {
+  font-size: 20px;
+  font-weight: 500;
 }

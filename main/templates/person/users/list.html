@@ -1,5 +1,14 @@
 {% extends "layouts/master_sidebar.html" %}
 {% load static %}
+
+
+{% block extrahead %}
+  <link rel="stylesheet"
+        type="text/css"
+        href="{% static 'styles/users.css' %}">
+{% endblock %}
+
+
 {% block botonPrimario %}
   {% if object_name_en == "user" %}
     {% include 'components/button.html' with href='/user/asem/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe %}
@@ -13,128 +22,144 @@
     {% include 'components/button.html' with href='/user/godfather/create' id='create-button' variation='PLUS' text='Añadir '|add:object_name|safe %}
   {% endif %}
 {% endblock %}
-{% block extrahead %}
-  <link rel="stylesheet"
-        type="text/css"
-        href="{% static 'styles/users.css' %}">
-{% endblock %}
+
+
 {% block filters %}
   <form method="GET" class="my-3">
     {% csrf_token %}
+
     {% comment %} ASEM USER {% endcomment %}
     {% if object_name_en == "user" %}
-      <div id="team">
-        <div class="row">
-          <div class="col-12 col-md-12 col-lg-5 mb-3">
-            {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %}
-          </div>
-          <div class='col-lg-4 col-md-12 col-12 mb-3'>
-            {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado civil" input=form.status %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.condition.id_for_label label_text="Condición" input=form.condition %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.member.id_for_label label_text="Miembro" input=form.member %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.user_type.id_for_label label_text="Tipo de usuario" input=form.user_type %}
-          </div>
+    <div id="team">
+      <div class="row">
+        <div class="col-12 col-md-12 col-lg-5">
+          {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+        </div>
+      
+        <div class="col-lg-4 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de:" input=form.birth_date_min %} 
+        </div>
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género:" input=form.sex %} 
+        </div>
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado civil:" input=form.status %} 
+        </div>
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.condition.id_for_label label_text="Condición:" input=form.condition %} 
+        </div>
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.member.id_for_label label_text="Miembro:" input=form.member %} 
+        </div>
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.user_type.id_for_label label_text="Tipo de usuario:" input=form.user_type %} 
         </div>
       </div>
-      {% comment %} WORKER {% endcomment %}
+    </div>
+
+    {% comment %} WORKER {% endcomment %}
     {% elif object_name_en == "worker" %}
-      <div id="team">
-        <div class="row">
-          <div class="col-12 col-md-12 col-lg-5 mb-3">
-            {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %}
-          </div>
-          <div class='col-lg-4 col-md-12 col-12 mb-3'>
-            {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %}
-          </div>
+    <div id="team">
+      <div class="row">
+        <div class="col-12 col-md-12 col-lg-5">
+          {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+        </div>
+      
+        <div class="col-lg-4 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de:" input=form.birth_date_min %} 
+        </div>
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género:" input=form.sex %} 
         </div>
       </div>
-      {% comment %} CHILD {% endcomment %}
+    </div>
+
+    {% comment %} CHILD {% endcomment %}
     {% elif object_name_en == "child" %}
-      <div id="team">
-        <div class="row">
-          <div class="col-12 col-md-12 col-lg-5 mb-3">
-            {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %}
-          </div>
-          <div class='col-lg-4 col-md-12 col-12 mb-3'>
-            {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.is_older.id_for_label label_text="Mayor de edad" input=form.is_older %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.is_sponsored.id_for_label label_text="Apadrinado" input=form.is_sponsored %}
-          </div>
+    <div id="team">
+      <div class="row">
+        <div class="col-12 col-md-12 col-lg-5">
+          {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
+        </div>
+      
+        <div class="col-lg-4 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de:" input=form.birth_date_min %} 
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género:" input=form.sex %} 
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.is_older.id_for_label label_text="Mayor de edad:" input=form.is_older %} 
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.is_sponsored.id_for_label label_text="Apadrinado:" input=form.is_sponsored %} 
         </div>
       </div>
-      {% comment %} VOLUNTEER {% endcomment %}
+    </div>
+
+    {% comment %} VOLUNTEER {% endcomment %}
     {% elif object_name_en == "volunteer" %}
-      <div id="team">
-        <div class="row">
-          <div class="col-12 col-md-12 col-lg-5 mb-3">
-            {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %}
-          </div>
-          <div class='col-lg-4 col-md-12 col-12 mb-3'>
-            {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %}
-          </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.volunteer_type.id_for_label label_text="Tipo" input=form.volunteer_type %}
-          </div>
-          {% if form.is_contributor %}
-            <div class="col-lg-3 col-md-12 col-12 mb-3">
-              {% include "components/inputs.html" with id=form.is_contributor.id_for_label label_text="Colaborador" input=form.is_contributor %}
-            </div>
-          {% endif %}
+    <div id="team">
+      <div class="row">
+        <div class="col-12 col-md-12 col-lg-5 ">
+          {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
         </div>
+      
+        <div class="col-lg-4 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de:" input=form.birth_date_min %} 
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género:" input=form.sex %} 
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.volunteer_type.id_for_label label_text="Tipo:" input=form.volunteer_type %} 
+        </div>
+
+        {% if form.is_contributor %}
+        <div class="col-lg-3 col-md-12 col-12">
+          {% include "components/inputs.html" with id=form.is_contributor.id_for_label label_text="Colaborador:" input=form.is_contributor %} 
+        </div>
+        {% endif %}
       </div>
+    </div>
+    
       {% comment %} GODFATHER {% endcomment %}
     {% elif object_name_en == "godfather" %}
       <div id="team">
         <div class="row">
-          <div class="col-12 col-md-12 col-lg-5 mb-3">
+          <div class="col-12 col-md-12 col-lg-5">
             {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %}
           </div>
-          <div class='col-lg-4 col-md-12 col-12 mb-3'>
-            {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de..." input=form.birth_date_min %}
+          <div class="col-lg-4 col-md-12 col-12">
+            {% include "components/inputs.html" with id=form.birth_date_min.id_for_label label_text="Nacimiento después de:" input=form.birth_date_min %}
           </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género" input=form.sex %}
+          <div class="col-lg-3 col-md-12 col-12">
+            {% include "components/inputs.html" with id=form.sex.id_for_label label_text="Género:" input=form.sex %}
           </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado Civil" input=form.status %}
+          <div class="col-lg-3 col-md-12 col-12">
+            {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado Civil:" input=form.status %}
           </div>
-          <div class="col-lg-3 col-md-12 col-12 mb-3">
-            {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad mínima" input=form.amount_min %}
+          <div class="col-lg-3 col-md-12 col-12">
+            {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad mínima:" input=form.amount_min %}
           </div>
         </div>
       </div>
     {% endif %}
+
     <div class="col pt-2">
       {% include 'components/button.html' with text="Filtrar" id="id-filter" variation="SUBMIT" %}
       {% include 'components/button.html' with text="Borrar" id="reset" type="reset" variation="RESET" %}
     </div>
+
   </form>
 {% endblock %}
+
+
 {% block objectFor %}
   <!-- TABLE HEADER -->
   <div id="id-tableHeader" class="container-fluid">
@@ -159,6 +184,8 @@
   {% endfor %}
   {% include 'components/pagination.html' %}
 {% endblock %}
+
+
 {% block scripts %}
   <script id="object-data">
   const objectList = document.querySelectorAll('.card-list')

@@ -6,6 +6,7 @@
   font-weight: bold;
   border-bottom: solid 7px;
   color: var(--clr-black);
+  margin-bottom: 0.5em;
 }
 
 .title2 {
