@@ -1579,7 +1579,8 @@
             "concept": "Pago Servicios abril",
             "ong": 2,
             "paid": true,
-            "godfather": null,
+            "godfather": 1,
+            "home": null,
             "project": null
         }
     },
@@ -1593,6 +1594,7 @@
             "ong": 2,
             "paid": true,
             "godfather": null,
+            "home": 1,
             "project": null
         }
     },
@@ -1605,7 +1607,8 @@
             "concept": "Servicios abril Juanma",
             "ong": 2,
             "paid": false,
-            "godfather": null,
+            "godfather": 2,
+            "home": null,
             "project": null
         }
     },

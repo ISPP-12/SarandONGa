@@ -51,7 +51,7 @@ def payment_process(request):
     else:
         # generate token
         client_token = gateway.client_token.generate()
-        return render(request, 'process.html', {'client_token': client_token})
+        return render(request, 'process.html', {'client_token': client_token, 'page_title': 'SarandONGa 💃 - Pago'})
 
 
 def index(request):
