@@ -1,8 +1,0 @@
-{% block content %}
-Registrar pago
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button class="btn btn-dark btn-block" type="submit" name="Submit">Enviar</button>
-</form>
-{% endblock %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
 from .forms import CreatePaymentForm, FilterPaymentForm
 from .models import Payment, Project
 from django.contrib import messages
@@ -31,20 +32,21 @@ def payment_create(request):
         home = None
     if request.method == 'POST':
         form = CreatePaymentForm(request.user.ong, request.POST, initial={
-                                 'project': project, 'godfather': godfather, 'home': home}, )
+            'ong': request.user.ong,'project': project, 'godfather': godfather, 'home': home}, )
+
         if form.is_valid():
             payment = form.save(commit=False)
             payment.ong = request.user.ong
 
             payment.save()
 
-            return redirect('payment_create')
-
+            return redirect(reverse('payment_create') + '?' + request.GET.urlencode())
         else:
             messages.error(request, 'El formulario presenta errores')
     else:
         form = CreatePaymentForm(request.user.ong,
                                  initial={'ong': request.user.ong, 'project': project, 'godfather': godfather, 'home': home})
+
     all_events = Payment.objects.filter(ong=request.user.ong)
     event_arr = []
     for i in all_events:
@@ -74,7 +76,7 @@ def payment_update(request, payment_id):
                                      request.POST, request.FILES, instance=payment)
             if form.is_valid():
                 form.save()
-                return redirect('/payment/create')
+                return redirect(reverse('payment_create') + '?' + request.GET.urlencode())
         else:
             all_events = Payment.objects.filter(ong=request.user.ong)
             event_arr = []

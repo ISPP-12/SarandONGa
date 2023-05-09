@@ -22,24 +22,24 @@ displayed in the preview text (e.g. "donación")
   {% csrf_token %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5 mb-3">
+      <div class="col-12 col-md-12 col-lg-5">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
 
-      <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_start_date.id_for_label label_text="Fecha de alta después de..." input=form.min_start_date %} 
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.min_start_date.id_for_label label_text="Fecha de alta después de:" input=form.min_start_date %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.payment_method.id_for_label label_text="Método de pago" input=form.payment_method %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.payment_method.id_for_label label_text="Método de pago:" input=form.payment_method %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.frequency.id_for_label label_text="Frecuencia de pago" input=form.frequency %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.frequency.id_for_label label_text="Frecuencia de pago:" input=form.frequency %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad mínima" input=form.amount_min %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad mínima:" input=form.amount_min %} 
       </div>
     </div>
   </div>

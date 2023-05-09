@@ -7,16 +7,9 @@ class CreatePaymentForm(forms.ModelForm):
         model = Payment
         exclude = ["id", "ong"]
         widgets = {
-            "payday": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
-            "amount": forms.NumberInput(
-                attrs={
-                    "class": "form-control",
-                    "step": "0.01",
-                    "min": 0,
-                    "placeholder": "Escriba una cantidad",
-                }
-            ),
-            "concept": forms.TextInput(attrs={"placeholder": "Introduzca un concepto"}),
+            'payday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
+            'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.1", "min": 0, "placeholder": "Escriba una cantidad"}),
+            'concept': forms.TextInput(attrs={"placeholder": "Introduzca un concepto"}),
             "home": forms.Select(attrs={"required": True}),
             "godfather": forms.Select(attrs={"required": True}),
         }
