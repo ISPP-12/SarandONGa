@@ -9,7 +9,12 @@ label {
   margin-bottom: 0.5em;
 }
 
-.label-container label {
+.label-container {
+  display: inline-flex;
+  gap: 0.5em;
+}
+
+.label-container > div {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;

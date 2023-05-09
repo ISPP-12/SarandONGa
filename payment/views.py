@@ -9,21 +9,27 @@ from main.views import custom_403
 from django.db.models import Q
 from django.core.paginator import Paginator
 from person.models import GodFather
+from home.models import Home
 
 
 @login_required
 def payment_create(request):
-    project = Project.objects.all()
     if "godfather" in request.GET:
         godfather = GodFather.objects.get(id=request.GET.get("godfather"))
         project = None
+        home = None
     elif "project" in request.GET:
         project = Project.objects.get(id=request.GET.get("project"))
         godfather = None
+        home = None
+    elif "home" in request.GET:
+        home = Home.objects.get(id=request.GET.get("home"))
+        godfather = None
+        project = None
     else:
         godfather = None
         project = None
-
+        home = None
     if request.method == "POST":
         form = CreatePaymentForm(
             request.user.ong,
@@ -32,6 +38,7 @@ def payment_create(request):
                 "ong": request.user.ong,
                 "project": project,
                 "godfather": godfather,
+                "home": home,
             },
         )
 
@@ -51,14 +58,28 @@ def payment_create(request):
                 "ong": request.user.ong,
                 "project": project,
                 "godfather": godfather,
+                "home": home,
             },
         )
-
-    all_events = Payment.objects.filter(ong=request.user.ong)
+    all_events = None
+    if "godfather" in request.GET:
+        all_events = Payment.objects.filter(
+            ong=request.user.ong, godfather=request.GET.get("godfather")
+        )
+    elif "project" in request.GET:
+        all_events = Payment.objects.filter(
+            ong=request.user.ong, project=request.GET.get("project")
+        )
+    elif "home" in request.GET:
+        all_events = Payment.objects.filter(
+            ong=request.user.ong, home=request.GET.get("home")
+        )
+    else:
+        all_events = Payment.objects.filter(ong=request.user.ong)
     event_arr = []
     for i in all_events:
         event_sub_arr = {}
-        event_sub_arr["title"] = "{} - {}".format(i.concept, i.amount)
+        event_sub_arr["title"] = "{} - {}€".format(i.concept, i.amount)
         start_date = i.payday
         end_date = i.payday
         event_sub_arr["start"] = start_date
@@ -92,11 +113,25 @@ def payment_update(request, payment_id):
                     reverse("payment_create") + "?" + request.GET.urlencode()
                 )
         else:
-            all_events = Payment.objects.filter(ong=request.user.ong)
+            all_events = None
+            if "godfather" in request.GET:
+                all_events = Payment.objects.filter(
+                    ong=request.user.ong, godfather=request.GET.get("godfather")
+                )
+            elif "project" in request.GET:
+                all_events = Payment.objects.filter(
+                    ong=request.user.ong, project=request.GET.get("project")
+                )
+            elif "home" in request.GET:
+                all_events = Payment.objects.filter(
+                    ong=request.user.ong, home=request.GET.get("home")
+                )
+            else:
+                all_events = Payment.objects.filter(ong=request.user.ong)
             event_arr = []
             for i in all_events:
                 event_sub_arr = {}
-                event_sub_arr["title"] = "{} - {}".format(i.concept, i.amount)
+                event_sub_arr["title"] = "{} - {}€".format(i.concept, i.amount)
                 start_date = i.payday
                 end_date = i.payday
                 event_sub_arr["start"] = start_date

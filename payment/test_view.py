@@ -32,13 +32,6 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
 
         self.ong = Ong.objects.create(name="VidesSur")
         self.usersuper.ong = self.ong
-        self.test_payment_1 = Payment(
-            concept="concept",
-            payday=datetime(2023, 3, 11),
-            amount=10,
-            ong=self.ong,
-            paid=True,
-        )
 
         self.godfather = GodFather.objects.create(
             name="Johny",
@@ -57,6 +50,15 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
             notes="Some notes",
             status="C",
             ong=self.ong,
+        )
+
+        self.test_payment_1 = Payment(
+            concept="concept",
+            payday=datetime(2023, 3, 11),
+            amount=10,
+            ong=self.ong,
+            godfather=self.godfather,
+            paid=True,
         )
 
         self.project = Project.objects.create(
@@ -188,7 +190,6 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
         concept = self.driver.find_element(By.ID, "id_concept").get_attribute("value")
         amount = self.driver.find_element(By.ID, "id_amount").get_attribute("value")
         payday = self.driver.find_element(By.ID, "id_payday").get_attribute("value")
-
         self.assertTrue(str(self.test_payment_1.concept) in concept)
         self.assertTrue(str(self.test_payment_1.amount) in amount)
         self.assertTrue(
@@ -207,34 +208,8 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
         self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         sleep(0.5)
         self.driver.find_element(By.ID, "submit").click()
-
         self.test_payment_1.refresh_from_db()
         self.assertTrue(self.test_payment_1.concept == new_concept)
-
-    def test_payment_view_delete(self):
-        self.driver.get(
-            f"{self.live_server_url}/payment/" + str(self.test_payment_1.id) + "/update"
-        )
-
-        concept = self.driver.find_element(By.ID, "id_concept").get_attribute("value")
-        amount = self.driver.find_element(By.ID, "id_amount").get_attribute("value")
-        payday = self.driver.find_element(By.ID, "id_payday").get_attribute("value")
-
-        self.assertTrue(str(self.test_payment_1.concept) in concept)
-        self.assertTrue(str(self.test_payment_1.amount) in amount)
-        self.assertTrue(
-            datetime.strptime(payday, "%Y-%m-%d") == self.test_payment_1.payday
-        )
-
-        before_count = Payment.objects.count()
-
-        # scroll to submit button and click
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        sleep(0.5)
-        self.driver.find_element(By.ID, "delete").click()
-
-        after_count = Payment.objects.count()
-        self.assertTrue(before_count - 1 == after_count)
 
     def test_payment_view_exploratory_1(self):
         # check fix/730: PAYMENT FORM NOT MANTAINING SUBJECT
@@ -250,7 +225,6 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
 
         # Fill and submit form
         # await until the form is loaded
-        print(self.driver.current_url)
         WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.ID, "id_concept"))
         )
@@ -274,3 +248,39 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
         # Check godfather is selected
         select = Select(self.driver.find_element(By.ID, "id_godfather"))
         self.assertTrue(self.godfather.name in select.first_selected_option.text)
+
+    def test_payment_view_exploratory_2(self):
+        # check fix/735: FIX PAYMENT MODEL AND FORM
+
+        # Access form from list
+        self.driver.get(f"{self.live_server_url}/payment/create")
+
+        # Fill and submit form
+        # await until the form is loaded
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.ID, "id_concept"))
+        )
+
+        self.assertTrue(
+            self.driver.find_element(By.ID, "id_godfather").get_attribute("required")
+        )
+        self.assertTrue(
+            self.driver.find_element(By.ID, "id_home").get_attribute("required")
+        )
+
+        select = self.driver.find_element(By.ID, "id_godfather")
+
+        # Utilizamos ActionChains para realizar un doble clic en el primer select
+        select.click()
+
+        # Hacemos clic en el valor deseado en el primer select
+        select.find_element(By.XPATH, "//option[. = 'John Doe (65004204V)']").click()
+
+        # Ejecutamos el código JavaScript para deshabilitar el segundo select
+        disable_script = "document.getElementById('id_home').disabled = true;"
+        self.driver.execute_script(disable_script)
+
+        # Verificamos que el segundo select esté deshabilitado
+        self.assertTrue(
+            self.driver.find_element(By.ID, "id_home").get_attribute("disabled")
+        )

@@ -96,6 +96,7 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          <a id="add-payment" href="../../../payment/create?home=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
           <a id='edit-button' href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
           <a id='delete-button' href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
@@ -166,19 +167,21 @@ displayed in the preview text (e.g. "donación")
 
         <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <a id="add-payment" href="../../../payment/create?home=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
             <a id='edit-button' href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
             <a id='delete-button' href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
           </div>
         </div>
       `
       }
-      let deleteBtn = document.querySelector('#delete-button')
-      deleteBtn.addEventListener('click', () => {
-        if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
+      let deleteBtn = document.querySelectorAll('#delete-button')
+      deleteBtn.forEach(e => e.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
           event.preventDefault();
+        }else{
+          sessionStorage.setItem("query", window.location.search);
         }
-      })
-
+      }))
     })
 
     // when resizing the window, the preview will be reset
@@ -203,11 +206,22 @@ displayed in the preview text (e.g. "donación")
 </script>
 
 <script>
-  let deleteBtn = document.querySelector('#delete-button')
-    deleteBtn.addEventListener('click', () => {
-      if (!confirm('¿Estás seguro de que quieres eliminar esta casa?')) {
-        event.preventDefault();
-      }
-    })
+  let deleteBtn = document.querySelectorAll('#delete-button')
+  deleteBtn.forEach(e => e.addEventListener('click', () => {
+    if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+      event.preventDefault();
+    }else{
+      sessionStorage.setItem("query", window.location.search);
+    }
+  }))
+</script>
+
+<script>
+  window.addEventListener('load', (event) => {
+    if(sessionStorage.getItem("query")) {
+        window.location.href = window.location.href + sessionStorage.getItem("query")
+    }
+    sessionStorage.removeItem("query")
+});
 </script>
 {% endblock %}
