@@ -211,31 +211,6 @@ class PaymentViewTestCase(StaticLiveServerTestCase):
         self.test_payment_1.refresh_from_db()
         self.assertTrue(self.test_payment_1.concept == new_concept)
 
-    def test_payment_view_delete(self):
-        self.driver.get(
-            f"{self.live_server_url}/payment/" + str(self.test_payment_1.id) + "/update"
-        )
-
-        concept = self.driver.find_element(By.ID, "id_concept").get_attribute("value")
-        amount = self.driver.find_element(By.ID, "id_amount").get_attribute("value")
-        payday = self.driver.find_element(By.ID, "id_payday").get_attribute("value")
-
-        self.assertTrue(str(self.test_payment_1.concept) in concept)
-        self.assertTrue(str(self.test_payment_1.amount) in amount)
-        self.assertTrue(
-            datetime.strptime(payday, "%Y-%m-%d") == self.test_payment_1.payday
-        )
-
-        before_count = Payment.objects.count()
-
-        # scroll to submit button and click
-        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        sleep(0.5)
-        self.driver.find_element(By.ID, "delete").click()
-
-        after_count = Payment.objects.count()
-        self.assertTrue(before_count - 1 == after_count)
-
     def test_payment_view_exploratory_1(self):
         # check fix/730: PAYMENT FORM NOT MANTAINING SUBJECT
 

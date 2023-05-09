@@ -7,16 +7,22 @@ class CreatePaymentForm(forms.ModelForm):
         model = Payment
         exclude = ["id", "ong"]
         widgets = {
-            'payday': forms.DateInput(attrs={'type': 'date'}, format='%Y-%m-%d'),
-            'amount': forms.NumberInput(attrs={'class': 'form-control', 'step': "0.1", "min": 0, "placeholder": "Escriba una cantidad"}),
-            'concept': forms.TextInput(attrs={"placeholder": "Introduzca un concepto"}),
+            "payday": forms.DateInput(attrs={"type": "date"}, format="%Y-%m-%d"),
+            "amount": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "step": "0.1",
+                    "min": 0,
+                    "placeholder": "Escriba una cantidad",
+                }
+            ),
+            "concept": forms.TextInput(attrs={"placeholder": "Introduzca un concepto"}),
             "home": forms.Select(attrs={"required": True}),
             "godfather": forms.Select(attrs={"required": True}),
         }
 
     def __init__(self, ong, *args, **kwargs):
         super(CreatePaymentForm, self).__init__(*args, **kwargs)
-        print(self.initial["home"])
         if ong.name == "ASEM":
             self.fields.pop("godfather")
             self.fields.pop("home")
