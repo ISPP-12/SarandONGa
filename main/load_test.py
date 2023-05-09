@@ -1,13 +1,3 @@
-# from locust import HttpUser, task, between
-
-# class MyUser(HttpUser):
-#     wait_time = between(5, 15)  # Intervalo de tiempo entre las solicitudes
-
-#     @task
-#     def my_task(self):
-#         self.client.get("localhost:8000")  
-
-
 from locust import HttpUser, SequentialTaskSet, TaskSet, task, between
 
 """
