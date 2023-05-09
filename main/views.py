@@ -51,7 +51,7 @@ def payment_process(request):
     else:
         # generate token
         client_token = gateway.client_token.generate()
-        return render(request, 'process.html', {'client_token': client_token})
+        return render(request, 'process.html', {'client_token': client_token, 'page_title': 'SarandONGa 💃 - Pago'})
 
 
 def index(request):
@@ -62,13 +62,16 @@ def index(request):
             users = ASEMUser.objects.filter(ong=request.user.ong).count()
             workers = Worker.objects.filter(ong=request.user.ong).count()
             donations = Donation.objects.filter(ong=request.user.ong).count()
+            plan = request.user.ong.plan
+
 
             context = {
                 'volunteers': volunteers,
                 'users': users,
                 'workers': workers,
                 'donations': donations,
-                'page_title': 'SarandONGa 💃 - Inicio'
+                'page_title': 'SarandONGa 💃 - Inicio',
+                'plan': plan
             }
         elif request.user.ong.name.lower() == "videssur":
             view = 'index/index-videssur.html'
@@ -76,16 +79,18 @@ def index(request):
             workers = Worker.objects.filter(ong=request.user.ong).count()
             donations = Donation.objects.filter(ong=request.user.ong).count()
             godfathers = GodFather.objects.filter(ong=request.user.ong).count()
+            plan = request.user.ong.plan
 
             context = {
                 'volunteers': volunteers,
                 'workers': workers,
                 'donations': donations,
                 'godfathers': godfathers,
-                'page_title': 'SarandONGa 💃 - Inicio'
+                'page_title': 'SarandONGa 💃 - Inicio',
+                'plan': plan
             }
     else:
-        view = 'index.html'
+        view = 'index/index.html'
         context = {'page_title': 'SarandONGa 💃 - Inicio'}
 
     return render(request, view, context)

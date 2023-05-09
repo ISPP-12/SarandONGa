@@ -14,28 +14,45 @@
         {% include 'components/title.html' with title="Añadir producto" %}
     {% endif %}
 
+    {% if messages %}
+        <div class="row">
+            {% for message in messages %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
+    {{ form.non_field_errors }}
         <div class="row justify-content-between mx-4 mt-3">
             <div class="col-12 col-sm-4  mx-2 ">
                 <div class="row pt-1">
                     {% with label_text="Nombre"|safe|add:'<span class="text-danger"> *</span>' %}
                         {% include 'components/inputs.html' with id=form.name.id_for_label label_text=label_text input=form.name %}
+                        {{ form.name.errors }}
                     {% endwith %}
                 </div>
                 <div class="row pt-4">                  
                     {% include "components/inputs.html" with id=form.model.id_for_label label_text="Modelo" input=form.model %}
+                    {{ form.model.errors }}
                 </div>
                 <div class="row pt-4">        
                     {% with label_text="Unidades"|safe|add:'<span class="text-danger"> *</span>' %}
                         {% include 'components/inputs.html' with id=form.quantity.id_for_label label_text=label_text input=form.quantity %}
+                        {{ form.quantity.errors }}
                     {% endwith %}          
                 </div>
                 <div class="row pt-4">                  
                     {% include "components/inputs.html" with id=form.amount.id_for_label label_text="Precio (€)" input=form.amount %}
+                    {{ form.amount.errors }}
                 </div>
                 <div class="row pt-4 mb-4">                  
                     {% include "components/inputs.html" with id=form.notes.id_for_label label_text="Observaciones" input=form.notes %}
+                    {{ form.notes.errors }}
                 </div>
                 <div class="col-12">
                     <p class="text-danger">* Campos obligatorios</p>
@@ -50,6 +67,7 @@
                     <div class=" row d-flex justify-content-center  ">
                         <div class="col-8">
                             {% include "components/inputs.html" with id=form.photo.id_for_label input=form.photo  %}
+                            {{ form.photo.errors }}
                         </div>
                     </div>
                 </div>

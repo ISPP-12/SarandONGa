@@ -69,7 +69,7 @@
             <div class="container">
                 <h2 class="mb-5">Datos de contacto</h2>
                 <div class="row text-start">
-                    <p><strong>ASEM - www.emsevilla.es</strong></p>
+                    <p><strong>ASEM - <a href="http://www.emsevilla.es/" > www.emsevilla.es </a></strong></p>
                     <p>Asociaci&oacute;n Sevillana de Esclerosis M&uacute;ltiple<br></p>
                     <p>Avda. de Altamira, n&deg; 29-Bq. 11 - Acc.A 41020 (Sevilla)</p>
                     <p>Tel:<strong> 954 51 39 99</strong> - Fax:<strong> 954 52 38 11</strong></p>
@@ -111,10 +111,15 @@
     
                       </ul>
                     </div><!-- /  CONTENT BOX-->
-          
-                    <div class="pricingTable-sign-up"><!-- BUTTON BOX-->
-                        {% include 'components/button.html' with href='login/' id='getway' variation='SUBMIT' text='Acceder'%}
+
+                    {% if plan == 'B' %}
+                    <div class="pricingTable-sign-up " style="margin: 3px;"><!-- BUTTON BOX-->
+                      <span class="heading">Adquirido</span>
                     </div><!-- BUTTON BOX-->
+                    {% else %}
+                    <div class="pricingTable-sign-up " style="margin: 19px;"><!-- BUTTON BOX-->
+                    </div><!-- BUTTON BOX-->
+                    {% endif %}
                   </div>
                 </div>
           
@@ -139,11 +144,16 @@
                             <br/><b>personalizadas</b></li>
                       </ul>
                     </div><!-- /  CONTENT BOX-->
-          
+                    
+                    {% if plan == 'B' %}
                     <div class="pricingTable-sign-up"><!-- BUTTON BOX-->
                         {% include 'components/button.html' with href='gateway/' id='getway' variation='SUBMIT' text='Contratar'%}
-    
                     </div><!-- BUTTON BOX-->
+                    {% else %}
+                    <div class="pricingTable-sign-up " style="margin: 3px;"><!-- BUTTON BOX-->
+                      <span class="heading">Adquirido</span>
+                    </div><!-- BUTTON BOX-->
+                    {% endif %}
                   </div>
                 </div>
               </div>

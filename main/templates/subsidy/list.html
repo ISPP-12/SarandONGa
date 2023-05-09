@@ -13,28 +13,28 @@
   {% csrf_token %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-4 mb-3">
+      <div class="col-12 col-md-12 col-lg-4">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
 
-      <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_presentation_date.id_for_label label_text="Fecha presentación después de..." input=form.min_presentation_date %} 
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.min_presentation_date.id_for_label label_text="Fecha presentación después de:" input=form.min_presentation_date %} 
       </div>
 
-      <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_payment_date.id_for_label label_text="Fecha de pago después de..." input=form.min_payment_date %} 
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.min_payment_date.id_for_label label_text="Fecha de pago después de:" input=form.min_payment_date %} 
       </div>
 
-      <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_final_resolution_date.id_for_label label_text="Fecha resolución final después de..." input=form.min_final_resolution_date %} 
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.min_final_resolution_date.id_for_label label_text="Fecha resolución final después de:" input=form.min_final_resolution_date %} 
       </div>
       
-      <div class="col-lg-2 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad" input=form.amount_min %} 
+      <div class="col-lg-2 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad:" input=form.amount_min %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado" input=form.status %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.status.id_for_label label_text="Estado:" input=form.status %} 
       </div>
     </div>
   </div>
@@ -177,13 +177,14 @@
         </div>
       `
       }
-      let deleteBtn = document.querySelector('#delete-button')
-      deleteBtn.addEventListener('click', () => {
-        if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
+      let deleteBtn = document.querySelectorAll('#delete-button')
+      deleteBtn.forEach(e => e.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
           event.preventDefault();
-        }
-      })
-
+        }else{
+          sessionStorage.setItem("query", window.location.search);
+      } 
+      }))
     })
 
     // when resizing the window, the preview will be reset
@@ -200,12 +201,22 @@
 
 </script>
 <script>
-  let deleteBtn = document.querySelector('#delete-button')
-    deleteBtn.addEventListener('click', () => {
-      if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
-        event.preventDefault();
-      }
-    })
+  let deleteBtn = document.querySelectorAll('#delete-button')
+  deleteBtn.forEach(e => e.addEventListener('click', () => {
+    if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
+      event.preventDefault();
+    }else{
+      sessionStorage.setItem("query", window.location.search);
+    }
+  }))
+</script>
+<script>
+  window.addEventListener('load', (event) => {
+    if(sessionStorage.getItem("query")) {
+        window.location.href = window.location.href + sessionStorage.getItem("query")
+    }
+    sessionStorage.removeItem("query")
+});
 </script>
 <script>
   document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
@@ -213,5 +224,4 @@
       window.location.href = window.location.pathname;
   });
 </script>
-
 {% endblock %}

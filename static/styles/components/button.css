@@ -4,13 +4,12 @@
   scale: 1;
 }
 
-button[type="submit"] > span {
-  font-size: 20px;
-  font-weight: 500;
-}
-
 button {
   cursor: pointer;
+}
+
+button span {
+  font-size: 14px;
 }
 
 button:hover {
@@ -24,11 +23,12 @@ button:hover {
 /* BASE COLORS FOR SECONDARY BUTTONS */
 .secondary {
   background-color: var(--clr-white) !important;
+  color: var(--clr-black) !important;
 }
 
 .secondary:hover,
 .secondary:active {
-  background-color: var(--gray-300) !important;
+  background-color: var(--gray-10) !important;
 }
 
 /* Example section
@@ -62,4 +62,10 @@ button:hover {
 .form-section .section-btn:active {
   background-color: var(--clr-white) !important;
   color: var(--clr-black);
+}
+
+/* FORMS */
+#id-submitForm > span {
+  font-size: 20px;
+  font-weight: 500;
 }

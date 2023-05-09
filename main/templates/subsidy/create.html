@@ -3,12 +3,16 @@
 
 {% block content %}
 <div id="section-subsidy">
-  {% for message in messages %}
-  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-      {{ message }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-  {% endfor %}
+  {% if messages %}
+    <div class="row">
+        {% for message in messages %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+  {% endif %}
   {% if form.instance.id %}
       {% include 'components/title.html' with title="Editar subvención" %}
   {% else %}
@@ -16,6 +20,7 @@
   {% endif %}
   <form method="post" enctype='multipart/form-data' action="">
     {% csrf_token %}
+    {{ form.non_field_errors }}
       <div class="row mx-5">
         <div class="col-sm-12 col-lg-6 my-3">
         {% include "components/inputs.html" with id=form.name.id_for_label label_text=field.label_tag|safe|add:'Nombre<span class="text-danger"> *</span>' input=form.name %} 

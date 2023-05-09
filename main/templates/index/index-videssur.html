@@ -9,7 +9,7 @@
 {% block content %} 
 <section class="showcase">
 <div class="row g-0">
-    <div class="col-lg-6 text-white showcase-img d-flex justify-content-center align-items-center"><img width="40%" src='{% static 'img/logo-videssur.png' %}'> </div>
+    <div class="col-lg-6 text-white showcase-img d-flex justify-content-center align-items-center"><img width="40%" src='{% static 'img/LOGO-VIDESSUR.png' %}'> </div>
     <div class="col-lg-6 my-auto showcase-text">
         <h2>Sobre VidesSur</h2>
         <p class="lead mb-0">VIDESSUR promueve actividades de formación y sensibilización y de actuación concreta mediante talleres, campos de trabajos nacionales e internacionales, proyectos de cooperación al desarrollo y apadrinamientos. Para el desarrollo de estas actividades VIDESSUR cuenta con la aportación de numerosas personas que hacen efectiva su solidaridad.
@@ -69,14 +69,14 @@
             <div class="container">
                 <h2 class="mb-5">Datos de contacto</h2>
                 <div class="row text-start">
-                    Videssur ONGD<br/>
-                    C/ Espinosa y Cárcel nº 26<br/>
-                    41005-Sevilla<br/>
-                    Telf. Fijo: (+034) 954-922773<br/>
-                    Telf.Móvil: 699750814<br/>
-                    Web: www.videssur.org<br/>
-                    Blog: videssur.blogspot.com<br/>
-                    Mail: videssur@videssur.org<br/>
+                    <span> Videssur ONGD<br/></span>
+                      <span> C/ Espinosa y Cárcel nº 26<br/></span>
+                        <span> 41005-Sevilla<br/></span>
+                          <span>Telf. Fijo: (+034) 954-922773<br/></span>
+                            <span>Telf.Móvil: 699750814<br/></span>
+                              <span>Web: <a href="http://videssur.org/" > www.videssur.org </a> <br/></span>
+                                <span>Blog: <a href="http://videssur.blogspot.com/" > videssur.blogspot.com </a><br/></span>
+                                  <span>Mail: videssur@videssur.org<br/>
                 </div>
             </div>
         </section>
@@ -111,10 +111,16 @@
     
                       </ul>
                     </div><!-- /  CONTENT BOX-->
-          
-                    <div class="pricingTable-sign-up"><!-- BUTTON BOX-->
-                        {% include 'components/button.html' with href='login/' id='getway' variation='SUBMIT' text='Acceder'%}
+
+                    {% if plan == 'B' %}
+                    <div class="pricingTable-sign-up " style="margin: 3px;"><!-- BUTTON BOX-->
+                      <span class="heading">Adquirido</span>
                     </div><!-- BUTTON BOX-->
+                    {% else %}
+                    <div class="pricingTable-sign-up " style="margin: 19px;"><!-- BUTTON BOX-->
+                    </div><!-- BUTTON BOX-->
+                    {% endif %}
+
                   </div>
                 </div>
           
@@ -140,10 +146,15 @@
                       </ul>
                     </div><!-- /  CONTENT BOX-->
           
+                    {% if plan == 'B' %}
                     <div class="pricingTable-sign-up"><!-- BUTTON BOX-->
                         {% include 'components/button.html' with href='gateway/' id='getway' variation='SUBMIT' text='Contratar'%}
-    
                     </div><!-- BUTTON BOX-->
+                    {% else %}
+                    <div class="pricingTable-sign-up " style="margin: 3px;"><!-- BUTTON BOX-->
+                      <span class="heading">Adquirido</span>
+                    </div><!-- BUTTON BOX-->
+                    {% endif %}
                   </div>
                 </div>
               </div>

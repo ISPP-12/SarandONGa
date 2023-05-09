@@ -22,24 +22,24 @@ displayed in the preview text (e.g. "donación")
   {% csrf_token %}
   <div id="team">
     <div class="row">
-      <div class="col-12 col-md-12 col-lg-5 mb-3">
+      <div class="col-12 col-md-12 col-lg-5">
         {% include "components/inputs.html" with id=form.qsearch.id_for_label label_text="Búsqueda:" input=form.qsearch %} 
       </div>
 
-      <div class='col-lg-4 col-md-12 col-12 mb-3'>
-        {% include "components/inputs.html" with id=form.min_start_date.id_for_label label_text="Fecha de alta después de..." input=form.min_start_date %} 
+      <div class='col-lg-4 col-md-12 col-12'>
+        {% include "components/inputs.html" with id=form.min_start_date.id_for_label label_text="Fecha de alta después de:" input=form.min_start_date %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.payment_method.id_for_label label_text="Método de pago" input=form.payment_method %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.payment_method.id_for_label label_text="Método de pago:" input=form.payment_method %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.frequency.id_for_label label_text="Frecuencia de pago" input=form.frequency %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.frequency.id_for_label label_text="Frecuencia de pago:" input=form.frequency %} 
       </div>
 
-      <div class="col-lg-3 col-md-12 col-12 mb-3">
-        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad mínima" input=form.amount_min %} 
+      <div class="col-lg-3 col-md-12 col-12">
+        {% include "components/inputs.html" with id=form.amount_min.id_for_label label_text="Cantidad mínima:" input=form.amount_min %} 
       </div>
     </div>
   </div>
@@ -96,6 +96,7 @@ displayed in the preview text (e.g. "donación")
 
       <div class="container mt-2 border-dark border-top border-1  p-0">
         <div class="row d-flex flex-column text-center p-2" id="lateralButtons">
+          <a id="add-payment" href="../../../payment/create?home=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
           <a id='edit-button' href="{{ object.id }}/update"><i class="bi bi-pencil"></i>Editar</a>
           <a id='delete-button' href="{{ object.id }}/delete"><i class="bi bi-x"></i>Eliminar</a>
         </div>
@@ -166,19 +167,21 @@ displayed in the preview text (e.g. "donación")
 
         <div class="container mt-auto border-dark border-top border-1 col-md-4 fixed-panel p-0">
           <div class="row d-flex flex-column text-center p-3" id="lateralButtons">
+            <a id="add-payment" href="../../../payment/create?home=${ objectData.id }"><i class="bi bi-wallet2"></i>Añadir pago</a>
             <a id='edit-button' href="${ objectData.id }/update"><i class="bi bi-pencil"></i>Editar</a>
             <a id='delete-button' href="${ objectData.id }/delete"><i class="bi bi-x"></i>Eliminar</a>
           </div>
         </div>
       `
       }
-      let deleteBtn = document.querySelector('#delete-button')
-      deleteBtn.addEventListener('click', () => {
-        if (!confirm('¿Estás seguro de que quieres eliminar esta {{ object_name }}?')) {
+      let deleteBtn = document.querySelectorAll('#delete-button')
+      deleteBtn.forEach(e => e.addEventListener('click', () => {
+        if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
           event.preventDefault();
+        }else{
+          sessionStorage.setItem("query", window.location.search);
         }
-      })
-
+      }))
     })
 
     // when resizing the window, the preview will be reset
@@ -203,11 +206,22 @@ displayed in the preview text (e.g. "donación")
 </script>
 
 <script>
-  let deleteBtn = document.querySelector('#delete-button')
-    deleteBtn.addEventListener('click', () => {
-      if (!confirm('¿Estás seguro de que quieres eliminar esta casa?')) {
-        event.preventDefault();
-      }
-    })
+  let deleteBtn = document.querySelectorAll('#delete-button')
+  deleteBtn.forEach(e => e.addEventListener('click', () => {
+    if (!confirm('¿Estás seguro de que quieres eliminar este {{ object_name }}?')) {
+      event.preventDefault();
+    }else{
+      sessionStorage.setItem("query", window.location.search);
+    }
+  }))
+</script>
+
+<script>
+  window.addEventListener('load', (event) => {
+    if(sessionStorage.getItem("query")) {
+        window.location.href = window.location.href + sessionStorage.getItem("query")
+    }
+    sessionStorage.removeItem("query")
+});
 </script>
 {% endblock %}

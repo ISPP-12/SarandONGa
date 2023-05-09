@@ -1,16 +1,12 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/components/input.css' %}">
 
-<div class="col">
-    <div class="form-outline">
-            <label for={{id}}>{{label_text}}</label>
+<div class="input col">
+    <div class="label-container form-outline">
+            <div>{{label_text}}</div>
     </div>
 
     <div class="form-outline">
         {{ input }}
     </div>
 </div>
-
-
-    
-

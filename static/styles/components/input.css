@@ -1,5 +1,23 @@
 label {
   font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 16px;
+  line-height: 22px;
+  white-space: nowrap;
+}
+
+.input {
+  margin-bottom: 0.5em;
+}
+
+.label-container {
+  display: inline-flex;
+  gap: 0.5em;
+}
+
+.label-container > div {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
 }
