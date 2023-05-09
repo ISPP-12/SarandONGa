@@ -1,4 +1,3 @@
-from time import sleep
 from ong.models import Ong
 from person.models import Worker
 import datetime
