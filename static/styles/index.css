@@ -86,8 +86,20 @@ footer.footer {
 
 h1.first-title {
   font-family: var(--font-header);
-  font-size: 64px;
+  font-size: 32px;
   color: var(--clr-black);
+}
+
+@media screen and (min-width: 645px) {
+  h1.first-title {
+    font-size: 48px;
+  }
+}
+
+@media screen and (min-width: 1250px) {
+  h1.first-title {
+    font-size: 64px;
+  }
 }
 
 #login {
